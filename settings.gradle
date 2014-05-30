@@ -1,0 +1,3 @@
+include 'jxmpp-core',
+		'jxmpp-jid',
+		'jxmpp-stringprep-libidn'

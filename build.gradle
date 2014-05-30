@@ -1,0 +1,196 @@
+import org.gradle.plugins.signing.Sign
+
+allprojects {
+	apply plugin: 'java'
+	apply plugin: 'eclipse'
+
+	ext {
+		shortVersion = '0.1.0-alpha1'
+		isSnapshot = true
+		gitCommit = getGitCommit()
+		javadocAllDir = new File(buildDir, 'javadoc')
+		documentationDir = new File(projectDir, 'documentation')
+		releasedocsDir = new File(buildDir, 'releasedocs')
+		rootConfigDir = new File(rootDir, 'config')
+		sonatypeCredentialsAvailable = project.hasProperty('sonatypeUsername') && project.hasProperty('sonatypePassword')
+		isReleaseVersion = !isSnapshot
+		signingRequired = isReleaseVersion
+		sonatypeSnapshotUrl = 'https://oss.sonatype.org/content/repositories/snapshots'
+		sonatypeStagingUrl = 'https://oss.sonatype.org/service/local/staging/deploy/maven2'
+		buildDate = (new java.text.SimpleDateFormat("yyyy-MM-dd")).format(new Date())
+		oneLineDesc = 'An Open Source XMPP (Jabber) library'
+	}
+	group = 'org.igniterealtime.jxmpp'
+	sourceCompatibility = 1.7
+	version = shortVersion
+	if (isSnapshot) {
+		version += '-SNAPSHOT'
+	}
+
+	ext.sharedManifest = manifest {
+		attributes('Implementation-Version': version,
+				   'Implementation-GitRevision': ext.gitCommit,
+				   // According to OSGi core 5.0 section 3.2.5 the qualifier (the fourth
+				   // version element) must begin with a dot. So we replace only the
+				   // first occurence of an dash with a dot.
+				   // For example 4.0.0-rc1 becomes 4.0.0.rc1, but
+				   // 4.0.0-SNAPSHOT-2014-05-01 becomes 4.0.0.SNAPSHOT-2014-05-01
+				   'Bundle-Version': version.replaceFirst("-", "."))
+	}
+
+	eclipse {
+		classpath {
+			downloadJavadoc = true
+		}
+	}
+}
+
+gradle.taskGraph.whenReady { taskGraph ->
+	if (signingRequired
+		&& taskGraph.allTasks.any { it instanceof Sign }) {
+		// Use Java 6's console to read from the console (no good for a CI environment)
+		Console console = System.console()
+		console.printf '\n\nWe have to sign some things in this build.\n\nPlease enter your signing details.\n\n'
+		def password = console.readPassword('GnuPG Private Key Password: ')
+
+		allprojects { ext.'signing.password' = password }
+
+		console.printf '\nThanks.\n\n'
+	}
+}
+
+task javadocAll(type: Javadoc) {
+	source subprojects.collect {project ->
+		project.sourceSets.main.allJava }
+	destinationDir = javadocAllDir
+	// Might need a classpath
+	classpath = files(subprojects.collect {project ->
+		project.sourceSets.main.compileClasspath})
+}
+
+task distributionZip(type: Zip, dependsOn: [javadocAll]) {
+	classifier buildDate
+	into ('javadoc') {
+		from(javadocAllDir)
+	}
+}
+
+jar {
+	// Root project should not create empty jar artifact
+	enabled = false
+}
+
+description = """\
+JXMPP ${version}
+${oneLineDesc}."""
+
+evaluationDependsOnChildren()
+subprojects {
+	apply plugin: 'maven'
+	apply plugin: 'osgi'
+	apply plugin: 'signing'
+	apply plugin: 'checkstyle'
+
+	checkstyle {
+		configFile = new File(rootConfigDir, 'checkstyle.xml')
+	}
+	repositories {
+		mavenLocal()
+		mavenCentral()
+	}
+	task sourcesJar(type: Jar, dependsOn: classes) {
+		classifier = 'sources'
+		from sourceSets.main.allSource
+	}
+	task javadocJar(type: Jar, dependsOn: javadoc) {
+		classifier = 'javadoc'
+		from javadoc.destinationDir
+	}
+	artifacts {
+		archives sourcesJar
+		archives javadocJar
+	}
+
+	uploadArchives {
+		repositories {
+			mavenDeployer {
+				if (signingRequired) {
+					beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+				}
+				repository(url: project.sonatypeStagingUrl) {
+					if (sonatypeCredentialsAvailable) {
+						authentication(userName: sonatypeUsername, password: sonatypePassword)
+					}
+				}
+				snapshotRepository(url: project.sonatypeSnapshotUrl) {
+					if (sonatypeCredentialsAvailable) {
+						authentication(userName: sonatypeUsername, password: sonatypePassword)
+					}
+				}
+
+				pom.project {
+					name 'JXMPP'
+					packaging 'jar'
+					inceptionYear '2014'
+					url 'http://www.igniterealtime.org/projects/jxmpp/'
+					description project.description
+
+					issueManagement {
+						system 'JIRA'
+						url 'http://issues.igniterealtime.org/browse/JXMPP'
+					}
+
+					distributionManagement {
+						snapshotRepository {
+							id 'smack.snapshot'
+							url project.sonatypeSnapshotUrl
+						}
+					}
+
+					scm {
+						url 'https://github.com/igniterealtime/Smack'
+						connection 'scm:git:https://github.com/igniterealtime/Smack.git'
+						developerConnection 'scm:git:https://github.com/igniterealtime/Smack.git'
+					}
+
+					licenses {
+						license {
+							name 'The Apache Software License, Version 2.0'
+							url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+							distribution 'repo'
+						}
+					}
+
+					developers {
+						developer {
+							id 'flow'
+							name 'Florian Schmaus'
+							email 'flow@igniterealtime.org'
+						}
+					}
+				}
+			}
+		}
+	}
+	rootProject.distributionZip {
+		dependsOn build
+		from(buildDir) {
+			include "$libsDirName/**"
+		}
+	}
+	signing {
+		required { signingRequired }
+		sign configurations.archives
+	}
+}
+
+def getGitCommit() {
+	def dotGit = new File("$projectDir/.git")
+	if (!dotGit.isDirectory()) return 'non-git build'
+
+	def cmd = 'git describe --tags --dirty=+'
+	def proc = cmd.execute()
+	def gitCommit = proc.text.trim()
+	assert !gitCommit.isEmpty()
+	gitCommit
+}
