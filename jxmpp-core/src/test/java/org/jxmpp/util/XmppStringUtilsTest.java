@@ -19,6 +19,7 @@ package org.jxmpp.util;
 import static org.junit.Assert.assertEquals;
 
 import org.jxmpp.util.XmppStringUtils;
+
 import org.junit.Test;
 
 public class XmppStringUtilsTest {
@@ -40,5 +41,19 @@ public class XmppStringUtilsTest {
 		assertEquals(error, result, XmppStringUtils.parseDomain("yahoo.myjabber.net/registred"));
 		assertEquals(error, result, XmppStringUtils.parseDomain("user@yahoo.myjabber.net/registred"));
 		assertEquals(error, result, XmppStringUtils.parseDomain("user@yahoo.myjabber.net"));
+	}
+
+	public void atCommercialAtInResourcepart() {
+		final String expectedLocalpart = "TestAccount";
+		final String expectedDomainpart = "server.org";
+		final String expectedResource = "foo@bar1";
+		final String jid = expectedLocalpart + '@' + expectedDomainpart + '/' + expectedResource;
+		String localpart = XmppStringUtils.parseLocalpart(jid);
+		String domain = XmppStringUtils.parseDomain(jid);
+		String resource = XmppStringUtils.parseResource(jid);
+
+		assertEquals(expectedLocalpart, localpart);
+		assertEquals(expectedDomainpart, domain);
+		assertEquals(expectedResource, resource);
 	}
 }

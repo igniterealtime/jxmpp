@@ -28,7 +28,7 @@ public class XmppStringUtils {
 	 * @return the name portion of the XMPP address.
 	 */
 	public static String parseLocalpart(String jid) {
-		int atIndex = jid.lastIndexOf("@");
+		int atIndex = jid.indexOf("@");
 		if (atIndex <= 0) {
 			return "";
 		} else {
@@ -46,7 +46,7 @@ public class XmppStringUtils {
 	 * @return the server portion of the XMPP address.
 	 */
 	public static String parseDomain(String jid) {
-		int atIndex = jid.lastIndexOf("@");
+		int atIndex = jid.indexOf("@");
 		// If the String ends with '@', return the empty string.
 		if (atIndex + 1 > jid.length()) {
 			return "";

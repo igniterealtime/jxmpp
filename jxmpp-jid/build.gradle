@@ -3,5 +3,4 @@ JID classes from JXMPP."""
 
 dependencies {
 	compile project(':jxmpp-core')
-	testCompile 'junit:junit:4.+'
 }

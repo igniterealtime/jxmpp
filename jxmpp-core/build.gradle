@@ -1,3 +1,6 @@
 description = """\
 JXMPP core components."""
 
+dependencies {
+	testCompile 'junit:junit:4.+'
+}
