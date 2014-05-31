@@ -71,4 +71,9 @@ public class DomainAndResourcepartJid extends DomainpartJid implements Jid, Doma
 	public boolean hasOnlyDomainAndResourcepart() {
 		return false;
 	}
+
+	@Override
+	public final String asDomainResourceString() {
+		return toString();
+	}
 }

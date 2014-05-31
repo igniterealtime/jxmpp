@@ -20,4 +20,5 @@ public interface DomainResourceJid extends DomainJid {
 
 	public String getResource();
 
+	public String asDomainResourceString();
 }

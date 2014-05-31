@@ -87,4 +87,9 @@ public class LocalAndDomainpartJid extends DomainpartJid implements BareJid {
 	public boolean hasLocalpart() {
 		return true;
 	}
+
+	@Override
+	public final String asBareJidString() {
+		return toString();
+	}
 }
