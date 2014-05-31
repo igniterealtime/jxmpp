@@ -39,6 +39,12 @@ public class DomainpartJid implements Jid, DomainJid {
 	}
 
 	@Override
+	public String asEscapedString() {
+		// No escaping necessary for DomainpartJid
+		return toString();
+	}
+
+	@Override
 	public final int compareTo(Jid  other) {
 		String otherString = other.toString();
 		String myString = toString();

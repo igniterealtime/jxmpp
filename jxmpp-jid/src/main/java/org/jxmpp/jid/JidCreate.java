@@ -27,17 +27,13 @@ public class JidCreate {
 	private static final Cache<String, FullJid> FULLJID_CACHE = new Cache<String, FullJid>(100, -1);
 	private static final Cache<String, DomainJid> DOMAINJID_CACHE = new Cache<String, DomainJid>(100, -1);
 	private static final Cache<String, DomainResourceJid> DOMAINRESOURCEJID_CACHE = new Cache<String, DomainResourceJid>(100, -1);
-	
-	public static Jid from(String jidString) throws XmppStringprepException {
+
+	public static Jid from(String localpart, String domainpart, String resource) throws XmppStringprepException {
+		String jidString = XmppStringUtils.completeJidFrom(localpart, domainpart, resource);
 		Jid jid = JID_CACHE.get(jidString);
 		if (jid != null) {
 			return jid;
 		}
-
-		String localpart = XmppStringUtils.parseBareAddress(jidString);
-		String domainpart = XmppStringUtils.parseDomain(jidString);
-		String resource = XmppStringUtils.parseResource(jidString);
-
 		if (localpart.length() > 0 && domainpart.length() > 0 && resource.length() > 0) {
 			jid = new LocalDomainAndResourcepartJid(localpart, domainpart, resource);
 		} else if (localpart.length() > 0 && domainpart.length() > 0 && resource.length() == 0) {
@@ -47,10 +43,27 @@ public class JidCreate {
 		} else if (localpart.length() == 0 && domainpart.length() > 0 && resource.length() > 0) {
 			jid = new DomainAndResourcepartJid(domainpart, resource);
 		} else {
-			throw new IllegalArgumentException("Not a valid JID: '" + jidString + "'");
+			throw new IllegalArgumentException("Not a valid combination of localpart, domainpart and resource");
 		}
 		JID_CACHE.put(jidString, jid);
 		return jid;
+	}
+
+	public static Jid from(String jidString) throws XmppStringprepException {
+		String localpart = XmppStringUtils.parseBareAddress(jidString);
+		String domainpart = XmppStringUtils.parseDomain(jidString);
+		String resource = XmppStringUtils.parseResource(jidString);
+		return from(localpart, domainpart, resource);
+	}
+
+	public static Jid fromEscaped(String escapedJidString) throws XmppStringprepException {
+		String localpart = XmppStringUtils.parseBareAddress(escapedJidString);
+		// Some as from(String), but we unesacpe the localpart
+		localpart = XmppStringUtils.unescapeLocalpart(localpart);
+
+		String domainpart = XmppStringUtils.parseDomain(escapedJidString);
+		String resource = XmppStringUtils.parseResource(escapedJidString);
+		return from(localpart, domainpart, resource);
 	}
 
 	public static BareJid bareFrom(String jid) throws XmppStringprepException {

@@ -18,6 +18,7 @@ package org.jxmpp.jid;
 
 import org.jxmpp.stringprep.XmppStringPrepUtil;
 import org.jxmpp.stringprep.XmppStringprepException;
+import org.jxmpp.util.XmppStringUtils;
 
 
 public class LocalAndDomainpartJid extends DomainpartJid implements BareJid {
@@ -25,7 +26,8 @@ public class LocalAndDomainpartJid extends DomainpartJid implements BareJid {
 	private final String localpart;
 
 	private String cache;
-	
+	private String escapedCache;
+
 	LocalAndDomainpartJid(String localpart, String domain) throws XmppStringprepException {
 		super(domain);
 		localpart = XmppStringPrepUtil.nodeprep(localpart);
@@ -42,10 +44,19 @@ public class LocalAndDomainpartJid extends DomainpartJid implements BareJid {
 		if (cache != null) {
 			return cache;
 		}
-		cache = localpart + "@" + super.toString();
+		cache = localpart + '@' + super.toString();
 		return cache;
 	}
-	
+
+	@Override
+	public String asEscapedString() {
+		if (escapedCache != null) {
+			return escapedCache;
+		}
+		escapedCache = XmppStringUtils.escapeLocalpart(localpart) + '@' + super.toString();
+		return escapedCache;
+	}
+
 	@Override
 	public boolean isBareJid() {
 		return true;

@@ -28,7 +28,7 @@ public class DomainAndResourcepartJid extends DomainpartJid implements Jid, Doma
 	private final String resource;
 
 	private String cache;
-	
+
 	DomainAndResourcepartJid(String domain, String resource) throws XmppStringprepException {
 		super(domain);
 		resource = XmppStringPrepUtil.resourceprep(resource);
@@ -49,7 +49,7 @@ public class DomainAndResourcepartJid extends DomainpartJid implements Jid, Doma
 		cache = super.toString() + '/' + resource;
 		return cache;
 	}
-	
+
 	@Override
 	public boolean isBareJid() {
 		return true;

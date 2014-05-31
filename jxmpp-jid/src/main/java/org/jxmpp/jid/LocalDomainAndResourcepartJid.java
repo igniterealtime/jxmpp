@@ -25,6 +25,7 @@ public class LocalDomainAndResourcepartJid extends LocalAndDomainpartJid impleme
 	private final String resource;
 
 	private String cache;
+	private String escapedCache;
 
 	public LocalDomainAndResourcepartJid(String localpart, String domain, String resource) throws XmppStringprepException {
 		super(localpart, domain);
@@ -45,7 +46,16 @@ public class LocalDomainAndResourcepartJid extends LocalAndDomainpartJid impleme
 		cache = super.toString() + '/' + resource;
 		return cache;
 	}
-	
+
+	@Override
+	public String asEscapedString() {
+		if (escapedCache != null) {
+			return escapedCache;
+		}
+		escapedCache = super.asEscapedString() + '@' + super.toString();
+		return escapedCache;
+	}
+
 	@Override
 	public boolean isBareJid() {
 		return false;

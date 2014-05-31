@@ -20,6 +20,8 @@ public interface Jid extends Comparable<Jid> {
 
 	public String getDomain();
 
+	public String asEscapedString();
+
 	public boolean isBareOrFullJid();
 
 	public boolean isBareJid();
