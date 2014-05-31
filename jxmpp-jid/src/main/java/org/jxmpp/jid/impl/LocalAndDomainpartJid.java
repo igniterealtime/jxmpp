@@ -14,8 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jxmpp.jid;
+package org.jxmpp.jid.impl;
 
+import org.jxmpp.jid.BareJid;
 import org.jxmpp.stringprep.XmppStringPrepUtil;
 import org.jxmpp.stringprep.XmppStringprepException;
 import org.jxmpp.util.XmppStringUtils;
