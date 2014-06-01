@@ -1,6 +1,8 @@
 JXMPP
 =====
 
+[![Build Status](https://travis-ci.org/igniterealtime/jxmpp.svg)](https://travis-ci.org/igniterealtime/jxmpp)
+
 About
 -----
 
