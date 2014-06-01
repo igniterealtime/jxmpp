@@ -41,8 +41,8 @@ public class DomainpartJid implements Jid, DomainJid {
 	}
 
 	@Override
-	public String asEscapedString() {
-		// No escaping necessary for DomainpartJid
+	public String asUnescapedString() {
+		// No un-escaping necessary for DomainpartJid
 		return toString();
 	}
 

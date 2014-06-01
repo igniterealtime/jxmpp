@@ -27,7 +27,7 @@ public class LocalAndDomainpartJid extends DomainpartJid implements BareJid {
 	private final String localpart;
 
 	private String cache;
-	private String escapedCache;
+	private String unescapedCache;
 
 	LocalAndDomainpartJid(String localpart, String domain) throws XmppStringprepException {
 		super(domain);
@@ -50,12 +50,12 @@ public class LocalAndDomainpartJid extends DomainpartJid implements BareJid {
 	}
 
 	@Override
-	public String asEscapedString() {
-		if (escapedCache != null) {
-			return escapedCache;
+	public String asUnescapedString() {
+		if (unescapedCache != null) {
+			return unescapedCache;
 		}
-		escapedCache = XmppStringUtils.escapeLocalpart(localpart) + '@' + super.toString();
-		return escapedCache;
+		unescapedCache = XmppStringUtils.unescapeLocalpart(localpart) + '@' + super.toString();
+		return unescapedCache;
 	}
 
 	@Override
