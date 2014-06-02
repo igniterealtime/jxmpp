@@ -28,7 +28,7 @@ public class XmppStringUtils {
 	 * @return the name portion of the XMPP address.
 	 */
 	public static String parseLocalpart(String jid) {
-		int atIndex = jid.indexOf("@");
+		int atIndex = jid.indexOf('@');
 		if (atIndex <= 0) {
 			return "";
 		} else {
@@ -46,12 +46,12 @@ public class XmppStringUtils {
 	 * @return the server portion of the XMPP address.
 	 */
 	public static String parseDomain(String jid) {
-		int atIndex = jid.indexOf("@");
+		int atIndex = jid.indexOf('@');
 		// If the String ends with '@', return the empty string.
 		if (atIndex + 1 > jid.length()) {
 			return "";
 		}
-		int slashIndex = jid.indexOf("/");
+		int slashIndex = jid.indexOf('/');
 		if (slashIndex > 0 && slashIndex > atIndex) {
 			return jid.substring(atIndex + 1, slashIndex);
 		} else {
@@ -69,7 +69,7 @@ public class XmppStringUtils {
 	 * @return the resource portion of the XMPP address.
 	 */
 	public static String parseResource(String jid) {
-		int slashIndex = jid.indexOf("/");
+		int slashIndex = jid.indexOf('/');
 		if (slashIndex + 1 > jid.length() || slashIndex < 0) {
 			return "";
 		} else {
@@ -87,7 +87,7 @@ public class XmppStringUtils {
 	 * @return the bare XMPP address without resource information.
 	 */
 	public static String parseBareAddress(String jid) {
-		int slashIndex = jid.indexOf("/");
+		int slashIndex = jid.indexOf('/');
 		if (slashIndex < 0) {
 			return jid;
 		} else if (slashIndex == 0) {
