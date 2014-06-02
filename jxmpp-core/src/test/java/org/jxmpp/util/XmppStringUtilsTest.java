@@ -26,7 +26,7 @@ public class XmppStringUtilsTest {
 
 	@Test
 	public void parseLocalpart() {
-		String error = "Error parsing node name";
+		final String error = "Error parsing localpart";
 		assertEquals(error, "", XmppStringUtils.parseLocalpart("yahoo.myjabber.net"));
 		assertEquals(error, "", XmppStringUtils.parseLocalpart("yahoo.myjabber.net/registred"));
 		assertEquals(error, "user", XmppStringUtils.parseLocalpart("user@yahoo.myjabber.net/registred"));
@@ -35,12 +35,21 @@ public class XmppStringUtilsTest {
 
 	@Test
 	public void parseDomain() {
-		String error = "Error parsing server name";
-		String result = "yahoo.myjabber.net";
+		final String error = "Error parsing domain";
+		final String result = "yahoo.myjabber.net";
 		assertEquals(error, result, XmppStringUtils.parseDomain("yahoo.myjabber.net"));
 		assertEquals(error, result, XmppStringUtils.parseDomain("yahoo.myjabber.net/registred"));
 		assertEquals(error, result, XmppStringUtils.parseDomain("user@yahoo.myjabber.net/registred"));
 		assertEquals(error, result, XmppStringUtils.parseDomain("user@yahoo.myjabber.net"));
+	}
+
+	@Test
+	public void parseResource() {
+		final String error = "Error parsing resource";
+		assertEquals(error, "", XmppStringUtils.parseResource("foo.jxmpp.org"));
+		assertEquals(error, "registered", XmppStringUtils.parseResource("foo.jxmpp.org/registered"));
+		assertEquals(error, "registered", XmppStringUtils.parseResource("user@foo.jxmpp.org/registered"));
+		assertEquals(error, "", XmppStringUtils.parseResource("user@foo.jxmpp.org"));
 	}
 
 	public void atCommercialAtInResourcepart() {
