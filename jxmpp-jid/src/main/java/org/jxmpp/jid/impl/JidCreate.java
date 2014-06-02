@@ -122,4 +122,5 @@ public class JidCreate {
 		DOMAINRESOURCEJID_CACHE.put(jid, domainResourceJid);
 		return domainResourceJid;
 	}
+
 }

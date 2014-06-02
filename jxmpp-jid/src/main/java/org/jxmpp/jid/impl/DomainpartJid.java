@@ -23,7 +23,7 @@ import org.jxmpp.stringprep.XmppStringprepException;
 
 public class DomainpartJid implements Jid, DomainJid {
 
-	private final String domain;
+	protected final String domain;
 
 	DomainpartJid(String domain) throws XmppStringprepException {
 		domain = XmppStringPrepUtil.nodeprep(domain);

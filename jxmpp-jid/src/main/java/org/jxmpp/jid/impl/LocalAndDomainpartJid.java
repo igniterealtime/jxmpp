@@ -24,7 +24,7 @@ import org.jxmpp.util.XmppStringUtils;
 
 public class LocalAndDomainpartJid extends DomainpartJid implements BareJid {
 
-	private final String localpart;
+	protected final String localpart;
 
 	private String cache;
 	private String unescapedCache;
@@ -89,7 +89,7 @@ public class LocalAndDomainpartJid extends DomainpartJid implements BareJid {
 	}
 
 	@Override
-	public final String asBareJidString() {
-		return toString();
+	public BareJid asBareJid() {
+		return this;
 	}
 }

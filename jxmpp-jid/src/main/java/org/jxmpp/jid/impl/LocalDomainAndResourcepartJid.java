@@ -16,9 +16,11 @@
  */
 package org.jxmpp.jid.impl;
 
+import org.jxmpp.jid.BareJid;
 import org.jxmpp.jid.FullJid;
 import org.jxmpp.stringprep.XmppStringPrepUtil;
 import org.jxmpp.stringprep.XmppStringprepException;
+import org.jxmpp.util.XmppStringUtils;
 
 
 public class LocalDomainAndResourcepartJid extends LocalAndDomainpartJid implements FullJid {
@@ -80,5 +82,14 @@ public class LocalDomainAndResourcepartJid extends LocalAndDomainpartJid impleme
 	@Override
 	public boolean hasLocalpart() {
 		return true;
+	}
+
+	@Override
+	public BareJid asBareJid() {
+		try {
+			return JidCreate.bareFrom(XmppStringUtils.completeJidFrom(localpart, domain));
+		} catch (XmppStringprepException e) {
+			throw new IllegalStateException(e);
+		}
 	}
 }
