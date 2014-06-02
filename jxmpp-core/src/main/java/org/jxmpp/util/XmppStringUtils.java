@@ -31,6 +31,10 @@ public class XmppStringUtils {
 		int atIndex = jid.indexOf('@');
 		if (atIndex <= 0) {
 			return "";
+		}
+		int slashIndex = jid.indexOf('/');
+		if (slashIndex >= 0 && slashIndex < atIndex) {
+			return "";
 		} else {
 			return jid.substring(0, atIndex);
 		}
@@ -52,8 +56,14 @@ public class XmppStringUtils {
 			return "";
 		}
 		int slashIndex = jid.indexOf('/');
-		if (slashIndex > 0 && slashIndex > atIndex) {
-			return jid.substring(atIndex + 1, slashIndex);
+		if (slashIndex > 0) {
+			// 'local@domain.foo/resource' and 'local@domain.foo/res@otherres' case
+			if (slashIndex > atIndex) {
+				return jid.substring(atIndex + 1, slashIndex);
+			// 'domain.foo/res@otherres' case
+			} else {
+				return jid.substring(0, slashIndex);
+			}
 		} else {
 			return jid.substring(atIndex + 1);
 		}

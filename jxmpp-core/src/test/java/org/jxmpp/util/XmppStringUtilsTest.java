@@ -31,6 +31,9 @@ public class XmppStringUtilsTest {
 		assertEquals(error, "", XmppStringUtils.parseLocalpart("yahoo.myjabber.net/registred"));
 		assertEquals(error, "user", XmppStringUtils.parseLocalpart("user@yahoo.myjabber.net/registred"));
 		assertEquals(error, "user", XmppStringUtils.parseLocalpart("user@yahoo.myjabber.net"));
+
+		// Some more advanced parsing cases
+		assertEquals(error, "", XmppStringUtils.parseLocalpart("foo.jxmpp.org/resOne@resTwo"));
 	}
 
 	@Test
@@ -41,6 +44,9 @@ public class XmppStringUtilsTest {
 		assertEquals(error, result, XmppStringUtils.parseDomain("yahoo.myjabber.net/registred"));
 		assertEquals(error, result, XmppStringUtils.parseDomain("user@yahoo.myjabber.net/registred"));
 		assertEquals(error, result, XmppStringUtils.parseDomain("user@yahoo.myjabber.net"));
+
+		// Some more advanced parsing cases
+		assertEquals(error, "foo.jxmpp.org", XmppStringUtils.parseDomain("foo.jxmpp.org/resOne@resTwo"));
 	}
 
 	@Test
@@ -50,19 +56,8 @@ public class XmppStringUtilsTest {
 		assertEquals(error, "registered", XmppStringUtils.parseResource("foo.jxmpp.org/registered"));
 		assertEquals(error, "registered", XmppStringUtils.parseResource("user@foo.jxmpp.org/registered"));
 		assertEquals(error, "", XmppStringUtils.parseResource("user@foo.jxmpp.org"));
-	}
 
-	public void atCommercialAtInResourcepart() {
-		final String expectedLocalpart = "TestAccount";
-		final String expectedDomainpart = "server.org";
-		final String expectedResource = "foo@bar1";
-		final String jid = expectedLocalpart + '@' + expectedDomainpart + '/' + expectedResource;
-		String localpart = XmppStringUtils.parseLocalpart(jid);
-		String domain = XmppStringUtils.parseDomain(jid);
-		String resource = XmppStringUtils.parseResource(jid);
-
-		assertEquals(expectedLocalpart, localpart);
-		assertEquals(expectedDomainpart, domain);
-		assertEquals(expectedResource, resource);
+		// Some more advanced parsing cases
+		assertEquals(error, "resOne@resTwo", XmppStringUtils.parseResource("user@foo.jxmpp.org/resOne@resTwo"));
 	}
 }
