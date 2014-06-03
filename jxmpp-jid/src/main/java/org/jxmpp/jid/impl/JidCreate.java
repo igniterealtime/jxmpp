@@ -17,8 +17,8 @@
 package org.jxmpp.jid.impl;
 
 import org.jxmpp.jid.BareJid;
-import org.jxmpp.jid.DomainJid;
-import org.jxmpp.jid.DomainResourceJid;
+import org.jxmpp.jid.ServerBareJid;
+import org.jxmpp.jid.ServerFullJid;
 import org.jxmpp.jid.FullJid;
 import org.jxmpp.jid.Jid;
 import org.jxmpp.stringprep.XmppStringprepException;
@@ -30,8 +30,8 @@ public class JidCreate {
 	private static final Cache<String, Jid> JID_CACHE = new Cache<String, Jid>(100, -1);
 	private static final Cache<String, BareJid> BAREJID_CACHE = new Cache<String, BareJid>(100, -1);
 	private static final Cache<String, FullJid> FULLJID_CACHE = new Cache<String, FullJid>(100, -1);
-	private static final Cache<String, DomainJid> DOMAINJID_CACHE = new Cache<String, DomainJid>(100, -1);
-	private static final Cache<String, DomainResourceJid> DOMAINRESOURCEJID_CACHE = new Cache<String, DomainResourceJid>(100, -1);
+	private static final Cache<String, ServerBareJid> DOMAINJID_CACHE = new Cache<String, ServerBareJid>(100, -1);
+	private static final Cache<String, ServerFullJid> DOMAINRESOURCEJID_CACHE = new Cache<String, ServerFullJid>(100, -1);
 
 	public static Jid from(String localpart, String domainpart, String resource) throws XmppStringprepException {
 		String jidString = XmppStringUtils.completeJidFrom(localpart, domainpart, resource);
@@ -98,8 +98,8 @@ public class JidCreate {
 		return fullJid;
 	}
 
-	public static DomainJid domainFrom(String jid) throws XmppStringprepException {
-		DomainJid domainJid = DOMAINJID_CACHE.get(jid);
+	public static ServerBareJid serverBareFrom(String jid) throws XmppStringprepException {
+		ServerBareJid domainJid = DOMAINJID_CACHE.get(jid);
 		if (domainJid != null) {
 			return domainJid;
 		}
@@ -110,8 +110,8 @@ public class JidCreate {
 		return domainJid;
 	}
 
-	public static DomainResourceJid domainResourceFrom(String jid) throws XmppStringprepException {
-		DomainResourceJid domainResourceJid = DOMAINRESOURCEJID_CACHE.get(jid);
+	public static ServerFullJid serverFullFrom(String jid) throws XmppStringprepException {
+		ServerFullJid domainResourceJid = DOMAINRESOURCEJID_CACHE.get(jid);
 		if (domainResourceJid != null) {
 			return domainResourceJid;
 		}

@@ -16,6 +16,9 @@
  */
 package org.jxmpp.jid;
 
-public interface DomainJid extends Jid {
+public interface ServerFullJid extends ServerBareJid {
 
+	public String getResource();
+
+	public String asDomainResourceString();
 }

@@ -16,12 +16,12 @@
  */
 package org.jxmpp.jid.impl;
 
-import org.jxmpp.jid.DomainJid;
+import org.jxmpp.jid.ServerBareJid;
 import org.jxmpp.jid.Jid;
 import org.jxmpp.stringprep.XmppStringPrepUtil;
 import org.jxmpp.stringprep.XmppStringprepException;
 
-public class DomainpartJid implements Jid, DomainJid {
+public class DomainpartJid implements Jid, ServerBareJid {
 
 	protected final String domain;
 
