@@ -16,6 +16,8 @@
  */
 package org.jxmpp.util;
 
+import org.jxmpp.util.cache.LruCache;
+
 public class XmppStringUtils {
 
 	/**
@@ -121,8 +123,8 @@ public class XmppStringUtils {
 		return true;
 	}
 
-	private static final Cache<String, String> LOCALPART_ESACPE_CACHE = new Cache<String, String>(100, -1);
-	private static final Cache<String, String> LOCALPART_UNESCAPE_CACHE = new Cache<String, String>(100, -1);
+	private static final LruCache<String, String> LOCALPART_ESACPE_CACHE = new LruCache<String, String>(100);
+	private static final LruCache<String, String> LOCALPART_UNESCAPE_CACHE = new LruCache<String, String>(100);
 
 	/**
 	 * Escapes the localpart of a JID according to "JID Escaping" (XEP-0106).

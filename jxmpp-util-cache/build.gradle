@@ -1,0 +1,6 @@
+description = """\
+A minimalistic and efficient bounded LRU Cache with optional expiration."""
+
+dependencies {
+	testCompile 'junit:junit:4.11'
+}

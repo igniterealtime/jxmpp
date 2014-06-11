@@ -22,16 +22,17 @@ import org.jxmpp.jid.ServerFullJid;
 import org.jxmpp.jid.FullJid;
 import org.jxmpp.jid.Jid;
 import org.jxmpp.stringprep.XmppStringprepException;
-import org.jxmpp.util.Cache;
+import org.jxmpp.util.cache.Cache;
+import org.jxmpp.util.cache.LruCache;
 import org.jxmpp.util.XmppStringUtils;
 
 public class JidCreate {
 
-	private static final Cache<String, Jid> JID_CACHE = new Cache<String, Jid>(100, -1);
-	private static final Cache<String, BareJid> BAREJID_CACHE = new Cache<String, BareJid>(100, -1);
-	private static final Cache<String, FullJid> FULLJID_CACHE = new Cache<String, FullJid>(100, -1);
-	private static final Cache<String, ServerBareJid> DOMAINJID_CACHE = new Cache<String, ServerBareJid>(100, -1);
-	private static final Cache<String, ServerFullJid> DOMAINRESOURCEJID_CACHE = new Cache<String, ServerFullJid>(100, -1);
+	private static final Cache<String, Jid> JID_CACHE = new LruCache<String, Jid>(100);
+	private static final Cache<String, BareJid> BAREJID_CACHE = new LruCache<String, BareJid>(100);
+	private static final Cache<String, FullJid> FULLJID_CACHE = new LruCache<String, FullJid>(100);
+	private static final Cache<String, ServerBareJid> DOMAINJID_CACHE = new LruCache<String, ServerBareJid>(100);
+	private static final Cache<String, ServerFullJid> DOMAINRESOURCEJID_CACHE = new LruCache<String, ServerFullJid>(100);
 
 	public static Jid from(String localpart, String domainpart, String resource) throws XmppStringprepException {
 		String jidString = XmppStringUtils.completeJidFrom(localpart, domainpart, resource);

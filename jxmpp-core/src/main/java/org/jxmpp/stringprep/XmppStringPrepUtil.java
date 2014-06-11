@@ -16,13 +16,14 @@
  */
 package org.jxmpp.stringprep;
 
-import org.jxmpp.util.Cache;
+import org.jxmpp.util.cache.Cache;
+import org.jxmpp.util.cache.LruCache;
 
 public class XmppStringPrepUtil {
 
-	private static final Cache<String, String> NODEPREP_CACHE = new Cache<String, String>(100, -1);
-	private static final Cache<String, String> DOMAINPREP_CACHE = new Cache<String, String>(100, -1);
-	private static final Cache<String, String> RESOURCEPREP_CACHE = new Cache<String, String>(100, -1);
+	private static final Cache<String, String> NODEPREP_CACHE = new LruCache<String, String>(100);
+	private static final Cache<String, String> DOMAINPREP_CACHE = new LruCache<String, String>(100);
+	private static final Cache<String, String> RESOURCEPREP_CACHE = new LruCache<String, String>(100);
 
 	private static XmppStringprep xmppStringprep;
 
