@@ -29,6 +29,7 @@ public class LocalDomainAndResourcepartJid extends LocalAndDomainpartJid impleme
 
 	private String cache;
 	private String unescapedCache;
+	private BareJid bareJidCache;
 
 	public LocalDomainAndResourcepartJid(String localpart, String domain, String resource) throws XmppStringprepException {
 		super(localpart, domain);
@@ -86,10 +87,14 @@ public class LocalDomainAndResourcepartJid extends LocalAndDomainpartJid impleme
 
 	@Override
 	public BareJid asBareJid() {
-		try {
-			return JidCreate.bareFrom(XmppStringUtils.completeJidFrom(localpart, domain));
-		} catch (XmppStringprepException e) {
-			throw new IllegalStateException(e);
+		if (bareJidCache == null) {
+			try {
+				bareJidCache = JidCreate.bareFrom(XmppStringUtils
+						.completeJidFrom(localpart, domain));
+			} catch (XmppStringprepException e) {
+				throw new IllegalStateException(e);
+			}
 		}
+		return bareJidCache;
 	}
 }
