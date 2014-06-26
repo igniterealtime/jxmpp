@@ -84,6 +84,9 @@ description = """\
 JXMPP ${version}
 ${oneLineDesc}."""
 
+// Disable uploadArchives task for the root project
+uploadArchives.enabled = false
+
 evaluationDependsOnChildren()
 subprojects {
 	apply plugin: 'maven'
