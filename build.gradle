@@ -20,7 +20,7 @@ allprojects {
 		buildDate = (new java.text.SimpleDateFormat("yyyy-MM-dd")).format(new Date())
 		oneLineDesc = 'An Open Source XMPP (Jabber) library'
 	}
-	group = 'org.igniterealtime.jxmpp'
+	group = 'org.jxmpp'
 	sourceCompatibility = 1.7
 	version = shortVersion
 	if (isSnapshot) {
