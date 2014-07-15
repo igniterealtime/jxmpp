@@ -132,10 +132,23 @@ public class XmppDateTime {
 	 * @return the parsed Date
 	 * @throws ParseException
 	 *             if the specified string cannot be parsed
-	 * @deprecated Use {@link #parseDate(String)} instead.
 	 */
 	public static Date parseXEP0082Date(String dateString) throws ParseException {
-		return parseDate(dateString);
+		for (PatternCouplings coupling : couplings) {
+			Matcher matcher = coupling.pattern.matcher(dateString);
+
+			if (matcher.matches()) {
+				return coupling.formatter.parse(dateString);
+			}
+		}
+		/*
+		 * We assume it is the XEP-0082 DateTime profile with no milliseconds at
+		 * this point. If it isn't, is is just not parseable, then we attempt to
+		 * parse it regardless and let it throw the ParseException.
+		 */
+		synchronized (dateTimeNoMillisFormatter) {
+			return dateTimeNoMillisFormatter.parse(dateString);
+		}
 	}
 
 	/**
@@ -173,24 +186,9 @@ public class XmppDateTime {
 					return xep0091Formatter.parse(dateString);
 				}
 			}
-		} else {
-			for (PatternCouplings coupling : couplings) {
-				matcher = coupling.pattern.matcher(dateString);
-
-				if (matcher.matches()) {
-					return coupling.formatter.parse(dateString);
-				}
-			}
 		}
-
-		/*
-		 * We assume it is the XEP-0082 DateTime profile with no milliseconds at
-		 * this point. If it isn't, is is just not parseable, then we attempt to
-		 * parse it regardless and let it throw the ParseException.
-		 */
-		synchronized (dateTimeNoMillisFormatter) {
-			return dateTimeNoMillisFormatter.parse(dateString);
-		}
+		// Assume XEP-82 date if Matcher does not match
+		return parseXEP0082Date(dateString);
 	}
 
 	/**
