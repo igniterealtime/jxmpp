@@ -56,14 +56,14 @@ public class JidCreate {
 	}
 
 	public static Jid from(String jidString) throws XmppStringprepException {
-		String localpart = XmppStringUtils.parseBareAddress(jidString);
+		String localpart = XmppStringUtils.parseLocalpart(jidString);
 		String domainpart = XmppStringUtils.parseDomain(jidString);
 		String resource = XmppStringUtils.parseResource(jidString);
 		return from(localpart, domainpart, resource);
 	}
 
 	public static Jid fromUnescaped(String escapedJidString) throws XmppStringprepException {
-		String localpart = XmppStringUtils.parseBareAddress(escapedJidString);
+		String localpart = XmppStringUtils.parseLocalpart(escapedJidString);
 		// Some as from(String), but we escape the localpart
 		localpart = XmppStringUtils.escapeLocalpart(localpart);
 

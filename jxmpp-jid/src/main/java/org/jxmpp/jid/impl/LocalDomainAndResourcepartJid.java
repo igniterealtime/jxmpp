@@ -56,7 +56,7 @@ public class LocalDomainAndResourcepartJid extends LocalAndDomainpartJid impleme
 		if (unescapedCache != null) {
 			return unescapedCache;
 		}
-		unescapedCache = super.asUnescapedString() + '@' + super.toString();
+		unescapedCache = super.asUnescapedString() + '/' + resource;
 		return unescapedCache;
 	}
 
