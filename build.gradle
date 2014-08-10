@@ -17,7 +17,7 @@ allprojects {
 		signingRequired = isReleaseVersion
 		sonatypeSnapshotUrl = 'https://oss.sonatype.org/content/repositories/snapshots'
 		sonatypeStagingUrl = 'https://oss.sonatype.org/service/local/staging/deploy/maven2'
-		buildDate = (new java.text.SimpleDateFormat("yyyy-MM-dd")).format(new Date())
+		builtDate = (new java.text.SimpleDateFormat("yyyy-MM-dd")).format(new Date())
 		oneLineDesc = 'An Open Source XMPP (Jabber) library'
 	}
 	group = 'org.jxmpp'
@@ -69,7 +69,7 @@ task javadocAll(type: Javadoc) {
 }
 
 task distributionZip(type: Zip, dependsOn: [javadocAll]) {
-	classifier buildDate
+	classifier builtDate
 	into ('javadoc') {
 		from(javadocAllDir)
 	}
