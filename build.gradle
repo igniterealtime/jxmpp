@@ -19,6 +19,8 @@ allprojects {
 		sonatypeStagingUrl = 'https://oss.sonatype.org/service/local/staging/deploy/maven2'
 		builtDate = (new java.text.SimpleDateFormat("yyyy-MM-dd")).format(new Date())
 		oneLineDesc = 'An Open Source XMPP (Jabber) library'
+		jxmppMinAndroidSdk = 8
+		androidProjects = [':jxmpp-core', ':jxmpp-jid', ':jxmpp-stringprep-libidn', ':jxmpp-util-cache'].collect{ project(it) }
 	}
 	group = 'org.jxmpp'
 	sourceCompatibility = 1.7
@@ -192,6 +194,23 @@ subprojects {
 	}
 }
 
+dependencies {
+	androidProjects.each { project ->
+		compile project
+	}
+}
+
+configure (androidProjects) {
+	task compileAndroid(type: JavaCompile) {
+		source = compileJava.source
+		classpath = compileJava.classpath
+		destinationDir = new File(buildDir, 'android')
+		options.bootClasspath = getAndroidRuntimeJar()
+	}
+}
+
+test { dependsOn androidProjects*.compileAndroid }
+
 def getGitCommit() {
 	def dotGit = new File("$projectDir/.git")
 	if (!dotGit.isDirectory()) return 'non-git build'
@@ -201,4 +220,15 @@ def getGitCommit() {
 	def gitCommit = proc.text.trim()
 	assert !gitCommit.isEmpty()
 	gitCommit
+}
+
+def getAndroidRuntimeJar() {
+	def androidHome = new File("$System.env.ANDROID_HOME")
+	if (!androidHome.isDirectory()) throw new Exception("ANDROID_HOME not found or set")
+	def androidJar = new File("$androidHome/platforms/android-$jxmppMinAndroidSdk/android.jar")
+	if (androidJar.isFile()) {
+		return androidJar
+	} else {
+		throw new Exception("Can't find android.jar for $jxmppMinAndroidSdk API. Please install corresponding SDK platform package")
+	}
 }
