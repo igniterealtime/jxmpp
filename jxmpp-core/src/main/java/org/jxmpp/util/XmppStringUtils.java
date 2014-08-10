@@ -348,4 +348,18 @@ public class XmppStringUtils {
 		}
 		return sb.toString();
 	}
+
+	/**
+	 * Generate a unique key from a element name and namespace. This key can be
+	 * used to lookup element/namepsace information. The key is simply generated
+	 * by concatenating the strings as follows:
+	 * <code>element + '#' + namespace</code>.
+	 * 
+	 * @param element
+	 * @param namespace
+	 * @return the unique key of element and namespace.
+	 */
+	public static String generateKey(String element, String namespace) {
+		return element + '#' + namespace;
+	}
 }
