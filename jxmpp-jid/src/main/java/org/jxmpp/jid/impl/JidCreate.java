@@ -17,8 +17,8 @@
 package org.jxmpp.jid.impl;
 
 import org.jxmpp.jid.BareJid;
-import org.jxmpp.jid.ServerBareJid;
-import org.jxmpp.jid.ServerFullJid;
+import org.jxmpp.jid.DomainBareJid;
+import org.jxmpp.jid.DomainFullJid;
 import org.jxmpp.jid.FullJid;
 import org.jxmpp.jid.Jid;
 import org.jxmpp.stringprep.XmppStringprepException;
@@ -31,8 +31,8 @@ public class JidCreate {
 	private static final Cache<String, Jid> JID_CACHE = new LruCache<String, Jid>(100);
 	private static final Cache<String, BareJid> BAREJID_CACHE = new LruCache<String, BareJid>(100);
 	private static final Cache<String, FullJid> FULLJID_CACHE = new LruCache<String, FullJid>(100);
-	private static final Cache<String, ServerBareJid> DOMAINJID_CACHE = new LruCache<String, ServerBareJid>(100);
-	private static final Cache<String, ServerFullJid> DOMAINRESOURCEJID_CACHE = new LruCache<String, ServerFullJid>(100);
+	private static final Cache<String, DomainBareJid> DOMAINJID_CACHE = new LruCache<String, DomainBareJid>(100);
+	private static final Cache<String, DomainFullJid> DOMAINRESOURCEJID_CACHE = new LruCache<String, DomainFullJid>(100);
 
 	public static Jid from(String localpart, String domainpart, String resource) throws XmppStringprepException {
 		String jidString = XmppStringUtils.completeJidFrom(localpart, domainpart, resource);
@@ -99,8 +99,8 @@ public class JidCreate {
 		return fullJid;
 	}
 
-	public static ServerBareJid serverBareFrom(String jid) throws XmppStringprepException {
-		ServerBareJid domainJid = DOMAINJID_CACHE.get(jid);
+	public static DomainBareJid serverBareFrom(String jid) throws XmppStringprepException {
+		DomainBareJid domainJid = DOMAINJID_CACHE.get(jid);
 		if (domainJid != null) {
 			return domainJid;
 		}
@@ -111,8 +111,8 @@ public class JidCreate {
 		return domainJid;
 	}
 
-	public static ServerFullJid serverFullFrom(String jid) throws XmppStringprepException {
-		ServerFullJid domainResourceJid = DOMAINRESOURCEJID_CACHE.get(jid);
+	public static DomainFullJid serverFullFrom(String jid) throws XmppStringprepException {
+		DomainFullJid domainResourceJid = DOMAINRESOURCEJID_CACHE.get(jid);
 		if (domainResourceJid != null) {
 			return domainResourceJid;
 		}

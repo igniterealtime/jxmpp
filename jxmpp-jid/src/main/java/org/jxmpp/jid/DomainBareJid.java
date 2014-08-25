@@ -16,6 +16,6 @@
  */
 package org.jxmpp.jid;
 
-public interface ServerBareJid extends Jid {
+public interface DomainBareJid extends Jid {
 
 }

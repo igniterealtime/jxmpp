@@ -16,7 +16,7 @@
  */
 package org.jxmpp.jid.impl;
 
-import org.jxmpp.jid.ServerFullJid;
+import org.jxmpp.jid.DomainFullJid;
 import org.jxmpp.jid.Jid;
 import org.jxmpp.stringprep.XmppStringPrepUtil;
 import org.jxmpp.stringprep.XmppStringprepException;
@@ -25,7 +25,7 @@ import org.jxmpp.stringprep.XmppStringprepException;
  * RFC6122 2.4 allows JIDs with only a domain and resource part.
  *
  */
-public class DomainAndResourcepartJid extends DomainpartJid implements Jid, ServerFullJid {
+public class DomainAndResourcepartJid extends DomainpartJid implements Jid, DomainFullJid {
 
 	private final String resource;
 
