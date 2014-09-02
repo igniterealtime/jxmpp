@@ -123,6 +123,18 @@ public class XmppStringUtils {
 		return true;
 	}
 
+	/**
+	 * Returns true if <code>jid</code> is a bare JID ("foo@bar.com").
+	 *
+	 * @param jid
+	 * @return true if bare JID, false otherwise
+	 */
+	public static boolean isBareJid(String jid) {
+		return parseLocalpart(jid).length() > 0
+				&& parseDomain(jid).length() > 0
+				&& parseResource(jid).length() == 0;
+	}
+
 	private static final LruCache<String, String> LOCALPART_ESACPE_CACHE = new LruCache<String, String>(100);
 	private static final LruCache<String, String> LOCALPART_UNESCAPE_CACHE = new LruCache<String, String>(100);
 
