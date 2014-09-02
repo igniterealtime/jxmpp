@@ -99,7 +99,19 @@ public class JidCreate {
 		return fullJid;
 	}
 
+	/**
+	 * 
+	 * @param jid
+	 * @return a DopmainBareJid
+	 * @throws XmppStringprepException
+	 * @deprecated use {@link #domainBareFrom(String)} instead
+	 */
+	@Deprecated
 	public static DomainBareJid serverBareFrom(String jid) throws XmppStringprepException {
+		return domainBareFrom(jid);
+	}
+
+	public static DomainBareJid domainBareFrom(String jid) throws XmppStringprepException {
 		DomainBareJid domainJid = DOMAINJID_CACHE.get(jid);
 		if (domainJid != null) {
 			return domainJid;
@@ -111,7 +123,19 @@ public class JidCreate {
 		return domainJid;
 	}
 
+	/**
+	 * 
+	 * @param jid
+	 * @return a DomainFullJid
+	 * @throws XmppStringprepException
+	 * @deprecated use {@link #donmainFullFrom(String)} instead
+	 */
+	@Deprecated
 	public static DomainFullJid serverFullFrom(String jid) throws XmppStringprepException {
+		return donmainFullFrom(jid);
+	}
+
+	public static DomainFullJid donmainFullFrom(String jid) throws XmppStringprepException {
 		DomainFullJid domainResourceJid = DOMAINRESOURCEJID_CACHE.get(jid);
 		if (domainResourceJid != null) {
 			return domainResourceJid;
