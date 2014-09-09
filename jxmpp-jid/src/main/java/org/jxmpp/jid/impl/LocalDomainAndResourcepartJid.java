@@ -61,31 +61,6 @@ public class LocalDomainAndResourcepartJid extends LocalAndDomainpartJid impleme
 	}
 
 	@Override
-	public boolean isBareJid() {
-		return false;
-	}
-
-	@Override
-	public boolean isFullJid() {
-		return true;
-	}
-
-	@Override
-	public boolean hasOnlyDomainpart() {
-		return false;
-	}
-
-	@Override
-	public boolean hasResource() {
-		return true;
-	}
-
-	@Override
-	public boolean hasLocalpart() {
-		return true;
-	}
-
-	@Override
 	public BareJid asBareJid() {
 		if (bareJidCache == null) {
 			try {

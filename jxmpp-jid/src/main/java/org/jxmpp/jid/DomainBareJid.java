@@ -16,6 +16,9 @@
  */
 package org.jxmpp.jid;
 
+/**
+ * A JID consisting (at least) of the domainpart. For example "xmpp.org".
+ */
 public interface DomainBareJid extends Jid {
 
 }

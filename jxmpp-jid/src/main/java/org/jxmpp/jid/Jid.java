@@ -16,24 +16,18 @@
  */
 package org.jxmpp.jid;
 
+/**
+ * A XMPP JID.
+ * <p>
+ * This is the super interface for all JID types. Every JID consists at least of
+ * a domainpart. You can retrieve the escaped String with {@link Jid#toString()}
+ * or the unsecaped String of the JID with {@link Jid#asUnescapedString()}.
+ * </p>
+ */
 public interface Jid extends Comparable<Jid> {
 
 	public String getDomain();
 
 	public String asUnescapedString();
-
-	public boolean isBareOrFullJid();
-
-	public boolean isBareJid();
-
-	public boolean isFullJid();
-
-	public boolean hasOnlyDomainpart();
-
-	public boolean hasOnlyDomainAndResourcepart();
-
-	public boolean hasResource();
-
-	public boolean hasLocalpart();
 
 }

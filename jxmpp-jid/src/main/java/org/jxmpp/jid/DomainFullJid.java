@@ -16,6 +16,10 @@
  */
 package org.jxmpp.jid;
 
+/**
+ * A JID consisting of a domainpart and a resourcepart. For example
+ * "xmpp.org/resource".
+ */
 public interface DomainFullJid extends DomainBareJid {
 
 	public String getResource();

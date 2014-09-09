@@ -16,12 +16,13 @@
  */
 package org.jxmpp.jid.impl;
 
+import org.jxmpp.jid.AbstractJid;
 import org.jxmpp.jid.DomainBareJid;
 import org.jxmpp.jid.Jid;
 import org.jxmpp.stringprep.XmppStringPrepUtil;
 import org.jxmpp.stringprep.XmppStringprepException;
 
-public class DomainpartJid implements Jid, DomainBareJid {
+public class DomainpartJid extends AbstractJid implements DomainBareJid {
 
 	protected final String domain;
 
@@ -74,40 +75,5 @@ public class DomainpartJid implements Jid, DomainBareJid {
 		} else if (bytes.length == 0) {
 			throw new IllegalArgumentException("Argument can't be the empty string");
 		}
-	}
-
-	@Override
-	public boolean isBareOrFullJid() {
-		return isBareJid() || isFullJid();
-	}
-
-	@Override
-	public boolean isBareJid() {
-		return false;
-	}
-
-	@Override
-	public boolean isFullJid() {
-		return false;
-	}
-
-	@Override
-	public boolean hasOnlyDomainpart() {
-		return true;
-	}
-
-	@Override
-	public boolean hasOnlyDomainAndResourcepart() {
-		return false;
-	}
-
-	@Override
-	public boolean hasResource() {
-		return false;
-	}
-
-	@Override
-	public boolean hasLocalpart() {
-		return false;
 	}
 }
