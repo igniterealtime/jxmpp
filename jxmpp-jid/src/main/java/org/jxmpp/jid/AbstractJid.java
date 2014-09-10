@@ -18,63 +18,47 @@ package org.jxmpp.jid;
 
 public abstract class AbstractJid implements Jid {
 
+	@Override
 	public final boolean isBareOrFullJid() {
 		return isBareJid() || isFullJid();
 	}
 
-	/**
-	 * Check if this is an instance of {@link BareJid}.
-	 * 
-	 * @return true if this is an instance of BareJid
-	 */
+	@Override
 	public final boolean isBareJid() {
 		return this instanceof BareJid;
 	}
 
-	/**
-	 * Check if this is an instance of {@link FullJid}.
-	 * 
-	 * @return true if this is an instance of FullJid
-	 */
+	@Override
 	public final boolean isFullJid() {
 		return this instanceof FullJid;
 	}
 
-	/**
-	 * Check if this is an instance of {@link DomainBareJid}.
-	 *  
-	 * @return true if this is an instance of DomainBareJid
-	 */
+	@Override
 	public final boolean isDomainBareJid() {
 		return this instanceof DomainBareJid;
 	}
 
-	/**
-	 * Check if this is an instance of {@link DomainFullJid}.
-	 * 
-	 * @return true if this is an instance of DomainFullJid
-	 */
+	@Override
 	public final boolean isDomainFullJid() {
 		return this instanceof DomainFullJid;
 	}
 
+	@Override
 	public final boolean hasNoResource() {
 		return this instanceof BareJid || this instanceof DomainBareJid;
 	}
 
+	@Override
 	public final boolean hasResource() {
 		return this instanceof FullJid || this instanceof DomainFullJid;
 	}
 
+	@Override
 	public final boolean hasLocalpart() {
 		return this instanceof BareJid || this instanceof FullJid;
 	}
 
-	/**
-	 * Return the downcasted instance of this Jid. This method is unsafe, make sure to check that this is actually of the type of are casting to.
-	 * 
-	 * @return the downcasted instanced of this
-	 */
+	@Override
 	@SuppressWarnings("unchecked")
 	public final <T extends AbstractJid> T downcast() {
 		return (T) this;

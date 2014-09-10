@@ -30,4 +30,51 @@ public interface Jid extends Comparable<Jid> {
 
 	public String asUnescapedString();
 
+	public boolean isBareOrFullJid();
+
+	/**
+	 * Check if this is an instance of {@link BareJid}.
+	 * 
+	 * @return true if this is an instance of BareJid
+	 */
+	public boolean isBareJid();
+
+	/**
+	 * Check if this is an instance of {@link FullJid}.
+	 * 
+	 * @return true if this is an instance of FullJid
+	 */
+	public boolean isFullJid();
+
+	/**
+	 * Check if this is an instance of {@link DomainBareJid}.
+	 *  
+	 * @return true if this is an instance of DomainBareJid
+	 */
+	public boolean isDomainBareJid();
+
+	/**
+	 * Check if this is an instance of {@link DomainFullJid}.
+	 * 
+	 * @return true if this is an instance of DomainFullJid
+	 */
+	public boolean isDomainFullJid();
+
+	/**
+	 * Check if this is an instance of {@link BareJid} or {@link DomainBareJid}.
+	 * 
+	 * @return true if this is an instance of BareJid or DomainBareJid
+	 */
+	public boolean hasNoResource();
+
+	public boolean hasResource();
+
+	public boolean hasLocalpart();
+
+	/**
+	 * Return the downcasted instance of this Jid. This method is unsafe, make sure to check that this is actually of the type of are casting to.
+	 * 
+	 * @return the downcasted instanced of this
+	 */
+	public <T extends AbstractJid> T downcast();
 }
