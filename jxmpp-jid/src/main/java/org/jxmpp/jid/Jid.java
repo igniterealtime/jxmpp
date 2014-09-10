@@ -20,13 +20,20 @@ package org.jxmpp.jid;
  * A XMPP JID.
  * <p>
  * This is the super interface for all JID types. Every JID consists at least of
- * a domainpart. You can retrieve the escaped String with {@link Jid#toString()}
- * or the unsecaped String of the JID with {@link Jid#asUnescapedString()}.
+ * a domainpart. You can retrieve the escaped String with {@link #toString()}
+ * or the unsecaped String of the JID with {@link #asUnescapedString()}.
  * </p>
  */
 public interface Jid extends Comparable<Jid> {
 
 	public String getDomain();
+
+	/**
+	 * Returns the escaped String representation of this JID.
+	 *
+	 * @return the escaped String representation of this JID.
+	 */
+	public String toString();
 
 	public String asUnescapedString();
 
@@ -77,4 +84,5 @@ public interface Jid extends Comparable<Jid> {
 	 * @return the downcasted instanced of this
 	 */
 	public <T extends AbstractJid> T downcast();
+
 }
