@@ -16,12 +16,18 @@
  */
 package org.jxmpp.jid.impl;
 
+import org.jxmpp.jid.DomainBareJid;
 import org.jxmpp.jid.DomainFullJid;
 import org.jxmpp.stringprep.XmppStringPrepUtil;
 import org.jxmpp.stringprep.XmppStringprepException;
+import org.jxmpp.util.XmppStringUtils;
 
 /**
  * RFC6122 2.4 allows JIDs with only a domain and resource part.
+ * <p>
+ * Note that this implementation does not require an cache for the unescaped
+ * string, compared to {@link LocalDomainAndResourcepartJid}.
+ * </p>
  *
  */
 public class DomainAndResourcepartJid extends DomainpartJid implements DomainFullJid {
@@ -29,6 +35,7 @@ public class DomainAndResourcepartJid extends DomainpartJid implements DomainFul
 	private final String resource;
 
 	private String cache;
+	private DomainBareJid domainBareJidCache;
 
 	DomainAndResourcepartJid(String domain, String resource) throws XmppStringprepException {
 		super(domain);
@@ -52,7 +59,15 @@ public class DomainAndResourcepartJid extends DomainpartJid implements DomainFul
 	}
 
 	@Override
-	public final String asDomainResourceString() {
-		return toString();
+	public DomainBareJid asDomainBareJid() {
+		if (domainBareJidCache == null) {
+			try {
+				domainBareJidCache = JidCreate.domainBareFrom(XmppStringUtils
+						.completeJidFrom(null, domain, resource));
+			} catch (XmppStringprepException e) {
+				throw new IllegalStateException(e);
+			}
+		}
+		return domainBareJidCache;
 	}
 }

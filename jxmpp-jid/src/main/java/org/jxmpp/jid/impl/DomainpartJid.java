@@ -76,4 +76,9 @@ public class DomainpartJid extends AbstractJid implements DomainBareJid {
 			throw new IllegalArgumentException("Argument can't be the empty string");
 		}
 	}
+
+	@Override
+	public DomainBareJid asDomainBareJid() {
+		return this;
+	}
 }

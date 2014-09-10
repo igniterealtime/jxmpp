@@ -24,5 +24,4 @@ public interface DomainFullJid extends DomainBareJid {
 
 	public String getResource();
 
-	public String asDomainResourceString();
 }

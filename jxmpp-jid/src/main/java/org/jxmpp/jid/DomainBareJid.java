@@ -21,4 +21,6 @@ package org.jxmpp.jid;
  */
 public interface DomainBareJid extends Jid {
 
+	public DomainBareJid asDomainBareJid();
+
 }
