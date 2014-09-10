@@ -42,7 +42,7 @@ public class JidUtil {
 			DomainFullJid domainFullJid = (DomainFullJid) jid;
 			return domainFullJid.asDomainBareJid();
 		} else {
-			throw new IllegalStateException(
+			throw new AssertionError(
 					"Given JID has a resource but is neither a FullJid or a DomainFullJid");
 		}
 	}

@@ -67,7 +67,7 @@ public class LocalDomainAndResourcepartJid extends LocalAndDomainpartJid impleme
 				bareJidCache = JidCreate.bareFrom(XmppStringUtils
 						.completeJidFrom(localpart, domain));
 			} catch (XmppStringprepException e) {
-				throw new IllegalStateException(e);
+				throw new AssertionError(e);
 			}
 		}
 		return bareJidCache;

@@ -65,7 +65,7 @@ public class DomainAndResourcepartJid extends DomainpartJid implements DomainFul
 				domainBareJidCache = JidCreate.domainBareFrom(XmppStringUtils
 						.completeJidFrom(null, domain, resource));
 			} catch (XmppStringprepException e) {
-				throw new IllegalStateException(e);
+				throw new AssertionError(e);
 			}
 		}
 		return domainBareJidCache;
