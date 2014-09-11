@@ -70,4 +70,9 @@ public class DomainAndResourcepartJid extends DomainpartJid implements DomainFul
 		}
 		return domainBareJidCache;
 	}
+
+	@Override
+	public final boolean hasNoResource() {
+		return false;
+	}
 }

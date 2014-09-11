@@ -44,9 +44,7 @@ public abstract class AbstractJid implements Jid {
 	}
 
 	@Override
-	public final boolean hasNoResource() {
-		return this instanceof BareJid || this instanceof DomainBareJid;
-	}
+	public abstract boolean hasNoResource();
 
 	@Override
 	public final boolean hasResource() {

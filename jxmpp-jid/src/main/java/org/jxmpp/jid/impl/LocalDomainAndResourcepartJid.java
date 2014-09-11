@@ -72,4 +72,9 @@ public class LocalDomainAndResourcepartJid extends LocalAndDomainpartJid impleme
 		}
 		return bareJidCache;
 	}
+
+	@Override
+	public final boolean hasNoResource() {
+		return false;
+	}
 }
