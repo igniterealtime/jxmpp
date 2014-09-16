@@ -95,10 +95,36 @@ public class XmppDateTime {
 			if (CONVERT_TIMEZONE) {
 				dateString = convertXep82TimezoneToRfc822(dateString);
 			}
+            if (containsMicroseconds(dateString)) {
+                dateString = removeMicroSeconds(dateString);
+            }
 			synchronized (FORMATTER) {
 				return FORMATTER.parse(dateString);
 			}
 		}
+
+        private String removeMicroSeconds(String dateString) {
+            StringBuilder outString = new StringBuilder();
+            Pattern p = Pattern.compile("(?<=\\.)\\d*(?=(Z|\\+|\\-))");
+            Matcher m = p.matcher(dateString);
+            if (m.find()) {
+                if (m.group(0).length() > 3) {
+                    int locDecimal = dateString.indexOf(".");
+                    outString.append(dateString.substring(0, locDecimal + 4));
+                    outString.append(dateString.substring(locDecimal + m.group(0).length() + 1));
+                }
+            }
+            return outString.toString();
+        }
+
+        private boolean containsMicroseconds(String dateString) {
+            boolean retVal = false;
+            String test = removeMicroSeconds(dateString);
+            if(!("".equals(test))) {
+                retVal = true;
+            }
+            return retVal;
+        }
 	}
 
 	private static final List<PatternCouplings> couplings = new ArrayList<PatternCouplings>();

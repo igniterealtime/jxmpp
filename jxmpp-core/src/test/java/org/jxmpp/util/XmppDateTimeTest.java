@@ -229,4 +229,13 @@ public class XmppDateTimeTest {
 	public void parseNoYear() throws Exception {
 		XmppDateTime.parseDate("130T23:08:25");
 	}
+
+    @Test
+    public void testParseMicroseconds() throws ParseException {
+        Date date = XmppDateTime.parseDate("2014-09-16T15:14:13.123456Z");
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.setTimeZone(TimeZone.getTimeZone("GMT"));
+        assertEquals(123,cal.get(Calendar.MILLISECOND));
+    }
 }
