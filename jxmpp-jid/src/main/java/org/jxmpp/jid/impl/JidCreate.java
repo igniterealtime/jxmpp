@@ -37,7 +37,9 @@ public class JidCreate {
 	public static Jid from(String localpart, String domainpart, String resource) throws XmppStringprepException {
 		String jidString = XmppStringUtils.completeJidFrom(localpart, domainpart, resource);
 		Jid jid = JID_CACHE.get(jidString);
-		if (jid != null) {
+		// In order to avoid JID String hash collision attacks, we have to
+		// compare the JID Strings char by char
+		if (jid != null && jid.toString().equals(jidString)) {
 			return jid;
 		}
 		if (localpart.length() > 0 && domainpart.length() > 0 && resource.length() > 0) {
@@ -75,7 +77,12 @@ public class JidCreate {
 	public static BareJid bareFrom(String jid) throws XmppStringprepException {
 		BareJid bareJid = BAREJID_CACHE.get(jid);
 		if (bareJid != null) {
-			return bareJid;
+			String bareJidString = XmppStringUtils.parseBareJid(jid);
+			// This could result in false negatives of the Cache, but helps
+			// preventing Jid String hash collision attacks
+			if (bareJid.toString().equals(bareJidString)) {
+				return bareJid;
+			}
 		}
 
 		String localpart = XmppStringUtils.parseLocalpart(jid);
@@ -87,7 +94,9 @@ public class JidCreate {
 
 	public static FullJid fullFrom(String jid) throws XmppStringprepException {
 		FullJid fullJid = FULLJID_CACHE.get(jid);
-		if (fullJid != null) {
+		// In order to avoid JID hash String collision attacks, we have to
+		// compare the JID Strings char by char
+		if (fullJid != null && fullJid.toString().equals(jid)) {
 			return fullJid;
 		}
 
@@ -112,12 +121,14 @@ public class JidCreate {
 	}
 
 	public static DomainBareJid domainBareFrom(String jid) throws XmppStringprepException {
+		String domain = XmppStringUtils.parseDomain(jid);
 		DomainBareJid domainJid = DOMAINJID_CACHE.get(jid);
 		if (domainJid != null) {
-			return domainJid;
+			if (domainJid.toString().equals(domain)) {
+				return domainJid;
+			}
 		}
 
-		String domain = XmppStringUtils.parseDomain(jid);
 		domainJid = new DomainpartJid(domain);
 		DOMAINJID_CACHE.put(jid, domainJid);
 		return domainJid;
@@ -137,7 +148,9 @@ public class JidCreate {
 
 	public static DomainFullJid donmainFullFrom(String jid) throws XmppStringprepException {
 		DomainFullJid domainResourceJid = DOMAINRESOURCEJID_CACHE.get(jid);
-		if (domainResourceJid != null) {
+		// In order to avoid JID hash String collision attacks, we have to
+		// compare the JID Strings char by char
+		if (domainResourceJid != null && domainResourceJid.toString().equals(jid)) {
 			return domainResourceJid;
 		}
 
