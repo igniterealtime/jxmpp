@@ -32,6 +32,7 @@ public class LocalAndDomainpartJid extends DomainpartJid implements BareJid {
 	LocalAndDomainpartJid(String localpart, String domain) throws XmppStringprepException {
 		super(domain);
 		localpart = XmppStringPrepUtil.nodeprep(localpart);
+		// First prep the String, then assure the limits of the *result*
 		assertNotLongerThen1023BytesOrEmpty(localpart);
 		this.localpart = localpart;
 	}

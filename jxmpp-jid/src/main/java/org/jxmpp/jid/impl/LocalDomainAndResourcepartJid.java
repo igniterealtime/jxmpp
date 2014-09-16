@@ -34,6 +34,7 @@ public class LocalDomainAndResourcepartJid extends LocalAndDomainpartJid impleme
 	public LocalDomainAndResourcepartJid(String localpart, String domain, String resource) throws XmppStringprepException {
 		super(localpart, domain);
 		resource = XmppStringPrepUtil.resourceprep(resource);
+		// First prep the String, then assure the limits of the *result*
 		assertNotLongerThen1023BytesOrEmpty(resource);
 		this.resource = resource;
 	}
