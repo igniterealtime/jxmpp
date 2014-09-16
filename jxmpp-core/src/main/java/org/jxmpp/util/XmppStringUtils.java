@@ -95,10 +95,25 @@ public class XmppStringUtils {
 	 * be returned.
 	 * 
 	 * @param jid
-	 *            the XMPP address.
-	 * @return the bare XMPP address without resource information.
+	 *            the XMPP JID.
+	 * @return the bare XMPP JID without resource information.
+	 * @deprecated use {@link #parseBareJid(String)} instead
 	 */
+	@Deprecated
 	public static String parseBareAddress(String jid) {
+		return parseBareJid(jid);
+	}
+
+	/**
+	 * Returns the JID with any resource information removed. For example, for
+	 * the address "matt@jivesoftware.com/Smack", "matt@jivesoftware.com" would
+	 * be returned.
+	 * 
+	 * @param jid
+	 *            the XMPP JID.
+	 * @return the bare XMPP JID without resource information.
+	 */
+	public static String parseBareJid(String jid) {
 		int slashIndex = jid.indexOf('/');
 		if (slashIndex < 0) {
 			return jid;
