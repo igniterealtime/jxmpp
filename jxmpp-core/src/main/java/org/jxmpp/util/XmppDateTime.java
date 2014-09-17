@@ -314,11 +314,11 @@ public class XmppDateTime {
 
 
 	/**
-	 * A pattern with 3 capturing groups, the second one are the digits after
-	 * the 'dot'. The last one is the timezone definition, either 'Z', '+1234'
-	 * or '-1234'.
+	 * A pattern with 3 capturing groups, the second one are at least 4 digits
+	 * after the 'dot'. The last one is the timezone definition, either 'Z',
+	 * '+1234' or '-1234'.
 	 */
-	private static final Pattern SECOND_FRACTION = Pattern.compile(".*\\.(\\d\\d\\d\\d+)(Z|\\+\\d{4}|\\-\\d{4})");
+	private static final Pattern SECOND_FRACTION = Pattern.compile(".*\\.(\\d{4,})(Z|((\\+|-)\\d{4}))");
 
 	/**
 	 * Truncate the date String so that the fractional second addendum only
