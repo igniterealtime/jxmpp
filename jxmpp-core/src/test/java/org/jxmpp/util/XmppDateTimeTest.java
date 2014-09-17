@@ -238,4 +238,13 @@ public class XmppDateTimeTest {
         cal.setTimeZone(TimeZone.getTimeZone("GMT"));
         assertEquals(123,cal.get(Calendar.MILLISECOND));
     }
+
+    @Test
+    public void testDoesntParseMilliseconds() throws ParseException {
+        Date date = XmppDateTime.parseDate("2014-09-16T15:14:13.12Z");
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.setTimeZone(TimeZone.getTimeZone("GMT"));
+        assertEquals(12,cal.get(Calendar.MILLISECOND));
+    }
 }

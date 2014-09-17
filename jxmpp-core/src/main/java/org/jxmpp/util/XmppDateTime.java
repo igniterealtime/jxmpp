@@ -95,33 +95,34 @@ public class XmppDateTime {
 			if (CONVERT_TIMEZONE) {
 				dateString = convertXep82TimezoneToRfc822(dateString);
 			}
-            if (containsMicroseconds(dateString)) {
-                dateString = removeMicroSeconds(dateString);
-            }
-			synchronized (FORMATTER) {
+            dateString = removeMicroSeconds(dateString);
+            synchronized (FORMATTER) {
 				return FORMATTER.parse(dateString);
 			}
 		}
 
-        private String removeMicroSeconds(String dateString) {
+        //
+        /**
+         * Truncates the digits after a decimal point to three digits (to remove microseconds). <a
+         * href="http://xmpp.org/extensions/xep-0082.html">XEP-0082</a> allows the use of microseconds,
+         * but DateFormat cannot parse automatically.
+         *
+         * @param dateString
+         *            the date string to parse
+         * @return the date string with no more than three digits after the decimal point
+         */
+        private static String removeMicroSeconds(final String dateString) {
+            String retVal = dateString;
             StringBuilder outString = new StringBuilder();
-            Pattern p = Pattern.compile("(?<=\\.)\\d*(?=(Z|\\+|\\-))");
+            Pattern p = Pattern.compile("(?<=\\.)\\d*(?=(\\+|Z)?)");
             Matcher m = p.matcher(dateString);
             if (m.find()) {
                 if (m.group(0).length() > 3) {
                     int locDecimal = dateString.indexOf(".");
                     outString.append(dateString.substring(0, locDecimal + 4));
                     outString.append(dateString.substring(locDecimal + m.group(0).length() + 1));
+                    retVal = outString.toString();
                 }
-            }
-            return outString.toString();
-        }
-
-        private boolean containsMicroseconds(String dateString) {
-            boolean retVal = false;
-            String test = removeMicroSeconds(dateString);
-            if(!("".equals(test))) {
-                retVal = true;
             }
             return retVal;
         }
