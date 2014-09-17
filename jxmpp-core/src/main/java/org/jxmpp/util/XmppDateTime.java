@@ -73,11 +73,21 @@ public class XmppDateTime {
 		private final DateFormat FORMATTER;
 		private final boolean CONVERT_TIMEZONE;
 
+		/**
+		 * XEP-0082 allows the fractional second addendum to contain ANY number
+		 * of digits. Implementations are therefore free to send as much digits
+		 * after the dot as they want, therefore we need to truncate the
+		 * amount. Certain platforms are only able to parse up to milliseconds,
+		 * so truncate to 3 digits after the dot.
+		 */
+		private final boolean TRUNCATE_TO_MILLIS;
+
 		private DateFormatType(String dateFormat) {
 			FORMAT_STRING = dateFormat;
 			FORMATTER = new SimpleDateFormat(FORMAT_STRING);
 			FORMATTER.setTimeZone(TimeZone.getTimeZone("UTC"));
 			CONVERT_TIMEZONE = dateFormat.charAt(dateFormat.length() - 1) == 'Z';
+			TRUNCATE_TO_MILLIS = dateFormat.contains("SSS");
 		}
 
 		public String format(Date date) {
@@ -94,6 +104,9 @@ public class XmppDateTime {
 		public Date parse(String dateString) throws ParseException {
 			if (CONVERT_TIMEZONE) {
 				dateString = convertXep82TimezoneToRfc822(dateString);
+			}
+			if (TRUNCATE_TO_MILLIS) {
+				dateString = truncateToMilliSeconds(dateString);
 			}
 			synchronized (FORMATTER) {
 				return FORMATTER.parse(dateString);
@@ -297,6 +310,35 @@ public class XmppDateTime {
 		}
 
 		return result;
+	}
+
+
+	/**
+	 * A pattern with 3 capturing groups, the second one are the digits after
+	 * the 'dot'. The last one is the timezone definition, either 'Z', '+1234'
+	 * or '-1234'.
+	 */
+	private static final Pattern SECOND_FRACTION = Pattern.compile(".*\\.(\\d\\d\\d\\d+)(Z|\\+\\d{4}|\\-\\d{4})");
+
+	/**
+	 * Truncate the date String so that the fractional second addendum only
+	 * contains 3 digits. Returns the given string unmodified if it doesn't
+	 * match {@link #SECOND_FRACTION}.
+	 * 
+	 * @param dateString
+	 * @return the date String where the fractional second addendum is a most 3
+	 *         digits
+	 */
+	private static String truncateToMilliSeconds(String dateString) {
+		Matcher matcher = SECOND_FRACTION.matcher(dateString);
+		if (!matcher.matches()) {
+			return dateString;
+		}
+		StringBuilder sb = new StringBuilder();
+		int posDecimal = dateString.indexOf(".");
+		sb.append(dateString.substring(0, posDecimal + 4));
+		sb.append(dateString.substring(posDecimal + matcher.group(1).length() + 1));
+		return sb.toString();
 	}
 
 	private static Calendar determineNearestDate(final Calendar now, List<Calendar> dates) {
