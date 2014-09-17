@@ -24,7 +24,7 @@ package org.jxmpp.jid;
  * or the unsecaped String of the JID with {@link #asUnescapedString()}.
  * </p>
  */
-public interface Jid extends Comparable<Jid> {
+public interface Jid extends Comparable<Jid>, CharSequence {
 
 	public String getDomain();
 
