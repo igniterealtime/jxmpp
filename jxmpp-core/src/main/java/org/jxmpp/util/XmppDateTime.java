@@ -134,6 +134,7 @@ public class XmppDateTime {
 	 *             if the specified string cannot be parsed
 	 */
 	public static Date parseXEP0082Date(String dateString) throws ParseException {
+        dateString = removeMicroSeconds(dateString);
 		for (PatternCouplings coupling : couplings) {
 			Matcher matcher = coupling.pattern.matcher(dateString);
 
