@@ -325,7 +325,6 @@ public class XmppDateTime {
 		}
 	}
 
-    //
     /**
      * Truncates the digits after a decimal point to three digits (to remove microseconds). <a
      * href="http://xmpp.org/extensions/xep-0082.html">XEP-0082</a> allows the use of microseconds,
@@ -336,7 +335,7 @@ public class XmppDateTime {
      *            the date string to parse
      * @return the date string with no more than three digits after the decimal point
      */
-    private static String removeMicroSeconds(final String dateString) {
+    private static final String removeMicroSeconds(final String dateString) {
         String retVal = dateString;
         StringBuilder outString = new StringBuilder();
         Pattern p = Pattern.compile("(?<=\\.)\\d*(?=(\\+|Z)?)");
