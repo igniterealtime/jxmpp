@@ -95,37 +95,10 @@ public class XmppDateTime {
 			if (CONVERT_TIMEZONE) {
 				dateString = convertXep82TimezoneToRfc822(dateString);
 			}
-            dateString = removeMicroSeconds(dateString);
             synchronized (FORMATTER) {
 				return FORMATTER.parse(dateString);
 			}
 		}
-
-        //
-        /**
-         * Truncates the digits after a decimal point to three digits (to remove microseconds). <a
-         * href="http://xmpp.org/extensions/xep-0082.html">XEP-0082</a> allows the use of microseconds,
-         * but DateFormat cannot parse automatically.
-         *
-         * @param dateString
-         *            the date string to parse
-         * @return the date string with no more than three digits after the decimal point
-         */
-        private static String removeMicroSeconds(final String dateString) {
-            String retVal = dateString;
-            StringBuilder outString = new StringBuilder();
-            Pattern p = Pattern.compile("(?<=\\.)\\d*(?=(\\+|Z)?)");
-            Matcher m = p.matcher(dateString);
-            if (m.find()) {
-                if (m.group(0).length() > 3) {
-                    int locDecimal = dateString.indexOf(".");
-                    outString.append(dateString.substring(0, locDecimal + 4));
-                    outString.append(dateString.substring(locDecimal + m.group(0).length() + 1));
-                    retVal = outString.toString();
-                }
-            }
-            return retVal;
-        }
 	}
 
 	private static final List<PatternCouplings> couplings = new ArrayList<PatternCouplings>();
@@ -194,6 +167,7 @@ public class XmppDateTime {
 	 *             if the specified string cannot be parsed
 	 */
 	public static Date parseDate(String dateString) throws ParseException {
+        dateString = removeMicroSeconds(dateString);
 		Matcher matcher = xep0091Pattern.matcher(dateString);
 
 		/*
@@ -350,4 +324,37 @@ public class XmppDateTime {
 			formatter = dateFormat;
 		}
 	}
+
+    //
+    /**
+     * Truncates the digits after a decimal point to three digits (to remove microseconds). <a
+     * href="http://xmpp.org/extensions/xep-0082.html">XEP-0082</a> allows the use of microseconds,
+     * but DateFormat cannot parse automatically.
+     * Will also handle XEP-0091, where no time zone is provided.
+     *
+     * @param dateString
+     *            the date string to parse
+     * @return the date string with no more than three digits after the decimal point
+     */
+    private static String removeMicroSeconds(final String dateString) {
+        String retVal = dateString;
+        StringBuilder outString = new StringBuilder();
+        Pattern p = Pattern.compile("(?<=\\.)\\d*(?=(\\+|Z)?)");
+        Matcher m = p.matcher(dateString);
+        if (m.find()) {
+            int locDecimal = dateString.indexOf(".");
+            String noMilliseconds = dateString.substring(0,locDecimal);
+            Matcher matcher = xep0091Pattern.matcher(noMilliseconds);
+            if(matcher.matches()) { // If old XEP-0091 message
+                retVal = noMilliseconds; // Just remove all milliseconds.
+            } else {
+                if (m.group(0).length() > 3) {
+                    outString.append(dateString.substring(0, locDecimal + 4));
+                    outString.append(dateString.substring(locDecimal + m.group(0).length() + 1));
+                    retVal = outString.toString();
+                }
+            }
+        }
+        return retVal;
+    }
 }
