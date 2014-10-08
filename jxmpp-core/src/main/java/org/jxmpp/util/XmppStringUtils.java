@@ -299,7 +299,8 @@ public class XmppStringUtils {
 				if (c == '\\' && i + 2 < n) {
 					char c2 = localpartChars[i + 1];
 					char c3 = localpartChars[i + 2];
-					if (c2 == '2') {
+					switch(c2) {
+					case '2':
 						switch (c3) {
 						case '0':
 							buf.append(' ');
@@ -322,7 +323,8 @@ public class XmppStringUtils {
 							i += 2;
 							break compare;
 						}
-					} else if (c2 == '3') {
+						break;
+					case '3':
 						switch (c3) {
 						case 'a':
 							buf.append(':');
@@ -337,18 +339,21 @@ public class XmppStringUtils {
 							i += 2;
 							break compare;
 						}
-					} else if (c2 == '4') {
+						break;
+					case '4':
 						if (c3 == '0') {
 							buf.append("@");
 							i += 2;
 							break compare;
 						}
-					} else if (c2 == '5') {
+						break;
+					case '5':
 						if (c3 == 'c') {
 							buf.append("\\");
 							i += 2;
 							break compare;
 						}
+						break;
 					}
 				}
 				buf.append(c);
