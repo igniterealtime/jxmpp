@@ -23,15 +23,14 @@ public class XmppStringprepException extends Exception {
 	 */
 	private static final long serialVersionUID = -8491853210107124624L;
 
-	public XmppStringprepException(String message) {
-		super(message);
+	private final String causingString;
+
+	public XmppStringprepException(String causingString, Exception exception) {
+		super("XmppStringprepException caused by " + causingString + ':' + exception.getMessage(), exception);
+		this.causingString = causingString;
 	}
-	
-	public XmppStringprepException(String message, Exception exception) {
-		super(message, exception);
-	}
-	
-	public XmppStringprepException(Exception exception) {
-		super(exception);
+
+	public String getCausingString() {
+		return causingString;
 	}
 }

@@ -79,6 +79,34 @@ public interface Jid extends Comparable<Jid>, CharSequence {
 	public boolean hasLocalpart();
 
 	/**
+	 * Convert this Jid to a BareJid if possible.
+	 *
+	 * @return the corresponding BareJid or null.
+	 */
+	public BareJid asBareJidIfPossible();
+
+	/**
+	 * Convert this Jid to a FullJid if possible.
+	 *
+	 * @return the corresponding FullJid or null.
+	 */
+	public FullJid asFullJidIfPossible();
+
+	/**
+	 * Convert this Jid to a DomainBareJid if possible.
+	 *
+	 * @return the corresponding DomainBareJid or null.
+	 */
+	public DomainBareJid asDomainBareJidIfPossible();
+
+	/**
+	 * Convert this Jid to a DomainFullJid if possible.
+	 *
+	 * @return the corresponding DomainFullJid or null.
+	 */
+	public DomainFullJid asDomainFullJidIfPossible();
+
+	/**
 	 * Return the downcasted instance of this Jid. This method is unsafe, make sure to check that this is actually of the type of are casting to.
 	 * 
 	 * @return the downcasted instanced of this

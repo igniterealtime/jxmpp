@@ -16,7 +16,14 @@
  */
 package org.jxmpp.jid.util;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import org.jxmpp.jid.BareJid;
+import org.jxmpp.jid.DomainBareJid;
 import org.jxmpp.jid.DomainFullJid;
 import org.jxmpp.jid.FullJid;
 import org.jxmpp.jid.Jid;
@@ -113,6 +120,180 @@ public class JidUtil {
 
 		public NotABareJidStringException(String message) {
 			super(message);
+		}
+	}
+
+	public static void filterBareJid(Collection<? extends Jid> in, Collection<BareJid> out) {
+		for (Jid jid : in) {
+			BareJid bareJid = jid.asBareJidIfPossible();
+			if (bareJid != null) {
+				out.add(bareJid);
+			}
+		}
+	}
+
+	public static Set<BareJid> filterBareJidSet(Collection<? extends Jid> input) {
+		Set<BareJid> res = new HashSet<BareJid>(input.size());
+		filterBareJid(input, res);
+		return res;
+	}
+
+	public static List<BareJid> filterBareJidList(Collection<? extends Jid> input) {
+		List<BareJid> res = new ArrayList<BareJid>(input.size());
+		filterBareJid(input, res);
+		return res;
+	}
+
+	public static void filterFullJid(Collection<? extends Jid> in, Collection<FullJid> out) {
+		for (Jid jid : in) {
+			FullJid fullJid = jid.asFullJidIfPossible();
+			if (fullJid != null) {
+				out.add(fullJid);
+			}
+		}
+	}
+
+	public static Set<FullJid> filterFullJidSet(Collection<? extends Jid> input) {
+		Set<FullJid> res = new HashSet<FullJid>(input.size());
+		filterFullJid(input, res);
+		return res;
+	}
+
+	public static List<FullJid> filterFullJidList(Collection<? extends Jid> input) {
+		List<FullJid> res = new ArrayList<FullJid>(input.size());
+		filterFullJid(input, res);
+		return res;
+	}
+
+	public static void filterDomainBareJid(Collection<? extends Jid> in, Collection<DomainBareJid> out) {
+		for (Jid jid : in) {
+			DomainBareJid domainBareJid = jid.asDomainBareJidIfPossible();
+			if (domainBareJid != null) {
+				out.add(domainBareJid);
+			}
+		}
+	}
+
+	public static Set<DomainBareJid> filterDomainBareJidSet(Collection<? extends Jid> input) {
+		Set<DomainBareJid> res = new HashSet<DomainBareJid>(input.size());
+		filterDomainBareJid(input, res);
+		return res;
+	}
+
+	public static List<DomainBareJid> filterDomainBareJidList(Collection<? extends Jid> input) {
+		List<DomainBareJid> res = new ArrayList<DomainBareJid>(input.size());
+		filterDomainBareJid(input, res);
+		return res;
+	}
+
+	public static void filterDomainFullJid(Collection<? extends Jid> in, Collection<DomainFullJid> out) {
+		for (Jid jid : in) {
+			DomainFullJid domainFullJid = jid.asDomainFullJidIfPossible();
+			if (domainFullJid != null) {
+				out.add(domainFullJid);
+			}
+		}
+	}
+
+	public static Set<DomainFullJid> filterDomainFullJidSet(Collection<? extends Jid> input) {
+		Set<DomainFullJid> res = new HashSet<DomainFullJid>(input.size());
+		filterDomainFullJid(input, res);
+		return res;
+	}
+
+	public static List<DomainFullJid> filterDomainFullJidList(Collection<? extends Jid> input) {
+		List<DomainFullJid> res = new ArrayList<DomainFullJid>(input.size());
+		filterDomainFullJid(input, res);
+		return res;
+	}
+
+	public static Set<BareJid> bareJidSetFrom(Collection<String> jidStrings) {
+		Set<BareJid> res = new HashSet<BareJid>(jidStrings.size());
+		bareJidsFrom(jidStrings, res, null);
+		return res;
+	}
+
+	/**
+	 * Convert a collection of Strings to a Set of {@link BareJid}'s.
+	 * <p>
+	 * If the optional argument <code>exceptions</code> is given, then all {@link XmppStringprepException} thrown while
+	 * converting will be added to the list. Otherwise, if an XmppStringprepExceptions is thrown, it will be wrapped in
+	 * a AssertionError Exception and throw.
+	 * </p>
+	 * 
+	 * @param jidStrings
+	 *            the strings that are going to get converted
+	 * @param output
+	 *            the collection where the BareJid's will be added to
+	 * @param exceptions
+	 */
+	public static void bareJidsFrom(Collection<String> jidStrings, Collection<BareJid> output,
+			List<XmppStringprepException> exceptions) {
+		for (String jid : jidStrings) {
+			try {
+				BareJid bareJid = JidCreate.bareFrom(jid);
+				output.add(bareJid);
+			} catch (XmppStringprepException e) {
+				if (exceptions != null) {
+					exceptions.add(e);
+				} else {
+					throw new AssertionError(e);
+				}
+			}
+		}
+	}
+
+	public static Set<Jid> jidSetFrom(Collection<String> jidStrings) {
+		Set<Jid> res = new HashSet<Jid>(jidStrings.size());
+		jidsFrom(jidStrings, res, null);
+		return res;
+	}
+
+	/**
+	 * Convert a collection of Strings to a Set of {@link Jid}'s.
+	 * <p>
+	 * If the optional argument <code>exceptions</code> is given, then all {@link XmppStringprepException} thrown while
+	 * converting will be added to the list. Otherwise, if an XmppStringprepExceptions is thrown, it will be wrapped in
+	 * a AssertionError Exception and throw.
+	 * </p>
+	 * 
+	 * @param jidStrings
+	 *            the strings that are going to get converted
+	 * @param output
+	 *            the collection where the Jid's will be added to
+	 * @param exceptions
+	 */
+	public static void jidsFrom(Collection<String> jidStrings, Collection<Jid> output,
+			List<XmppStringprepException> exceptions) {
+		for (String jidString : jidStrings) {
+			try {
+				Jid jid = JidCreate.from(jidString);
+				output.add(jid);
+			} catch (XmppStringprepException e) {
+				if (exceptions != null) {
+					exceptions.add(e);
+				} else {
+					throw new AssertionError(e);
+				}
+			}
+		}
+	}
+
+	public static List<String> toStringList(Collection<? extends Jid> jids) {
+		List<String> res = new ArrayList<String>(jids.size());
+		toStrings(jids, res);
+		return res;
+	}
+
+	public static Set<String> toStringSet(Collection<? extends Jid> jids) {
+		Set<String> res = new HashSet<String>(jids.size());
+		toStrings(jids, res);
+		return res;
+	}
+
+	public static void toStrings(Collection<? extends Jid> jids, Collection<String> jidStrings) {
+		for (Jid jid : jids) {
+			jidStrings.add(jid.toString());
 		}
 	}
 }

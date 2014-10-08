@@ -17,6 +17,8 @@
 package org.jxmpp.jid.impl;
 
 import org.jxmpp.jid.BareJid;
+import org.jxmpp.jid.DomainBareJid;
+import org.jxmpp.jid.DomainFullJid;
 import org.jxmpp.jid.FullJid;
 import org.jxmpp.stringprep.XmppStringPrepUtil;
 import org.jxmpp.stringprep.XmppStringprepException;
@@ -82,5 +84,25 @@ public class LocalDomainAndResourcepartJid extends LocalAndDomainpartJid impleme
 	@Override
 	public final boolean hasNoResource() {
 		return false;
+	}
+
+	@Override
+	public BareJid asBareJidIfPossible() {
+		return asBareJid();
+	}
+
+	@Override
+	public FullJid asFullJidIfPossible() {
+		return this;
+	}
+
+	@Override
+	public DomainBareJid asDomainBareJidIfPossible() {
+		return null;
+	}
+
+	@Override
+	public DomainFullJid asDomainFullJidIfPossible() {
+		return null;
 	}
 }

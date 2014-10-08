@@ -47,7 +47,7 @@ public class LibIdnXmppStringprep implements XmppStringprep {
 			// Allow unassigned codepoints as of RFC6122 A.2
 			return Stringprep.nodeprep(string, true);
 		} catch (StringprepException e) {
-			throw new XmppStringprepException(e);
+			throw new XmppStringprepException(string, e);
 		}
 	}
 
@@ -58,7 +58,7 @@ public class LibIdnXmppStringprep implements XmppStringprep {
 			// RFC3453 7, RFC3490 4 1) and RFC6122 2.2
 			return Stringprep.nameprep(string);
 		} catch (StringprepException e) {
-			throw new XmppStringprepException(e);
+			throw new XmppStringprepException(string, e);
 		}
 	}
 
@@ -68,7 +68,7 @@ public class LibIdnXmppStringprep implements XmppStringprep {
 			// Allow unassigned codepoints as of RFC6122 B.2
 			return Stringprep.resourceprep(string, true);
 		} catch (StringprepException e) {
-			throw new XmppStringprepException(e);
+			throw new XmppStringprepException(string, e);
 		}
 	}
 }
