@@ -140,6 +140,12 @@ public class XmppStringUtils {
 
 	/**
 	 * Returns true if <code>jid</code> is a bare JID ("foo@bar.com").
+	 * <p>
+	 * This method may return true for Strings that are not valid JIDs (e.g. because of Stringprep violations). Consider
+	 * using <code>org.jxmpp.jid.util.JidUtil.validateBareJid(String)</code> from jxmpp-jid instead of this method as it
+	 * exceptions provide a meaningful message string why the JID is not a bare JID and will also check for Stringprep
+	 * errors.
+	 * </p>
 	 *
 	 * @param jid
 	 * @return true if bare JID, false otherwise
