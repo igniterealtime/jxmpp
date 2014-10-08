@@ -84,6 +84,11 @@ public class DomainpartJid extends AbstractJid implements DomainBareJid {
 	}
 
 	@Override
+	public String asDomainBareJidString() {
+		return toString();
+	}
+
+	@Override
 	public boolean hasNoResource() {
 		return true;
 	}

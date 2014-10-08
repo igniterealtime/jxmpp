@@ -75,6 +75,11 @@ public class LocalDomainAndResourcepartJid extends LocalAndDomainpartJid impleme
 	}
 
 	@Override
+	public String asBareJidString() {
+		return asBareJid().toString();
+	}
+
+	@Override
 	public final boolean hasNoResource() {
 		return false;
 	}

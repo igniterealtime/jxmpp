@@ -23,4 +23,5 @@ public interface DomainBareJid extends Jid {
 
 	public DomainBareJid asDomainBareJid();
 
+	public String asDomainBareJidString();
 }
