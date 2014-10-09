@@ -34,6 +34,11 @@ public class JidCreate {
 	private static final Cache<String, DomainBareJid> DOMAINJID_CACHE = new LruCache<String, DomainBareJid>(100);
 	private static final Cache<String, DomainFullJid> DOMAINRESOURCEJID_CACHE = new LruCache<String, DomainFullJid>(100);
 
+	public static Jid from(CharSequence localpart, CharSequence domainpart, CharSequence resource)
+			throws XmppStringprepException {
+		return from(localpart.toString(), domainpart.toString(), resource.toString());
+	}
+
 	public static Jid from(String localpart, String domainpart, String resource) throws XmppStringprepException {
 		String jidString = XmppStringUtils.completeJidFrom(localpart, domainpart, resource);
 		Jid jid = JID_CACHE.get(jidString);
@@ -57,11 +62,19 @@ public class JidCreate {
 		return jid;
 	}
 
+	public static Jid from(CharSequence jid) throws XmppStringprepException {
+		return from(jid.toString());
+	}
+
 	public static Jid from(String jidString) throws XmppStringprepException {
 		String localpart = XmppStringUtils.parseLocalpart(jidString);
 		String domainpart = XmppStringUtils.parseDomain(jidString);
 		String resource = XmppStringUtils.parseResource(jidString);
 		return from(localpart, domainpart, resource);
+	}
+
+	public static Jid fromUnescaped(CharSequence unescapedJid) throws XmppStringprepException {
+		return fromUnescaped(unescapedJid.toString());
 	}
 
 	public static Jid fromUnescaped(String escapedJidString) throws XmppStringprepException {
@@ -72,6 +85,10 @@ public class JidCreate {
 		String domainpart = XmppStringUtils.parseDomain(escapedJidString);
 		String resource = XmppStringUtils.parseResource(escapedJidString);
 		return from(localpart, domainpart, resource);
+	}
+
+	public static BareJid bareFrom(CharSequence jid) throws XmppStringprepException {
+		return bareFrom(jid.toString());
 	}
 
 	public static BareJid bareFrom(String jid) throws XmppStringprepException {
@@ -90,6 +107,10 @@ public class JidCreate {
 		bareJid = new LocalAndDomainpartJid(localpart, domainpart);
 		BAREJID_CACHE.put(jid, bareJid);
 		return bareJid;
+	}
+
+	public static FullJid fullFrom(CharSequence jid) throws XmppStringprepException {
+		return fullFrom(jid.toString());
 	}
 
 	public static FullJid fullFrom(String jid) throws XmppStringprepException {
@@ -120,6 +141,10 @@ public class JidCreate {
 		return domainBareFrom(jid);
 	}
 
+	public static DomainBareJid domainBareFrom(CharSequence jid) throws XmppStringprepException {
+		return domainBareFrom(jid.toString());
+	}
+
 	public static DomainBareJid domainBareFrom(String jid) throws XmppStringprepException {
 		String domain = XmppStringUtils.parseDomain(jid);
 		DomainBareJid domainJid = DOMAINJID_CACHE.get(jid);
@@ -144,6 +169,10 @@ public class JidCreate {
 	@Deprecated
 	public static DomainFullJid serverFullFrom(String jid) throws XmppStringprepException {
 		return donmainFullFrom(jid);
+	}
+
+	public static DomainFullJid domainFullFrom(CharSequence jid) throws XmppStringprepException {
+		return donmainFullFrom(jid.toString());
 	}
 
 	public static DomainFullJid donmainFullFrom(String jid) throws XmppStringprepException {

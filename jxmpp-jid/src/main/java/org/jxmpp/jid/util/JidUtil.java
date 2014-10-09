@@ -60,17 +60,17 @@ public class JidUtil {
 	}
 
 	/**
-	 * Check if the given string represents a valid bare JID.
+	 * Check if the given CharSequence represents a valid bare JID.
 	 * <p>
 	 * This method is meant to validate user input and give fast feedback (e.g.
-	 * with a red or green light) about if the user entered String represents a
+	 * with a red or green light) about if the user entered CharSequence represents a
 	 * bare JID.
 	 * </p>
 	 * 
 	 * @param jid
 	 * @return true if @{code jid} represents a valid bare JID, false otherwise
 	 */
-	public static boolean isValidBareJid(String jid) {
+	public static boolean isValidBareJid(CharSequence jid) {
 		try {
 			validateBareJid(jid);
 		} catch (NotABareJidStringException | XmppStringprepException e) {
@@ -80,22 +80,23 @@ public class JidUtil {
 	}
 
 	/**
-	 * Check if the given string is a valid bare JID.
+	 * Check if the given CharSequence is a valid bare JID.
 	 * <p>
 	 * This is a convenience method meant to validate user entered bare JIDs. If
 	 * the given {@code jid} is not a valid bare JID, then this method will
 	 * throw either {@link NotABareJidStringException} or
 	 * {@link XmppStringprepException}. The NotABareJidStringException will
-	 * contain a meaningful message explaining why the given string is not a
+	 * contain a meaningful message explaining why the given CharSequence is not a
 	 * valid bare JID (e.g. "does not contain a '@' character").
 	 * </p>
 	 * 
-	 * @param jid the JID string
-	 * @return a BareJid instance representing the given JID string
+	 * @param jidcs the JID CharSequence
+	 * @return a BareJid instance representing the given JID CharSequence
 	 * @throws NotABareJidStringException
 	 * @throws XmppStringprepException
 	 */
-	public static BareJid validateBareJid(String jid) throws NotABareJidStringException, XmppStringprepException {
+	public static BareJid validateBareJid(CharSequence jidcs) throws NotABareJidStringException, XmppStringprepException {
+		String jid = jidcs.toString();
 		final int atIndex = jid.indexOf('@');
 		if (atIndex == -1) {
 			throw new NotABareJidStringException("'" + jid + "' does not contain a '@' character");
@@ -208,7 +209,7 @@ public class JidUtil {
 		return res;
 	}
 
-	public static Set<BareJid> bareJidSetFrom(Collection<String> jidStrings) {
+	public static Set<BareJid> bareJidSetFrom(Collection<CharSequence> jidStrings) {
 		Set<BareJid> res = new HashSet<BareJid>(jidStrings.size());
 		bareJidsFrom(jidStrings, res, null);
 		return res;
@@ -228,9 +229,9 @@ public class JidUtil {
 	 *            the collection where the BareJid's will be added to
 	 * @param exceptions
 	 */
-	public static void bareJidsFrom(Collection<String> jidStrings, Collection<BareJid> output,
+	public static void bareJidsFrom(Collection<CharSequence> jidStrings, Collection<BareJid> output,
 			List<XmppStringprepException> exceptions) {
-		for (String jid : jidStrings) {
+		for (CharSequence jid : jidStrings) {
 			try {
 				BareJid bareJid = JidCreate.bareFrom(jid);
 				output.add(bareJid);
@@ -244,7 +245,7 @@ public class JidUtil {
 		}
 	}
 
-	public static Set<Jid> jidSetFrom(Collection<String> jidStrings) {
+	public static Set<Jid> jidSetFrom(Collection<CharSequence> jidStrings) {
 		Set<Jid> res = new HashSet<Jid>(jidStrings.size());
 		jidsFrom(jidStrings, res, null);
 		return res;
@@ -264,9 +265,9 @@ public class JidUtil {
 	 *            the collection where the Jid's will be added to
 	 * @param exceptions
 	 */
-	public static void jidsFrom(Collection<String> jidStrings, Collection<Jid> output,
+	public static void jidsFrom(Collection<CharSequence> jidStrings, Collection<Jid> output,
 			List<XmppStringprepException> exceptions) {
-		for (String jidString : jidStrings) {
+		for (CharSequence jidString : jidStrings) {
 			try {
 				Jid jid = JidCreate.from(jidString);
 				output.add(jid);
