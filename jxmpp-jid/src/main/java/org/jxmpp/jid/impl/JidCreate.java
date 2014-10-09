@@ -77,13 +77,13 @@ public class JidCreate {
 		return fromUnescaped(unescapedJid.toString());
 	}
 
-	public static Jid fromUnescaped(String escapedJidString) throws XmppStringprepException {
-		String localpart = XmppStringUtils.parseLocalpart(escapedJidString);
+	public static Jid fromUnescaped(String unescapedJidString) throws XmppStringprepException {
+		String localpart = XmppStringUtils.parseLocalpart(unescapedJidString);
 		// Some as from(String), but we escape the localpart
 		localpart = XmppStringUtils.escapeLocalpart(localpart);
 
-		String domainpart = XmppStringUtils.parseDomain(escapedJidString);
-		String resource = XmppStringUtils.parseResource(escapedJidString);
+		String domainpart = XmppStringUtils.parseDomain(unescapedJidString);
+		String resource = XmppStringUtils.parseResource(unescapedJidString);
 		return from(localpart, domainpart, resource);
 	}
 
@@ -164,18 +164,30 @@ public class JidCreate {
 	 * @param jid
 	 * @return a DomainFullJid
 	 * @throws XmppStringprepException
-	 * @deprecated use {@link #donmainFullFrom(String)} instead
+	 * @deprecated use {@link #domainFullFrom(String)} instead
 	 */
 	@Deprecated
 	public static DomainFullJid serverFullFrom(String jid) throws XmppStringprepException {
 		return donmainFullFrom(jid);
 	}
 
-	public static DomainFullJid domainFullFrom(CharSequence jid) throws XmppStringprepException {
-		return donmainFullFrom(jid.toString());
+	/**
+	 *
+	 * @param jid
+	 * @return a DomainFullJid.
+	 * @throws XmppStringprepException
+	 * @deprecated use {@link #domainFullFrom(String)} instead.
+	 */
+	@Deprecated
+	public static DomainFullJid donmainFullFrom(String jid) throws XmppStringprepException {
+		return domainFullFrom(jid);
 	}
 
-	public static DomainFullJid donmainFullFrom(String jid) throws XmppStringprepException {
+	public static DomainFullJid domainFullFrom(CharSequence jid) throws XmppStringprepException {
+		return domainFullFrom(jid.toString());
+	}
+
+	public static DomainFullJid domainFullFrom(String jid) throws XmppStringprepException {
 		DomainFullJid domainResourceJid = DOMAINRESOURCEJID_CACHE.get(jid);
 		// In order to avoid JID hash String collision attacks, we have to
 		// compare the JID Strings char by char
