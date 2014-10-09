@@ -46,16 +46,17 @@ public class JidUtil {
 			return jid;
 		}
 
-		if (jid.isFullJid()) {
-			FullJid fullJid = (FullJid) jid;
-			return fullJid.asBareJid();
-		} else if (jid.isDomainFullJid()) {
-			DomainFullJid domainFullJid = (DomainFullJid) jid;
-			return domainFullJid.asDomainBareJid();
-		} else {
-			throw new AssertionError(
-					"Given JID has a resource but is neither a FullJid or a DomainFullJid");
+		BareJid bareJid = jid.asFullJidIfPossible();
+		if (bareJid != null) {
+			return bareJid;
 		}
+
+		DomainBareJid domainBareJid = jid.asDomainBareJidIfPossible();
+		if (domainBareJid != null) {
+			return domainBareJid;
+		}
+
+		throw new AssertionError("Given JID has a resource but can not be represent as Bare or DomainBare JID");
 	}
 
 	/**
