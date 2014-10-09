@@ -42,6 +42,7 @@ public class DomainAndResourcepartJid extends DomainpartJid implements DomainFul
 	DomainAndResourcepartJid(String domain, String resource) throws XmppStringprepException {
 		super(domain);
 		resource = XmppStringPrepUtil.resourceprep(resource);
+		// First prep the String, then assure the limits of the *result*
 		assertNotLongerThen1023BytesOrEmpty(resource);
 		this.resource = resource;
 	}
