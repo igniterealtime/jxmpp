@@ -30,7 +30,7 @@ public class DomainpartJid extends AbstractJid implements DomainBareJid {
 	protected final String domain;
 
 	DomainpartJid(String domain) throws XmppStringprepException {
-		domain = XmppStringPrepUtil.nodeprep(domain);
+		domain = XmppStringPrepUtil.localprep(domain);
 		// First prep the String, then assure the limits of the *result*
 		assertNotLongerThen1023BytesOrEmpty(domain);
 		this.domain = domain;

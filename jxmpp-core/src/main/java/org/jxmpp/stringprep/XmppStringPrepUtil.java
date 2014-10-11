@@ -31,7 +31,7 @@ public class XmppStringPrepUtil {
 		XmppStringPrepUtil.xmppStringprep = xmppStringprep;
 	}
 
-	public static String nodeprep(String string) throws XmppStringprepException {
+	public static String localprep(String string) throws XmppStringprepException {
 		if (xmppStringprep == null) {
 			return string;
 		}
@@ -39,12 +39,12 @@ public class XmppStringPrepUtil {
 		if (res != null) {
 			return res;
 		}
-		res = xmppStringprep.nodeprep(string);
+		res = xmppStringprep.localprep(string);
 		NODEPREP_CACHE.put(string, res);
 		return res;
 	}
 
-	public static String nameprep(String string) throws XmppStringprepException {
+	public static String domainprep(String string) throws XmppStringprepException {
 		if (xmppStringprep == null) {
 			return string;
 		}
@@ -52,7 +52,7 @@ public class XmppStringPrepUtil {
 		if (res != null) {
 			return res;
 		}
-		res = xmppStringprep.nameprep(string);
+		res = xmppStringprep.domainprep(string);
 		DOMAINPREP_CACHE.put(string, res);
 		return res;
 	}

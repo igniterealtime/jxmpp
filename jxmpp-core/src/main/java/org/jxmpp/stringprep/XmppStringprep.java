@@ -16,11 +16,43 @@
  */
 package org.jxmpp.stringprep;
 
+/**
+ * Interface for commonly used Stringprep operations used in XMPP.
+ * <p>
+ * The relevant RFCs are:
+ * <ul>
+ * <li><a href="http://tools.ietf.org/html/rfc6122">RFC 6122</a></li>
+ * <li><a href="https://tools.ietf.org/html/draft-ietf-xmpp-6122bis-14">draft-ietf-xmpp-6122bis-14</a></li>
+ * </ul>
+ *
+ */
 public interface XmppStringprep {
 
-	public String nodeprep(String string) throws XmppStringprepException;
+	/**
+	 * Performs String preparation on the localpart String of a JID. In RFC 6122 terms this means applying the
+	 * <i>nodeprep</i> profile of Stringprep.
+	 * 
+	 * @param string
+	 * @return the prepared String.
+	 * @throws XmppStringprepException
+	 */
+	public String localprep(String string) throws XmppStringprepException;
 
-	public String nameprep(String string) throws XmppStringprepException;
+	/**
+	 * Performs String preparation on the domainpart String of a JID. In RFC 61ss terms, this means applying the
+	 * <i>nameprep</i> profile of Stringprep.
+	 * 
+	 * @param string
+	 * @return the prepared String.
+	 * @throws XmppStringprepException
+	 */
+	public String domainprep(String string) throws XmppStringprepException;
 
+	/**
+	 * Performs String preparation on the resourcepart String of a JID. In RFC 6122 terms this means applying the <i>resourceprep</i> profile of Stringprep.
+	 * @param string
+	 * @return the prepared String.
+	 * @throws XmppStringprepException
+	 */
 	public String resourceprep(String string) throws XmppStringprepException;
 }

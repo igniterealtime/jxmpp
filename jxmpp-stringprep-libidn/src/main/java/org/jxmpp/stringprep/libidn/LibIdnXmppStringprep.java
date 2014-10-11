@@ -42,7 +42,7 @@ public class LibIdnXmppStringprep implements XmppStringprep {
 	}
 
 	@Override
-	public String nodeprep(String string) throws XmppStringprepException {
+	public String localprep(String string) throws XmppStringprepException {
 		try {
 			// Allow unassigned codepoints as of RFC6122 A.2
 			return Stringprep.nodeprep(string, true);
@@ -52,7 +52,7 @@ public class LibIdnXmppStringprep implements XmppStringprep {
 	}
 
 	@Override
-	public String nameprep(String string) throws XmppStringprepException {
+	public String domainprep(String string) throws XmppStringprepException {
 		try {
 			// Don't allow unassigned because this is a "stored string". See
 			// RFC3453 7, RFC3490 4 1) and RFC6122 2.2

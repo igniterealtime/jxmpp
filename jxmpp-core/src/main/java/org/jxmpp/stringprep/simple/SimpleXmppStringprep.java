@@ -41,12 +41,12 @@ public class SimpleXmppStringprep implements XmppStringprep {
 	}
 
 	@Override
-	public String nodeprep(String string) throws XmppStringprepException {
+	public String localprep(String string) throws XmppStringprepException {
 		return simpleStringprep(string);
 	}
 
 	@Override
-	public String nameprep(String string) throws XmppStringprepException {
+	public String domainprep(String string) throws XmppStringprepException {
 		return simpleStringprep(string);
 	}
 
