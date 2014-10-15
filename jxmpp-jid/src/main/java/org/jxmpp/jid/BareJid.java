@@ -25,4 +25,5 @@ public interface BareJid extends Jid, JidWithLocalpart {
 	public BareJid asBareJid();
 
 	public String asBareJidString();
+
 }

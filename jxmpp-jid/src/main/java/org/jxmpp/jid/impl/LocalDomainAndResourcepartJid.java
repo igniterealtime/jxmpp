@@ -105,4 +105,14 @@ public class LocalDomainAndResourcepartJid extends LocalAndDomainpartJid impleme
 	public DomainFullJid asDomainFullJidIfPossible() {
 		return null;
 	}
+
+	@Override
+	public String getLocalpartOrNull() {
+		return localpart;
+	}
+
+	@Override
+	public String getResourceOrNull() {
+		return resource;
+	}
 }

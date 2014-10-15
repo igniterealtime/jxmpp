@@ -76,4 +76,14 @@ public abstract class AbstractJid implements Jid {
 	public CharSequence subSequence(int start, int end) {
 		return toString().subSequence(start, end);
 	}
+
+	@Override
+	public String getResourceOrNull() {
+		return null;
+	}
+
+	@Override
+	public String getLocalpartOrNull() {
+		return null;
+	}
 }

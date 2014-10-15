@@ -107,6 +107,28 @@ public interface Jid extends Comparable<Jid>, CharSequence {
 	public DomainFullJid asDomainFullJidIfPossible();
 
 	/**
+	 * Get the resourcepart of this JID or null.
+	 * <p>
+	 * If the JID is of form <localpart@domain.example/resource> then this method returns 'resource'. If the JID no
+	 * resourcepart, then <code>null</code> is returned.
+	 * </p>
+	 * 
+	 * @return the resource of this JID or null.
+	 */
+	public String getResourceOrNull();
+
+	/**
+	 * Get the localpart of this JID or null.
+	 * <p>
+	 * If the JID is of form <localpart@domain.example> then this method returns 'localpart'. If the JID has no
+	 * localpart, then <code>null</code> is returned.
+	 * </p>
+	 * 
+	 * @return the localpart of this JID or null.
+	 */
+	public String getLocalpartOrNull();
+
+	/**
 	 * Return the downcasted instance of this Jid. This method is unsafe, make sure to check that this is actually of the type of are casting to.
 	 * 
 	 * @return the downcasted instanced of this

@@ -103,4 +103,9 @@ public class DomainAndResourcepartJid extends DomainpartJid implements DomainFul
 	public DomainFullJid asDomainFullJidIfPossible() {
 		return this;
 	}
+
+	@Override
+	public String getResourceOrNull() {
+		return resource;
+	}
 }
