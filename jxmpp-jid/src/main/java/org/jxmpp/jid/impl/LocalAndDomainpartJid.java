@@ -91,4 +91,24 @@ public class LocalAndDomainpartJid extends DomainpartJid implements BareJid {
 	public DomainFullJid asDomainFullJidIfPossible() {
 		return null;
 	}
+
+	@Override
+	public boolean isParentOf(BareJid bareJid) {
+		return domain.equals(bareJid.getDomain()) && localpart.equals(bareJid.getLocalpart());
+	}
+
+	@Override
+	public boolean isParentOf(FullJid fullJid) {
+		return isParentOf((BareJid) fullJid);
+	}
+
+	@Override
+	public boolean isParentOf(DomainBareJid domainBareJid) {
+		return false;
+	}
+
+	@Override
+	public boolean isParentOf(DomainFullJid domainFullJid) {
+		return false;
+	}
 }

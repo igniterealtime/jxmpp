@@ -86,4 +86,25 @@ public abstract class AbstractJid implements Jid {
 	public String getLocalpartOrNull() {
 		return null;
 	}
+
+	@Override
+	public final boolean isParentOf(Jid jid) {
+		FullJid fullJid = jid.asFullJidIfPossible();
+		if (fullJid != null) {
+			return isParentOf(fullJid);
+		}
+		BareJid bareJid = jid.asBareJidIfPossible();
+		if (bareJid != null) {
+			return isParentOf(bareJid);
+		}
+		DomainFullJid domainFullJid = jid.asDomainFullJidIfPossible();
+		if (domainFullJid != null) {
+			return isParentOf(domainFullJid);
+		}
+		DomainBareJid domainBareJid = jid.asDomainBareJidIfPossible();
+		if (domainBareJid != null) {
+			return isParentOf(domainBareJid);
+		}
+		throw new AssertionError("Unkown JID class: " + jid.getClass().getName());
+	}
 }

@@ -129,6 +129,70 @@ public interface Jid extends Comparable<Jid>, CharSequence {
 	public String getLocalpartOrNull();
 
 	/**
+	 * Check if this JID is the parent of another JID. The <b>parent of</b> relation is defined, under the
+	 * precondition that the JID parts (localpart, domainpart and resourcepart) are equal, as follows:
+	 * <p>
+	 * <pre>
+	 * | this JID (parentOf) | other JID           | result |
+	 * |---------------------+---------------------+--------|
+	 * | dom.example         | dom.example         | true   |
+	 * | dom.example         | dom.example/res     | true   |
+	 * | dom.example         | loc@dom.example     | true   |
+	 * | dom.example         | loc@dom.example/res | true   |
+	 * | dom.example/res     | dom.exmple          | false  |
+	 * | dom.example/res     | dom.example/res     | true   |
+	 * | dom.example/res     | loc@dom.example     | false  |
+	 * | dom.example/res     | loc@dom.example/res | false  |
+	 * | loc@dom.example     | dom.example         | false  |
+	 * | loc@dom.example     | dom.example/res     | false  |
+	 * | loc@dom.example     | loc@dom.example     | true   |
+	 * | loc@dom.example     | loc@dom.example/res | true   |
+	 * | loc@dom.example/res | dom.example         | false  |
+	 * | loc@dom.example/res | dom.example/res     | false  |
+	 * | loc@dom.example/res | loc@dom.example     | false  |
+	 * | loc@dom.example/res | loc@dom.example/res | true   |
+	 * </pre>
+	 * </p>
+	 * 
+	 * @param jid
+	 *            the other JID to compare with
+	 * @return true if this JID is a parent of the given JID.
+	 */
+	public boolean isParentOf(Jid jid);
+
+	/**
+	 * See {@link #isParentOf(Jid)}.
+	 *
+	 * @param bareJid
+	 * @return true if this JID is a parent of the given JID.
+	 */
+	public boolean isParentOf(BareJid bareJid);
+
+	/**
+	 * See {@link #isParentOf(Jid)}.
+	 *
+	 * @param fullJid
+	 * @return true if this JID is a parent of the given JID.
+	 */
+	public boolean isParentOf(FullJid fullJid);
+
+	/**
+	 * See {@link #isParentOf(Jid)}.
+	 *
+	 * @param domainBareJid
+	 * @return true if this JID is a parent of the given JID.
+	 */
+	public boolean isParentOf(DomainBareJid domainBareJid);
+
+	/**
+	 * See {@link #isParentOf(Jid)}.
+	 *
+	 * @param domainFullJid
+	 * @return true if this JID is a parent of the given JID.
+	 */
+	public boolean isParentOf(DomainFullJid domainFullJid);
+
+	/**
 	 * Return the downcasted instance of this Jid. This method is unsafe, make sure to check that this is actually of the type of are casting to.
 	 * 
 	 * @return the downcasted instanced of this

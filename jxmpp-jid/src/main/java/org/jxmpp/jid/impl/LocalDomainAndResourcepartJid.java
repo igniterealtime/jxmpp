@@ -115,4 +115,24 @@ public class LocalDomainAndResourcepartJid extends LocalAndDomainpartJid impleme
 	public String getResourceOrNull() {
 		return resource;
 	}
+
+	@Override
+	public boolean isParentOf(BareJid bareJid) {
+		return false;
+	}
+
+	@Override
+	public boolean isParentOf(FullJid fullJid) {
+		return this.equals(fullJid);
+	}
+
+	@Override
+	public boolean isParentOf(DomainBareJid domainBareJid) {
+		return false;
+	}
+
+	@Override
+	public boolean isParentOf(DomainFullJid domainFullJid) {
+		return false;
+	}
 }

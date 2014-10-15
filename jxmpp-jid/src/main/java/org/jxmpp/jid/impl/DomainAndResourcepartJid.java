@@ -108,4 +108,24 @@ public class DomainAndResourcepartJid extends DomainpartJid implements DomainFul
 	public String getResourceOrNull() {
 		return resource;
 	}
+
+	@Override
+	public boolean isParentOf(BareJid bareJid) {
+		return false;
+	}
+
+	@Override
+	public boolean isParentOf(FullJid fullJid) {
+		return false;
+	}
+
+	@Override
+	public boolean isParentOf(DomainBareJid domainBareJid) {
+		return false;
+	}
+
+	@Override
+	public boolean isParentOf(DomainFullJid domainFullJid) {
+		return domain.equals(domainFullJid.getDomain()) && resource.equals(domainFullJid.getResource());
+	}
 }
