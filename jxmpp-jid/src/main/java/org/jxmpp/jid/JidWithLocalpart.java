@@ -16,13 +16,8 @@
  */
 package org.jxmpp.jid;
 
-/**
- * A JID consisting of (at least) a localpart and a domainpart. For example
- * "user@xmpp.org".
- */
-public interface BareJid extends Jid, JidWithLocalpart {
+public interface JidWithLocalpart extends Jid {
 
-	public BareJid asBareJid();
+	public String getLocalpart();
 
-	public String asBareJidString();
 }

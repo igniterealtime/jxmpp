@@ -48,12 +48,12 @@ public abstract class AbstractJid implements Jid {
 
 	@Override
 	public final boolean hasResource() {
-		return this instanceof FullJid || this instanceof DomainFullJid;
+		return this instanceof JidWithResource;
 	}
 
 	@Override
 	public final boolean hasLocalpart() {
-		return this instanceof BareJid || this instanceof FullJid;
+		return this instanceof JidWithLocalpart;
 	}
 
 	@Override
