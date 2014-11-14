@@ -107,4 +107,14 @@ public abstract class AbstractJid implements Jid {
 		}
 		throw new AssertionError("Unkown JID class: " + jid.getClass().getName());
 	}
+
+	@Override
+	public final boolean equals(CharSequence charSequence) {
+		return equals(charSequence.toString());
+	}
+
+	@Override
+	public final boolean equals(String string) {
+		return toString().equals(string);
+	}
 }

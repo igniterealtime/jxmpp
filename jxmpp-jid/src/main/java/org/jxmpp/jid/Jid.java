@@ -199,4 +199,24 @@ public interface Jid extends Comparable<Jid>, CharSequence {
 	 */
 	public <T extends AbstractJid> T downcast();
 
+	/**
+	 * Compares the given CharSequence with this JID. Returns true if {@code equals(charSequence.toString()} would
+	 * return true.
+	 *
+	 * @param charSequence the CharSequence to compare this JID with.
+	 * @return true if if {@code equals(charSequence.toString()} would return true.
+	 * @see #equals(String)
+	 */
+	public boolean equals(CharSequence charSequence);
+
+	/**
+	 * Compares the given String wit this JID.
+	 * <p>
+	 * Returns true if {@code toString().equals(string)}, that is if the String representation of this JID matches the given string.
+	 * </p>
+	 *
+	 * @param string the String to compare this JID with.
+	 * @return true if {@code toString().equals(string)}.
+	 */
+	public boolean equals(String string);
 }
