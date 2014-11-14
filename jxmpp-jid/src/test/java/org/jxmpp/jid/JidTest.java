@@ -16,6 +16,7 @@
  */
 package org.jxmpp.jid;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -51,5 +52,12 @@ public class JidTest {
 		assertFalse(fullJid.isParentOf(domainFullJid));
 		assertFalse(fullJid.isParentOf(bareJid));
 		assertTrue(fullJid.isParentOf(fullJid));
+	}
+
+	@Test
+	public void stripFinalDot() throws XmppStringprepException {
+		String domain = "foo.bar.";
+		Jid jid = JidCreate.domainBareFrom(domain);
+		assertEquals("foo.bar", jid.toString());
 	}
 }

@@ -30,6 +30,11 @@ public class DomainpartJid extends AbstractJid implements DomainBareJid {
 	protected final String domain;
 
 	DomainpartJid(String domain) throws XmppStringprepException {
+		// RFC 6122 § 2.2 "If the domainpart includes a final character considered to be a label
+		// separator (dot) by [IDNA2003] or [DNS], this character MUST be stripped …"
+		if (domain.charAt(domain.length() - 1) == '.') {
+			domain = domain.substring(0, domain.length() - 1);
+		}
 		domain = XmppStringPrepUtil.localprep(domain);
 		// First prep the String, then assure the limits of the *result*
 		assertNotLongerThen1023BytesOrEmpty(domain);
