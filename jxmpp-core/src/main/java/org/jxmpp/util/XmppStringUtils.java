@@ -364,8 +364,17 @@ public class XmppStringUtils {
 		return res;
 	}
 
+	public static String completeJidFrom(CharSequence localpart, CharSequence domainpart) {
+		return completeJidFrom(localpart != null ? localpart.toString() : null, domainpart.toString());
+	}
+
 	public static String completeJidFrom(String localpart, String domainpart) {
 		return completeJidFrom(localpart, domainpart, null);
+	}
+
+	public static String completeJidFrom(CharSequence localpart, CharSequence domainpart, CharSequence resource) {
+		return completeJidFrom(localpart != null ? localpart.toString() : null, domainpart.toString(),
+				resource != null ? resource.toString() : null);
 	}
 
 	public static String completeJidFrom(String localpart, String domainpart, String resource) {

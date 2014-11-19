@@ -20,28 +20,25 @@ import org.jxmpp.jid.BareJid;
 import org.jxmpp.jid.DomainBareJid;
 import org.jxmpp.jid.DomainFullJid;
 import org.jxmpp.jid.FullJid;
-import org.jxmpp.stringprep.XmppStringPrepUtil;
+import org.jxmpp.jid.parts.Localpart;
 import org.jxmpp.stringprep.XmppStringprepException;
 import org.jxmpp.util.XmppStringUtils;
 
 
 public class LocalAndDomainpartJid extends DomainpartJid implements BareJid {
 
-	protected final String localpart;
+	protected final Localpart localpart;
 
 	private String cache;
 	private String unescapedCache;
 
 	LocalAndDomainpartJid(String localpart, String domain) throws XmppStringprepException {
 		super(domain);
-		localpart = XmppStringPrepUtil.localprep(localpart);
-		// First prep the String, then assure the limits of the *result*
-		assertNotLongerThen1023BytesOrEmpty(localpart);
-		this.localpart = localpart;
+		this.localpart = Localpart.from(localpart);
 	}
 
 	public final String getLocalpart() {
-		return localpart;
+		return localpart.toString();
 	}
 
 	@Override
@@ -49,7 +46,7 @@ public class LocalAndDomainpartJid extends DomainpartJid implements BareJid {
 		if (cache != null) {
 			return cache;
 		}
-		cache = localpart + '@' + super.toString();
+		cache = getLocalpart() + '@' + super.toString();
 		return cache;
 	}
 
@@ -58,7 +55,7 @@ public class LocalAndDomainpartJid extends DomainpartJid implements BareJid {
 		if (unescapedCache != null) {
 			return unescapedCache;
 		}
-		unescapedCache = XmppStringUtils.unescapeLocalpart(localpart) + '@' + super.toString();
+		unescapedCache = XmppStringUtils.unescapeLocalpart(getLocalpart()) + '@' + super.toString();
 		return unescapedCache;
 	}
 

@@ -20,7 +20,7 @@ import org.jxmpp.jid.BareJid;
 import org.jxmpp.jid.DomainBareJid;
 import org.jxmpp.jid.DomainFullJid;
 import org.jxmpp.jid.FullJid;
-import org.jxmpp.stringprep.XmppStringPrepUtil;
+import org.jxmpp.jid.parts.Resourcepart;
 import org.jxmpp.stringprep.XmppStringprepException;
 import org.jxmpp.util.XmppStringUtils;
 
@@ -34,22 +34,19 @@ import org.jxmpp.util.XmppStringUtils;
  */
 public class DomainAndResourcepartJid extends DomainpartJid implements DomainFullJid {
 
-	private final String resource;
+	private final Resourcepart resource;
 
 	private String cache;
 	private DomainBareJid domainBareJidCache;
 
 	DomainAndResourcepartJid(String domain, String resource) throws XmppStringprepException {
 		super(domain);
-		resource = XmppStringPrepUtil.resourceprep(resource);
-		// First prep the String, then assure the limits of the *result*
-		assertNotLongerThen1023BytesOrEmpty(resource);
-		this.resource = resource;
+		this.resource = Resourcepart.from(resource);
 	}
 
 	@Override
 	public final String getResource() {
-		return resource;
+		return resource.toString();
 	}
 
 	@Override
@@ -106,7 +103,7 @@ public class DomainAndResourcepartJid extends DomainpartJid implements DomainFul
 
 	@Override
 	public String getResourceOrNull() {
-		return resource;
+		return getResource();
 	}
 
 	@Override

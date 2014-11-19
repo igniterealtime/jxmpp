@@ -22,32 +22,24 @@ import org.jxmpp.jid.DomainBareJid;
 import org.jxmpp.jid.DomainFullJid;
 import org.jxmpp.jid.FullJid;
 import org.jxmpp.jid.Jid;
-import org.jxmpp.stringprep.XmppStringPrepUtil;
+import org.jxmpp.jid.parts.Domainpart;
 import org.jxmpp.stringprep.XmppStringprepException;
 
 public class DomainpartJid extends AbstractJid implements DomainBareJid {
 
-	protected final String domain;
+	protected final Domainpart domain;
 
 	DomainpartJid(String domain) throws XmppStringprepException {
-		// RFC 6122 § 2.2 "If the domainpart includes a final character considered to be a label
-		// separator (dot) by [IDNA2003] or [DNS], this character MUST be stripped …"
-		if (domain.charAt(domain.length() - 1) == '.') {
-			domain = domain.substring(0, domain.length() - 1);
-		}
-		domain = XmppStringPrepUtil.localprep(domain);
-		// First prep the String, then assure the limits of the *result*
-		assertNotLongerThen1023BytesOrEmpty(domain);
-		this.domain = domain;
+		this.domain = Domainpart.from(domain);
 	}
 
 	public final String getDomain() {
-		return domain;
+		return domain.toString();
 	}
 
 	@Override
 	public String toString() {
-		return domain;
+		return domain.toString();
 	}
 
 	@Override
@@ -75,15 +67,6 @@ public class DomainpartJid extends AbstractJid implements DomainBareJid {
 		}
 		DomainpartJid otherJid = (DomainpartJid) other;
 		return hashCode() == otherJid.hashCode();
-	}
-
-	public static void assertNotLongerThen1023BytesOrEmpty(String string) {
-		char[] bytes = string.toCharArray();
-		if (bytes.length > 1023) {
-			throw new IllegalArgumentException("Given string '" + string + "' is longer then 1023 bytes");
-		} else if (bytes.length == 0) {
-			throw new IllegalArgumentException("Argument can't be the empty string");
-		}
 	}
 
 	@Override

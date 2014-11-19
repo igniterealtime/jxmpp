@@ -20,14 +20,14 @@ import org.jxmpp.jid.BareJid;
 import org.jxmpp.jid.DomainBareJid;
 import org.jxmpp.jid.DomainFullJid;
 import org.jxmpp.jid.FullJid;
-import org.jxmpp.stringprep.XmppStringPrepUtil;
+import org.jxmpp.jid.parts.Resourcepart;
 import org.jxmpp.stringprep.XmppStringprepException;
 import org.jxmpp.util.XmppStringUtils;
 
 
 public class LocalDomainAndResourcepartJid extends LocalAndDomainpartJid implements FullJid {
 
-	private final String resource;
+	private final Resourcepart resource;
 
 	private String cache;
 	private String unescapedCache;
@@ -35,14 +35,11 @@ public class LocalDomainAndResourcepartJid extends LocalAndDomainpartJid impleme
 
 	public LocalDomainAndResourcepartJid(String localpart, String domain, String resource) throws XmppStringprepException {
 		super(localpart, domain);
-		resource = XmppStringPrepUtil.resourceprep(resource);
-		// First prep the String, then assure the limits of the *result*
-		assertNotLongerThen1023BytesOrEmpty(resource);
-		this.resource = resource;
+		this.resource = Resourcepart.from(resource);
 	}
 
 	public final String getResource() {
-		return resource;
+		return resource.toString();
 	}
 
 	@Override
@@ -108,12 +105,12 @@ public class LocalDomainAndResourcepartJid extends LocalAndDomainpartJid impleme
 
 	@Override
 	public String getLocalpartOrNull() {
-		return localpart;
+		return getLocalpart();
 	}
 
 	@Override
 	public String getResourceOrNull() {
-		return resource;
+		return getResource();
 	}
 
 	@Override
