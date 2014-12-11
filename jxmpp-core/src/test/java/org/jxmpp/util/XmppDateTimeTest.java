@@ -247,4 +247,22 @@ public class XmppDateTimeTest {
 		cal.setTimeZone(TimeZone.getTimeZone("GMT"));
 		assertEquals(123, cal.get(Calendar.MILLISECOND));
 	}
+
+	@Test
+	public void testParseOneSecondFraction() throws ParseException {
+		Date date = XmppDateTime.parseDate("2014-09-16T15:14:13.1Z");
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		cal.setTimeZone(TimeZone.getTimeZone("GMT"));
+		assertEquals(100, cal.get(Calendar.MILLISECOND));
+	}
+
+	@Test
+	public void testParseTwoSecondFraction() throws ParseException {
+		Date date = XmppDateTime.parseDate("2014-09-16T15:14:13.12Z");
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		cal.setTimeZone(TimeZone.getTimeZone("GMT"));
+		assertEquals(120, cal.get(Calendar.MILLISECOND));
+	}
 }

@@ -76,18 +76,18 @@ public class XmppDateTime {
 		/**
 		 * XEP-0082 allows the fractional second addendum to contain ANY number
 		 * of digits. Implementations are therefore free to send as much digits
-		 * after the dot as they want, therefore we need to truncate the
-		 * amount. Certain platforms are only able to parse up to milliseconds,
-		 * so truncate to 3 digits after the dot.
+		 * after the dot as they want, therefore we need to truncate or fill up
+		 * milliseconds. Certain platforms are only able to parse up to milliseconds,
+		 * so truncate to 3 digits after the dot or fill zeros until 3 digits.
 		 */
-		private final boolean TRUNCATE_TO_MILLIS;
+		private final boolean HANDLE_MILLIS;
 
 		private DateFormatType(String dateFormat) {
 			FORMAT_STRING = dateFormat;
 			FORMATTER = new SimpleDateFormat(FORMAT_STRING);
 			FORMATTER.setTimeZone(TimeZone.getTimeZone("UTC"));
 			CONVERT_TIMEZONE = dateFormat.charAt(dateFormat.length() - 1) == 'Z';
-			TRUNCATE_TO_MILLIS = dateFormat.contains("SSS");
+			HANDLE_MILLIS = dateFormat.contains("SSS");
 		}
 
 		public String format(Date date) {
@@ -105,8 +105,8 @@ public class XmppDateTime {
 			if (CONVERT_TIMEZONE) {
 				dateString = convertXep82TimezoneToRfc822(dateString);
 			}
-			if (TRUNCATE_TO_MILLIS) {
-				dateString = truncateToMilliSeconds(dateString);
+			if (HANDLE_MILLIS) {
+				dateString = handleMilliseconds(dateString);
 			}
 			synchronized (FORMATTER) {
 				return FORMATTER.parse(dateString);
@@ -314,14 +314,15 @@ public class XmppDateTime {
 
 
 	/**
-	 * A pattern with 3 capturing groups, the second one are at least 4 digits
+	 * A pattern with 3 capturing groups, the second one are at least 1 digits
 	 * after the 'dot'. The last one is the timezone definition, either 'Z',
 	 * '+1234' or '-1234'.
 	 */
-	private static final Pattern SECOND_FRACTION = Pattern.compile(".*\\.(\\d{4,})(Z|((\\+|-)\\d{4}))");
+	private static final Pattern SECOND_FRACTION = Pattern.compile(".*\\.(\\d{1,})(Z|((\\+|-)\\d{4}))");
 
 	/**
-	 * Truncate the date String so that the fractional second addendum only
+	 * Handle the milliseconds. This means either fill up with zeros or
+	 * truncate the date String so that the fractional second addendum only
 	 * contains 3 digits. Returns the given string unmodified if it doesn't
 	 * match {@link #SECOND_FRACTION}.
 	 * 
@@ -329,15 +330,35 @@ public class XmppDateTime {
 	 * @return the date String where the fractional second addendum is a most 3
 	 *         digits
 	 */
-	private static String truncateToMilliSeconds(String dateString) {
+	private static String handleMilliseconds(String dateString) {
 		Matcher matcher = SECOND_FRACTION.matcher(dateString);
 		if (!matcher.matches()) {
+			// The date string does not contain any milliseconds
 			return dateString;
 		}
-		StringBuilder sb = new StringBuilder();
+
+		int fractionalSecondsDigitCount = matcher.group(1).length();
+		if (fractionalSecondsDigitCount == 3) {
+			// The date string has exactly 3 fractional second digits
+			return dateString;
+		}
+
+		// Gather information about the date string
 		int posDecimal = dateString.indexOf(".");
-		sb.append(dateString.substring(0, posDecimal + 4));
-		sb.append(dateString.substring(posDecimal + matcher.group(1).length() + 1));
+		StringBuilder sb = new StringBuilder(dateString.length() - fractionalSecondsDigitCount + 3);
+		if (fractionalSecondsDigitCount > 3) {
+			// Append only 3 fractional digits after posDecimal
+			sb.append(dateString.substring(0, posDecimal + 4));
+		} else {
+			// The date string has less then 3 fractional second digits
+			sb.append(dateString.substring(0, posDecimal + fractionalSecondsDigitCount + 1));
+			// Fill up the "missing" fractional second digits with zeros
+			for (int i = fractionalSecondsDigitCount; i < 3; i++) {
+				sb.append('0');
+			}
+		}
+		// Append the timezone definition
+		sb.append(dateString.substring(posDecimal + fractionalSecondsDigitCount + 1));
 		return sb.toString();
 	}
 
