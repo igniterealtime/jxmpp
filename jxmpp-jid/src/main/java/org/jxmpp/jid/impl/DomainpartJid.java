@@ -16,7 +16,6 @@
  */
 package org.jxmpp.jid.impl;
 
-import org.jxmpp.jid.AbstractJid;
 import org.jxmpp.jid.BareJid;
 import org.jxmpp.jid.DomainBareJid;
 import org.jxmpp.jid.DomainFullJid;

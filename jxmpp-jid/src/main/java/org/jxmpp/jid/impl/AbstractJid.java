@@ -14,7 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jxmpp.jid;
+package org.jxmpp.jid.impl;
+
+import org.jxmpp.jid.BareJid;
+import org.jxmpp.jid.DomainBareJid;
+import org.jxmpp.jid.DomainFullJid;
+import org.jxmpp.jid.FullJid;
+import org.jxmpp.jid.Jid;
+import org.jxmpp.jid.JidWithLocalpart;
+import org.jxmpp.jid.JidWithResource;
 
 public abstract class AbstractJid implements Jid {
 
@@ -58,7 +66,7 @@ public abstract class AbstractJid implements Jid {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public final <T extends AbstractJid> T downcast() {
+	public final <T extends Jid> T downcast() {
 		return (T) this;
 	}
 

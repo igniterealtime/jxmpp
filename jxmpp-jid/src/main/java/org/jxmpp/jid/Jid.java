@@ -197,7 +197,7 @@ public interface Jid extends Comparable<Jid>, CharSequence {
 	 * 
 	 * @return the downcasted instanced of this
 	 */
-	public <T extends AbstractJid> T downcast();
+	public <T extends Jid> T downcast();
 
 	/**
 	 * Compares the given CharSequence with this JID. Returns true if {@code equals(charSequence.toString()} would
