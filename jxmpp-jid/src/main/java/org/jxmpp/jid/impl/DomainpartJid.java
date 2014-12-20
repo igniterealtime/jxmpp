@@ -55,20 +55,6 @@ public class DomainpartJid extends AbstractJid implements DomainBareJid {
 	}
 
 	@Override
-	public final int hashCode() {
-		return toString().hashCode();
-	}
-
-	@Override
-	public final boolean equals(Object other) {
-		if (!(other instanceof DomainpartJid)) {
-			return false;
-		}
-		DomainpartJid otherJid = (DomainpartJid) other;
-		return hashCode() == otherJid.hashCode();
-	}
-
-	@Override
 	public DomainBareJid asDomainBareJid() {
 		return this;
 	}

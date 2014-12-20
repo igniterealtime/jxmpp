@@ -117,6 +117,25 @@ public abstract class AbstractJid implements Jid {
 	}
 
 	@Override
+	public final int hashCode() {
+		return toString().hashCode();
+	}
+
+	@Override
+	public final boolean equals(Object other) {
+		if (other == null) {
+			return false;
+		}
+		if (this == other) {
+			return true;
+		}
+		if (other instanceof CharSequence) {
+			return equals((CharSequence) other);
+		}
+		return false;
+	}
+
+	@Override
 	public final boolean equals(CharSequence charSequence) {
 		return equals(charSequence.toString());
 	}
