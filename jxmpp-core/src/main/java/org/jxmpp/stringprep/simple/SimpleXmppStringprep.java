@@ -52,12 +52,16 @@ public class SimpleXmppStringprep implements XmppStringprep {
 
 	@Override
 	public String resourceprep(String string) throws XmppStringprepException {
-		return simpleStringprep(string);
+		// rfc6122-bis specifies that resourceprep uses saslprep-bis OpaqueString Profile which says that
+		// "Uppercase and titlecase characters MUST NOT be mapped to their lowercase equivalents."
+
+		// TODO apply Unicode Normalization Form C (NFC) with help of java.text.Normalize
+		// but unfortunately this is API is only available on Android API 9 or higher and Smack is currently API 8
+		return string;
 	}
 
 	private static String simpleStringprep(String string) {
 		String res = string.toLowerCase(Locale.US);
-		res = res.trim();
 		return res;
 	}
 }
