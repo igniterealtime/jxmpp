@@ -30,6 +30,11 @@ public class XmppStringprepException extends Exception {
 		this.causingString = causingString;
 	}
 
+	public XmppStringprepException(String causingString, String message) {
+		super(message);
+		this.causingString = causingString;
+	}
+
 	public String getCausingString() {
 		return causingString;
 	}

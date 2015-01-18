@@ -40,9 +40,34 @@ public class SimpleXmppStringprep implements XmppStringprep {
 	private SimpleXmppStringprep() {
 	}
 
+	/**
+	 * From 6122bis-18 § 3.3.1 and PRECIS IdentifierClass which forbids U+0020
+	 */
+	// @formatter:off
+	private final static char[] LOCALPART_FURTHER_EXCLUDED_CHARACTERS = new char[] {
+		'"',   // U+0022 (QUOTATION MARK) , i.e., "
+		'&',   // U+0026 (AMPERSAND), i.e., &
+		'\'',  // U+0027 (APOSTROPHE), i.e., '
+		'/',   // U+002F (SOLIDUS), i.e., /
+		',',   // U+003A (COLON), i.e., :
+		'<',   // U+003C (LESS-THAN SIGN), i.e., <
+		'>',   // U+003E (GREATER-THAN SIGN), i.e., >
+		'@',   // U+0040 (COMMERCIAL AT), i.e., @
+		' ',   // U+0020 (SPACE)
+	};
+	// @formatter:on
+
 	@Override
 	public String localprep(String string) throws XmppStringprepException {
-		return simpleStringprep(string);
+		string = simpleStringprep(string);
+		for (char charFromString : string.toCharArray()) {
+			for (char forbiddenChar : LOCALPART_FURTHER_EXCLUDED_CHARACTERS) {
+				if (charFromString == forbiddenChar) {
+					throw new XmppStringprepException(string, "Localpart must not contain '" + forbiddenChar + "'");
+				}
+			}
+		}
+		return string;
 	}
 
 	@Override
