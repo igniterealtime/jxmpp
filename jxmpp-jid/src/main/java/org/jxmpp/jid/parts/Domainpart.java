@@ -32,7 +32,7 @@ public class Domainpart extends Part {
 		if (domain.charAt(domain.length() - 1) == '.') {
 			domain = domain.substring(0, domain.length() - 1);
 		}
-		domain = XmppStringPrepUtil.localprep(domain);
+		domain = XmppStringPrepUtil.domainprep(domain);
 		// First prep the String, then assure the limits of the *result*
 		assertNotLongerThen1023BytesOrEmpty(domain);
 		return new Domainpart(domain);
