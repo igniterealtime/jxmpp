@@ -59,7 +59,7 @@ public abstract class Part implements CharSequence {
 		return part.hashCode();
 	}
 
-	protected static void assertNotLongerThen1023BytesOrEmpty(String string) throws XmppStringprepException {
+	protected static void assertNotLongerThan1023BytesOrEmpty(String string) throws XmppStringprepException {
 		char[] bytes = string.toCharArray();
 
 		// Better throw XmppStringprepException instead of IllegalArgumentException here, because users don't expect an

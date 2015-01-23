@@ -28,7 +28,7 @@ public class Localpart extends Part {
 	public static Localpart from(String localpart) throws XmppStringprepException {
 		localpart = XmppStringPrepUtil.localprep(localpart);
 		// First prep the String, then assure the limits of the *result*
-		assertNotLongerThen1023BytesOrEmpty(localpart);
+		assertNotLongerThan1023BytesOrEmpty(localpart);
 		return new Localpart(localpart);
 	}
 }

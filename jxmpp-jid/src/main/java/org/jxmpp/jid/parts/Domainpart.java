@@ -34,7 +34,7 @@ public class Domainpart extends Part {
 		}
 		domain = XmppStringPrepUtil.domainprep(domain);
 		// First prep the String, then assure the limits of the *result*
-		assertNotLongerThen1023BytesOrEmpty(domain);
+		assertNotLongerThan1023BytesOrEmpty(domain);
 		return new Domainpart(domain);
 	}
 }

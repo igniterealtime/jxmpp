@@ -28,7 +28,7 @@ public class Resourcepart extends Part {
 	public static Resourcepart from(String resource) throws XmppStringprepException {
 		resource = XmppStringPrepUtil.resourceprep(resource);
 		// First prep the String, then assure the limits of the *result*
-		assertNotLongerThen1023BytesOrEmpty(resource);
+		assertNotLongerThan1023BytesOrEmpty(resource);
 		return new Resourcepart(resource);
 	}
 }
