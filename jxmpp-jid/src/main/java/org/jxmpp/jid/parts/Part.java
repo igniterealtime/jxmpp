@@ -16,6 +16,8 @@
  */
 package org.jxmpp.jid.parts;
 
+import org.jxmpp.stringprep.XmppStringprepException;
+
 public abstract class Part implements CharSequence {
 
 	private final String part;
@@ -57,12 +59,15 @@ public abstract class Part implements CharSequence {
 		return part.hashCode();
 	}
 
-	protected static void assertNotLongerThen1023BytesOrEmpty(String string) {
+	protected static void assertNotLongerThen1023BytesOrEmpty(String string) throws XmppStringprepException {
 		char[] bytes = string.toCharArray();
+
+		// Better throw XmppStringprepException instead of IllegalArgumentException here, because users don't expect an
+		// IAE and it also makes the error handling for users easier.
 		if (bytes.length > 1023) {
-			throw new IllegalArgumentException("Given string '" + string + "' is longer then 1023 bytes");
+			throw new XmppStringprepException(string, "Given string is longer then 1023 bytes");
 		} else if (bytes.length == 0) {
-			throw new IllegalArgumentException("Argument can't be the empty string");
+			throw new XmppStringprepException(string, "Argument can't be the empty string");
 		}
 	}
 }
