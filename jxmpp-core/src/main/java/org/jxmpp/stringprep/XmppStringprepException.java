@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2014 Florian Schmaus
+ * Copyright © 2014-2015 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@ public class XmppStringprepException extends Exception {
 	private final String causingString;
 
 	public XmppStringprepException(String causingString, Exception exception) {
-		super("XmppStringprepException caused by " + causingString + ':' + exception.getMessage(), exception);
+		super("XmppStringprepException caused by '" + causingString + "': " + exception, exception);
 		this.causingString = causingString;
 	}
 
