@@ -21,6 +21,16 @@ import org.jxmpp.stringprep.XmppStringprepException;
 
 public class Resourcepart extends Part {
 
+	/**
+	 * The empty resource part.
+	 * <p>
+	 * This empty resource part is the part that is represented by the empty String. This is usefull in cases where you
+	 * have a collection of Resourceparts that does not allow <code>null</code> values, but you want to deal with the
+	 * "no resource" case.
+	 * </p>
+	 */
+	public static final Resourcepart EMPTY = new Resourcepart("");
+
 	private Resourcepart(String resource) {
 		super(resource);
 	}
