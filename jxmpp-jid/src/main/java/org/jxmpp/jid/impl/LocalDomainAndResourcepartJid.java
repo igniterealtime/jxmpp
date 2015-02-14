@@ -155,4 +155,9 @@ public class LocalDomainAndResourcepartJid extends AbstractJid implements FullJi
 	public Resourcepart maybeGetResourcepart() {
 		return getResource();
 	}
+
+	@Override
+	public Localpart getLocalpart() {
+		return bareJid.getLocalpart();
+	}
 }
