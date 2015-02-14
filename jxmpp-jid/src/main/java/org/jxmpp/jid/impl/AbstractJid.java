@@ -23,6 +23,8 @@ import org.jxmpp.jid.FullJid;
 import org.jxmpp.jid.Jid;
 import org.jxmpp.jid.JidWithLocalpart;
 import org.jxmpp.jid.JidWithResource;
+import org.jxmpp.jid.parts.Localpart;
+import org.jxmpp.jid.parts.Resourcepart;
 
 public abstract class AbstractJid implements Jid {
 
@@ -86,12 +88,12 @@ public abstract class AbstractJid implements Jid {
 	}
 
 	@Override
-	public String getResourceOrNull() {
+	public Resourcepart getResourceOrNull() {
 		return null;
 	}
 
 	@Override
-	public String getLocalpartOrNull() {
+	public Localpart getLocalpartOrNull() {
 		return null;
 	}
 

@@ -16,6 +16,10 @@
  */
 package org.jxmpp.jid;
 
+import org.jxmpp.jid.parts.Domainpart;
+import org.jxmpp.jid.parts.Localpart;
+import org.jxmpp.jid.parts.Resourcepart;
+
 /**
  * A XMPP JID.
  * <p>
@@ -26,7 +30,7 @@ package org.jxmpp.jid;
  */
 public interface Jid extends Comparable<Jid>, CharSequence {
 
-	public String getDomain();
+	public Domainpart getDomain();
 
 	/**
 	 * Returns the escaped String representation of this JID.
@@ -126,7 +130,7 @@ public interface Jid extends Comparable<Jid>, CharSequence {
 	 * 
 	 * @return the resource of this JID or null.
 	 */
-	public String getResourceOrNull();
+	public Resourcepart getResourceOrNull();
 
 	/**
 	 * Get the localpart of this JID or null.
@@ -137,7 +141,7 @@ public interface Jid extends Comparable<Jid>, CharSequence {
 	 * 
 	 * @return the localpart of this JID or null.
 	 */
-	public String getLocalpartOrNull();
+	public Localpart getLocalpartOrNull();
 
 	/**
 	 * Check if this JID is the parent of another JID. The <b>parent of</b> relation is defined, under the

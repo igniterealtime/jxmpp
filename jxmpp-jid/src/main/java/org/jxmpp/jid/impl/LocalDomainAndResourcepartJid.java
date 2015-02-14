@@ -20,6 +20,7 @@ import org.jxmpp.jid.BareJid;
 import org.jxmpp.jid.DomainBareJid;
 import org.jxmpp.jid.DomainFullJid;
 import org.jxmpp.jid.FullJid;
+import org.jxmpp.jid.parts.Localpart;
 import org.jxmpp.jid.parts.Resourcepart;
 import org.jxmpp.stringprep.XmppStringprepException;
 import org.jxmpp.util.XmppStringUtils;
@@ -38,8 +39,8 @@ public class LocalDomainAndResourcepartJid extends LocalAndDomainpartJid impleme
 		this.resource = Resourcepart.from(resource);
 	}
 
-	public final String getResource() {
-		return resource.toString();
+	public final Resourcepart getResource() {
+		return resource;
 	}
 
 	@Override
@@ -104,12 +105,12 @@ public class LocalDomainAndResourcepartJid extends LocalAndDomainpartJid impleme
 	}
 
 	@Override
-	public String getLocalpartOrNull() {
+	public Localpart getLocalpartOrNull() {
 		return getLocalpart();
 	}
 
 	@Override
-	public String getResourceOrNull() {
+	public Resourcepart getResourceOrNull() {
 		return getResource();
 	}
 
@@ -144,5 +145,10 @@ public class LocalDomainAndResourcepartJid extends LocalAndDomainpartJid impleme
 			}
 		}
 		return domainBareJidCache;
+	}
+
+	@Override
+	public Resourcepart getResourcepart() {
+		return resource;
 	}
 }

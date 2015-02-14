@@ -32,8 +32,8 @@ public class DomainpartJid extends AbstractJid implements DomainBareJid {
 		this.domain = Domainpart.from(domain);
 	}
 
-	public final String getDomain() {
-		return domain.toString();
+	public final Domainpart getDomain() {
+		return domain;
 	}
 
 	@Override

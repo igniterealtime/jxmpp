@@ -16,8 +16,10 @@
  */
 package org.jxmpp.jid;
 
+import org.jxmpp.jid.parts.Localpart;
+
 public interface JidWithLocalpart extends Jid {
 
-	public String getLocalpart();
+	public Localpart getLocalpart();
 
 }

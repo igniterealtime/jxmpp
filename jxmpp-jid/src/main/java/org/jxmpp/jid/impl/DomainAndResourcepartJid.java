@@ -45,11 +45,6 @@ public class DomainAndResourcepartJid extends DomainpartJid implements DomainFul
 	}
 
 	@Override
-	public final String getResource() {
-		return resource.toString();
-	}
-
-	@Override
 	public String toString() {
 		if (cache != null) {
 			return cache;
@@ -97,8 +92,8 @@ public class DomainAndResourcepartJid extends DomainpartJid implements DomainFul
 	}
 
 	@Override
-	public String getResourceOrNull() {
-		return getResource();
+	public Resourcepart getResourceOrNull() {
+		return getResourcepart();
 	}
 
 	@Override
@@ -118,6 +113,11 @@ public class DomainAndResourcepartJid extends DomainpartJid implements DomainFul
 
 	@Override
 	public boolean isParentOf(DomainFullJid domainFullJid) {
-		return domain.equals(domainFullJid.getDomain()) && resource.equals(domainFullJid.getResource());
+		return domain.equals(domainFullJid.getDomain()) && resource.equals(domainFullJid.getResourcepart());
+	}
+
+	@Override
+	public Resourcepart getResourcepart() {
+		return resource;
 	}
 }

@@ -39,8 +39,9 @@ public class LocalAndDomainpartJid extends DomainpartJid implements BareJid {
 		this.localpart = Localpart.from(localpart);
 	}
 
-	public final String getLocalpart() {
-		return localpart.toString();
+	@Override
+	public final Localpart getLocalpart() {
+		return localpart;
 	}
 
 	@Override
@@ -48,7 +49,7 @@ public class LocalAndDomainpartJid extends DomainpartJid implements BareJid {
 		if (cache != null) {
 			return cache;
 		}
-		cache = getLocalpart() + '@' + super.toString();
+		cache = getLocalpart().toString() + '@' + super.toString();
 		return cache;
 	}
 
@@ -57,7 +58,7 @@ public class LocalAndDomainpartJid extends DomainpartJid implements BareJid {
 		if (unescapedCache != null) {
 			return unescapedCache;
 		}
-		unescapedCache = XmppStringUtils.unescapeLocalpart(getLocalpart()) + '@' + super.toString();
+		unescapedCache = XmppStringUtils.unescapeLocalpart(getLocalpart().toString()) + '@' + super.toString();
 		return unescapedCache;
 	}
 
