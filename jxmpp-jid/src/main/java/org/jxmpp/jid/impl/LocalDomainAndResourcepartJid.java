@@ -132,4 +132,17 @@ public class LocalDomainAndResourcepartJid extends LocalAndDomainpartJid impleme
 	public boolean isParentOf(DomainFullJid domainFullJid) {
 		return false;
 	}
+
+	@Override
+	public DomainBareJid asDomainBareJid() {
+		if (domainBareJidCache == null) {
+			try {
+				domainBareJidCache = JidCreate.domainBareFrom(XmppStringUtils
+						.completeJidFrom(localpart, domain, resource));
+			} catch (XmppStringprepException e) {
+				throw new AssertionError(e);
+			}
+		}
+		return domainBareJidCache;
+	}
 }

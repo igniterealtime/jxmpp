@@ -109,11 +109,13 @@ public abstract class AbstractJid implements Jid {
 		if (domainFullJid != null) {
 			return isParentOf(domainFullJid);
 		}
-		DomainBareJid domainBareJid = jid.asDomainBareJidIfPossible();
-		if (domainBareJid != null) {
-			return isParentOf(domainBareJid);
-		}
-		throw new AssertionError("Unkown JID class: " + jid.getClass().getName());
+
+		return isParentOf(jid.asDomainBareJid());
+	}
+
+	@Override
+	public final String asDomainBareJidString() {
+		return asDomainBareJid().toString();
 	}
 
 	@Override

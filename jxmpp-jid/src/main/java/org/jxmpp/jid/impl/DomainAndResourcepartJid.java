@@ -72,11 +72,6 @@ public class DomainAndResourcepartJid extends DomainpartJid implements DomainFul
 	}
 
 	@Override
-	public String asDomainBareJidString() {
-		return asDomainBareJid().toString();
-	}
-
-	@Override
 	public final boolean hasNoResource() {
 		return false;
 	}

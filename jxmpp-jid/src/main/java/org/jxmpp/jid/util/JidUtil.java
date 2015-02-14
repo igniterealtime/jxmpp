@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.jxmpp.jid.BareJid;
-import org.jxmpp.jid.DomainBareJid;
 import org.jxmpp.jid.DomainFullJid;
 import org.jxmpp.jid.FullJid;
 import org.jxmpp.jid.Jid;
@@ -51,12 +50,7 @@ public class JidUtil {
 			return bareJid;
 		}
 
-		DomainBareJid domainBareJid = jid.asDomainBareJidIfPossible();
-		if (domainBareJid != null) {
-			return domainBareJid;
-		}
-
-		throw new AssertionError("Given JID has a resource but can not be represent as Bare or DomainBare JID");
+		return jid.asDomainBareJid();
 	}
 
 	/**
@@ -164,27 +158,6 @@ public class JidUtil {
 	public static List<FullJid> filterFullJidList(Collection<? extends Jid> input) {
 		List<FullJid> res = new ArrayList<FullJid>(input.size());
 		filterFullJid(input, res);
-		return res;
-	}
-
-	public static void filterDomainBareJid(Collection<? extends Jid> in, Collection<DomainBareJid> out) {
-		for (Jid jid : in) {
-			DomainBareJid domainBareJid = jid.asDomainBareJidIfPossible();
-			if (domainBareJid != null) {
-				out.add(domainBareJid);
-			}
-		}
-	}
-
-	public static Set<DomainBareJid> filterDomainBareJidSet(Collection<? extends Jid> input) {
-		Set<DomainBareJid> res = new HashSet<DomainBareJid>(input.size());
-		filterDomainBareJid(input, res);
-		return res;
-	}
-
-	public static List<DomainBareJid> filterDomainBareJidList(Collection<? extends Jid> input) {
-		List<DomainBareJid> res = new ArrayList<DomainBareJid>(input.size());
-		filterDomainBareJid(input, res);
 		return res;
 	}
 

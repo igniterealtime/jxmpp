@@ -96,8 +96,19 @@ public interface Jid extends Comparable<Jid>, CharSequence {
 	 * Convert this Jid to a DomainBareJid if possible.
 	 *
 	 * @return the corresponding DomainBareJid or null.
+	 * @deprecated use {@link #asDomainBareJid()} instead.
 	 */
+	@Deprecated
 	public DomainBareJid asDomainBareJidIfPossible();
+
+	/**
+	 * Convert this Jid to a DomainBareJid if possible.
+	 *
+	 * @return the corresponding DomainBareJid or null.
+	 */
+	public DomainBareJid asDomainBareJid();
+
+	public String asDomainBareJidString();
 
 	/**
 	 * Convert this Jid to a DomainFullJid if possible.

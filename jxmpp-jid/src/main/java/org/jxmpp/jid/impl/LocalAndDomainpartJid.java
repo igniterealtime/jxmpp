@@ -29,6 +29,8 @@ public class LocalAndDomainpartJid extends DomainpartJid implements BareJid {
 
 	protected final Localpart localpart;
 
+	protected DomainBareJid domainBareJidCache;
+
 	private String cache;
 	private String unescapedCache;
 
@@ -107,5 +109,18 @@ public class LocalAndDomainpartJid extends DomainpartJid implements BareJid {
 	@Override
 	public boolean isParentOf(DomainFullJid domainFullJid) {
 		return false;
+	}
+
+	@Override
+	public DomainBareJid asDomainBareJid() {
+		if (domainBareJidCache == null) {
+			try {
+				domainBareJidCache = JidCreate.domainBareFrom(XmppStringUtils
+						.completeJidFrom(localpart, domain, null));
+			} catch (XmppStringprepException e) {
+				throw new AssertionError(e);
+			}
+		}
+		return domainBareJidCache;
 	}
 }
