@@ -16,7 +16,9 @@
  */
 package org.jxmpp.stringprep;
 
-public class XmppStringprepException extends Exception {
+import java.io.IOException;
+
+public class XmppStringprepException extends IOException {
 
 	/**
 	 * 
@@ -26,7 +28,8 @@ public class XmppStringprepException extends Exception {
 	private final String causingString;
 
 	public XmppStringprepException(String causingString, Exception exception) {
-		super("XmppStringprepException caused by '" + causingString + "': " + exception, exception);
+		super("XmppStringprepException caused by '" + causingString + "': " + exception);
+		initCause(exception);
 		this.causingString = causingString;
 	}
 
