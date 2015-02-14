@@ -20,7 +20,7 @@ package org.jxmpp.jid;
  * A JID consisting of (at least) a localpart and a domainpart. For example
  * "user@xmpp.org".
  */
-public interface BareJid extends Jid, JidWithLocalpart {
+public interface BareJid extends DomainBareJid, JidWithLocalpart {
 
 	public BareJid asBareJid();
 
