@@ -103,4 +103,9 @@ public class DomainpartJid extends AbstractJid implements DomainBareJid {
 	public boolean isParentOf(DomainFullJid domainFullJid) {
 		return domain.equals(domainFullJid.getDomain());
 	}
+
+	@Override
+	public Jid withoutResource() {
+		return this;
+	}
 }

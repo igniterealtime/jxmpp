@@ -144,6 +144,12 @@ public interface Jid extends Comparable<Jid>, CharSequence {
 	public Localpart getLocalpartOrNull();
 
 	/**
+	 * 
+	 * @return this Jid without a Resourcepart.
+	 */
+	public Jid withoutResource();
+
+	/**
 	 * Check if this JID is the parent of another JID. The <b>parent of</b> relation is defined, under the
 	 * precondition that the JID parts (localpart, domainpart and resourcepart) are equal, as follows:
 	 * <p>

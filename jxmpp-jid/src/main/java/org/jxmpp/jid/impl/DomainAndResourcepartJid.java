@@ -20,6 +20,7 @@ import org.jxmpp.jid.BareJid;
 import org.jxmpp.jid.DomainBareJid;
 import org.jxmpp.jid.DomainFullJid;
 import org.jxmpp.jid.FullJid;
+import org.jxmpp.jid.Jid;
 import org.jxmpp.jid.parts.Resourcepart;
 import org.jxmpp.stringprep.XmppStringprepException;
 import org.jxmpp.util.XmppStringUtils;
@@ -119,5 +120,10 @@ public class DomainAndResourcepartJid extends DomainpartJid implements DomainFul
 	@Override
 	public Resourcepart getResourcepart() {
 		return resource;
+	}
+
+	@Override
+	public Jid withoutResource() {
+		return asDomainBareJid();
 	}
 }
