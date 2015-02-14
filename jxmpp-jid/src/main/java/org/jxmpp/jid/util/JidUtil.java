@@ -33,27 +33,6 @@ import org.jxmpp.util.XmppStringUtils;
 public class JidUtil {
 
 	/**
-	 * Safely transform a JID to any JID without a resource.
-	 * <p>
-	 * Useful for situations where you don't want to put a resource on the wire.
-	 * </p>
-	 * @param jid
-	 * @return the equivalent JID without resource
-	 */
-	public static Jid withoutResource(Jid jid) {
-		if (jid.hasNoResource()) {
-			return jid;
-		}
-
-		BareJid bareJid = jid.asFullJidIfPossible();
-		if (bareJid != null) {
-			return bareJid;
-		}
-
-		return jid.asDomainBareJid();
-	}
-
-	/**
 	 * Check if the given CharSequence represents a valid bare JID.
 	 * <p>
 	 * This method is meant to validate user input and give fast feedback (e.g.
