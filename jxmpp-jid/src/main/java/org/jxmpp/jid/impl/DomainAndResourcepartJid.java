@@ -21,9 +21,10 @@ import org.jxmpp.jid.DomainBareJid;
 import org.jxmpp.jid.DomainFullJid;
 import org.jxmpp.jid.FullJid;
 import org.jxmpp.jid.Jid;
+import org.jxmpp.jid.parts.Domainpart;
+import org.jxmpp.jid.parts.Localpart;
 import org.jxmpp.jid.parts.Resourcepart;
 import org.jxmpp.stringprep.XmppStringprepException;
-import org.jxmpp.util.XmppStringUtils;
 
 /**
  * RFC6122 2.4 allows JIDs with only a domain and resource part.
@@ -33,15 +34,15 @@ import org.jxmpp.util.XmppStringUtils;
  * </p>
  *
  */
-public class DomainAndResourcepartJid extends DomainpartJid implements DomainFullJid {
+public class DomainAndResourcepartJid extends AbstractJid implements DomainFullJid {
 
+	private final DomainBareJid domainBareJid;
 	private final Resourcepart resource;
 
 	private String cache;
-	private DomainBareJid domainBareJidCache;
 
 	DomainAndResourcepartJid(String domain, String resource) throws XmppStringprepException {
-		super(domain);
+		domainBareJid = new DomainpartJid(domain);
 		this.resource = Resourcepart.from(resource);
 	}
 
@@ -50,21 +51,13 @@ public class DomainAndResourcepartJid extends DomainpartJid implements DomainFul
 		if (cache != null) {
 			return cache;
 		}
-		cache = super.toString() + '/' + resource;
+		cache = domainBareJid.toString() + '/' + resource;
 		return cache;
 	}
 
 	@Override
 	public DomainBareJid asDomainBareJid() {
-		if (domainBareJidCache == null) {
-			try {
-				domainBareJidCache = JidCreate.domainBareFrom(XmppStringUtils
-						.completeJidFrom(null, domain, resource));
-			} catch (XmppStringprepException e) {
-				throw new AssertionError(e);
-			}
-		}
-		return domainBareJidCache;
+		return domainBareJid;
 	}
 
 	@Override
@@ -114,7 +107,7 @@ public class DomainAndResourcepartJid extends DomainpartJid implements DomainFul
 
 	@Override
 	public boolean isParentOf(DomainFullJid domainFullJid) {
-		return domain.equals(domainFullJid.getDomain()) && resource.equals(domainFullJid.getResourcepart());
+		return domainBareJid.equals(domainFullJid.getDomain()) && resource.equals(domainFullJid.getResourcepart());
 	}
 
 	@Override
@@ -125,5 +118,25 @@ public class DomainAndResourcepartJid extends DomainpartJid implements DomainFul
 	@Override
 	public Jid withoutResource() {
 		return asDomainBareJid();
+	}
+
+	@Override
+	public Domainpart getDomain() {
+		return domainBareJid.getDomain();
+	}
+
+	@Override
+	public String asUnescapedString() {
+		return toString();
+	}
+
+	@Override
+	public Localpart maybeGetLocalpart() {
+		return null;
+	}
+
+	@Override
+	public Resourcepart maybeGetResourcepart() {
+		return getResourcepart();
 	}
 }

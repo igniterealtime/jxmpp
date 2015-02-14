@@ -32,6 +32,10 @@ public interface Jid extends Comparable<Jid>, CharSequence {
 
 	public Domainpart getDomain();
 
+	public Localpart maybeGetLocalpart();
+
+	public Resourcepart maybeGetResourcepart();
+
 	/**
 	 * Returns the escaped String representation of this JID.
 	 *

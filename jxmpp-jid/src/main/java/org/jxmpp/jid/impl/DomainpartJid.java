@@ -22,6 +22,8 @@ import org.jxmpp.jid.DomainFullJid;
 import org.jxmpp.jid.FullJid;
 import org.jxmpp.jid.Jid;
 import org.jxmpp.jid.parts.Domainpart;
+import org.jxmpp.jid.parts.Localpart;
+import org.jxmpp.jid.parts.Resourcepart;
 import org.jxmpp.stringprep.XmppStringprepException;
 
 public class DomainpartJid extends AbstractJid implements DomainBareJid {
@@ -32,7 +34,8 @@ public class DomainpartJid extends AbstractJid implements DomainBareJid {
 		this.domain = Domainpart.from(domain);
 	}
 
-	public final Domainpart getDomain() {
+	@Override
+	public Domainpart getDomain() {
 		return domain;
 	}
 
@@ -45,13 +48,6 @@ public class DomainpartJid extends AbstractJid implements DomainBareJid {
 	public String asUnescapedString() {
 		// No un-escaping necessary for DomainpartJid
 		return toString();
-	}
-
-	@Override
-	public final int compareTo(Jid  other) {
-		String otherString = other.toString();
-		String myString = toString();
-		return myString.compareTo(otherString);
 	}
 
 	@Override
@@ -108,4 +104,15 @@ public class DomainpartJid extends AbstractJid implements DomainBareJid {
 	public Jid withoutResource() {
 		return this;
 	}
+
+	@Override
+	public Localpart maybeGetLocalpart() {
+		return null;
+	}
+
+	@Override
+	public Resourcepart maybeGetResourcepart() {
+		return null;
+	}
+
 }

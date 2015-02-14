@@ -21,22 +21,21 @@ import org.jxmpp.jid.DomainBareJid;
 import org.jxmpp.jid.DomainFullJid;
 import org.jxmpp.jid.FullJid;
 import org.jxmpp.jid.Jid;
+import org.jxmpp.jid.parts.Domainpart;
 import org.jxmpp.jid.parts.Localpart;
 import org.jxmpp.jid.parts.Resourcepart;
 import org.jxmpp.stringprep.XmppStringprepException;
-import org.jxmpp.util.XmppStringUtils;
 
+public class LocalDomainAndResourcepartJid extends AbstractJid implements FullJid {
 
-public class LocalDomainAndResourcepartJid extends LocalAndDomainpartJid implements FullJid {
-
+	private final BareJid bareJid;
 	private final Resourcepart resource;
 
 	private String cache;
 	private String unescapedCache;
-	private BareJid bareJidCache;
 
 	public LocalDomainAndResourcepartJid(String localpart, String domain, String resource) throws XmppStringprepException {
-		super(localpart, domain);
+		this.bareJid = new LocalAndDomainpartJid(localpart, domain);
 		this.resource = Resourcepart.from(resource);
 	}
 
@@ -49,7 +48,7 @@ public class LocalDomainAndResourcepartJid extends LocalAndDomainpartJid impleme
 		if (cache != null) {
 			return cache;
 		}
-		cache = super.toString() + '/' + resource;
+		cache = bareJid.toString() + '/' + resource;
 		return cache;
 	}
 
@@ -58,21 +57,13 @@ public class LocalDomainAndResourcepartJid extends LocalAndDomainpartJid impleme
 		if (unescapedCache != null) {
 			return unescapedCache;
 		}
-		unescapedCache = super.asUnescapedString() + '/' + resource;
+		unescapedCache = bareJid.asUnescapedString() + '/' + resource;
 		return unescapedCache;
 	}
 
 	@Override
 	public BareJid asBareJid() {
-		if (bareJidCache == null) {
-			try {
-				bareJidCache = JidCreate.bareFrom(XmppStringUtils
-						.completeJidFrom(localpart, domain));
-			} catch (XmppStringprepException e) {
-				throw new AssertionError(e);
-			}
-		}
-		return bareJidCache;
+		return bareJid;
 	}
 
 	@Override
@@ -107,7 +98,7 @@ public class LocalDomainAndResourcepartJid extends LocalAndDomainpartJid impleme
 
 	@Override
 	public Localpart getLocalpartOrNull() {
-		return getLocalpart();
+		return bareJid.getLocalpart();
 	}
 
 	@Override
@@ -137,15 +128,7 @@ public class LocalDomainAndResourcepartJid extends LocalAndDomainpartJid impleme
 
 	@Override
 	public DomainBareJid asDomainBareJid() {
-		if (domainBareJidCache == null) {
-			try {
-				domainBareJidCache = JidCreate.domainBareFrom(XmppStringUtils
-						.completeJidFrom(localpart, domain, resource));
-			} catch (XmppStringprepException e) {
-				throw new AssertionError(e);
-			}
-		}
-		return domainBareJidCache;
+		return bareJid.asDomainBareJid();
 	}
 
 	@Override
@@ -156,5 +139,20 @@ public class LocalDomainAndResourcepartJid extends LocalAndDomainpartJid impleme
 	@Override
 	public Jid withoutResource() {
 		return asBareJid();
+	}
+
+	@Override
+	public Domainpart getDomain() {
+		return bareJid.getDomain();
+	}
+
+	@Override
+	public Localpart maybeGetLocalpart() {
+		return bareJid.getLocalpart();
+	}
+
+	@Override
+	public Resourcepart maybeGetResourcepart() {
+		return getResource();
 	}
 }

@@ -148,4 +148,11 @@ public abstract class AbstractJid implements Jid {
 	public final boolean equals(String string) {
 		return toString().equals(string);
 	}
+
+	@Override
+	public final int compareTo(Jid  other) {
+		String otherString = other.toString();
+		String myString = toString();
+		return myString.compareTo(otherString);
+	}
 }
