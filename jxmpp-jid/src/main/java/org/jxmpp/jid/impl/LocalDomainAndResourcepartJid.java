@@ -34,9 +34,13 @@ public class LocalDomainAndResourcepartJid extends AbstractJid implements FullJi
 	private String cache;
 	private String unescapedCache;
 
-	public LocalDomainAndResourcepartJid(String localpart, String domain, String resource) throws XmppStringprepException {
-		this.bareJid = new LocalAndDomainpartJid(localpart, domain);
-		this.resource = Resourcepart.from(resource);
+	LocalDomainAndResourcepartJid(String localpart, String domain, String resource) throws XmppStringprepException {
+		this(new LocalAndDomainpartJid(localpart, domain), Resourcepart.from(resource));
+	}
+
+	LocalDomainAndResourcepartJid(BareJid bareJid, Resourcepart resource) {
+		this.bareJid = bareJid;
+		this.resource = resource;
 	}
 
 	public final Resourcepart getResource() {

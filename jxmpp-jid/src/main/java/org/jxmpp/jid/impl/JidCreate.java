@@ -21,6 +21,9 @@ import org.jxmpp.jid.DomainBareJid;
 import org.jxmpp.jid.DomainFullJid;
 import org.jxmpp.jid.FullJid;
 import org.jxmpp.jid.Jid;
+import org.jxmpp.jid.parts.Domainpart;
+import org.jxmpp.jid.parts.Localpart;
+import org.jxmpp.jid.parts.Resourcepart;
 import org.jxmpp.stringprep.XmppStringprepException;
 import org.jxmpp.util.cache.Cache;
 import org.jxmpp.util.cache.LruCache;
@@ -114,6 +117,10 @@ public class JidCreate {
 		return bareJid;
 	}
 
+	public static BareJid bareFrom(Localpart localpart, Domainpart domain) {
+		return new LocalAndDomainpartJid(localpart, domain);
+	}
+
 	public static FullJid fullFrom(CharSequence jid) throws XmppStringprepException {
 		return fullFrom(jid.toString());
 	}
@@ -128,12 +135,26 @@ public class JidCreate {
 		String domainpart = XmppStringUtils.parseDomain(jid);
 		String resource = XmppStringUtils.parseResource(jid);
 		try {
-			fullJid = new LocalDomainAndResourcepartJid(localpart, domainpart, resource);
+			fullJid = fullFrom(localpart, domainpart, resource);
 		} catch (XmppStringprepException e) {
 			throw new XmppStringprepException(jid, e);
 		}
 		FULLJID_CACHE.put(jid, fullJid);
 		return fullJid;
+	}
+
+	public static FullJid fullFrom(String localpart, String domainpart, String resource) throws XmppStringprepException {
+		FullJid fullJid;
+		try {
+			fullJid = new LocalDomainAndResourcepartJid(localpart, domainpart, resource);
+		} catch (XmppStringprepException e) {
+			throw new XmppStringprepException(localpart + '@' + domainpart + '/' + resource, e);
+		}
+		return fullJid;
+	}
+
+	public static FullJid fullFrom(BareJid bareJid, Resourcepart resource) {
+		return new LocalDomainAndResourcepartJid(bareJid, resource);
 	}
 
 	/**

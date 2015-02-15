@@ -31,7 +31,11 @@ public class DomainpartJid extends AbstractJid implements DomainBareJid {
 	protected final Domainpart domain;
 
 	DomainpartJid(String domain) throws XmppStringprepException {
-		this.domain = Domainpart.from(domain);
+		this(Domainpart.from(domain));
+	}
+
+	DomainpartJid(Domainpart domain) {
+		this.domain = domain;
 	}
 
 	@Override

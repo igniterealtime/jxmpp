@@ -41,6 +41,11 @@ public class LocalAndDomainpartJid extends AbstractJid implements BareJid {
 		this.localpart = Localpart.from(localpart);
 	}
 
+	LocalAndDomainpartJid(Localpart localpart, Domainpart domain) {
+		this.localpart = localpart;
+		this.domainBareJid = new DomainpartJid(domain);
+	}
+
 	@Override
 	public final Localpart getLocalpart() {
 		return localpart;

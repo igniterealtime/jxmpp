@@ -42,7 +42,7 @@ public class JidCreateTest {
 
 	@Test
 	public void fullFromThrowTest() {
-		final String notAFullJid = "user@example.org";
+		final String notAFullJid = "user@example.org/";
 		try {
 			FullJid jid = JidCreate.fullFrom(notAFullJid);
 			// Should throw
