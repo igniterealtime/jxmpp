@@ -121,7 +121,7 @@ public class LocalAndDomainpartJid extends AbstractJid implements BareJid {
 
 	@Override
 	public Jid withoutResource() {
-		return domainBareJid;
+		return this;
 	}
 
 	@Override
