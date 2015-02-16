@@ -21,6 +21,8 @@ import org.jxmpp.jid.DomainBareJid;
 import org.jxmpp.jid.DomainFullJid;
 import org.jxmpp.jid.FullJid;
 import org.jxmpp.jid.Jid;
+import org.jxmpp.jid.JidWithLocalpart;
+import org.jxmpp.jid.JidWithResource;
 import org.jxmpp.jid.parts.Domainpart;
 import org.jxmpp.jid.parts.Localpart;
 import org.jxmpp.jid.parts.Resourcepart;
@@ -163,5 +165,15 @@ public class LocalDomainAndResourcepartJid extends AbstractJid implements FullJi
 	@Override
 	public Localpart getLocalpart() {
 		return bareJid.getLocalpart();
+	}
+
+	@Override
+	public JidWithLocalpart asJidWithLocalpartIfPossible() {
+		return this;
+	}
+
+	@Override
+	public JidWithResource asJidWithResourcepartIfPossible() {
+		return this;
 	}
 }

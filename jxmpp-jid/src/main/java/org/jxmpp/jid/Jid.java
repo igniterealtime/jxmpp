@@ -100,6 +100,10 @@ public interface Jid extends Comparable<Jid>, CharSequence {
 	 */
 	public FullJid asFullJidIfPossible();
 
+	public JidWithLocalpart asJidWithLocalpartIfPossible();
+
+	public JidWithResource asJidWithResourcepartIfPossible();
+
 	/**
 	 * Convert this Jid to a DomainBareJid if possible.
 	 *
