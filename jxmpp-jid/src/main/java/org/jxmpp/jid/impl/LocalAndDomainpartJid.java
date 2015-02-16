@@ -150,4 +150,9 @@ public class LocalAndDomainpartJid extends AbstractJid implements BareJid {
 	public JidWithResource asJidWithResourcepartIfPossible() {
 		return null;
 	}
+
+	@Override
+	public BareJid asBareJid() {
+		return this;
+	}
 }

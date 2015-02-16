@@ -22,4 +22,6 @@ public interface JidWithLocalpart extends Jid {
 
 	public Localpart getLocalpart();
 
+	public BareJid asBareJid();
+
 }
