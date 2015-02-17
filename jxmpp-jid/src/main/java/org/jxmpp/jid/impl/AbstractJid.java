@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2014 Florian Schmaus
+ * Copyright © 2014-2015 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -88,13 +88,21 @@ public abstract class AbstractJid implements Jid {
 	}
 
 	@Override
-	public Resourcepart getResourceOrNull() {
-		return null;
+	public abstract Resourcepart getResourceOrNull();
+
+	@Override
+	public abstract Localpart getLocalpartOrNull();
+
+	@Override
+	@Deprecated
+	public final Localpart maybeGetLocalpart() {
+		return getLocalpartOrNull();
 	}
 
 	@Override
-	public Localpart getLocalpartOrNull() {
-		return null;
+	@Deprecated
+	public final Resourcepart maybeGetResourcepart() {
+		return getResourceOrNull();
 	}
 
 	@Override

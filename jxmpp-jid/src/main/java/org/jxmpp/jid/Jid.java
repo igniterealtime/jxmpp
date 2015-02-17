@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2014 Florian Schmaus
+ * Copyright © 2014-2015 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,8 +32,20 @@ public interface Jid extends Comparable<Jid>, CharSequence {
 
 	public Domainpart getDomain();
 
+	/**
+	 * 
+	 * @return a Localpart or null.
+	 * @deprecated use {@link #getLocalpartOrNull()} instead.
+	 */
+	@Deprecated
 	public Localpart maybeGetLocalpart();
 
+	/**
+	 * 
+	 * @return a Resourcepart or null.
+	 * @deprecated use {@link #getResourceOrNull()} instead.
+	 */
+	@Deprecated
 	public Resourcepart maybeGetResourcepart();
 
 	/**

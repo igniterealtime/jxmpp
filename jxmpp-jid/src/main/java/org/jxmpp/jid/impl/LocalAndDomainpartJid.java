@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2014 Florian Schmaus
+ * Copyright © 2014-2015 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,7 +30,7 @@ import org.jxmpp.stringprep.XmppStringprepException;
 import org.jxmpp.util.XmppStringUtils;
 
 
-public class LocalAndDomainpartJid extends AbstractJid implements BareJid {
+public final class LocalAndDomainpartJid extends AbstractJid implements BareJid {
 
 	private final DomainBareJid domainBareJid;
 	private final Localpart localpart;
@@ -132,16 +132,6 @@ public class LocalAndDomainpartJid extends AbstractJid implements BareJid {
 	}
 
 	@Override
-	public Localpart maybeGetLocalpart() {
-		return getLocalpart();
-	}
-
-	@Override
-	public Resourcepart maybeGetResourcepart() {
-		return null;
-	}
-
-	@Override
 	public JidWithLocalpart asJidWithLocalpartIfPossible() {
 		return this;
 	}
@@ -154,5 +144,15 @@ public class LocalAndDomainpartJid extends AbstractJid implements BareJid {
 	@Override
 	public BareJid asBareJid() {
 		return this;
+	}
+
+	@Override
+	public Resourcepart getResourceOrNull() {
+		return null;
+	}
+
+	@Override
+	public Localpart getLocalpartOrNull() {
+		return getLocalpart();
 	}
 }

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2014 Florian Schmaus
+ * Copyright © 2014-2015 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@ import org.jxmpp.jid.parts.Localpart;
 import org.jxmpp.jid.parts.Resourcepart;
 import org.jxmpp.stringprep.XmppStringprepException;
 
-public class LocalDomainAndResourcepartJid extends AbstractJid implements FullJid {
+public final class LocalDomainAndResourcepartJid extends AbstractJid implements FullJid {
 
 	private final BareJid bareJid;
 	private final Resourcepart resource;
@@ -150,16 +150,6 @@ public class LocalDomainAndResourcepartJid extends AbstractJid implements FullJi
 	@Override
 	public Domainpart getDomain() {
 		return bareJid.getDomain();
-	}
-
-	@Override
-	public Localpart maybeGetLocalpart() {
-		return bareJid.getLocalpart();
-	}
-
-	@Override
-	public Resourcepart maybeGetResourcepart() {
-		return getResource();
 	}
 
 	@Override
