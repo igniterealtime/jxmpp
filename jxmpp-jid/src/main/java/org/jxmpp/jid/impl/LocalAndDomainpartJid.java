@@ -32,6 +32,11 @@ import org.jxmpp.util.XmppStringUtils;
 
 public final class LocalAndDomainpartJid extends AbstractJid implements BareJid {
 
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private final DomainBareJid domainBareJid;
 	private final Localpart localpart;
 

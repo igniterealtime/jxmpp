@@ -28,6 +28,11 @@ import org.jxmpp.jid.parts.Resourcepart;
 
 public abstract class AbstractJid implements Jid {
 
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Override
 	public final boolean isBareOrFullJid() {
 		return isBareJid() || isFullJid();

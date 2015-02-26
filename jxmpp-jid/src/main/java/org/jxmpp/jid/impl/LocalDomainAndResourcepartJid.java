@@ -30,6 +30,11 @@ import org.jxmpp.stringprep.XmppStringprepException;
 
 public final class LocalDomainAndResourcepartJid extends AbstractJid implements FullJid {
 
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private final BareJid bareJid;
 	private final Resourcepart resource;
 

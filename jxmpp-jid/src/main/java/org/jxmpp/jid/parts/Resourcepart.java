@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2014 Florian Schmaus
+ * Copyright © 2014-2015 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,11 @@ import org.jxmpp.stringprep.XmppStringPrepUtil;
 import org.jxmpp.stringprep.XmppStringprepException;
 
 public class Resourcepart extends Part {
+
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * The empty resource part.

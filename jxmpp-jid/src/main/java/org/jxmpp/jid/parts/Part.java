@@ -16,9 +16,16 @@
  */
 package org.jxmpp.jid.parts;
 
+import java.io.Serializable;
+
 import org.jxmpp.stringprep.XmppStringprepException;
 
-public abstract class Part implements CharSequence {
+public abstract class Part implements CharSequence, Serializable {
+
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 1L;
 
 	private final String part;
 

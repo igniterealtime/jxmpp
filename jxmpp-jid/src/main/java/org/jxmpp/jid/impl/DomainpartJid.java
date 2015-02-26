@@ -30,6 +30,11 @@ import org.jxmpp.stringprep.XmppStringprepException;
 
 public final class DomainpartJid extends AbstractJid implements DomainBareJid {
 
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 1L;
+
 	protected final Domainpart domain;
 
 	DomainpartJid(String domain) throws XmppStringprepException {

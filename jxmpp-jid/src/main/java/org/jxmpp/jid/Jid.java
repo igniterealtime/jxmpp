@@ -16,6 +16,8 @@
  */
 package org.jxmpp.jid;
 
+import java.io.Serializable;
+
 import org.jxmpp.jid.parts.Domainpart;
 import org.jxmpp.jid.parts.Localpart;
 import org.jxmpp.jid.parts.Resourcepart;
@@ -28,7 +30,7 @@ import org.jxmpp.jid.parts.Resourcepart;
  * or the unsecaped String of the JID with {@link #asUnescapedString()}.
  * </p>
  */
-public interface Jid extends Comparable<Jid>, CharSequence {
+public interface Jid extends Comparable<Jid>, CharSequence, Serializable {
 
 	public Domainpart getDomain();
 
