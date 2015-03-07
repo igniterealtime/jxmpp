@@ -117,6 +117,10 @@ public class JidCreate {
 		return bareJid;
 	}
 
+	public static BareJid bareFrom(Localpart localpart, DomainBareJid domainBareJid) {
+		return bareFrom(localpart, domainBareJid.getDomain());
+	}
+
 	public static BareJid bareFrom(Localpart localpart, Domainpart domain) {
 		return new LocalAndDomainpartJid(localpart, domain);
 	}
@@ -153,6 +157,14 @@ public class JidCreate {
 		return fullJid;
 	}
 
+	public static FullJid fullFrom(Localpart localpart, DomainBareJid domainBareJid, Resourcepart resource) {
+		return fullFrom(localpart, domainBareJid.getDomain(), resource);
+	}
+
+	public static FullJid fullFrom(Localpart localpart, Domainpart domainpart, Resourcepart resource) {
+		return fullFrom(bareFrom(localpart, domainpart), resource);
+	}
+
 	public static FullJid fullFrom(BareJid bareJid, Resourcepart resource) {
 		return new LocalDomainAndResourcepartJid(bareJid, resource);
 	}
@@ -187,6 +199,10 @@ public class JidCreate {
 		}
 		DOMAINJID_CACHE.put(jid, domainJid);
 		return domainJid;
+	}
+
+	public static DomainBareJid domainBareFrom(Domainpart domainpart) {
+		return new DomainpartJid(domainpart);
 	}
 
 	/**
@@ -234,4 +250,11 @@ public class JidCreate {
 		return domainResourceJid;
 	}
 
+	public static DomainFullJid domainFullFrom(Domainpart domainpart, Resourcepart resource) {
+		return domainFullFrom(domainBareFrom(domainpart), resource);
+	}
+
+	public static DomainFullJid domainFullFrom(DomainBareJid domainBareJid, Resourcepart resource) {
+		return new DomainAndResourcepartJid(domainBareJid, resource);
+	}
 }
