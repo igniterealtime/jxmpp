@@ -16,10 +16,16 @@
  */
 package org.jxmpp.stringprep;
 
+import org.jxmpp.stringprep.simple.SimpleXmppStringprep;
 import org.jxmpp.util.cache.Cache;
 import org.jxmpp.util.cache.LruCache;
 
 public class XmppStringPrepUtil {
+
+	static {
+		// Ensure that there is always at least the simple XMPP stringprep implementation active
+		SimpleXmppStringprep.setup();
+	}
 
 	private static final Cache<String, String> NODEPREP_CACHE = new LruCache<String, String>(100);
 	private static final Cache<String, String> DOMAINPREP_CACHE = new LruCache<String, String>(100);
