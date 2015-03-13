@@ -43,17 +43,23 @@ jxmpp-jid
 ---------
 
 Abstracts XMPP JIDs with Java classes, performing string preparation and validation.
-Although JIDs are split over five classes, jxmpp-jid is designed so that you often only need to use the simple `JID` type.
+Although JIDs are split over five classes, jxmpp-jid is designed so that you often only need to use the simple `Jid` type.
 It therefore combines the simplicity of the single JID class approach, where JIDs are represented by a single class no matter what kind of JID they are, which the expressiveness of the JID class hierarchy approach, where you can express in a method signature the required JID type (e.g. `foo(BareJid bareJid)`.
 
 ```text
-            Jid
-            / \
-           /   \
-          /     \
+         ,___Jid___,
+        /    / \    \
+  FullJid   /   \  DomainFullJid
       BareJid  DomainBareJid
-       /           \
-   FullJid        DomainFullJid
+```
+
+There are also the `JidWithLocalpart` and `JidWithResourepart` interfaces, which are implemented by the Jid types as follows:
+
+```text
+     JidWithLocalpart       JidWithResourcepart
+         /    \                   /   \
+        /      \                 /     \
+    BareJid  FullJid         FullJid  DomainFullJid
 ```
 
 Jid instances are created with the help of the `JidCreate` utility:
