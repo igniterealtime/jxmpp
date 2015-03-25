@@ -23,12 +23,14 @@ import org.jxmpp.jid.parts.Localpart;
 import org.jxmpp.jid.parts.Resourcepart;
 
 /**
- * A XMPP JID.
+ * An XMPP JID, which acts as globally unique address within the XMPP network.
  * <p>
  * This is the super interface for all JID types. Every JID consists at least of
  * a domainpart. You can retrieve the escaped String with {@link #toString()}
  * or the unsecaped String of the JID with {@link #asUnescapedString()}.
  * </p>
+ * @see <a href="http://xmpp.org/rfcs/rfc6120.html#arch-addresses">RFC 6120 (XMPP: Core) § 2.1 Global Addresses</a>
+ * @see <a href="http://xmpp.org/rfcs/rfc6122.html#addressing-fundamentals">RFC 6122 (XMPP: Address Format) § 2.1 Fundamentals</a>
  */
 public interface Jid extends Comparable<Jid>, CharSequence, Serializable {
 
