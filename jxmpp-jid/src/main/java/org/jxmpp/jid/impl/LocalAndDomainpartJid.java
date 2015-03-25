@@ -87,11 +87,6 @@ public final class LocalAndDomainpartJid extends AbstractJid implements BareJid 
 	}
 
 	@Override
-	public DomainBareJid asDomainBareJidIfPossible() {
-		return null;
-	}
-
-	@Override
 	public DomainFullJid asDomainFullJidIfPossible() {
 		return null;
 	}

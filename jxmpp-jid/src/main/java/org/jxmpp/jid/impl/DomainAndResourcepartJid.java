@@ -87,11 +87,6 @@ public final class DomainAndResourcepartJid extends AbstractJid implements Domai
 	}
 
 	@Override
-	public DomainBareJid asDomainBareJidIfPossible() {
-		return asDomainBareJid();
-	}
-
-	@Override
 	public DomainFullJid asDomainFullJidIfPossible() {
 		return this;
 	}
