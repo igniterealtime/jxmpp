@@ -18,6 +18,11 @@ package org.jxmpp.jid;
 
 import org.jxmpp.jid.parts.Resourcepart;
 
+/**
+ * A Jid which has a {@link Resourcepart}. Either {@link FullJid} or {@link DomainFullJid}.
+ *
+ * @see Jid
+ */
 public interface JidWithResource extends Jid {
 
 	public Resourcepart getResourcepart();

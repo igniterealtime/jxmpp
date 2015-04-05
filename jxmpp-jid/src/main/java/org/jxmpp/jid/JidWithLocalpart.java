@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2014 Florian Schmaus
+ * Copyright © 2014-2015 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,11 @@ package org.jxmpp.jid;
 
 import org.jxmpp.jid.parts.Localpart;
 
+/**
+ * A Jid which has a {@link Localpart}. Either {@link BareJid} or {@link FullJid}.
+ * 
+ * @see Jid
+ */
 public interface JidWithLocalpart extends Jid {
 
 	public Localpart getLocalpart();

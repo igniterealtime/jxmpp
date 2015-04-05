@@ -24,16 +24,28 @@ import org.jxmpp.jid.parts.Resourcepart;
 
 /**
  * An XMPP JID, which acts as globally unique address within the XMPP network.
- * <p>
+ *
+ * JIDs are created from Strings or CharSequences with the {@link org.jxmpp.jid.impl.JidCreate} utility.
+ * <pre>
+ * {@code
+ * Jid jid = JidCreate.from("juliet@capulet.org/balcony");
+ * BareJid bareJid = JidCreate.from("romeo@montague.net");
+ * }
+ * </pre>
  * This is the super interface for all JID types. Every JID consists at least of
- * a domainpart. You can retrieve the escaped String with {@link #toString()}
+ * a {@link Domainpart}. You can retrieve the escaped String representing the Jid with {@link #toString()}
  * or the unsecaped String of the JID with {@link #asUnescapedString()}.
- * </p>
+ *
  * @see <a href="http://xmpp.org/rfcs/rfc6120.html#arch-addresses">RFC 6120 (XMPP: Core) § 2.1 Global Addresses</a>
  * @see <a href="http://xmpp.org/rfcs/rfc6122.html#addressing-fundamentals">RFC 6122 (XMPP: Address Format) § 2.1 Fundamentals</a>
  */
 public interface Jid extends Comparable<Jid>, CharSequence, Serializable {
 
+	/**
+	 * Get the {@link Domainpart} of this Jid.
+	 *
+	 * @return the domainpart.
+	 */
 	public Domainpart getDomain();
 
 	/**
@@ -61,8 +73,18 @@ public interface Jid extends Comparable<Jid>, CharSequence, Serializable {
 	 */
 	public String toString();
 
+	/**
+	 * Return the <b>unescaped</b> String representation of this JID.
+	 *
+	 * @return the unescaped String represetnation of this JID.
+	 */
 	public String asUnescapedString();
 
+	/**
+	 * Check if this is a {@link BareJid} or {@link FullJid}.
+	 *
+	 * @return true if this is an instance of BareJid or FullJid.
+	 */
 	public boolean isBareOrFullJid();
 
 	/**
@@ -100,8 +122,18 @@ public interface Jid extends Comparable<Jid>, CharSequence, Serializable {
 	 */
 	public boolean hasNoResource();
 
+	/**
+	 * Check if this is a Jid with a {@link Resourcepart}.
+	 *
+	 * @return true if this Jid has a resourcepart.
+	 */
 	public boolean hasResource();
 
+	/**
+	 * Check if this is a Jid with a {@link Localpart}.
+	 *
+	 * @return true if this Jid has a localpart.
+	 */
 	public boolean hasLocalpart();
 
 	/**
@@ -118,21 +150,41 @@ public interface Jid extends Comparable<Jid>, CharSequence, Serializable {
 	 */
 	public FullJid asFullJidIfPossible();
 
+	/**
+	 * Convert this Jid to a {@link JidWithLocalpart} if possible.
+	 *
+	 * @return the corresponding JidWithLocalpart or null.
+	 */
 	public JidWithLocalpart asJidWithLocalpartIfPossible();
 
+	/**
+	 * Convert this Jid to a {@link JidWithResource} if possible.
+	 *
+	 * @return the corresponding JidWithResourcepart or null.
+	 */
 	public JidWithResource asJidWithResourcepartIfPossible();
 
 	/**
-	 * Convert this Jid to a DomainBareJid if possible.
+	 * Convert this Jid to a {@link DomainBareJid}.
+	 * <p>
+	 * Note that it is always possible to convert a Jid to a DomainBareJid, since every Jid has a domain part.
+	 * </p>
 	 *
-	 * @return the corresponding DomainBareJid or null.
+	 * @return the corresponding DomainBareJid.
 	 */
 	public DomainBareJid asDomainBareJid();
 
+	/**
+	 * Deprecated.
+	 *
+	 * @return the domain bare Jid string
+	 * @deprecated use {@link #asDomainBareJid()} and {@code toString()} instead.
+	 */
+	@Deprecated
 	public String asDomainBareJidString();
 
 	/**
-	 * Convert this Jid to a DomainFullJid if possible.
+	 * Convert this Jid to a {@link DomainFullJid} if possible.
 	 *
 	 * @return the corresponding DomainFullJid or null.
 	 */

@@ -129,6 +129,7 @@ public abstract class AbstractJid implements Jid {
 	}
 
 	@Override
+	@SuppressWarnings("deprecation")
 	public final String asDomainBareJidString() {
 		return asDomainBareJid().toString();
 	}
