@@ -222,7 +222,7 @@ public class XmppDateTime {
 	 * zone definition. The major difference is that XEP-0082 uses a smicolon
 	 * between hours and minutes and RFC822 does not.
 	 * 
-	 * @param dateString
+	 * @param dateString the date String.
 	 * @return the String with converted timezone
 	 */
 	public static String convertXep82TimezoneToRfc822(String dateString) {
@@ -246,9 +246,9 @@ public class XmppDateTime {
 	}
 
 	/**
-	 * Converts a time zone to the String format as specified in XEP-0082
+	 * Converts a time zone to the String format as specified in XEP-0082.
 	 * 
-	 * @param timeZone
+	 * @param timeZone the time zone to convert.
 	 * @return the String representation of the TimeZone
 	 */
 	public static String asString(TimeZone timeZone) {

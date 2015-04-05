@@ -127,7 +127,7 @@ public class XmppStringUtils {
 	/**
 	 * Returns true if jid is a full JID (i.e. a JID with resource part).
 	 * 
-	 * @param jid
+	 * @param jid the String to check.
 	 * @return true if full JID, false otherwise
 	 */
 	public static boolean isFullJID(String jid) {
@@ -147,7 +147,7 @@ public class XmppStringUtils {
 	 * errors.
 	 * </p>
 	 *
-	 * @param jid
+	 * @param jid the String to check.
 	 * @return true if bare JID, false otherwise
 	 */
 	public static boolean isBareJid(String jid) {
@@ -163,12 +163,12 @@ public class XmppStringUtils {
 	 * Escapes the localpart of a JID according to "JID Escaping" (XEP-0106).
 	 * Escaping replaces characters prohibited by Nodeprep with escape sequences,
 	 * as follows:
-	 * <p>
 	 * <table border="1">
+	 * <caption>Character mappings</caption>
 	 * <tr><td><b>Unescaped Character</b></td><td><b>Encoded Sequence</b></td></tr>
 	 * <tr><td>&lt;space&gt;</td><td>\20</td></tr>
 	 * <tr><td>"</td><td>\22</td></tr>
-	 * <tr><td>&</td><td>\26</td></tr>
+	 * <tr><td>&amp;</td><td>\26</td></tr>
 	 * <tr><td>'</td><td>\27</td></tr>
 	 * <tr><td>/</td><td>\2f</td></tr>
 	 * <tr><td>:</td><td>\3a</td></tr>
@@ -177,7 +177,6 @@ public class XmppStringUtils {
 	 * <tr><td>@</td><td>\40</td></tr>
 	 * <tr><td>\</td><td>\5c</td></tr>
 	 * </table>
-	 * </p>
 	 *
 	 * <p>
 	 * This process is useful when the localpart comes from an external source that doesn't
@@ -252,12 +251,12 @@ public class XmppStringUtils {
 	 * Escaping replaces characters prohibited by Nodeprep with escape sequences,
 	 * as follows:
 	 * 
-	 * <p>
 	 * <table border="1">
+	 * <caption>Characeter mapping</caption>
 	 * <tr><td><b>Unescaped Character</b></td><td><b>Encoded Sequence</b></td></tr>
 	 * <tr><td>&lt;space&gt;</td><td>\20</td></tr>
 	 * <tr><td>"</td><td>\22</td></tr>
-	 * <tr><td>&</td><td>\26</td></tr>
+	 * <tr><td>&amp;</td><td>\26</td></tr>
 	 * <tr><td>'</td><td>\27</td></tr>
 	 * <tr><td>/</td><td>\2f</td></tr>
 	 * <tr><td>:</td><td>\3a</td></tr>
@@ -266,7 +265,6 @@ public class XmppStringUtils {
 	 * <tr><td>@</td><td>\40</td></tr>
 	 * <tr><td>\</td><td>\5c</td></tr>
 	 * </table>
-	 * </p>
 	 *
 	 * <p>
 	 * This process is useful when the localpart comes from an external source that doesn't
@@ -407,8 +405,8 @@ public class XmppStringUtils {
 	 * Attribute-Value Normalization</a>.
 	 * </p>
 	 * 
-	 * @param element
-	 * @param namespace
+	 * @param element the element.
+	 * @param namespace the namespace.
 	 * @return the unique key of element and namespace.
 	 */
 	public static String generateKey(String element, String namespace) {

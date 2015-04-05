@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2014-2015 Florian Schmaus
+ * Copyright 2015 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,15 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jxmpp.util.cache;
 
-public interface Cache<K, V> {
-
-	public V put(K key, V value);
-
-	public V get(Object key);
-
-	public int getMaxCacheSize();
-
-	public void setMaxCacheSize(int size);
-}
+/**
+ * TODO describe me.
+ */
+package org.jxmpp.stringprep.libidn;

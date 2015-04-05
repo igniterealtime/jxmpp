@@ -37,7 +37,8 @@ public interface Jid extends Comparable<Jid>, CharSequence, Serializable {
 	public Domainpart getDomain();
 
 	/**
-	 * 
+	 * Get the {@link Localpart}.
+	 *
 	 * @return a Localpart or null.
 	 * @deprecated use {@link #getLocalpartOrNull()} instead.
 	 */
@@ -45,7 +46,8 @@ public interface Jid extends Comparable<Jid>, CharSequence, Serializable {
 	public Localpart maybeGetLocalpart();
 
 	/**
-	 * 
+	 * Get the {@link Resourcepart}.
+	 *
 	 * @return a Resourcepart or null.
 	 * @deprecated use {@link #getResourceOrNull()} instead.
 	 */
@@ -139,7 +141,7 @@ public interface Jid extends Comparable<Jid>, CharSequence, Serializable {
 	/**
 	 * Get the resourcepart of this JID or null.
 	 * <p>
-	 * If the JID is of form <localpart@domain.example/resource> then this method returns 'resource'. If the JID no
+	 * If the JID is of form {@code <localpart@domain.example/resource>} then this method returns 'resource'. If the JID no
 	 * resourcepart, then <code>null</code> is returned.
 	 * </p>
 	 * 
@@ -150,7 +152,7 @@ public interface Jid extends Comparable<Jid>, CharSequence, Serializable {
 	/**
 	 * Get the localpart of this JID or null.
 	 * <p>
-	 * If the JID is of form <localpart@domain.example> then this method returns 'localpart'. If the JID has no
+	 * If the JID is of form {@code <localpart@domain.example>} then this method returns 'localpart'. If the JID has no
 	 * localpart, then <code>null</code> is returned.
 	 * </p>
 	 * 
@@ -159,7 +161,8 @@ public interface Jid extends Comparable<Jid>, CharSequence, Serializable {
 	public Localpart getLocalpartOrNull();
 
 	/**
-	 * 
+	 * Return a JID created by removing the Resourcepart from this JID.
+	 *
 	 * @return this Jid without a Resourcepart.
 	 */
 	public Jid withoutResource();
@@ -167,7 +170,6 @@ public interface Jid extends Comparable<Jid>, CharSequence, Serializable {
 	/**
 	 * Check if this JID is the parent of another JID. The <b>parent of</b> relation is defined, under the
 	 * precondition that the JID parts (localpart, domainpart and resourcepart) are equal, as follows:
-	 * <p>
 	 * <pre>
 	 * | this JID (parentOf) | other JID           | result |
 	 * |---------------------+---------------------+--------|
@@ -188,7 +190,6 @@ public interface Jid extends Comparable<Jid>, CharSequence, Serializable {
 	 * | loc@dom.example/res | loc@dom.example     | false  |
 	 * | loc@dom.example/res | loc@dom.example/res | true   |
 	 * </pre>
-	 * </p>
 	 * 
 	 * @param jid
 	 *            the other JID to compare with
@@ -199,7 +200,7 @@ public interface Jid extends Comparable<Jid>, CharSequence, Serializable {
 	/**
 	 * See {@link #isParentOf(Jid)}.
 	 *
-	 * @param bareJid
+	 * @param bareJid the bare JID.
 	 * @return true if this JID is a parent of the given JID.
 	 */
 	public boolean isParentOf(BareJid bareJid);
@@ -207,7 +208,7 @@ public interface Jid extends Comparable<Jid>, CharSequence, Serializable {
 	/**
 	 * See {@link #isParentOf(Jid)}.
 	 *
-	 * @param fullJid
+	 * @param fullJid the full JID.
 	 * @return true if this JID is a parent of the given JID.
 	 */
 	public boolean isParentOf(FullJid fullJid);
@@ -215,7 +216,7 @@ public interface Jid extends Comparable<Jid>, CharSequence, Serializable {
 	/**
 	 * See {@link #isParentOf(Jid)}.
 	 *
-	 * @param domainBareJid
+	 * @param domainBareJid the domain bare JID.
 	 * @return true if this JID is a parent of the given JID.
 	 */
 	public boolean isParentOf(DomainBareJid domainBareJid);
@@ -223,14 +224,15 @@ public interface Jid extends Comparable<Jid>, CharSequence, Serializable {
 	/**
 	 * See {@link #isParentOf(Jid)}.
 	 *
-	 * @param domainFullJid
+	 * @param domainFullJid the domain full JID.
 	 * @return true if this JID is a parent of the given JID.
 	 */
 	public boolean isParentOf(DomainFullJid domainFullJid);
 
 	/**
 	 * Return the downcasted instance of this Jid. This method is unsafe, make sure to check that this is actually of the type of are casting to.
-	 * 
+	 *
+	 * @param <T> the Jid type to downcast to.
 	 * @return the downcasted instanced of this
 	 */
 	public <T extends Jid> T downcast();

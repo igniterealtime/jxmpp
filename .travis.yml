@@ -2,5 +2,9 @@ language: android
 android:
   components:
     - android-8
+jdk:
+  - oraclejdk8
+  - oraclejdk7
+
 install: gradle assemble
 script: gradle check

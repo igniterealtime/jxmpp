@@ -18,8 +18,6 @@ package org.jxmpp.util;
 
 import static org.junit.Assert.assertEquals;
 
-import org.jxmpp.util.XmppStringUtils;
-
 import org.junit.Test;
 
 public class XmppStringUtilsTest {

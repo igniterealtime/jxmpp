@@ -40,7 +40,7 @@ public class JidUtil {
 	 * bare JID.
 	 * </p>
 	 * 
-	 * @param jid
+	 * @param jid the CharSequence to check.
 	 * @return true if @{code jid} represents a valid bare JID, false otherwise
 	 */
 	public static boolean isValidBareJid(CharSequence jid) {
@@ -65,8 +65,8 @@ public class JidUtil {
 	 * 
 	 * @param jidcs the JID CharSequence
 	 * @return a BareJid instance representing the given JID CharSequence
-	 * @throws NotABareJidStringException
-	 * @throws XmppStringprepException
+	 * @throws NotABareJidStringException if the given CharSequence is not a bare JID.
+	 * @throws XmppStringprepException if an error happens.
 	 */
 	public static BareJid validateBareJid(CharSequence jidcs) throws NotABareJidStringException, XmppStringprepException {
 		String jid = jidcs.toString();
@@ -179,7 +179,7 @@ public class JidUtil {
 	 *            the strings that are going to get converted
 	 * @param output
 	 *            the collection where the BareJid's will be added to
-	 * @param exceptions
+	 * @param exceptions the list of exceptions thrown while converting.
 	 */
 	public static void bareJidsFrom(Collection<CharSequence> jidStrings, Collection<BareJid> output,
 			List<XmppStringprepException> exceptions) {
@@ -215,7 +215,7 @@ public class JidUtil {
 	 *            the strings that are going to get converted
 	 * @param output
 	 *            the collection where the Jid's will be added to
-	 * @param exceptions
+	 * @param exceptions the list of exceptions thrown while converting.
 	 */
 	public static void jidsFrom(Collection<CharSequence> jidStrings, Collection<Jid> output,
 			List<XmppStringprepException> exceptions) {

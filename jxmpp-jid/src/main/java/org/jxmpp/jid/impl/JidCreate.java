@@ -170,10 +170,11 @@ public class JidCreate {
 	}
 
 	/**
-	 * 
-	 * @param jid
+	 * Deprecated.
+	 *
+	 * @param jid the JID.
 	 * @return a DopmainBareJid
-	 * @throws XmppStringprepException
+	 * @throws XmppStringprepException if an error happens.
 	 * @deprecated use {@link #domainBareFrom(String)} instead
 	 */
 	@Deprecated
@@ -206,10 +207,11 @@ public class JidCreate {
 	}
 
 	/**
-	 * 
-	 * @param jid
+	 * Deprecated.
+	 *
+	 * @param jid the JID.
 	 * @return a DomainFullJid
-	 * @throws XmppStringprepException
+	 * @throws XmppStringprepException if an error happens.
 	 * @deprecated use {@link #domainFullFrom(String)} instead
 	 */
 	@Deprecated
@@ -218,10 +220,11 @@ public class JidCreate {
 	}
 
 	/**
+	 * Get a domain full JID from the given String.
 	 *
-	 * @param jid
+	 * @param jid the JID.
 	 * @return a DomainFullJid.
-	 * @throws XmppStringprepException
+	 * @throws XmppStringprepException if an error happens.
 	 * @deprecated use {@link #domainFullFrom(String)} instead.
 	 */
 	@Deprecated
