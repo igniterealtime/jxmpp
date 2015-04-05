@@ -16,6 +16,6 @@
  */
 
 /**
- * TODO describe me.
+ * Utility classes for JIDs.
  */
 package org.jxmpp.jid.util;

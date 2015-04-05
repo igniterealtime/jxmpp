@@ -16,6 +16,6 @@
  */
 
 /**
- * TODO describe me.
+ * JXMPP, a XMPP base library.
  */
 package org.jxmpp;

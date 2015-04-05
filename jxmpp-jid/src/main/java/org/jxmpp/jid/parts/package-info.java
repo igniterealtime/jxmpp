@@ -16,6 +16,6 @@
  */
 
 /**
- * TODO describe me.
+ * Classes representing JID parts (Local-, Resource- and Domainpart).
  */
 package org.jxmpp.jid.parts;

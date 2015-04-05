@@ -16,6 +16,6 @@
  */
 
 /**
- * TODO describe me.
+ * Utility classes.
  */
 package org.jxmpp.util;

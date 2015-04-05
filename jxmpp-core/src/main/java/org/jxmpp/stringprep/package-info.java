@@ -16,6 +16,6 @@
  */
 
 /**
- * TODO describe me.
+ * API to transform (prepare) Strings and CharSequences for use in XMPP.
  */
 package org.jxmpp.stringprep;

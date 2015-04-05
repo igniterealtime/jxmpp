@@ -16,6 +16,6 @@
  */
 
 /**
- * TODO describe me.
+ * A simple, but not complete, implementation of XMPP Stringprep.
  */
 package org.jxmpp.stringprep.simple;

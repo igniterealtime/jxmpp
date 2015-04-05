@@ -16,6 +16,6 @@
  */
 
 /**
- * TODO describe me.
+ * Interfaces and classes for XMPP Addresses (JIDs).
  */
 package org.jxmpp.jid;

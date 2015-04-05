@@ -16,6 +16,6 @@
  */
 
 /**
- * TODO describe me.
+ * JXMPP's implementation of {@link org.jxmpp.jid.Jid} and it's subtypes.
  */
 package org.jxmpp.jid.impl;

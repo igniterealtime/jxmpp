@@ -16,6 +16,6 @@
  */
 
 /**
- * TODO describe me.
+ * Fast and efficient Cache implementations.
  */
 package org.jxmpp.util.cache;

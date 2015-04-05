@@ -16,6 +16,6 @@
  */
 
 /**
- * TODO describe me.
+ * XMPP Stringprep done by libidn.
  */
 package org.jxmpp.stringprep.libidn;
