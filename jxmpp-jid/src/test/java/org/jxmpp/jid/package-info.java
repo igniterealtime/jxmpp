@@ -1,1 +1,0 @@
-../../../../../main/java/org/jxmpp/jid/package-info.java
