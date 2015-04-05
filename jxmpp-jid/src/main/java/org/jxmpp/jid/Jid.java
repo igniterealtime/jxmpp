@@ -49,16 +49,25 @@ public interface Jid extends Comparable<Jid>, CharSequence, Serializable {
 	public Domainpart getDomain();
 
 	/**
-	 * Returns the escaped String representation of this JID.
+	 * Returns the String representation of this JID.
 	 *
-	 * @return the escaped String representation of this JID.
+	 * @return the String representation of this JID.
 	 */
 	public String toString();
 
 	/**
 	 * Return the <b>unescaped</b> String representation of this JID.
+	 * <p>
+	 * Since certain Unicode code points are disallowed in the localpart of a JID by the required stringprep profile,
+	 * those need to get escaped when used in a real JID. The unescaped representation of the JID is only for
+	 * presentation to a human user or for gatewaying to a non-XMPP system.
+	 * </p>
+	 * For example, if the users inputs {@code 'at&t guy@example.com'}, the escaped real JID created with
+	 * {@link org.jxmpp.jid.impl.JidCreate} will be {@code 'at\26t\20guy@example.com'}, which is what
+	 * {@link Jid#toString()} will return. But {@link Jid#asUnescapedString()} will return again
+	 * {@code 'at&t guy@example.com'}.
 	 *
-	 * @return the unescaped String represetnation of this JID.
+	 * @return the unescaped String representation of this JID.
 	 */
 	public String asUnescapedString();
 
