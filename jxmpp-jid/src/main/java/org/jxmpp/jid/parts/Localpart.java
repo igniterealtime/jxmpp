@@ -19,6 +19,11 @@ package org.jxmpp.jid.parts;
 import org.jxmpp.stringprep.XmppStringPrepUtil;
 import org.jxmpp.stringprep.XmppStringprepException;
 
+/**
+ * A XMPP Localpart.
+ *
+ * @see <a href="http://xmpp.org/rfcs/rfc6122.html#addressing-localpart">RFC 6122 § 2.3. Localpart</a>
+ */
 public class Localpart extends Part {
 
 	/**
@@ -30,6 +35,13 @@ public class Localpart extends Part {
 		super(localpart);
 	}
 
+	/**
+	 * Get the {@link Localpart} representing the input String.
+	 *
+	 * @param localpart the input String.
+	 * @return the localpart.
+	 * @throws XmppStringprepException if an error occurs.
+	 */
 	public static Localpart from(String localpart) throws XmppStringprepException {
 		localpart = XmppStringPrepUtil.localprep(localpart);
 		// First prep the String, then assure the limits of the *result*

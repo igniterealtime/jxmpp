@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2014 Florian Schmaus
+ * Copyright © 2014-2015 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,14 +22,22 @@ import org.jxmpp.stringprep.XmppStringPrepUtil;
 import org.jxmpp.stringprep.XmppStringprep;
 import org.jxmpp.stringprep.XmppStringprepException;
 
-public class SimpleXmppStringprep implements XmppStringprep {
+public final class SimpleXmppStringprep implements XmppStringprep {
 
 	private static SimpleXmppStringprep instance;
 
+	/**
+	 * Setup Simple XMPP Stringprep as implementation to use.
+	 */
 	public static void setup() {
 		XmppStringPrepUtil.setXmppStringprep(getInstance());
 	}
 
+	/**
+	 * Get the Simple XMPP Stringprep singleton.
+	 *
+	 * @return the simple XMPP Stringprep singleton.
+	 */
 	public static SimpleXmppStringprep getInstance() {
 		if (instance == null) {
 			instance = new SimpleXmppStringprep();

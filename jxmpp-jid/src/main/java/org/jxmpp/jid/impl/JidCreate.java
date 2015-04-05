@@ -51,11 +51,35 @@ public class JidCreate {
 	private static final Cache<String, DomainBareJid> DOMAINJID_CACHE = new LruCache<String, DomainBareJid>(100);
 	private static final Cache<String, DomainFullJid> DOMAINRESOURCEJID_CACHE = new LruCache<String, DomainFullJid>(100);
 
+	/**
+	 * Get a {@link Jid} from the given parts.
+	 * <p>
+	 * Only the domainpart is required.
+	 * </p>
+	 *
+	 * @param localpart a optional localpart.
+	 * @param domainpart a required domainpart.
+	 * @param resource a optional resourcepart.
+	 * @return a JID which consists of the given parts.
+	 * @throws XmppStringprepException if an error occurs.
+	 */
 	public static Jid from(CharSequence localpart, CharSequence domainpart, CharSequence resource)
 			throws XmppStringprepException {
 		return from(localpart.toString(), domainpart.toString(), resource.toString());
 	}
 
+	/**
+	 * Get a {@link Jid} from the given parts.
+	 * <p>
+	 * Only the domainpart is required.
+	 * </p>
+	 *
+	 * @param localpart a optional localpart.
+	 * @param domainpart a required domainpart.
+	 * @param resource a optional resourcepart.
+	 * @return a JID which consists of the given parts.
+	 * @throws XmppStringprepException if an error occurs.
+	 */
 	public static Jid from(String localpart, String domainpart, String resource) throws XmppStringprepException {
 		String jidString = XmppStringUtils.completeJidFrom(localpart, domainpart, resource);
 		Jid jid = JID_CACHE.get(jidString);
@@ -78,11 +102,11 @@ public class JidCreate {
 	}
 
 	/**
-	 * Create a {@link Jid} from a CharSequence.
+	 * Get a {@link Jid} from a CharSequence.
 	 *
 	 * @param jid the input CharSequence.
 	 * @return the Jid represented by the input CharSequence.
-	 * @throws XmppStringprepException if the input CharSequence is not a valid Jid.
+	 * @throws XmppStringprepException if an error occurs.
 	 * @see #from(String)
 	 */
 	public static Jid from(CharSequence jid) throws XmppStringprepException {
@@ -90,11 +114,11 @@ public class JidCreate {
 	}
 
 	/**
-	 * Create a {@link Jid} from a String.
+	 * Get a {@link Jid} from the given String.
 	 *
 	 * @param jidString the input String.
 	 * @return the Jid represented by the input String.
-	 * @throws XmppStringprepException if the input String is not a valid Jid.
+	 * @throws XmppStringprepException if an error occurs.
 	 * @see #from(CharSequence)
 	 */
 	public static Jid from(String jidString) throws XmppStringprepException {
@@ -108,10 +132,24 @@ public class JidCreate {
 		}
 	}
 
+	/**
+	 * Get a {@link Jid} from the given unescaped CharSequence.
+	 *
+	 * @param unescapedJid an unescaped CharSequence representing a JID.
+	 * @return a JID.
+	 * @throws XmppStringprepException if an error occurs.
+	 */
 	public static Jid fromUnescaped(CharSequence unescapedJid) throws XmppStringprepException {
 		return fromUnescaped(unescapedJid.toString());
 	}
 
+	/**
+	 * Get a {@link Jid} from the given unescaped String.
+	 *
+	 * @param unescapedJidString a unescaped String representing a JID.
+	 * @return a JID.
+	 * @throws XmppStringprepException if an error occurs.
+	 */
 	public static Jid fromUnescaped(String unescapedJidString) throws XmppStringprepException {
 		String localpart = XmppStringUtils.parseLocalpart(unescapedJidString);
 		// Some as from(String), but we escape the localpart
@@ -126,10 +164,24 @@ public class JidCreate {
 		}
 	}
 
+	/**
+	 * Get a {@link BareJid} representing the given CharSequence.
+	 *
+	 * @param jid the input CharSequence.
+	 * @return a bare JID representing the given CharSequence.
+	 * @throws XmppStringprepException if an error occurs.
+	 */
 	public static BareJid bareFrom(CharSequence jid) throws XmppStringprepException {
 		return bareFrom(jid.toString());
 	}
 
+	/**
+	 * Get a {@link BareJid} representing the given String.
+	 *
+	 * @param jid the input String.
+	 * @return a bare JID representing the given String.
+	 * @throws XmppStringprepException if an error occurs.
+	 */
 	public static BareJid bareFrom(String jid) throws XmppStringprepException {
 		BareJid bareJid = BAREJID_CACHE.get(jid);
 		if (bareJid != null) {
@@ -147,18 +199,46 @@ public class JidCreate {
 		return bareJid;
 	}
 
+	/**
+	 * Get a {@link BareJid} constructed from the given {@link Localpart} and {link DomainBareJid}.
+	 *
+	 * @param localpart a localpart.
+	 * @param domainBareJid a domain bare JID.
+	 * @return a bare JID.
+	 */
 	public static BareJid bareFrom(Localpart localpart, DomainBareJid domainBareJid) {
 		return bareFrom(localpart, domainBareJid.getDomain());
 	}
 
+	/**
+	 * Get a {@link BareJid} constructed from the given {@link Localpart} and {@link Domainpart}.
+	 *
+	 * @param localpart a localpart.
+	 * @param domain a domainpart.
+	 * @return a bare JID constructed from the given parts.
+	 */
 	public static BareJid bareFrom(Localpart localpart, Domainpart domain) {
 		return new LocalAndDomainpartJid(localpart, domain);
 	}
 
+	/**
+	 * Get a {@link FullJid} representing the given CharSequence.
+	 *
+	 * @param jid a CharSequence representing a JID.
+	 * @return a full JID representing the given CharSequence.
+	 * @throws XmppStringprepException if an error occurs.
+	 */
 	public static FullJid fullFrom(CharSequence jid) throws XmppStringprepException {
 		return fullFrom(jid.toString());
 	}
 
+	/**
+	 * Get a {@link FullJid} representing the given String.
+	 *
+	 * @param jid the JID's String.
+	 * @return a full JID representing the input String.
+	 * @throws XmppStringprepException if an error occurs.
+	 */
 	public static FullJid fullFrom(String jid) throws XmppStringprepException {
 		FullJid fullJid = FULLJID_CACHE.get(jid);
 		if (fullJid != null) {
@@ -177,6 +257,15 @@ public class JidCreate {
 		return fullJid;
 	}
 
+	/**
+	 * Get a {@link FullJid} constructed from the given parts.
+	 *
+	 * @param localpart a localpart.
+	 * @param domainpart a domainpart.
+	 * @param resource a resourcepart.
+	 * @return a full JID.
+	 * @throws XmppStringprepException if an error occurs.
+	 */
 	public static FullJid fullFrom(String localpart, String domainpart, String resource) throws XmppStringprepException {
 		FullJid fullJid;
 		try {
@@ -187,14 +276,37 @@ public class JidCreate {
 		return fullJid;
 	}
 
+	/**
+	 * Get a {@link FullJid} constructed from the given parts.
+	 *
+	 * @param localpart a localpart.
+	 * @param domainBareJid a domain bare JID.. 
+	 * @param resource a resourcepart
+	 * @return a full JID.
+	 */
 	public static FullJid fullFrom(Localpart localpart, DomainBareJid domainBareJid, Resourcepart resource) {
 		return fullFrom(localpart, domainBareJid.getDomain(), resource);
 	}
 
+	/**
+	 * Get a {@link FullJid} constructed from the given parts.
+	 * 
+	 * @param localpart the localpart.
+	 * @param domainpart the domainpart.
+	 * @param resource the resourcepart.
+	 * @return a full JID.
+	 */
 	public static FullJid fullFrom(Localpart localpart, Domainpart domainpart, Resourcepart resource) {
 		return fullFrom(bareFrom(localpart, domainpart), resource);
 	}
 
+	/**
+	 * Get a {@link FullJid} constructed from a {@link BareJid} and a {@link Resourcepart}.
+	 *
+	 * @param bareJid a bare JID.
+	 * @param resource a resourcepart.
+	 * @return a full JID.
+	 */
 	public static FullJid fullFrom(BareJid bareJid, Resourcepart resource) {
 		return new LocalDomainAndResourcepartJid(bareJid, resource);
 	}
@@ -212,10 +324,24 @@ public class JidCreate {
 		return domainBareFrom(jid);
 	}
 
+	/**
+	 * Get a domain bare JID.
+	 *
+	 * @param jid the JID CharSequence.
+	 * @return a domain bare JID.
+	 * @throws XmppStringprepException if an error occurs.
+	 */
 	public static DomainBareJid domainBareFrom(CharSequence jid) throws XmppStringprepException {
 		return domainBareFrom(jid.toString());
 	}
 
+	/**
+	 * Get a domain bare JID.
+	 *
+	 * @param jid the JID String.
+	 * @return a domain bare JID.
+	 * @throws XmppStringprepException if an error occurs.
+	 */
 	public static DomainBareJid domainBareFrom(String jid) throws XmppStringprepException {
 		DomainBareJid domainJid = DOMAINJID_CACHE.get(jid);
 		if (domainJid != null) {
@@ -232,6 +358,12 @@ public class JidCreate {
 		return domainJid;
 	}
 
+	/**
+	 * Get a {@link DomainBareJid} consisting of the given {@link Domainpart}.
+	 *
+	 * @param domainpart the domainpart.
+	 * @return a domain bare JID.
+	 */
 	public static DomainBareJid domainBareFrom(Domainpart domainpart) {
 		return new DomainpartJid(domainpart);
 	}
@@ -262,10 +394,24 @@ public class JidCreate {
 		return domainFullFrom(jid);
 	}
 
+	/**
+	 * Get a domain full JID from the given CharSequence.
+	 *
+	 * @param jid the JID.
+	 * @return a domain full JID.
+	 * @throws XmppStringprepException if an error happens.
+	 */
 	public static DomainFullJid domainFullFrom(CharSequence jid) throws XmppStringprepException {
 		return domainFullFrom(jid.toString());
 	}
 
+	/**
+	 * Get a domain full JID from the given String.
+	 *
+	 * @param jid the JID.
+	 * @return a DomainFullJid.
+	 * @throws XmppStringprepException if an error happens.
+	 */
 	public static DomainFullJid domainFullFrom(String jid) throws XmppStringprepException {
 		DomainFullJid domainResourceJid = DOMAINRESOURCEJID_CACHE.get(jid);
 		if (domainResourceJid != null) {
@@ -283,10 +429,24 @@ public class JidCreate {
 		return domainResourceJid;
 	}
 
+	/**
+	 * Get a domain full JID.
+	 *
+	 * @param domainpart the domainpart.
+	 * @param resource the resourcepart.
+	 * @return a domain full JID.
+	 */
 	public static DomainFullJid domainFullFrom(Domainpart domainpart, Resourcepart resource) {
 		return domainFullFrom(domainBareFrom(domainpart), resource);
 	}
 
+	/**
+	 * Get a domain full JID.
+	 *
+	 * @param domainBareJid a domain bare JID.
+	 * @param resource a resourcepart.
+	 * @return a domain full JID.
+	 */
 	public static DomainFullJid domainFullFrom(DomainBareJid domainBareJid, Resourcepart resource) {
 		return new DomainAndResourcepartJid(domainBareJid, resource);
 	}

@@ -19,6 +19,11 @@ package org.jxmpp.jid.parts;
 import org.jxmpp.stringprep.XmppStringPrepUtil;
 import org.jxmpp.stringprep.XmppStringprepException;
 
+/**
+ * A XMPP Domainpart.
+ *
+ * @see <a href="http://xmpp.org/rfcs/rfc6122.html#addressing-domain">RFC 6122 § 2.2. Domainpart</a>
+ */
 public class Domainpart extends Part {
 
 	/**
@@ -30,6 +35,13 @@ public class Domainpart extends Part {
 		super(domain);
 	}
 
+	/**
+	 * Get the {@link Domainpart} representing the input String.
+	 *
+	 * @param domain the input String.
+	 * @return the domainpart.
+	 * @throws XmppStringprepException if an error occurs.
+	 */
 	public static Domainpart from(String domain) throws XmppStringprepException {
 		// TODO cache
 		// RFC 6122 § 2.2 "If the domainpart includes a final character considered to be a label

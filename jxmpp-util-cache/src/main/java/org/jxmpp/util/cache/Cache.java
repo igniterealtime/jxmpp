@@ -18,11 +18,33 @@ package org.jxmpp.util.cache;
 
 public interface Cache<K, V> {
 
+	/**
+	 * Put a value in the cache.
+	 *
+	 * @param key the key of the value.
+	 * @param value the value.
+	 * @return the previous value or {@code null}.
+	 */
 	public V put(K key, V value);
 
+	/**
+	 * Returns the value of the specified key, or {@code null}.
+	 *
+	 * @param key the key.
+	 * @return the value found in the cache, or {@code null}.
+	 */
 	public V get(Object key);
 
+	/**
+	 * Return the maximum cache Size.
+	 *
+	 * @return the maximum cache size.
+	 */
 	public int getMaxCacheSize();
 
+	/**
+	 * Set the maximum cache size.
+	 * @param size the new maximum cache size.
+	 */
 	public void setMaxCacheSize(int size);
 }

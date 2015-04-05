@@ -50,10 +50,6 @@ public final class LocalDomainAndResourcepartJid extends AbstractJid implements 
 		this.resource = resource;
 	}
 
-	public final Resourcepart getResource() {
-		return resource;
-	}
-
 	@Override
 	public String toString() {
 		if (cache != null) {
@@ -109,7 +105,7 @@ public final class LocalDomainAndResourcepartJid extends AbstractJid implements 
 
 	@Override
 	public Resourcepart getResourceOrNull() {
-		return getResource();
+		return getResourcepart();
 	}
 
 	@Override
@@ -138,7 +134,7 @@ public final class LocalDomainAndResourcepartJid extends AbstractJid implements 
 	}
 
 	@Override
-	public Resourcepart getResourcepart() {
+	public final Resourcepart getResourcepart() {
 		return resource;
 	}
 

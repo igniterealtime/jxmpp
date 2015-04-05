@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2014 Florian Schmaus
+ * Copyright © 2014-2015 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,11 +27,22 @@ public class ExpirationCache<K, V> implements Cache<K, V>, Map<K, V>{
 
 	private long defaultExpirationTime;
 
+	/**
+	 * Construct a new expiration cache.
+	 *
+	 * @param maxSize the maximum size.
+	 * @param defaultExpirationTime the default expiration time in milliseconds.
+	 */
 	public ExpirationCache(int maxSize, long defaultExpirationTime) {
 		cache = new LruCache<K, ExpireElement<V>>(maxSize);
 		setDefaultExpirationTime(defaultExpirationTime);
 	}
 
+	/**
+	 * Set the default expiration time in milliseconds.
+	 *
+	 * @param defaultExpirationTime the default expiration time.
+	 */
 	public void setDefaultExpirationTime(long defaultExpirationTime) {
 		if (defaultExpirationTime <= 0) {
 			throw new IllegalArgumentException();
@@ -44,6 +55,14 @@ public class ExpirationCache<K, V> implements Cache<K, V>, Map<K, V>{
 		return put(key, value, defaultExpirationTime);
 	}
 
+	/**
+	 * Put a value in the cahce with the specified expiration time in milliseconds.
+	 *
+	 * @param key the key of the value.
+	 * @param value the value.
+	 * @param expirationTime the expiration time in milliseconds.
+	 * @return the previous value or {@code null}.
+	 */
 	public V put(K key, V value, long expirationTime) {
 		ExpireElement<V> eOld = cache.put(key, new ExpireElement<V>(value, expirationTime));
 		if (eOld == null) {
@@ -65,6 +84,12 @@ public class ExpirationCache<K, V> implements Cache<K, V>, Map<K, V>{
 		return v.element;
 	}
 
+	/**
+	 * Remove a entry with the given key from the cache.
+	 * 
+	 * @param key the key of the value to remove.
+	 * @return the remove value, or {@code null}.
+	 */
 	public V remove(Object key) {
 		ExpireElement<V> e = cache.remove(key);
 		if (e == null) {
@@ -84,15 +109,15 @@ public class ExpirationCache<K, V> implements Cache<K, V>, Map<K, V>{
 	}
 
 	private static class ExpireElement<V> {
-		public final V element;
-		public final long expirationTimestamp;
+		private final V element;
+		private final long expirationTimestamp;
 
-		public ExpireElement(V element, long expirationTime) {
+		private ExpireElement(V element, long expirationTime) {
 			this.element = element;
 			this.expirationTimestamp = System.currentTimeMillis() + expirationTime;
 		}
 
-		public boolean isExpired() {
+		private boolean isExpired() {
 			return System.currentTimeMillis() > expirationTimestamp;
 		}
 

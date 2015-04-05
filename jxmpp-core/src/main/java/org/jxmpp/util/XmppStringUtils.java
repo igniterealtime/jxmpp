@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2014 Florian Schmaus
+ * Copyright © 2014-2015 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,9 @@ package org.jxmpp.util;
 
 import org.jxmpp.util.cache.LruCache;
 
+/**
+ * Utility class for handling Strings in XMPP.
+ */
 public class XmppStringUtils {
 
 	/**
@@ -252,7 +255,7 @@ public class XmppStringUtils {
 	 * as follows:
 	 * 
 	 * <table border="1">
-	 * <caption>Characeter mapping</caption>
+	 * <caption>Character mapping</caption>
 	 * <tr><td><b>Unescaped Character</b></td><td><b>Encoded Sequence</b></td></tr>
 	 * <tr><td>&lt;space&gt;</td><td>\20</td></tr>
 	 * <tr><td>"</td><td>\22</td></tr>
@@ -362,19 +365,49 @@ public class XmppStringUtils {
 		return res;
 	}
 
+	/**
+	 * Construct a JID String from the given parts.
+	 *
+	 * @param localpart the localpart.
+	 * @param domainpart the domainpart.
+	 * @return the constructed JID String.
+	 */
 	public static String completeJidFrom(CharSequence localpart, CharSequence domainpart) {
 		return completeJidFrom(localpart != null ? localpart.toString() : null, domainpart.toString());
 	}
 
+	/**
+	 * Construct a JID String from the given parts.
+	 *
+	 * @param localpart the localpart.
+	 * @param domainpart the domainpart.
+	 * @return the constructed JID String.
+	 */
 	public static String completeJidFrom(String localpart, String domainpart) {
 		return completeJidFrom(localpart, domainpart, null);
 	}
 
+	/**
+	 * Construct a JID String from the given parts.
+	 *
+	 * @param localpart the localpart.
+	 * @param domainpart the domainpart.
+	 * @param resource the resourcepart.
+	 * @return the constructed JID String.
+	 */
 	public static String completeJidFrom(CharSequence localpart, CharSequence domainpart, CharSequence resource) {
 		return completeJidFrom(localpart != null ? localpart.toString() : null, domainpart.toString(),
 				resource != null ? resource.toString() : null);
 	}
 
+	/**
+	 * Construct a JID String from the given parts.
+	 *
+	 * @param localpart the localpart.
+	 * @param domainpart the domainpart.
+	 * @param resource the resourcepart.
+	 * @return the constructed JID String.
+	 */
 	public static String completeJidFrom(String localpart, String domainpart, String resource) {
 		if (domainpart == null) {
 			throw new IllegalArgumentException("domainpart must not be null");

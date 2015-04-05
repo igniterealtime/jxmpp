@@ -25,8 +25,18 @@ import org.jxmpp.jid.parts.Localpart;
  */
 public interface JidWithLocalpart extends Jid {
 
+	/**
+	 * Return the {@link Localpart} of this JID.
+	 *
+	 * @return the localpart.
+	 */
 	public Localpart getLocalpart();
 
+	/**
+	 * Return the bare JID of this full JID.
+	 * 
+	 * @return the bare JID.
+	 */
 	public BareJid asBareJid();
 
 }

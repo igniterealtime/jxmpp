@@ -93,11 +93,22 @@ public class JidUtil {
 		 */
 		private static final long serialVersionUID = -1710386661031655082L;
 
+		/**
+		 * Construct a new "not a bare JID" exception.
+		 *
+		 * @param message the message of the exception.
+		 */
 		public NotABareJidStringException(String message) {
 			super(message);
 		}
 	}
 
+	/**
+	 * Filter all bare JIDs.
+	 *
+	 * @param in the input collection.
+	 * @param out the collection where the filtered JIDs are added to.
+	 */
 	public static void filterBareJid(Collection<? extends Jid> in, Collection<BareJid> out) {
 		for (Jid jid : in) {
 			BareJid bareJid = jid.asBareJidIfPossible();
@@ -107,18 +118,36 @@ public class JidUtil {
 		}
 	}
 
+	/**
+	 * Filter all bare JIDs.
+	 *
+	 * @param input the input collection.
+	 * @return a set containing all bare JIDs of the input collection.
+	 */
 	public static Set<BareJid> filterBareJidSet(Collection<? extends Jid> input) {
 		Set<BareJid> res = new HashSet<BareJid>(input.size());
 		filterBareJid(input, res);
 		return res;
 	}
 
+	/**
+	 * Filter all bare JIDs.
+	 *
+	 * @param input the input collection.
+	 * @return a list containing all bare JIDs of the input collection.
+	 */
 	public static List<BareJid> filterBareJidList(Collection<? extends Jid> input) {
 		List<BareJid> res = new ArrayList<BareJid>(input.size());
 		filterBareJid(input, res);
 		return res;
 	}
 
+	/**
+	 * Filter all full JIDs.
+	 *
+	 * @param in the input collection.
+	 * @param out the collection where the filtered JIDs are added to.
+	 */
 	public static void filterFullJid(Collection<? extends Jid> in, Collection<FullJid> out) {
 		for (Jid jid : in) {
 			FullJid fullJid = jid.asFullJidIfPossible();
@@ -128,18 +157,36 @@ public class JidUtil {
 		}
 	}
 
+	/**
+	 * Filter all full JIDs.
+	 *
+	 * @param input the input collection.
+	 * @return a set containing all full JIDs of the input collection.
+	 */
 	public static Set<FullJid> filterFullJidSet(Collection<? extends Jid> input) {
 		Set<FullJid> res = new HashSet<FullJid>(input.size());
 		filterFullJid(input, res);
 		return res;
 	}
 
+	/**
+	 * Filter all full JIDs.
+	 *
+	 * @param input the input collection.
+	 * @return a list containing all full JIDs of the input collection.
+	 */
 	public static List<FullJid> filterFullJidList(Collection<? extends Jid> input) {
 		List<FullJid> res = new ArrayList<FullJid>(input.size());
 		filterFullJid(input, res);
 		return res;
 	}
 
+	/**
+	 * Filter all domain full JIDs.
+	 *
+	 * @param in the input collection.
+	 * @param out the collection where the filtered JIDs are added to.
+	 */
 	public static void filterDomainFullJid(Collection<? extends Jid> in, Collection<DomainFullJid> out) {
 		for (Jid jid : in) {
 			DomainFullJid domainFullJid = jid.asDomainFullJidIfPossible();
@@ -149,18 +196,36 @@ public class JidUtil {
 		}
 	}
 
+	/**
+	 * Filter all domain full JIDs.
+	 *
+	 * @param input the input collection.
+	 * @return a set containing all domain full JIDs of the input collection.
+	 */
 	public static Set<DomainFullJid> filterDomainFullJidSet(Collection<? extends Jid> input) {
 		Set<DomainFullJid> res = new HashSet<DomainFullJid>(input.size());
 		filterDomainFullJid(input, res);
 		return res;
 	}
 
+	/**
+	 * Filter all domain full JIDs.
+	 *
+	 * @param input the input collection.
+	 * @return a list containing all domain full JIDs of the input collection.
+	 */
 	public static List<DomainFullJid> filterDomainFullJidList(Collection<? extends Jid> input) {
 		List<DomainFullJid> res = new ArrayList<DomainFullJid>(input.size());
 		filterDomainFullJid(input, res);
 		return res;
 	}
 
+	/**
+	 * Convert the given collection of CharSequences to bare JIDs.
+	 *
+	 * @param jidStrings the collection of CharSequences.
+	 * @return a set of bare JIDs.
+	 */
 	public static Set<BareJid> bareJidSetFrom(Collection<CharSequence> jidStrings) {
 		Set<BareJid> res = new HashSet<BareJid>(jidStrings.size());
 		bareJidsFrom(jidStrings, res, null);
@@ -197,6 +262,12 @@ public class JidUtil {
 		}
 	}
 
+	/**
+	 * Convert the given collection of CharSequences to JIDs.
+	 *
+	 * @param jidStrings the collection of CharSequences.
+	 * @return a set of JIDs.
+	 */
 	public static Set<Jid> jidSetFrom(Collection<CharSequence> jidStrings) {
 		Set<Jid> res = new HashSet<Jid>(jidStrings.size());
 		jidsFrom(jidStrings, res, null);
@@ -233,18 +304,36 @@ public class JidUtil {
 		}
 	}
 
+	/**
+	 * Convert a collection of JIDs to a list of Strings representing those JIDs.
+	 *
+	 * @param jids a collection of JIDs.
+	 * @return a list of Strings.
+	 */
 	public static List<String> toStringList(Collection<? extends Jid> jids) {
 		List<String> res = new ArrayList<String>(jids.size());
 		toStrings(jids, res);
 		return res;
 	}
 
+	/**
+	 * convert a collection of JIDs to a set of Strings representing those JIDs.
+	 *
+	 * @param jids a collection of JIDs.
+	 * @return a set of String.
+	 */
 	public static Set<String> toStringSet(Collection<? extends Jid> jids) {
 		Set<String> res = new HashSet<String>(jids.size());
 		toStrings(jids, res);
 		return res;
 	}
 
+	/**
+	 * Convert a collection of JIDs to a Collection of Strings.
+	 *
+	 * @param jids the collection of Strings to convert.
+	 * @param jidStrings the collection of Strings to append to.
+	 */
 	public static void toStrings(Collection<? extends Jid> jids, Collection<String> jidStrings) {
 		for (Jid jid : jids) {
 			jidStrings.add(jid.toString());

@@ -25,6 +25,11 @@ import org.jxmpp.jid.parts.Resourcepart;
  */
 public interface JidWithResource extends Jid {
 
+	/**
+	 * Return the {@link Resourcepart} of this JID.
+	 *
+	 * @return the resourcepart.
+	 */
 	public Resourcepart getResourcepart();
 
 }

@@ -27,10 +27,17 @@ public class LibIdnXmppStringprep implements XmppStringprep {
 
 	private static LibIdnXmppStringprep instance;
 
+	/**
+	 * Setup the libidn Stringprep implementation as active Stringprep implementation.
+	 */
 	public static void setup() {
 		XmppStringPrepUtil.setXmppStringprep(getInstance());
 	}
 
+	/**
+	 * Get the libidn Stringprep implementation singleton.
+	 * @return the libidn Stringprep implementation.
+	 */
 	public static LibIdnXmppStringprep getInstance() {
 		if (instance == null) {
 			instance = new LibIdnXmppStringprep();

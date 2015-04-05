@@ -5,4 +5,6 @@
 <suppressions>
 	<!-- Suppress JavadocPackage in the test packages -->
 	<suppress checks="JavadocPackage" files="[\\/]test[\\/]"/>
+	<!-- Suppress JavadocMethod in the test packages -->
+	<suppress checks="JavadocMethod" files="[\\/]test[\\/]"/>
 </suppressions>

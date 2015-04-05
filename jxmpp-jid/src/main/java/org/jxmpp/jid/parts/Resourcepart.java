@@ -19,6 +19,11 @@ package org.jxmpp.jid.parts;
 import org.jxmpp.stringprep.XmppStringPrepUtil;
 import org.jxmpp.stringprep.XmppStringprepException;
 
+/**
+ * A XMPP Resourcepart.
+ *
+ * @see <a href="http://xmpp.org/rfcs/rfc6122.html#addressing-resource">RFC 6122 § 2.4. Resourcepart</a>
+ */
 public class Resourcepart extends Part {
 
 	/**
@@ -29,7 +34,7 @@ public class Resourcepart extends Part {
 	/**
 	 * The empty resource part.
 	 * <p>
-	 * This empty resource part is the part that is represented by the empty String. This is usefull in cases where you
+	 * This empty resource part is the part that is represented by the empty String. This is useful in cases where you
 	 * have a collection of Resourceparts that does not allow <code>null</code> values, but you want to deal with the
 	 * "no resource" case.
 	 * </p>
@@ -40,6 +45,13 @@ public class Resourcepart extends Part {
 		super(resource);
 	}
 
+	/**
+	 * Get the {@link Resourcepart} representing the input String.
+	 *
+	 * @param resource the input String.
+	 * @return the resource part.
+	 * @throws XmppStringprepException if an error occurs.
+	 */
 	public static Resourcepart from(String resource) throws XmppStringprepException {
 		resource = XmppStringPrepUtil.resourceprep(resource);
 		// First prep the String, then assure the limits of the *result*

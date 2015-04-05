@@ -24,8 +24,20 @@ package org.jxmpp.jid;
  */
 public interface FullJid extends Jid, JidWithResource, JidWithLocalpart {
 
+	// TODO the two methods could be defined simply in JidWithLocalpart only
+
+	/**
+	 * Return the bare JID of this full JID.
+	 * 
+	 * @return the bare JID.
+	 */
 	public BareJid asBareJid();
 
+	/**
+	 * Return the bare JID string of this full JID.
+	 *
+	 * @return the bare JID string.
+	 */
 	public String asBareJidString();
 
 }

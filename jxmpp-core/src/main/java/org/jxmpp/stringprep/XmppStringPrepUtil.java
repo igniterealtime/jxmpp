@@ -33,10 +33,22 @@ public class XmppStringPrepUtil {
 
 	private static XmppStringprep xmppStringprep;
 
+	/**
+	 * Set the XMPP Stringprep implementation to use.
+	 *
+	 * @param xmppStringprep the XMPP Stringprep implementation to use.
+	 */
 	public static void setXmppStringprep(XmppStringprep xmppStringprep) {
 		XmppStringPrepUtil.xmppStringprep = xmppStringprep;
 	}
 
+	/**
+	 * Perform localprep on the input String.
+	 *
+	 * @param string the input String.
+	 * @return the localpreped String.
+	 * @throws XmppStringprepException if the input String can not be transformed.
+	 */
 	public static String localprep(String string) throws XmppStringprepException {
 		if (xmppStringprep == null) {
 			return string;
@@ -52,6 +64,13 @@ public class XmppStringPrepUtil {
 		return res;
 	}
 
+	/**
+	 * Perform domainprep on the input String.
+	 *
+	 * @param string the input String.
+	 * @return the domainprep String.
+	 * @throws XmppStringprepException if the input String can not be transformed.
+	 */
 	public static String domainprep(String string) throws XmppStringprepException {
 		if (xmppStringprep == null) {
 			return string;
@@ -67,6 +86,13 @@ public class XmppStringPrepUtil {
 		return res;
 	}
 
+	/**
+	 * Perform resourceprep on the input String.
+	 *
+	 * @param string the input String.
+	 * @return the resourceprep String.
+	 * @throws XmppStringprepException if the input String can not be transformed.
+	 */
 	public static String resourceprep(String string) throws XmppStringprepException {
 		if (xmppStringprep == null) {
 			return string;
@@ -82,6 +108,11 @@ public class XmppStringPrepUtil {
 		return res;
 	}
 
+	/**
+	 * Set the maximum cache sizes.
+	 *
+	 * @param size the maximum cache size.
+	 */
 	public static void setMaxCacheSizes(int size) {
 		NODEPREP_CACHE.setMaxCacheSize(size);
 		DOMAINPREP_CACHE.setMaxCacheSize(size);

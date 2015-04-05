@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2014 Florian Schmaus
+ * Copyright © 2014-2015 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,6 +29,11 @@ import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Utility class for date and time handling in XMPP.
+ *
+ * @see <a href="http://xmpp.org/extensions/xep-0082.html">XEP-82: XMPP Date and Time Profiles</a>
+ */
 public class XmppDateTime {
 
 	private static final DateFormatType dateFormatter = DateFormatType.XEP_0082_DATE_PROFILE;
@@ -57,7 +62,7 @@ public class XmppDateTime {
 	private static final DateFormat xep0091Date7Digit2MonthFormatter = new SimpleDateFormat("yyyyMMd'T'HH:mm:ss");
 	private static final Pattern xep0091Pattern = Pattern.compile("^\\d+T\\d+:\\d+:\\d+$");
 
-	public static enum DateFormatType {
+	private static enum DateFormatType {
 		// @formatter:off
 		XEP_0082_DATE_PROFILE("yyyy-MM-dd"),
 		XEP_0082_DATETIME_PROFILE("yyyy-MM-dd'T'HH:mm:ssZ"),
@@ -90,7 +95,7 @@ public class XmppDateTime {
 			HANDLE_MILLIS = dateFormat.contains("SSS");
 		}
 
-		public String format(Date date) {
+		private String format(Date date) {
 			String res;
 			synchronized (FORMATTER) {
 				res = FORMATTER.format(date);
@@ -101,7 +106,7 @@ public class XmppDateTime {
 			return res;
 		}
 
-		public Date parse(String dateString) throws ParseException {
+		private Date parse(String dateString) throws ParseException {
 			if (CONVERT_TIMEZONE) {
 				dateString = convertXep82TimezoneToRfc822(dateString);
 			}
@@ -237,6 +242,12 @@ public class XmppDateTime {
 		}
 	}
 
+	/**
+	 * Convert a RFC 822 Timezone to the Timezone format used in XEP-82.
+	 *
+	 * @param dateString the input date String.
+	 * @return the input String with the timezone converted to XEP-82.
+	 */
 	public static String convertRfc822TimezoneToXep82(String dateString) {
 		int length = dateString.length();
 		String res = dateString.substring(0, length - 2);
