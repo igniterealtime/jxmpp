@@ -99,18 +99,6 @@ public abstract class AbstractJid implements Jid {
 	public abstract Localpart getLocalpartOrNull();
 
 	@Override
-	@Deprecated
-	public final Localpart maybeGetLocalpart() {
-		return getLocalpartOrNull();
-	}
-
-	@Override
-	@Deprecated
-	public final Resourcepart maybeGetResourcepart() {
-		return getResourceOrNull();
-	}
-
-	@Override
 	public final boolean isParentOf(Jid jid) {
 		FullJid fullJid = jid.asFullJidIfPossible();
 		if (fullJid != null) {
@@ -126,12 +114,6 @@ public abstract class AbstractJid implements Jid {
 		}
 
 		return isParentOf(jid.asDomainBareJid());
-	}
-
-	@Override
-	@SuppressWarnings("deprecation")
-	public final String asDomainBareJidString() {
-		return asDomainBareJid().toString();
 	}
 
 	@Override

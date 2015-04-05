@@ -49,24 +49,6 @@ public interface Jid extends Comparable<Jid>, CharSequence, Serializable {
 	public Domainpart getDomain();
 
 	/**
-	 * Get the {@link Localpart}.
-	 *
-	 * @return a Localpart or null.
-	 * @deprecated use {@link #getLocalpartOrNull()} instead.
-	 */
-	@Deprecated
-	public Localpart maybeGetLocalpart();
-
-	/**
-	 * Get the {@link Resourcepart}.
-	 *
-	 * @return a Resourcepart or null.
-	 * @deprecated use {@link #getResourceOrNull()} instead.
-	 */
-	@Deprecated
-	public Resourcepart maybeGetResourcepart();
-
-	/**
 	 * Returns the escaped String representation of this JID.
 	 *
 	 * @return the escaped String representation of this JID.
@@ -173,15 +155,6 @@ public interface Jid extends Comparable<Jid>, CharSequence, Serializable {
 	 * @return the corresponding DomainBareJid.
 	 */
 	public DomainBareJid asDomainBareJid();
-
-	/**
-	 * Deprecated.
-	 *
-	 * @return the domain bare Jid string
-	 * @deprecated use {@link #asDomainBareJid()} and {@code toString()} instead.
-	 */
-	@Deprecated
-	public String asDomainBareJidString();
 
 	/**
 	 * Convert this Jid to a {@link DomainFullJid} if possible.
