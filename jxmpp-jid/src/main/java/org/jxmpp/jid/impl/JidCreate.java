@@ -29,6 +29,20 @@ import org.jxmpp.util.cache.Cache;
 import org.jxmpp.util.cache.LruCache;
 import org.jxmpp.util.XmppStringUtils;
 
+/**
+ * API to create Jids from Strings and CharSequences.
+ * <p>
+ * JIDs created from input received from a XMPP source should use {@link #from(String)}. If the input was user
+ * generated, e.g. captured from some sort of user interface, {@link #fromUnescaped(String)} should be used instead. You
+ * can use {@link org.jxmpp.jid.util.JidUtil#isValidBareJid(CharSequence)} to query, e.g. while the user it entering it,
+ * if a given CharSequence is a valid bare JID.
+ * </p>
+ * <p>
+ * JidCreate uses caches for efficient Jid construction, But it's not guaranteed that the same String or CharSequence
+ * will yield the same Jid instance.
+ * </p>
+ *
+ */
 public class JidCreate {
 
 	private static final Cache<String, Jid> JID_CACHE = new LruCache<String, Jid>(100);
@@ -63,10 +77,26 @@ public class JidCreate {
 		return jid;
 	}
 
+	/**
+	 * Create a {@link Jid} from a CharSequence.
+	 *
+	 * @param jid the input CharSequence.
+	 * @return the Jid represented by the input CharSequence.
+	 * @throws XmppStringprepException if the input CharSequence is not a valid Jid.
+	 * @see #from(String)
+	 */
 	public static Jid from(CharSequence jid) throws XmppStringprepException {
 		return from(jid.toString());
 	}
 
+	/**
+	 * Create a {@link Jid} from a String.
+	 *
+	 * @param jidString the input String.
+	 * @return the Jid represented by the input String.
+	 * @throws XmppStringprepException if the input String is not a valid Jid.
+	 * @see #from(CharSequence)
+	 */
 	public static Jid from(String jidString) throws XmppStringprepException {
 		String localpart = XmppStringUtils.parseLocalpart(jidString);
 		String domainpart = XmppStringUtils.parseDomain(jidString);
