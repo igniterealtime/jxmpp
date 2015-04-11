@@ -226,7 +226,7 @@ public class JidUtil {
 	 * @param jidStrings the collection of CharSequences.
 	 * @return a set of bare JIDs.
 	 */
-	public static Set<BareJid> bareJidSetFrom(Collection<CharSequence> jidStrings) {
+	public static Set<BareJid> bareJidSetFrom(Collection<? extends CharSequence> jidStrings) {
 		Set<BareJid> res = new HashSet<BareJid>(jidStrings.size());
 		bareJidsFrom(jidStrings, res, null);
 		return res;
@@ -246,7 +246,7 @@ public class JidUtil {
 	 *            the collection where the BareJid's will be added to
 	 * @param exceptions the list of exceptions thrown while converting.
 	 */
-	public static void bareJidsFrom(Collection<CharSequence> jidStrings, Collection<BareJid> output,
+	public static void bareJidsFrom(Collection<? extends CharSequence> jidStrings, Collection<BareJid> output,
 			List<XmppStringprepException> exceptions) {
 		for (CharSequence jid : jidStrings) {
 			try {
@@ -268,7 +268,7 @@ public class JidUtil {
 	 * @param jidStrings the collection of CharSequences.
 	 * @return a set of JIDs.
 	 */
-	public static Set<Jid> jidSetFrom(Collection<CharSequence> jidStrings) {
+	public static Set<Jid> jidSetFrom(Collection<? extends CharSequence> jidStrings) {
 		Set<Jid> res = new HashSet<Jid>(jidStrings.size());
 		jidsFrom(jidStrings, res, null);
 		return res;
@@ -288,7 +288,7 @@ public class JidUtil {
 	 *            the collection where the Jid's will be added to
 	 * @param exceptions the list of exceptions thrown while converting.
 	 */
-	public static void jidsFrom(Collection<CharSequence> jidStrings, Collection<Jid> output,
+	public static void jidsFrom(Collection<? extends CharSequence> jidStrings, Collection<Jid> output,
 			List<XmppStringprepException> exceptions) {
 		for (CharSequence jidString : jidStrings) {
 			try {
@@ -334,7 +334,7 @@ public class JidUtil {
 	 * @param jids the collection of Strings to convert.
 	 * @param jidStrings the collection of Strings to append to.
 	 */
-	public static void toStrings(Collection<? extends Jid> jids, Collection<String> jidStrings) {
+	public static void toStrings(Collection<? extends Jid> jids, Collection<? super String> jidStrings) {
 		for (Jid jid : jids) {
 			jidStrings.add(jid.toString());
 		}
