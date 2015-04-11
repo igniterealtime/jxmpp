@@ -17,6 +17,7 @@
 package org.jxmpp.jid.util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -260,6 +261,19 @@ public class JidUtil {
 				}
 			}
 		}
+	}
+
+	/**
+	 * Convert the given array of Strings to JIDs.
+	 * <p>
+	 * Note that errors while converting the Strings will be silently ignored.
+	 * </p>
+	 * 
+	 * @param jids a array of JID Strings.
+	 * @return a set of JIDs.
+	 */
+	public static Set<Jid> jidSetFrom(String[] jids) {
+		return jidSetFrom(Arrays.asList(jids));
 	}
 
 	/**
