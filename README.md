@@ -7,11 +7,12 @@ About
 -----
 
 JXMPP is an Open Source Java base library for XMPP. It provides often
-used functionality needed to build a XMPP stack.
+used functionality needed to build an XMPP stack.
 
 Resources
 ---------
 
+- Nightly Javadoc: http://jxmpp.org/nightly/javadoc/
 - Maven Releases: https://oss.sonatype.org/content/repositories/releases/org/jxmpp
 - Maven Snapshots: https://oss.sonatype.org/content/repositories/snapshots/org/jxmpp
 
