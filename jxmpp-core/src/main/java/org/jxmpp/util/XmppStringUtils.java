@@ -56,10 +56,6 @@ public class XmppStringUtils {
 	 */
 	public static String parseDomain(String jid) {
 		int atIndex = jid.indexOf('@');
-		// If the String ends with '@', return the empty string.
-		if (atIndex + 1 > jid.length()) {
-			return "";
-		}
 		int slashIndex = jid.indexOf('/');
 		if (slashIndex > 0) {
 			// 'local@domain.foo/resource' and 'local@domain.foo/res@otherres' case

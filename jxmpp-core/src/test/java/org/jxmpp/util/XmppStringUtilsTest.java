@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2014 Florian Schmaus
+ * Copyright © 2014-2015 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,8 @@
 package org.jxmpp.util;
 
 import static org.junit.Assert.assertEquals;
+
+import static org.jxmpp.util.XmppStringUtils.parseDomain;
 
 import org.junit.Test;
 
@@ -35,16 +37,21 @@ public class XmppStringUtilsTest {
 	}
 
 	@Test
-	public void parseDomain() {
+	public void parseDomainTest() {
 		final String error = "Error parsing domain";
 		final String result = "yahoo.myjabber.net";
-		assertEquals(error, result, XmppStringUtils.parseDomain("yahoo.myjabber.net"));
-		assertEquals(error, result, XmppStringUtils.parseDomain("yahoo.myjabber.net/registred"));
-		assertEquals(error, result, XmppStringUtils.parseDomain("user@yahoo.myjabber.net/registred"));
-		assertEquals(error, result, XmppStringUtils.parseDomain("user@yahoo.myjabber.net"));
+		assertEquals(error, result, parseDomain("yahoo.myjabber.net"));
+		assertEquals(error, result, parseDomain("yahoo.myjabber.net/registred"));
+		assertEquals(error, result, parseDomain("user@yahoo.myjabber.net/registred"));
+		assertEquals(error, result, parseDomain("user@yahoo.myjabber.net"));
+	}
 
-		// Some more advanced parsing cases
-		assertEquals(error, "foo.jxmpp.org", XmppStringUtils.parseDomain("foo.jxmpp.org/resOne@resTwo"));
+	@Test
+	public void parseDomainCornerCases() {
+		assertEquals("", parseDomain("/foo@"));
+		assertEquals("", parseDomain("localpart@"));
+		assertEquals("example.org", parseDomain("example.org/foo@"));
+		assertEquals("foo.jxmpp.org", parseDomain("foo.jxmpp.org/resOne@resTwo"));
 	}
 
 	@Test
