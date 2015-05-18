@@ -77,4 +77,22 @@ public abstract class Part implements CharSequence, Serializable {
 			throw new XmppStringprepException(string, "Argument can't be the empty string");
 		}
 	}
+
+	/**
+	 * The cache holding the internalized value of this part. This needs to be transient so that the
+	 * cache is recreated once the data was de-serialized.
+	 */
+	private transient String internalizedCache;
+
+	/**
+	 * Returns the canonical String representation of this Part. See {@link String#intern} for details.
+	 * 
+	 * @return the canonical String representation.
+	 */
+	public final String intern() {
+		if (internalizedCache == null) {
+			internalizedCache = toString().intern();
+		}
+		return internalizedCache;
+	}
 }

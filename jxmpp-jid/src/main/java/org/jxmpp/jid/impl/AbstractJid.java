@@ -151,4 +151,18 @@ public abstract class AbstractJid implements Jid {
 		String myString = toString();
 		return myString.compareTo(otherString);
 	}
+
+	/**
+	 * The cache holding the internalized value of this part. This needs to be transient so that the
+	 * cache is recreated once the data was de-serialized.
+	 */
+	private transient String internalizedCache;
+
+	@Override
+	public final String intern() {
+		if (internalizedCache == null) {
+			internalizedCache = toString().intern();
+		}
+		return internalizedCache;
+	}
 }

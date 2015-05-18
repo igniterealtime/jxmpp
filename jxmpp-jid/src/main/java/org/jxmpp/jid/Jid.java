@@ -291,4 +291,11 @@ public interface Jid extends Comparable<Jid>, CharSequence, Serializable {
 	 * @return true if {@code toString().equals(string)}.
 	 */
 	public boolean equals(String string);
+
+	/**
+	 * Returns the canonical String representation of this JID. See {@link String#intern} for details.
+	 * 
+	 * @return the canonical String representation.
+	 */
+	public String intern();
 }
