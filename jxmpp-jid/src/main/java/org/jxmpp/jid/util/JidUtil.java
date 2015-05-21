@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2014 Florian Schmaus
+ * Copyright © 2014-2015 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,9 +23,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.jxmpp.jid.BareJid;
+import org.jxmpp.jid.EntityBareJid;
 import org.jxmpp.jid.DomainFullJid;
-import org.jxmpp.jid.FullJid;
+import org.jxmpp.jid.EntityFullJid;
 import org.jxmpp.jid.Jid;
 import org.jxmpp.jid.impl.JidCreate;
 import org.jxmpp.stringprep.XmppStringprepException;
@@ -69,7 +69,7 @@ public class JidUtil {
 	 * @throws NotABareJidStringException if the given CharSequence is not a bare JID.
 	 * @throws XmppStringprepException if an error happens.
 	 */
-	public static BareJid validateBareJid(CharSequence jidcs) throws NotABareJidStringException, XmppStringprepException {
+	public static EntityBareJid validateBareJid(CharSequence jidcs) throws NotABareJidStringException, XmppStringprepException {
 		String jid = jidcs.toString();
 		final int atIndex = jid.indexOf('@');
 		if (atIndex == -1) {
@@ -110,9 +110,9 @@ public class JidUtil {
 	 * @param in the input collection.
 	 * @param out the collection where the filtered JIDs are added to.
 	 */
-	public static void filterBareJid(Collection<? extends Jid> in, Collection<BareJid> out) {
+	public static void filterEntityBareJid(Collection<? extends Jid> in, Collection<EntityBareJid> out) {
 		for (Jid jid : in) {
-			BareJid bareJid = jid.asBareJidIfPossible();
+			EntityBareJid bareJid = jid.asEntityBareJidIfPossible();
 			if (bareJid != null) {
 				out.add(bareJid);
 			}
@@ -125,9 +125,9 @@ public class JidUtil {
 	 * @param input the input collection.
 	 * @return a set containing all bare JIDs of the input collection.
 	 */
-	public static Set<BareJid> filterBareJidSet(Collection<? extends Jid> input) {
-		Set<BareJid> res = new HashSet<BareJid>(input.size());
-		filterBareJid(input, res);
+	public static Set<EntityBareJid> filterEntityBareJidSet(Collection<? extends Jid> input) {
+		Set<EntityBareJid> res = new HashSet<EntityBareJid>(input.size());
+		filterEntityBareJid(input, res);
 		return res;
 	}
 
@@ -137,9 +137,9 @@ public class JidUtil {
 	 * @param input the input collection.
 	 * @return a list containing all bare JIDs of the input collection.
 	 */
-	public static List<BareJid> filterBareJidList(Collection<? extends Jid> input) {
-		List<BareJid> res = new ArrayList<BareJid>(input.size());
-		filterBareJid(input, res);
+	public static List<EntityBareJid> filterEntityBareJidList(Collection<? extends Jid> input) {
+		List<EntityBareJid> res = new ArrayList<EntityBareJid>(input.size());
+		filterEntityBareJid(input, res);
 		return res;
 	}
 
@@ -149,9 +149,9 @@ public class JidUtil {
 	 * @param in the input collection.
 	 * @param out the collection where the filtered JIDs are added to.
 	 */
-	public static void filterFullJid(Collection<? extends Jid> in, Collection<FullJid> out) {
+	public static void filterEntityFullJid(Collection<? extends Jid> in, Collection<EntityFullJid> out) {
 		for (Jid jid : in) {
-			FullJid fullJid = jid.asFullJidIfPossible();
+			EntityFullJid fullJid = jid.asEntityFullJidIfPossible();
 			if (fullJid != null) {
 				out.add(fullJid);
 			}
@@ -164,9 +164,9 @@ public class JidUtil {
 	 * @param input the input collection.
 	 * @return a set containing all full JIDs of the input collection.
 	 */
-	public static Set<FullJid> filterFullJidSet(Collection<? extends Jid> input) {
-		Set<FullJid> res = new HashSet<FullJid>(input.size());
-		filterFullJid(input, res);
+	public static Set<EntityFullJid> filterEntityFullJidSet(Collection<? extends Jid> input) {
+		Set<EntityFullJid> res = new HashSet<EntityFullJid>(input.size());
+		filterEntityFullJid(input, res);
 		return res;
 	}
 
@@ -176,9 +176,9 @@ public class JidUtil {
 	 * @param input the input collection.
 	 * @return a list containing all full JIDs of the input collection.
 	 */
-	public static List<FullJid> filterFullJidList(Collection<? extends Jid> input) {
-		List<FullJid> res = new ArrayList<FullJid>(input.size());
-		filterFullJid(input, res);
+	public static List<EntityFullJid> filterEntityFullJidList(Collection<? extends Jid> input) {
+		List<EntityFullJid> res = new ArrayList<EntityFullJid>(input.size());
+		filterEntityFullJid(input, res);
 		return res;
 	}
 
@@ -227,14 +227,14 @@ public class JidUtil {
 	 * @param jidStrings the collection of CharSequences.
 	 * @return a set of bare JIDs.
 	 */
-	public static Set<BareJid> bareJidSetFrom(Collection<? extends CharSequence> jidStrings) {
-		Set<BareJid> res = new HashSet<BareJid>(jidStrings.size());
-		bareJidsFrom(jidStrings, res, null);
+	public static Set<EntityBareJid> entityBareJidSetFrom(Collection<? extends CharSequence> jidStrings) {
+		Set<EntityBareJid> res = new HashSet<EntityBareJid>(jidStrings.size());
+		entityBareJidsFrom(jidStrings, res, null);
 		return res;
 	}
 
 	/**
-	 * Convert a collection of Strings to a Set of {@link BareJid}'s.
+	 * Convert a collection of Strings to a Set of {@link EntityBareJid}'s.
 	 * <p>
 	 * If the optional argument <code>exceptions</code> is given, then all {@link XmppStringprepException} thrown while
 	 * converting will be added to the list. Otherwise, if an XmppStringprepExceptions is thrown, it will be wrapped in
@@ -247,11 +247,11 @@ public class JidUtil {
 	 *            the collection where the BareJid's will be added to
 	 * @param exceptions the list of exceptions thrown while converting.
 	 */
-	public static void bareJidsFrom(Collection<? extends CharSequence> jidStrings, Collection<BareJid> output,
+	public static void entityBareJidsFrom(Collection<? extends CharSequence> jidStrings, Collection<EntityBareJid> output,
 			List<XmppStringprepException> exceptions) {
 		for (CharSequence jid : jidStrings) {
 			try {
-				BareJid bareJid = JidCreate.bareFrom(jid);
+				EntityBareJid bareJid = JidCreate.bareFrom(jid);
 				output.add(bareJid);
 			} catch (XmppStringprepException e) {
 				if (exceptions != null) {

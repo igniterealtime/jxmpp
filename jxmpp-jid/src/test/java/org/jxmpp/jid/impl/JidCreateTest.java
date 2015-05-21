@@ -20,10 +20,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 import org.junit.Test;
-import org.jxmpp.jid.BareJid;
+import org.jxmpp.jid.EntityBareJid;
 import org.jxmpp.jid.DomainBareJid;
 import org.jxmpp.jid.DomainFullJid;
-import org.jxmpp.jid.FullJid;
+import org.jxmpp.jid.EntityFullJid;
 import org.jxmpp.stringprep.XmppStringprepException;
 
 public class JidCreateTest {
@@ -32,7 +32,7 @@ public class JidCreateTest {
 	public void bareFromThrowTest() {
 		final String notABareJid = "example.org/test";
 		try {
-			BareJid jid = JidCreate.bareFrom(notABareJid);
+			EntityBareJid jid = JidCreate.bareFrom(notABareJid);
 			// Should throw
 			fail(jid + " should never been created");
 		} catch (XmppStringprepException e) {
@@ -44,7 +44,7 @@ public class JidCreateTest {
 	public void fullFromThrowTest() {
 		final String notAFullJid = "user@example.org/";
 		try {
-			FullJid jid = JidCreate.fullFrom(notAFullJid);
+			EntityFullJid jid = JidCreate.fullFrom(notAFullJid);
 			// Should throw
 			fail(jid + " should never been created");
 		} catch (XmppStringprepException e) {

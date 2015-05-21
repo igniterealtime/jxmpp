@@ -16,13 +16,13 @@
  */
 package org.jxmpp.jid.impl;
 
-import org.jxmpp.jid.BareJid;
+import org.jxmpp.jid.EntityBareJid;
 import org.jxmpp.jid.DomainBareJid;
 import org.jxmpp.jid.DomainFullJid;
-import org.jxmpp.jid.FullJid;
+import org.jxmpp.jid.EntityFullJid;
 import org.jxmpp.jid.Jid;
-import org.jxmpp.jid.JidWithLocalpart;
-import org.jxmpp.jid.JidWithResource;
+import org.jxmpp.jid.EntityJid;
+import org.jxmpp.jid.FullJid;
 import org.jxmpp.jid.parts.Domainpart;
 import org.jxmpp.jid.parts.Localpart;
 import org.jxmpp.jid.parts.Resourcepart;
@@ -77,12 +77,12 @@ public final class DomainAndResourcepartJid extends AbstractJid implements Domai
 	}
 
 	@Override
-	public BareJid asBareJidIfPossible() {
+	public EntityBareJid asEntityBareJidIfPossible() {
 		return null;
 	}
 
 	@Override
-	public FullJid asFullJidIfPossible() {
+	public EntityFullJid asEntityFullJidIfPossible() {
 		return null;
 	}
 
@@ -97,12 +97,12 @@ public final class DomainAndResourcepartJid extends AbstractJid implements Domai
 	}
 
 	@Override
-	public boolean isParentOf(BareJid bareJid) {
+	public boolean isParentOf(EntityBareJid bareJid) {
 		return false;
 	}
 
 	@Override
-	public boolean isParentOf(FullJid fullJid) {
+	public boolean isParentOf(EntityFullJid fullJid) {
 		return false;
 	}
 
@@ -137,12 +137,12 @@ public final class DomainAndResourcepartJid extends AbstractJid implements Domai
 	}
 
 	@Override
-	public JidWithLocalpart asJidWithLocalpartIfPossible() {
+	public EntityJid asEntityJidIfPossible() {
 		return null;
 	}
 
 	@Override
-	public JidWithResource asJidWithResourcepartIfPossible() {
+	public FullJid asFullJidIfPossible() {
 		return this;
 	}
 

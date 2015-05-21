@@ -16,20 +16,12 @@
  */
 package org.jxmpp.jid;
 
-import org.jxmpp.jid.parts.Resourcepart;
-
 /**
- * A Jid which has a {@link Resourcepart}. Either {@link EntityFullJid} or {@link DomainFullJid}.
- *
+ * A JID consisting of (at least) a localpart and a domainpart. For example
+ * "user@xmpp.org".
+ * 
  * @see Jid
  */
-public interface FullJid extends Jid {
-
-	/**
-	 * Return the {@link Resourcepart} of this JID.
-	 *
-	 * @return the resourcepart.
-	 */
-	public Resourcepart getResourcepart();
+public interface EntityBareJid extends Jid, EntityJid, BareJid {
 
 }

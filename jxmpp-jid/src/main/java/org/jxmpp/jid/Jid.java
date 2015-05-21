@@ -72,25 +72,25 @@ public interface Jid extends Comparable<Jid>, CharSequence, Serializable {
 	public String asUnescapedString();
 
 	/**
-	 * Check if this is a {@link BareJid} or {@link FullJid}.
+	 * Check if this is a {@link EntityBareJid} or {@link EntityFullJid}.
 	 *
 	 * @return true if this is an instance of BareJid or FullJid.
 	 */
-	public boolean isBareOrFullJid();
+	public boolean isEntityJid();
 
 	/**
-	 * Check if this is an instance of {@link BareJid}.
+	 * Check if this is an instance of {@link EntityBareJid}.
 	 * 
 	 * @return true if this is an instance of BareJid
 	 */
-	public boolean isBareJid();
+	public boolean isEntityBareJid();
 
 	/**
-	 * Check if this is an instance of {@link FullJid}.
+	 * Check if this is an instance of {@link EntityFullJid}.
 	 * 
 	 * @return true if this is an instance of FullJid
 	 */
-	public boolean isFullJid();
+	public boolean isEntityFullJid();
 
 	/**
 	 * Check if this is an instance of {@link DomainBareJid}.
@@ -107,7 +107,7 @@ public interface Jid extends Comparable<Jid>, CharSequence, Serializable {
 	public boolean isDomainFullJid();
 
 	/**
-	 * Check if this is an instance of {@link BareJid} or {@link DomainBareJid}.
+	 * Check if this is an instance of {@link EntityBareJid} or {@link DomainBareJid}.
 	 * 
 	 * @return true if this is an instance of BareJid or DomainBareJid
 	 */
@@ -128,32 +128,32 @@ public interface Jid extends Comparable<Jid>, CharSequence, Serializable {
 	public boolean hasLocalpart();
 
 	/**
-	 * Convert this Jid to a BareJid if possible.
+	 * Convert this Jid to a {@link EntityBareJid} if possible.
 	 *
-	 * @return the corresponding BareJid or null.
+	 * @return the corresponding {@link EntityBareJid} or null.
 	 */
-	public BareJid asBareJidIfPossible();
+	public EntityBareJid asEntityBareJidIfPossible();
 
 	/**
-	 * Convert this Jid to a FullJid if possible.
+	 * Convert this Jid to a {@link EntityFullJid} if possible.
 	 *
-	 * @return the corresponding FullJid or null.
+	 * @return the corresponding {@link EntityFullJid} or null.
+	 */
+	public EntityFullJid asEntityFullJidIfPossible();
+
+	/**
+	 * Convert this Jid to a {@link EntityJid} if possible.
+	 *
+	 * @return the corresponding {@link EntityJid} or null.
+	 */
+	public EntityJid asEntityJidIfPossible();
+
+	/**
+	 * Convert this Jid to a {@link FullJid} if possible.
+	 *
+	 * @return the corresponding {@link FullJid} or null.
 	 */
 	public FullJid asFullJidIfPossible();
-
-	/**
-	 * Convert this Jid to a {@link JidWithLocalpart} if possible.
-	 *
-	 * @return the corresponding JidWithLocalpart or null.
-	 */
-	public JidWithLocalpart asJidWithLocalpartIfPossible();
-
-	/**
-	 * Convert this Jid to a {@link JidWithResource} if possible.
-	 *
-	 * @return the corresponding JidWithResourcepart or null.
-	 */
-	public JidWithResource asJidWithResourcepartIfPossible();
 
 	/**
 	 * Convert this Jid to a {@link DomainBareJid}.
@@ -237,7 +237,7 @@ public interface Jid extends Comparable<Jid>, CharSequence, Serializable {
 	 * @param bareJid the bare JID.
 	 * @return true if this JID is a parent of the given JID.
 	 */
-	public boolean isParentOf(BareJid bareJid);
+	public boolean isParentOf(EntityBareJid bareJid);
 
 	/**
 	 * See {@link #isParentOf(Jid)}.
@@ -245,7 +245,7 @@ public interface Jid extends Comparable<Jid>, CharSequence, Serializable {
 	 * @param fullJid the full JID.
 	 * @return true if this JID is a parent of the given JID.
 	 */
-	public boolean isParentOf(FullJid fullJid);
+	public boolean isParentOf(EntityFullJid fullJid);
 
 	/**
 	 * See {@link #isParentOf(Jid)}.

@@ -16,13 +16,13 @@
  */
 package org.jxmpp.jid.impl;
 
-import org.jxmpp.jid.BareJid;
+import org.jxmpp.jid.EntityBareJid;
 import org.jxmpp.jid.DomainBareJid;
 import org.jxmpp.jid.DomainFullJid;
-import org.jxmpp.jid.FullJid;
+import org.jxmpp.jid.EntityFullJid;
 import org.jxmpp.jid.Jid;
-import org.jxmpp.jid.JidWithLocalpart;
-import org.jxmpp.jid.JidWithResource;
+import org.jxmpp.jid.EntityJid;
+import org.jxmpp.jid.FullJid;
 import org.jxmpp.jid.parts.Localpart;
 import org.jxmpp.jid.parts.Resourcepart;
 
@@ -34,18 +34,18 @@ public abstract class AbstractJid implements Jid {
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public final boolean isBareOrFullJid() {
-		return isBareJid() || isFullJid();
+	public final boolean isEntityJid() {
+		return isEntityBareJid() || isEntityFullJid();
 	}
 
 	@Override
-	public final boolean isBareJid() {
-		return this instanceof BareJid;
+	public final boolean isEntityBareJid() {
+		return this instanceof EntityBareJid;
 	}
 
 	@Override
-	public final boolean isFullJid() {
-		return this instanceof FullJid;
+	public final boolean isEntityFullJid() {
+		return this instanceof EntityFullJid;
 	}
 
 	@Override
@@ -63,12 +63,12 @@ public abstract class AbstractJid implements Jid {
 
 	@Override
 	public final boolean hasResource() {
-		return this instanceof JidWithResource;
+		return this instanceof FullJid;
 	}
 
 	@Override
 	public final boolean hasLocalpart() {
-		return this instanceof JidWithLocalpart;
+		return this instanceof EntityJid;
 	}
 
 	@Override
@@ -100,11 +100,11 @@ public abstract class AbstractJid implements Jid {
 
 	@Override
 	public final boolean isParentOf(Jid jid) {
-		FullJid fullJid = jid.asFullJidIfPossible();
+		EntityFullJid fullJid = jid.asEntityFullJidIfPossible();
 		if (fullJid != null) {
 			return isParentOf(fullJid);
 		}
-		BareJid bareJid = jid.asBareJidIfPossible();
+		EntityBareJid bareJid = jid.asEntityBareJidIfPossible();
 		if (bareJid != null) {
 			return isParentOf(bareJid);
 		}

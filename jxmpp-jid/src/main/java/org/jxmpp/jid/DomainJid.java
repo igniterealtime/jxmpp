@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2014-2015 Florian Schmaus
+ * Copyright © 2015 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,20 +16,12 @@
  */
 package org.jxmpp.jid;
 
-import org.jxmpp.jid.parts.Resourcepart;
-
 /**
- * A Jid which has a {@link Resourcepart}. Either {@link EntityFullJid} or {@link DomainFullJid}.
- *
+ * A Jid which has no {@link org.jxmpp.jid.parts.Localpart}. Either
+ * {@link DomainBareJid} or {@link DomainFullJid}.
+ * 
  * @see Jid
  */
-public interface FullJid extends Jid {
-
-	/**
-	 * Return the {@link Resourcepart} of this JID.
-	 *
-	 * @return the resourcepart.
-	 */
-	public Resourcepart getResourcepart();
+public interface DomainJid extends Jid {
 
 }

@@ -22,6 +22,6 @@ package org.jxmpp.jid;
  * 
  * @see Jid
  */
-public interface DomainFullJid extends Jid, JidWithResource {
+public interface DomainFullJid extends Jid, FullJid, DomainJid {
 
 }

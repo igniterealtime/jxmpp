@@ -22,16 +22,16 @@ import org.jxmpp.stringprep.XmppStringprepException;
 public class JidTestUtil {
 
 	public static final DomainBareJid EXAMPLE_ORG;
-	public static final BareJid DUMMY_AT_EXAMPLE_ORG;
-	public static final FullJid DUMMY_AT_EXAMPLE_ORG_SLASH_DUMMYRESOURCE;
+	public static final EntityBareJid DUMMY_AT_EXAMPLE_ORG;
+	public static final EntityFullJid DUMMY_AT_EXAMPLE_ORG_SLASH_DUMMYRESOURCE;
 
-	public static final BareJid BARE_JID_1;
-	public static final BareJid BARE_JID_2;
+	public static final EntityBareJid BARE_JID_1;
+	public static final EntityBareJid BARE_JID_2;
 
-	public static final FullJid FULL_JID_1_RESOURCE_1;
-	public static final FullJid FULL_JID_1_RESOURCE_2;
-	public static final FullJid FULL_JID_2_RESOURCE_1;
-	public static final FullJid FULL_JID_2_RESOURCE_2;
+	public static final EntityFullJid FULL_JID_1_RESOURCE_1;
+	public static final EntityFullJid FULL_JID_1_RESOURCE_2;
+	public static final EntityFullJid FULL_JID_2_RESOURCE_1;
+	public static final EntityFullJid FULL_JID_2_RESOURCE_2;
 
 	public static final DomainBareJid DOMAIN_BARE_JID_1;
 	public static final DomainBareJid DOMAIN_BARE_JID_2;

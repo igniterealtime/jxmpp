@@ -39,15 +39,15 @@ public class JidSerializeableTest {
 
 	@Test
 	public void localAndDomainpartTest() throws ClassNotFoundException, IOException {
-		final BareJid bareJid = JidTestUtil.BARE_JID_1;
-		final BareJid deserializedBareJid = serializeAndDeserialze(bareJid);
+		final EntityBareJid bareJid = JidTestUtil.BARE_JID_1;
+		final EntityBareJid deserializedBareJid = serializeAndDeserialze(bareJid);
 		assertEquals(bareJid, deserializedBareJid);
 	}
 
 	@Test
 	public void localDomainAndResourcepartTest() throws ClassNotFoundException, IOException {
-		final FullJid fullJid = JidTestUtil.FULL_JID_1_RESOURCE_1;
-		final FullJid deserializedFullJid = serializeAndDeserialze(fullJid);
+		final EntityFullJid fullJid = JidTestUtil.FULL_JID_1_RESOURCE_1;
+		final EntityFullJid deserializedFullJid = serializeAndDeserialze(fullJid);
 		assertEquals(fullJid, deserializedFullJid);
 	}
 

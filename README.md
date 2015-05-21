@@ -48,19 +48,25 @@ Although JIDs are split over five classes, jxmpp-jid is designed so that you oft
 It therefore combines the simplicity of the single JID class approach, where JIDs are represented by a single class no matter what kind of JID they are, which the expressiveness of the JID class hierarchy approach, where you can express in a method signature the required JID type (e.g. `foo(BareJid bareJid)`.
 
 ```text
-         ,___Jid___,
-        /    / \    \
-  FullJid   /   \  DomainFullJid
-      BareJid  DomainBareJid
+         ,______Jid______,
+        /       / \       \
+EntityFullJid  /   \     DomainFullJid
+              /     \
+     EntityBareJid  DomainBareJid
 ```
 
-There are also the `JidWithLocalpart` and `JidWithResourepart` interfaces, which are implemented by the Jid types as follows:
+There are also the `BareJid`, `FullJid`, `EntityJid` and `DomainJid` interfaces, which are implemented by the Jid types as follows:
 
 ```text
-     JidWithLocalpart       JidWithResourcepart
-         /    \                   /   \
-        /      \                 /     \
-    BareJid  FullJid         FullJid  DomainFullJid
+         BareJid                            FullJid
+         /    \                             /   \
+        /      \                           /     \
+EntityBareJid  DomainBareJid     EntityFullJid  DomainFullJid
+
+        EntityJid                         DomainJid
+         /    \                             /   \
+        /      \                           /     \
+EntityBareJid  EntityFullJid     DomainBareJid  DomainFullJid
 ```
 
 Jid instances are created with the help of the `JidCreate` utility:
