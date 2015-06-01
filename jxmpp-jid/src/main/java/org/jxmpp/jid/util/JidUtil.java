@@ -116,7 +116,7 @@ public class JidUtil {
 	 * @param in the input collection.
 	 * @param out the collection where the filtered JIDs are added to.
 	 */
-	public static void filterEntityBareJid(Collection<? extends Jid> in, Collection<EntityBareJid> out) {
+	public static void filterEntityBareJid(Collection<? extends Jid> in, Collection<? super EntityBareJid> out) {
 		for (Jid jid : in) {
 			EntityBareJid bareJid = jid.asEntityBareJidIfPossible();
 			if (bareJid != null) {
@@ -155,7 +155,7 @@ public class JidUtil {
 	 * @param in the input collection.
 	 * @param out the collection where the filtered JIDs are added to.
 	 */
-	public static void filterEntityFullJid(Collection<? extends Jid> in, Collection<EntityFullJid> out) {
+	public static void filterEntityFullJid(Collection<? extends Jid> in, Collection<? super EntityFullJid> out) {
 		for (Jid jid : in) {
 			EntityFullJid fullJid = jid.asEntityFullJidIfPossible();
 			if (fullJid != null) {
@@ -194,7 +194,7 @@ public class JidUtil {
 	 * @param in the input collection.
 	 * @param out the collection where the filtered JIDs are added to.
 	 */
-	public static void filterDomainFullJid(Collection<? extends Jid> in, Collection<DomainFullJid> out) {
+	public static void filterDomainFullJid(Collection<? extends Jid> in, Collection<? super DomainFullJid> out) {
 		for (Jid jid : in) {
 			DomainFullJid domainFullJid = jid.asDomainFullJidIfPossible();
 			if (domainFullJid != null) {
@@ -253,7 +253,7 @@ public class JidUtil {
 	 *            the collection where the BareJid's will be added to
 	 * @param exceptions the list of exceptions thrown while converting.
 	 */
-	public static void entityBareJidsFrom(Collection<? extends CharSequence> jidStrings, Collection<EntityBareJid> output,
+	public static void entityBareJidsFrom(Collection<? extends CharSequence> jidStrings, Collection<? super EntityBareJid> output,
 			List<XmppStringprepException> exceptions) {
 		for (CharSequence jid : jidStrings) {
 			try {
@@ -308,7 +308,7 @@ public class JidUtil {
 	 *            the collection where the Jid's will be added to
 	 * @param exceptions the list of exceptions thrown while converting.
 	 */
-	public static void jidsFrom(Collection<? extends CharSequence> jidStrings, Collection<Jid> output,
+	public static void jidsFrom(Collection<? extends CharSequence> jidStrings, Collection<? super Jid> output,
 			List<XmppStringprepException> exceptions) {
 		for (CharSequence jidString : jidStrings) {
 			try {
