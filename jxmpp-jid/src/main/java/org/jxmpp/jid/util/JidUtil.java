@@ -34,31 +34,37 @@ import org.jxmpp.util.XmppStringUtils;
 public class JidUtil {
 
 	/**
-	 * Check if the given CharSequence represents a valid bare JID.
+	 * Check if the given CharSequence represents a valid entity bare JID. That
+	 * is, it must consists exactly of a local- and a domainpart
+	 * (&lt;localpart@domainpart&gt;).
 	 * <p>
 	 * This method is meant to validate user input and give fast feedback (e.g.
-	 * with a red or green light) about if the user entered CharSequence represents a
-	 * bare JID.
+	 * with a red or green light) about if the user entered CharSequence
+	 * represents a bare JID.
 	 * </p>
 	 * 
-	 * @param jid the CharSequence to check.
-	 * @return true if @{code jid} represents a valid bare JID, false otherwise
+	 * @param jid
+	 *            the CharSequence to check.
+	 * @return true if @{code jid} represents a valid entity bare JID, false otherwise
+	 * @see EntityBareJid
 	 */
-	public static boolean isValidBareJid(CharSequence jid) {
+	public static boolean isValidEntityBareJid(CharSequence jid) {
 		try {
-			validateBareJid(jid);
-		} catch (NotABareJidStringException | XmppStringprepException e) {
+			validateEntityBareJid(jid);
+		} catch (NotAEntityBareJidStringException | XmppStringprepException e) {
 			return false;
 		}
 		return true;
 	}
 
 	/**
-	 * Check if the given CharSequence is a valid bare JID.
+	 * Check if the given CharSequence is a valid entity bare JID. That
+	 * is, it must consists exactly of a local- and a domainpart
+	 * (&lt;localpart@domainpart&gt;).
 	 * <p>
 	 * This is a convenience method meant to validate user entered bare JIDs. If
 	 * the given {@code jid} is not a valid bare JID, then this method will
-	 * throw either {@link NotABareJidStringException} or
+	 * throw either {@link NotAEntityBareJidStringException} or
 	 * {@link XmppStringprepException}. The NotABareJidStringException will
 	 * contain a meaningful message explaining why the given CharSequence is not a
 	 * valid bare JID (e.g. "does not contain a '@' character").
@@ -66,46 +72,46 @@ public class JidUtil {
 	 * 
 	 * @param jidcs the JID CharSequence
 	 * @return a BareJid instance representing the given JID CharSequence
-	 * @throws NotABareJidStringException if the given CharSequence is not a bare JID.
+	 * @throws NotAEntityBareJidStringException if the given CharSequence is not a bare JID.
 	 * @throws XmppStringprepException if an error happens.
 	 */
-	public static EntityBareJid validateBareJid(CharSequence jidcs) throws NotABareJidStringException, XmppStringprepException {
+	public static EntityBareJid validateEntityBareJid(CharSequence jidcs) throws NotAEntityBareJidStringException, XmppStringprepException {
 		String jid = jidcs.toString();
 		final int atIndex = jid.indexOf('@');
 		if (atIndex == -1) {
-			throw new NotABareJidStringException("'" + jid + "' does not contain a '@' character");
+			throw new NotAEntityBareJidStringException("'" + jid + "' does not contain a '@' character");
 		} else if (jid.indexOf('@', atIndex + 1) != -1) {
-			throw new NotABareJidStringException("'" + jid + "' contains multiple '@' characters");
+			throw new NotAEntityBareJidStringException("'" + jid + "' contains multiple '@' characters");
 		}
 		final String localpart = XmppStringUtils.parseLocalpart(jid);
 		if (localpart.length() == 0) {
-			throw new NotABareJidStringException("'" + jid + "' has empty localpart");
+			throw new NotAEntityBareJidStringException("'" + jid + "' has empty localpart");
 		}
 		final String domainpart = XmppStringUtils.parseDomain(jid);
 		if (domainpart.length() == 0) {
-			throw new NotABareJidStringException("'" + jid + "' has empty domainpart");
+			throw new NotAEntityBareJidStringException("'" + jid + "' has empty domainpart");
 		}
-		return JidCreate.bareFrom(jid);
+		return JidCreate.entityBareFrom(jid);
 	}
 
-	public static class NotABareJidStringException extends Exception {
+	public static class NotAEntityBareJidStringException extends Exception {
 		/**
 		 * 
 		 */
 		private static final long serialVersionUID = -1710386661031655082L;
 
 		/**
-		 * Construct a new "not a bare JID" exception.
+		 * Construct a new "not a entity bare JID" exception.
 		 *
 		 * @param message the message of the exception.
 		 */
-		public NotABareJidStringException(String message) {
+		public NotAEntityBareJidStringException(String message) {
 			super(message);
 		}
 	}
 
 	/**
-	 * Filter all bare JIDs.
+	 * Filter all entity bare JIDs.
 	 *
 	 * @param in the input collection.
 	 * @param out the collection where the filtered JIDs are added to.
@@ -120,7 +126,7 @@ public class JidUtil {
 	}
 
 	/**
-	 * Filter all bare JIDs.
+	 * Filter all entity bare JIDs.
 	 *
 	 * @param input the input collection.
 	 * @return a set containing all bare JIDs of the input collection.
@@ -132,7 +138,7 @@ public class JidUtil {
 	}
 
 	/**
-	 * Filter all bare JIDs.
+	 * Filter all entity bare JIDs.
 	 *
 	 * @param input the input collection.
 	 * @return a list containing all bare JIDs of the input collection.
@@ -144,7 +150,7 @@ public class JidUtil {
 	}
 
 	/**
-	 * Filter all full JIDs.
+	 * Filter all entity full JIDs.
 	 *
 	 * @param in the input collection.
 	 * @param out the collection where the filtered JIDs are added to.
@@ -251,7 +257,7 @@ public class JidUtil {
 			List<XmppStringprepException> exceptions) {
 		for (CharSequence jid : jidStrings) {
 			try {
-				EntityBareJid bareJid = JidCreate.bareFrom(jid);
+				EntityBareJid bareJid = JidCreate.entityBareFrom(jid);
 				output.add(bareJid);
 			} catch (XmppStringprepException e) {
 				if (exceptions != null) {

@@ -32,7 +32,7 @@ public class JidCreateTest {
 	public void bareFromThrowTest() {
 		final String notABareJid = "example.org/test";
 		try {
-			EntityBareJid jid = JidCreate.bareFrom(notABareJid);
+			EntityBareJid jid = JidCreate.entityBareFrom(notABareJid);
 			// Should throw
 			fail(jid + " should never been created");
 		} catch (XmppStringprepException e) {
@@ -44,7 +44,7 @@ public class JidCreateTest {
 	public void fullFromThrowTest() {
 		final String notAFullJid = "user@example.org/";
 		try {
-			EntityFullJid jid = JidCreate.fullFrom(notAFullJid);
+			EntityFullJid jid = JidCreate.entityFullFrom(notAFullJid);
 			// Should throw
 			fail(jid + " should never been created");
 		} catch (XmppStringprepException e) {

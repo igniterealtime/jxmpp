@@ -45,16 +45,16 @@ public class JidTestUtil {
 	static {
 		try {
 			EXAMPLE_ORG = JidCreate.domainBareFrom("example.org");
-			DUMMY_AT_EXAMPLE_ORG = JidCreate.bareFrom("dummy@example.org");
-			DUMMY_AT_EXAMPLE_ORG_SLASH_DUMMYRESOURCE = JidCreate.fullFrom("dummy@example.org/dummyresource");
+			DUMMY_AT_EXAMPLE_ORG = JidCreate.entityBareFrom("dummy@example.org");
+			DUMMY_AT_EXAMPLE_ORG_SLASH_DUMMYRESOURCE = JidCreate.entityFullFrom("dummy@example.org/dummyresource");
 
-			BARE_JID_1 = JidCreate.bareFrom("one@exampleOne.org");
-			BARE_JID_2 = JidCreate.bareFrom("one@exampleTwo.org");
+			BARE_JID_1 = JidCreate.entityBareFrom("one@exampleOne.org");
+			BARE_JID_2 = JidCreate.entityBareFrom("one@exampleTwo.org");
 
-			FULL_JID_1_RESOURCE_1 = JidCreate.fullFrom("one@exampleOne.org/resourceOne");
-			FULL_JID_1_RESOURCE_2 = JidCreate.fullFrom("one@exampleOne.org/resourceTwo");
-			FULL_JID_2_RESOURCE_1 = JidCreate.fullFrom("two@exampleTwo.org/resourceOne");
-			FULL_JID_2_RESOURCE_2 = JidCreate.fullFrom("two@exampleTwo.org/resourceTwo");
+			FULL_JID_1_RESOURCE_1 = JidCreate.entityFullFrom("one@exampleOne.org/resourceOne");
+			FULL_JID_1_RESOURCE_2 = JidCreate.entityFullFrom("one@exampleOne.org/resourceTwo");
+			FULL_JID_2_RESOURCE_1 = JidCreate.entityFullFrom("two@exampleTwo.org/resourceOne");
+			FULL_JID_2_RESOURCE_2 = JidCreate.entityFullFrom("two@exampleTwo.org/resourceTwo");
 
 			DOMAIN_BARE_JID_1 = JidCreate.domainBareFrom("exampleOne.org");
 			DOMAIN_BARE_JID_2 = JidCreate.domainBareFrom("exampleTwo.org");
