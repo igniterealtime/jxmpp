@@ -33,6 +33,11 @@ public abstract class AbstractJid implements Jid {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * Cache for the String representation of this JID.
+	 */
+	protected String cache;
+
 	@Override
 	public final boolean isEntityJid() {
 		return isEntityBareJid() || isEntityFullJid();
@@ -161,7 +166,7 @@ public abstract class AbstractJid implements Jid {
 	@Override
 	public final String intern() {
 		if (internalizedCache == null) {
-			internalizedCache = toString().intern();
+			cache = internalizedCache = toString().intern();
 		}
 		return internalizedCache;
 	}

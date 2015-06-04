@@ -52,7 +52,14 @@ public final class DomainpartJid extends AbstractJid implements DomainBareJid {
 
 	@Override
 	public String toString() {
-		return domain.toString();
+		// Prefer the cached version over the domain.toString() one, since the cached version may
+		// also be the internalized representation of the String. Which, e.g. provides benefits when
+		// comparing JIDs.
+		if (cache != null) {
+			return cache;
+		}
+		cache = domain.toString();
+		return cache;
 	}
 
 	@Override

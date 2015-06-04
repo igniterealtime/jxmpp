@@ -46,8 +46,6 @@ public final class DomainAndResourcepartJid extends AbstractJid implements Domai
 	private final DomainBareJid domainBareJid;
 	private final Resourcepart resource;
 
-	private String cache;
-
 	DomainAndResourcepartJid(String domain, String resource) throws XmppStringprepException {
 		this(new DomainpartJid(domain), Resourcepart.from(resource));
 	}

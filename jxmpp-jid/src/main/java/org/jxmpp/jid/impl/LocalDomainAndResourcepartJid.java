@@ -38,7 +38,6 @@ public final class LocalDomainAndResourcepartJid extends AbstractJid implements 
 	private final EntityBareJid bareJid;
 	private final Resourcepart resource;
 
-	private String cache;
 	private String unescapedCache;
 
 	LocalDomainAndResourcepartJid(String localpart, String domain, String resource) throws XmppStringprepException {
