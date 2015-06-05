@@ -24,20 +24,4 @@ package org.jxmpp.jid;
  */
 public interface EntityFullJid extends Jid, FullJid, EntityJid {
 
-	// TODO the two methods could be defined simply in EntityJid only
-
-	/**
-	 * Return the bare JID of this full JID.
-	 * 
-	 * @return the bare JID.
-	 */
-	public EntityBareJid asBareJid();
-
-	/**
-	 * Return the bare JID string of this full JID.
-	 *
-	 * @return the bare JID string.
-	 */
-	public String asBareJidString();
-
 }

@@ -33,10 +33,17 @@ public interface EntityJid extends Jid {
 	public Localpart getLocalpart();
 
 	/**
-	 * Return the bare JID of this full JID.
+	 * Return the bare JID of this entity JID.
 	 * 
 	 * @return the bare JID.
 	 */
-	public EntityBareJid asBareJid();
+	public EntityBareJid asEntityBareJid();
+
+	/**
+	 * Return the bare JID string of this full JID.
+	 *
+	 * @return the bare JID string.
+	 */
+	public String asEntityBareJidString();
 
 }

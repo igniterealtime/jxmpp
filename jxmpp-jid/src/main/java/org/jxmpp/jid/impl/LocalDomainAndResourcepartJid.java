@@ -16,11 +16,11 @@
  */
 package org.jxmpp.jid.impl;
 
+import org.jxmpp.jid.BareJid;
 import org.jxmpp.jid.EntityBareJid;
 import org.jxmpp.jid.DomainBareJid;
 import org.jxmpp.jid.DomainFullJid;
 import org.jxmpp.jid.EntityFullJid;
-import org.jxmpp.jid.Jid;
 import org.jxmpp.jid.EntityJid;
 import org.jxmpp.jid.FullJid;
 import org.jxmpp.jid.parts.Domainpart;
@@ -68,13 +68,13 @@ public final class LocalDomainAndResourcepartJid extends AbstractJid implements 
 	}
 
 	@Override
-	public EntityBareJid asBareJid() {
+	public EntityBareJid asEntityBareJid() {
 		return bareJid;
 	}
 
 	@Override
-	public String asBareJidString() {
-		return asBareJid().toString();
+	public String asEntityBareJidString() {
+		return asEntityBareJid().toString();
 	}
 
 	@Override
@@ -84,7 +84,7 @@ public final class LocalDomainAndResourcepartJid extends AbstractJid implements 
 
 	@Override
 	public EntityBareJid asEntityBareJidIfPossible() {
-		return asBareJid();
+		return asEntityBareJid();
 	}
 
 	@Override
@@ -138,8 +138,8 @@ public final class LocalDomainAndResourcepartJid extends AbstractJid implements 
 	}
 
 	@Override
-	public Jid withoutResource() {
-		return asBareJid();
+	public BareJid asBareJid() {
+		return asEntityBareJid();
 	}
 
 	@Override

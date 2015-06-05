@@ -128,6 +128,13 @@ public interface Jid extends Comparable<Jid>, CharSequence, Serializable {
 	public boolean hasLocalpart();
 
 	/**
+	 * Return a JID created by removing the Resourcepart from this JID.
+	 *
+	 * @return this Jid without a Resourcepart.
+	 */
+	public BareJid asBareJid();
+
+	/**
 	 * Convert this Jid to a {@link EntityBareJid} if possible.
 	 *
 	 * @return the corresponding {@link EntityBareJid} or null.
@@ -193,13 +200,6 @@ public interface Jid extends Comparable<Jid>, CharSequence, Serializable {
 	 * @return the localpart of this JID or null.
 	 */
 	public Localpart getLocalpartOrNull();
-
-	/**
-	 * Return a JID created by removing the Resourcepart from this JID.
-	 *
-	 * @return this Jid without a Resourcepart.
-	 */
-	public Jid withoutResource();
 
 	/**
 	 * Check if this JID is the parent of another JID. The <b>parent of</b> relation is defined, under the

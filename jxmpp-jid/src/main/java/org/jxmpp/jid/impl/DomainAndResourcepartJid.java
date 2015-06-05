@@ -16,11 +16,11 @@
  */
 package org.jxmpp.jid.impl;
 
+import org.jxmpp.jid.BareJid;
 import org.jxmpp.jid.EntityBareJid;
 import org.jxmpp.jid.DomainBareJid;
 import org.jxmpp.jid.DomainFullJid;
 import org.jxmpp.jid.EntityFullJid;
-import org.jxmpp.jid.Jid;
 import org.jxmpp.jid.EntityJid;
 import org.jxmpp.jid.FullJid;
 import org.jxmpp.jid.parts.Domainpart;
@@ -120,7 +120,7 @@ public final class DomainAndResourcepartJid extends AbstractJid implements Domai
 	}
 
 	@Override
-	public Jid withoutResource() {
+	public BareJid asBareJid() {
 		return asDomainBareJid();
 	}
 
