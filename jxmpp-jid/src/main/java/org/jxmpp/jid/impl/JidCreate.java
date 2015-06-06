@@ -195,7 +195,7 @@ public class JidCreate {
 		String localpart = XmppStringUtils.parseLocalpart(jid);
 		String domainpart = XmppStringUtils.parseDomain(jid);
 		try {
-			if (localpart.length() == 0) {
+			if (localpart.length() != 0) {
 				bareJid = new LocalAndDomainpartJid(localpart, domainpart);
 			} else {
 				bareJid = new DomainpartJid(domainpart);
