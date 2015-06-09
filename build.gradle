@@ -1,10 +1,26 @@
 import org.gradle.plugins.signing.Sign
 
+buildscript {
+	repositories {
+		mavenCentral()
+	}
+
+	dependencies {
+		classpath "org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.4.0"
+	}
+}
+
 apply from: 'version.gradle'
 
 allprojects {
 	apply plugin: 'java'
 	apply plugin: 'eclipse'
+	apply plugin: 'jacoco'
+
+	repositories {
+		mavenLocal()
+		mavenCentral()
+	}
 
 	ext {
 		gitCommit = getGitCommit()
@@ -79,6 +95,19 @@ allprojects {
 		options.charSet = "UTF-8"
 	}
 
+	jacoco {
+		toolVersion = "0.7.4.201502262128"
+	}
+
+	jacocoTestReport {
+		dependsOn test
+		sourceDirectories = project.files(sourceSets.main.allSource.srcDirs)
+		classDirectories =  project.files(sourceSets.main.output)
+		reports {
+			xml.enabled true
+		}
+	}
+
 }
 
 gradle.taskGraph.whenReady { taskGraph ->
@@ -135,10 +164,6 @@ subprojects {
 
 	checkstyle {
 		configFile = new File(rootConfigDir, 'checkstyle.xml')
-	}
-	repositories {
-		mavenLocal()
-		mavenCentral()
 	}
 	task sourcesJar(type: Jar, dependsOn: classes) {
 		classifier = 'sources'
@@ -247,6 +272,27 @@ configure (androidProjects) {
 }
 
 test { dependsOn androidProjects*.compileAndroid }
+
+apply plugin: "com.github.kt3k.coveralls"
+coveralls {
+	sourceDirs = files(subprojects.sourceSets.main.allSource.srcDirs).files.absolutePath
+}
+
+task jacocoRootReport(type: org.gradle.testing.jacoco.tasks.JacocoReport) {
+	dependsOn = subprojects.jacocoTestReport
+	sourceDirectories = files(subprojects.sourceSets.main.allSource.srcDirs)
+	classDirectories = files(subprojects.sourceSets.main.output)
+	executionData = files(subprojects.jacocoTestReport.executionData)
+	reports {
+		xml.enabled true
+		xml.destination ="${buildDir}/reports/jacoco/test/jacocoTestReport.xml"
+	}
+	// We could remove the following setOnlyIf line, but then
+	// jacocoRootReport would silently be SKIPPED if something with
+	// the subprojects is wrong (e.g. a project is missing
+	// in there).
+	setOnlyIf { true }
+}
 
 def getGitCommit() {
 	def dotGit = new File("$projectDir/.git")
