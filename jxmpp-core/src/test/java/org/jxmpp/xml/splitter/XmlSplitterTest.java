@@ -29,4 +29,14 @@ public class XmlSplitterTest extends XmlSplitterTestUtil {
 		xmlSplitterTest(element);
 	}
 
+	/**
+	 * Test a space after the name of an empty element. Spaces are allowed
+	 * according to XML § 3.1 [44].
+	 *
+	 * @throws IOException
+	 */
+	@Test
+	public void emptyElementTest() throws IOException {
+		xmlSplitterTest("<ele att='foo'><empty /></ele>");
+	}
 }
