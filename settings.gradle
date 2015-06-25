@@ -1,4 +1,5 @@
 include 'jxmpp-core',
 		'jxmpp-jid',
+		'jxmpp-stringprep-icu4j',
 		'jxmpp-stringprep-libidn',
 		'jxmpp-util-cache'

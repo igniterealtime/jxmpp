@@ -1,0 +1,8 @@
+description = """\
+JXMPP Stringprep with ICU4J."""
+
+dependencies {
+	compile project(':jxmpp-core')
+	compile 'com.ibm.icu:icu4j:55.1'
+	testCompile 'junit:junit:4.11'
+}
