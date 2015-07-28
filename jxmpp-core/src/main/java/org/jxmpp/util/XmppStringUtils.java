@@ -24,15 +24,17 @@ import org.jxmpp.util.cache.LruCache;
 public class XmppStringUtils {
 
 	/**
-	 * Returns the localpart of a JID. For example, for the address
-	 * "matt@jivesoftware.com/Smack", "matt" would be returned. If no username
-	 * is present in the address, the empty string will be returned.
+	 * Returns the localpart of an XMPP address (JID). For example, for the address "user@xmpp.org/Resource", "user"
+	 * would be returned. If <code>jid</code> is <code>null</code>, then this method returns also <code>null</code>. If
+	 * the input String is no valid JID or has no localpart, then this method will return the empty String. </p>
 	 * 
 	 * @param jid
-	 *            the XMPP address.
-	 * @return the name portion of the XMPP address.
+	 *            the XMPP address to parse.
+	 * @return the name portion of the XMPP address, the empty String or <code>null</code>.
 	 */
 	public static String parseLocalpart(String jid) {
+		if (jid == null) return null;
+
 		int atIndex = jid.indexOf('@');
 		if (atIndex <= 0) {
 			return "";
@@ -46,15 +48,17 @@ public class XmppStringUtils {
 	}
 
 	/**
-	 * Returns the domain of a JID. For example, for the address
-	 * "matt@jivesoftware.com/Smack", "jivesoftware.com" would be returned. If
-	 * no server is present in the address, the empty string will be returned.
+	 * Returns the domain of an XMPP address (JID). For example, for the address "user@xmpp.org/Resource", "xmpp.org"
+	 * would be returned. If <code>jid</code> is <code>null</code>, then this method returns also <code>null</code>. If
+	 * the input String is no valid JID or has no domainpart, then this method will return the empty String.
 	 * 
 	 * @param jid
-	 *            the XMPP address.
-	 * @return the server portion of the XMPP address.
+	 *            the XMPP address to parse.
+	 * @return the domainpart of the XMPP address, the empty String or <code>null</code>.
 	 */
 	public static String parseDomain(String jid) {
+		if (jid == null) return null;
+
 		int atIndex = jid.indexOf('@');
 		int slashIndex = jid.indexOf('/');
 		if (slashIndex > 0) {
@@ -71,15 +75,18 @@ public class XmppStringUtils {
 	}
 
 	/**
-	 * Returns the resource portion of a JID. For example, for the address
-	 * "matt@jivesoftware.com/Smack", "Smack" would be returned. If no resource
-	 * is present in the address, the empty string will be returned.
+	 * Returns the resource portion of an XMPP address (JID). For example, for the address "user@xmpp.org/Resource",
+	 * "Resource" would be returned. If <code>jid</code> is <code>null</code>, then this method returns also
+	 * <code>null</code>. If the input String is no valid JID or has no resourcepart, then this method will return the
+	 * empty String.
 	 * 
 	 * @param jid
-	 *            the XMPP address.
+	 *            the XMPP address to parse.
 	 * @return the resource portion of the XMPP address.
 	 */
 	public static String parseResource(String jid) {
+		if (jid == null) return null;
+
 		int slashIndex = jid.indexOf('/');
 		if (slashIndex + 1 > jid.length() || slashIndex < 0) {
 			return "";
