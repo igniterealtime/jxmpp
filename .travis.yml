@@ -5,6 +5,7 @@ android:
 jdk:
   - oraclejdk8
   - oraclejdk7
+sudo: false
 
 install: gradle assemble
 script: gradle check
