@@ -26,7 +26,7 @@ public class XmppStringUtils {
 	/**
 	 * Returns the localpart of an XMPP address (JID). For example, for the address "user@xmpp.org/Resource", "user"
 	 * would be returned. If <code>jid</code> is <code>null</code>, then this method returns also <code>null</code>. If
-	 * the input String is no valid JID or has no localpart, then this method will return the empty String. </p>
+	 * the input String is no valid JID or has no localpart, then this method will return the empty String.
 	 * 
 	 * @param jid
 	 *            the XMPP address to parse.
