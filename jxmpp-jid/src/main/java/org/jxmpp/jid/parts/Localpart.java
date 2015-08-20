@@ -20,9 +20,17 @@ import org.jxmpp.stringprep.XmppStringPrepUtil;
 import org.jxmpp.stringprep.XmppStringprepException;
 
 /**
- * A XMPP Localpart.
+ * A <i>localpart</i> of an XMPP address (JID). The localpart is the part before the
+ * first @ sign in an XMPP address and usually identifies the user (or the XMPP
+ * entity) within an XMPP service. It is also often referred to as "username",
+ * but note that the actual username used to login may be different from the
+ * resulting localpart of the user's JID.
+ * <p>
+ * You can create instances of this class from Strings using {@link #from(String)}.
+ * </p>
  *
- * @see <a href="http://xmpp.org/rfcs/rfc6122.html#addressing-localpart">RFC 6122 § 2.3. Localpart</a>
+ * @see <a href="http://xmpp.org/rfcs/rfc6122.html#addressing-localpart">RFC
+ *      6122 § 2.3. Localpart</a>
  */
 public class Localpart extends Part {
 

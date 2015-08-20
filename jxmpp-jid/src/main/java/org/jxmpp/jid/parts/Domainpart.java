@@ -20,7 +20,10 @@ import org.jxmpp.stringprep.XmppStringPrepUtil;
 import org.jxmpp.stringprep.XmppStringprepException;
 
 /**
- * A XMPP Domainpart.
+ * A <i>domainpart</i> of an XMPP address (JID).
+ * <p>
+ * You can create instances of this class from Strings using {@link #from(String)}.
+ * </p>
  *
  * @see <a href="http://xmpp.org/rfcs/rfc6122.html#addressing-domain">RFC 6122 § 2.2. Domainpart</a>
  */

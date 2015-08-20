@@ -20,7 +20,10 @@ import org.jxmpp.stringprep.XmppStringPrepUtil;
 import org.jxmpp.stringprep.XmppStringprepException;
 
 /**
- * A XMPP Resourcepart.
+ * A <i>resourcepart</i> of an XMPP address (JID).
+ * <p>
+ * You can create instances of this class from Strings using {@link #from(String)}.
+ * </p>
  *
  * @see <a href="http://xmpp.org/rfcs/rfc6122.html#addressing-resource">RFC 6122 § 2.4. Resourcepart</a>
  */
