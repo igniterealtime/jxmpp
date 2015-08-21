@@ -32,7 +32,7 @@ public class XmppXmlSplitter extends XmlSplitter {
 	/**
 	 * Construct a new XMPP XML splitter with a max element size of 10000.
 	 * <p>
-	 * RFC 6120 § 13.12 4. requires XMPP servers to use nothing less then 10000 as maximum stanza size.
+	 * RFC 6120 § 13.12 4. requires XMPP servers to use nothing more than 10000 as maximum stanza size.
 	 * </p>
 	 * @param completeElementCallback the callback invoked once a complete element has been processed.
 	 */
