@@ -19,6 +19,8 @@ package org.jxmpp.xml.splitter;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import static org.jxmpp.xml.splitter.XmlSplitterTestUtil.transform;
+
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
@@ -68,14 +70,16 @@ public class Utf8ByteXmppXmlSplitterTest {
 			utf8bytes[i] = bytesArray.get(i);
 		}
 
+		// TODO This is basically duplicate code which is also found in
+		// XmlSplitterTestUtil and should be replaced by it.
 		@SuppressWarnings("resource")
-		Utf8ByteXmppXmlSplitter splitter = new Utf8ByteXmppXmlSplitter(new CompleteElementCallback() {
+		Utf8ByteXmppXmlSplitter splitter = new Utf8ByteXmppXmlSplitter(transform(new CompleteElementCallback() {
 			@Override
 			public void onCompleteElement(String completeElement) {
 				String nextElement = queue.poll();
 				assertEquals(nextElement, completeElement);
 			}
-		});
+		}));
 		splitter.write(utf8bytes);
 		assertTrue(queue.isEmpty());
 	}

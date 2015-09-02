@@ -36,4 +36,13 @@ public class XmppXmlSplitterTest extends XmlSplitterTestUtil {
 		xmppSplitterTest(stanza1, stanza2, stanza3);
 	}
 
+	@Test
+	public void multipleStanzasWithStreamTest() throws IOException {
+		final String stanza1 = "<message><empty/></message>";
+		final String stream1 = "<stream:stream from='juliet@im.example.com' to='foo@bar.com' xmlns:stream='http://etherx.jabber.org/streams'>";
+		final String stanza2 = "<iq from='foo' to='bar'><ping></ping></iq>";
+		final String stream2 = "</stream:stream>";
+		xmppSplitterTest(stanza1, stream1, stanza2, stream2);
+	}
+
 }

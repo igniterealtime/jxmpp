@@ -55,11 +55,10 @@ public class XmlSplitter extends Writer {
 
 	private final StringBuilder elementBuffer;
 
-	protected int depth;
-
 	private final StringBuilder tokenBuffer = new StringBuilder(256);
 	private final Map<String, String> attributes = new HashMap<>();
 
+	private int depth;
 	private String qName;
 	private String attributeName;
 	private State state = State.START;
@@ -96,7 +95,7 @@ public class XmlSplitter extends Writer {
 	/**
 	 * Get the size in bytes of the element currently being processed.
 	 * 
-	 * @return the size of the current element in bytes.
+	 * @return the size of the current element in chars.
 	 */
 	public final int getCurrentElementSize() {
 		return elementBuffer.length();
@@ -109,6 +108,11 @@ public class XmlSplitter extends Writer {
 	}
 
 	protected void onEndTag(String qName) {
+	}
+
+	protected final void newTopLevelElement() {
+		depth = 0;
+		elementBuffer.setLength(0);
 	}
 
 	private void processChar(char c) throws IOException {
@@ -150,10 +154,12 @@ public class XmlSplitter extends Writer {
 				state = State.AFTER_START_NAME;
 				break;
 			case '/':
+				qName = getToken();
 				onStartTagFinished();
 				state = State.IN_EMPTY_TAG;
 				break;
 			case '>':
+				qName = getToken();
 				onStartTagFinished();
 				state = State.START;
 				break;
@@ -248,7 +254,7 @@ public class XmlSplitter extends Writer {
 	}
 
 	private void onStartTagFinished() {
-		qName = getToken();
+		// qName should already be set correctly.
 		depth++;
 		String prefix = extractPrefix(qName);
 		String localpart = extractLocalpart(qName);

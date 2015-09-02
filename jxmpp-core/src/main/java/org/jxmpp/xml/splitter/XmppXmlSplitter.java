@@ -17,6 +17,7 @@
 package org.jxmpp.xml.splitter;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.Map;
 
 /**
@@ -25,30 +26,32 @@ import java.util.Map;
  */
 public class XmppXmlSplitter extends XmlSplitter {
 
+	private final XmppElementCallback xmppElementCallback;
 	private final int maxElementSize;
 
-	private String streamNamespace;
+	private String streamPrefix;
 
 	/**
 	 * Construct a new XMPP XML splitter with a max element size of 10000.
 	 * <p>
 	 * RFC 6120 § 13.12 4. requires XMPP servers to use nothing less then 10000 as maximum stanza size.
 	 * </p>
-	 * @param completeElementCallback the callback invoked once a complete element has been processed.
+	 * @param xmppElementCallback the callback invoked once a complete element has been processed.
 	 */
-	public XmppXmlSplitter(CompleteElementCallback completeElementCallback) {
-		this(10000, completeElementCallback);
+	public XmppXmlSplitter(XmppElementCallback xmppElementCallback) {
+		this(10000, xmppElementCallback);
 	}
 
 	/**
 	 * Construct a new XMPP XML splitter.
 	 *
 	 * @param maxElementSize the maximum size of a single top level element in bytes.
-	 * @param completeElementCallback the callback invoked once a complete element has been processed.
+	 * @param xmppElementCallback the callback invoked once a complete element has been processed.
 	 */
-	public XmppXmlSplitter(int maxElementSize, CompleteElementCallback completeElementCallback) {
-		super(maxElementSize, completeElementCallback);
+	public XmppXmlSplitter(int maxElementSize, XmppElementCallback xmppElementCallback) {
+		super(maxElementSize, xmppElementCallback);
 		this.maxElementSize = maxElementSize;
+		this.xmppElementCallback = xmppElementCallback;
 	}
 
 	@Override
@@ -60,16 +63,27 @@ public class XmppXmlSplitter extends XmlSplitter {
 
 	@Override
 	protected void onStartTag(String prefix, String localpart, Map<String, String> attributes) {
-		String namespace = attributes.get("xmlns:" + prefix);
-		if ("stream".equals(localpart) && "http://etherx.jabber.org/streams".equals(namespace)) {
-			streamNamespace = namespace;
-			depth = 0;
+		if (!"stream".equals(localpart)) {
+			// If the open tag's name is not 'stream' then we are not interested.
+			return;
+		}
+
+		if ("http://etherx.jabber.org/streams".equals(attributes.get("xmlns:" + prefix))) {
+			streamPrefix = prefix;
+			newTopLevelElement();
+			xmppElementCallback.streamOpened(prefix, Collections.unmodifiableMap(attributes));
 		}
 	}
 
 	protected void onEndTag(String qName) {
-		if ((streamNamespace + ":stream").equals(qName)) {
-			completeElementCallback.onCompleteElement("</stream:stream>");
+		if (streamPrefix == null || !qName.startsWith(streamPrefix)) {
+			// Shortcut if streamPrefix is not yet set or if qName does not even
+			// start with it.
+			return;
+		}
+
+		if ((streamPrefix + ":stream").equals(qName)) {
+			xmppElementCallback.streamClosed();
 		}
 	}
 }

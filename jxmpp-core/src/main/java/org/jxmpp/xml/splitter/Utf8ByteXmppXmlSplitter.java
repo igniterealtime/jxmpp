@@ -39,10 +39,10 @@ public class Utf8ByteXmppXmlSplitter extends OutputStream {
 	/**
 	 * Create a new splitter with the given callback.
 	 *
-	 * @param completeElementCallback the callback invoked once a complete element has been processed.
+	 * @param xmppElementCallback the callback invoked once a complete element has been processed.
 	 */
-	public Utf8ByteXmppXmlSplitter(CompleteElementCallback completeElementCallback) {
-		xmppXmlSplitter = new XmppXmlSplitter(completeElementCallback);
+	public Utf8ByteXmppXmlSplitter(XmppElementCallback xmppElementCallback) {
+		xmppXmlSplitter = new XmppXmlSplitter(xmppElementCallback);
 	}
 
 	private final char[] writeBuffer = new char[2];
