@@ -142,6 +142,9 @@ public abstract class AbstractJid implements Jid {
 
 	@Override
 	public final boolean equals(CharSequence charSequence) {
+		if (charSequence == null) {
+			return false;
+		}
 		return equals(charSequence.toString());
 	}
 
