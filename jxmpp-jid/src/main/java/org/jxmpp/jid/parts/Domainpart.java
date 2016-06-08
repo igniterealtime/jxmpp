@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2014-2015 Florian Schmaus
+ * Copyright © 2014-2016 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -46,6 +46,9 @@ public class Domainpart extends Part {
 	 * @throws XmppStringprepException if an error occurs.
 	 */
 	public static Domainpart from(String domain) throws XmppStringprepException {
+		if (domain == null) {
+			throw new XmppStringprepException(domain, "Input 'domain' must not be null");
+		}
 		// TODO cache
 		// RFC 6122 § 2.2 "If the domainpart includes a final character considered to be a label
 		// separator (dot) by [IDNA2003] or [DNS], this character MUST be stripped …"
