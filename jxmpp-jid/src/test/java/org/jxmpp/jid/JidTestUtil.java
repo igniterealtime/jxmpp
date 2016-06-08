@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2015 Florian Schmaus
+ * Copyright © 2015-2016 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@
 package org.jxmpp.jid;
 
 import org.jxmpp.jid.impl.JidCreate;
+import org.jxmpp.jid.parts.Resourcepart;
 import org.jxmpp.stringprep.XmppStringprepException;
 
 public class JidTestUtil {
@@ -42,6 +43,8 @@ public class JidTestUtil {
 	public static final DomainBareJid MUC_EXAMPLE_ORG;
 	public static final DomainBareJid PUBSUB_EXAMPLE_ORG;
 
+	public static final Resourcepart RESOURCEPART;
+
 	static {
 		try {
 			EXAMPLE_ORG = JidCreate.domainBareFrom("example.org");
@@ -64,6 +67,8 @@ public class JidTestUtil {
 
 			MUC_EXAMPLE_ORG = JidCreate.domainBareFrom("muc.example.org");
 			PUBSUB_EXAMPLE_ORG = JidCreate.domainBareFrom("pubsub.example.org");
+
+			RESOURCEPART = Resourcepart.from("resource");
 		} catch (XmppStringprepException e) {
 			throw new IllegalStateException(e);
 		}
