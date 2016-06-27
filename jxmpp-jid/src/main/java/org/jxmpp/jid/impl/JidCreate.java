@@ -50,7 +50,7 @@ import org.jxmpp.util.XmppStringUtils;
  * that the same String or CharSequence will yield the same Jid instance.
  * </p>
  *
- * @see org.xmpp.jid.Jid
+ * @see Jid
  */
 public class JidCreate {
 
