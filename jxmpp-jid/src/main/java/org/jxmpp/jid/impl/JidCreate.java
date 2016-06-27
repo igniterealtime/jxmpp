@@ -370,6 +370,44 @@ public class JidCreate {
 	}
 
 	/**
+	 * Get a {@link EntityBareJid} representing the given unescaped CharSequence.
+	 *
+	 * @param unescapedJid the input CharSequence.
+	 * @return a bare JID representing the given CharSequence.
+	 * @throws XmppStringprepException if an error occurs.
+	 */
+	public static EntityBareJid entityBareFromUnescaped(CharSequence unescapedJid) throws XmppStringprepException {
+		return entityBareFromUnescaped(unescapedJid.toString());
+	}
+
+	/**
+	 * Get a {@link EntityBareJid} representing the given unescaped String.
+	 *
+	 * @param unescapedJidString the input String.
+	 * @return a bare JID representing the given String.
+	 * @throws XmppStringprepException if an error occurs.
+	 */
+	public static EntityBareJid entityBareFromUnescaped(String unescapedJidString) throws XmppStringprepException {
+		EntityBareJid bareJid = ENTITY_BAREJID_CACHE.get(unescapedJidString);
+		if (bareJid != null) {
+			return bareJid;
+		}
+
+		String localpart = XmppStringUtils.parseLocalpart(unescapedJidString);
+		// Some as from(String), but we escape the localpart
+		localpart = XmppStringUtils.escapeLocalpart(localpart);
+
+		String domainpart = XmppStringUtils.parseDomain(unescapedJidString);
+		try {
+			bareJid = new LocalAndDomainpartJid(localpart, domainpart);
+		} catch (XmppStringprepException e) {
+			throw new XmppStringprepException(unescapedJidString, e);
+		}
+		ENTITY_BAREJID_CACHE.put(unescapedJidString, bareJid);
+		return bareJid;
+	}
+
+	/**
 	 * Get a {@link EntityBareJid} constructed from the given {@link Localpart} and {link DomainBareJid}.
 	 *
 	 * @param localpart a localpart.
@@ -424,6 +462,46 @@ public class JidCreate {
 			throw new XmppStringprepException(jid, e);
 		}
 		ENTITY_FULLJID_CACHE.put(jid, fullJid);
+		return fullJid;
+	}
+
+	/**
+	 * Get a {@link EntityFullJid} representing the given unescaped CharSequence.
+	 *
+	 * @param unescapedJid a CharSequence representing a JID.
+	 * @return a full JID representing the given CharSequence.
+	 * @throws XmppStringprepException if an error occurs.
+	 */
+	public static EntityFullJid entityFullFromUnescaped(CharSequence unescapedJid) throws XmppStringprepException {
+		return entityFullFromUnescaped(unescapedJid.toString());
+	}
+
+	/**
+	 * Get a {@link EntityFullJid} representing the given unescaped String.
+	 *
+	 * @param unescapedJidString the JID's String.
+	 * @return a full JID representing the input String.
+	 * @throws XmppStringprepException if an error occurs.
+	 */
+	public static EntityFullJid entityFullFromUnescaped(String unescapedJidString) throws XmppStringprepException {
+		EntityFullJid fullJid = ENTITY_FULLJID_CACHE.get(unescapedJidString);
+		if (fullJid != null) {
+			return fullJid;
+		}
+
+		String localpart = XmppStringUtils.parseLocalpart(unescapedJidString);
+		// Some as from(String), but we escape the localpart
+		localpart = XmppStringUtils.escapeLocalpart(localpart);
+
+		String domainpart = XmppStringUtils.parseDomain(unescapedJidString);
+		String resource = XmppStringUtils.parseResource(unescapedJidString);
+		try {
+			fullJid = new LocalDomainAndResourcepartJid(localpart, domainpart, resource);
+		} catch (XmppStringprepException e) {
+			throw new XmppStringprepException(unescapedJidString, e);
+		}
+
+		ENTITY_FULLJID_CACHE.put(unescapedJidString, fullJid);
 		return fullJid;
 	}
 
