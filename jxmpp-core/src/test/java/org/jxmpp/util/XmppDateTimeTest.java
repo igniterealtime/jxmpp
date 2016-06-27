@@ -265,4 +265,30 @@ public class XmppDateTimeTest {
 		cal.setTimeZone(TimeZone.getTimeZone("GMT"));
 		assertEquals(120, cal.get(Calendar.MILLISECOND));
 	}
+
+	/**
+	 * There was actually a leap second inserted as this date.
+	 * @throws ParseException
+	 */
+	@Test
+	public void testLeapSeconds() throws ParseException {
+		Date date = XmppDateTime.parseXEP0082Date("2015-07-31T23:59:60Z");
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		cal.setTimeZone(TimeZone.getTimeZone("GMT"));
+		assertEquals(0, cal.get(Calendar.SECOND));
+	}
+
+	/**
+	 * There where no leap seconds inserted, this is just to the parser behavior.
+	 * @throws ParseException
+	 */
+	@Test
+	public void testLeapSeconds3() throws ParseException {
+		Date date = XmppDateTime.parseXEP0082Date("2015-05-31T23:59:63Z");
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		cal.setTimeZone(TimeZone.getTimeZone("GMT"));
+		assertEquals(3, cal.get(Calendar.SECOND));
+	}
 }
