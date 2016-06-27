@@ -32,18 +32,25 @@ import org.jxmpp.util.cache.LruCache;
 import org.jxmpp.util.XmppStringUtils;
 
 /**
- * API to create Jids from Strings and CharSequences.
+ * API to create JIDs (XMPP addresses) from Strings and CharSequences.
  * <p>
- * JIDs created from input received from a XMPP source should use {@link #from(String)}. If the input was user
- * generated, e.g. captured from some sort of user interface, {@link #fromUnescaped(String)} should be used instead. You
- * can use {@link org.jxmpp.jid.util.JidUtil#isValidEntityBareJid(CharSequence)} to query, e.g. while the user it entering it,
- * if a given CharSequence is a valid bare JID.
+ * If the input was user generated, e.g. captured from some sort of user
+ * interface, {@link #fromUnescaped(String)} should be used instead. This allows
+ * the user to enter unesacped JID values. You can use
+ * {@link org.jxmpp.jid.util.JidUtil#isValidEntityBareJid(CharSequence)} to
+ * query, e.g. while the user it entering it, if a given CharSequence is a valid
+ * bare JID.
  * </p>
  * <p>
- * JidCreate uses caches for efficient Jid construction, But it's not guaranteed that the same String or CharSequence
- * will yield the same Jid instance.
+ * JIDs created from input received from an XMPP source should use
+ * {@link #from(String)}.
+ * </p>
+ * <p>
+ * JidCreate uses caches for efficient Jid construction, But it's not guaranteed
+ * that the same String or CharSequence will yield the same Jid instance.
  * </p>
  *
+ * @see org.xmpp.jid.Jid
  */
 public class JidCreate {
 
