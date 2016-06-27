@@ -91,7 +91,7 @@ public class JidUtil {
 		if (domainpart.length() == 0) {
 			throw new NotAEntityBareJidStringException("'" + jid + "' has empty domainpart");
 		}
-		return JidCreate.entityBareFrom(jid);
+		return JidCreate.entityBareFromUnescaped(jid);
 	}
 
 	public static class NotAEntityBareJidStringException extends Exception {
