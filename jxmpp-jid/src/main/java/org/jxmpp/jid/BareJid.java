@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2015 Florian Schmaus
+ * Copyright © 2015-2016 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,8 +17,15 @@
 package org.jxmpp.jid;
 
 /**
- * A Jid which has no {@link org.jxmpp.jid.parts.Resourcepart}. Either
+ * An XMPP address (JID) which has no {@link org.jxmpp.jid.parts.Resourcepart}. Either
  * {@link EntityBareJid} or {@link DomainBareJid}.
+ * <p>
+ * Examples:
+ * </p>
+ * <ul>
+ * <li><code>localpart@domain.part</code></li>
+ * <li><code>domain.part</code></li>
+ * </ul>
  * 
  * @see Jid
  */

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2014-2015 Florian Schmaus
+ * Copyright © 2014-2016 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,8 +19,15 @@ package org.jxmpp.jid;
 import org.jxmpp.jid.parts.Localpart;
 
 /**
- * A Jid which has a {@link Localpart}. Either {@link EntityBareJid} or {@link EntityFullJid}.
- * 
+ * An XMPP address (JID) which has a {@link Localpart}. Either {@link EntityBareJid} or {@link EntityFullJid}.
+ * <p>
+ * Examples:
+ * </p>
+ * <ul>
+ * <li><code>localpart@domain.part</code></li>
+ * <li><code>localpart@domain.part/resourcepart</code></li>
+ * </ul>
+ *
  * @see Jid
  */
 public interface EntityJid extends Jid {

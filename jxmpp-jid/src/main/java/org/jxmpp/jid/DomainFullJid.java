@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2014-2015 Florian Schmaus
+ * Copyright © 2014-2016 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,9 +17,16 @@
 package org.jxmpp.jid;
 
 /**
- * A JID consisting of a domainpart and a resourcepart. For example
+ * An XMPP address (JID) consisting of a domainpart and a resourcepart. For example
  * "xmpp.org/resource".
- * 
+ * <p>
+ * Examples:
+ * </p>
+ * <ul>
+ * <li><code>domain.part/resource</code></li>
+ * <li><code>example.net/8c6def89</code></li>
+ * </ul>
+ *
  * @see Jid
  */
 public interface DomainFullJid extends Jid, FullJid, DomainJid {

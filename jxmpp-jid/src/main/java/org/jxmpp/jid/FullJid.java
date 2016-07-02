@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2014-2015 Florian Schmaus
+ * Copyright © 2014-2016 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,14 @@ package org.jxmpp.jid;
 import org.jxmpp.jid.parts.Resourcepart;
 
 /**
- * A Jid which has a {@link Resourcepart}. Either {@link EntityFullJid} or {@link DomainFullJid}.
+ * An XMPP address (JID) which has a {@link Resourcepart}. Either {@link EntityFullJid} or {@link DomainFullJid}.
+ * <p>
+ * Examples:
+ * </p>
+ * <ul>
+ * <li><code>localpart@domain.part/resourcepart</code></li>
+ * <li><code>domain.part/resourcepart</code></li>
+ * </ul>
  *
  * @see Jid
  */

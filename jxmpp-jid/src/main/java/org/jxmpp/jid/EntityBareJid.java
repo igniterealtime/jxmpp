@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2014-2015 Florian Schmaus
+ * Copyright © 2014-2016 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,9 +17,16 @@
 package org.jxmpp.jid;
 
 /**
- * A JID consisting of (at least) a localpart and a domainpart. For example
+ * An XMPP address (JID) consisting of a localpart and a domainpart. For example
  * "user@xmpp.org".
- * 
+ * <p>
+ * Examples:
+ * </p>
+ * <ul>
+ * <li><code>localpart@domain.part</code></li>
+ * <li><code>user@example.net</code></li>
+ * </ul>
+ *
  * @see Jid
  */
 public interface EntityBareJid extends Jid, EntityJid, BareJid {

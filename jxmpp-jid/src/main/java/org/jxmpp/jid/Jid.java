@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2014-2015 Florian Schmaus
+ * Copyright © 2014-2016 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,21 +23,55 @@ import org.jxmpp.jid.parts.Localpart;
 import org.jxmpp.jid.parts.Resourcepart;
 
 /**
- * An XMPP JID, which acts as globally unique address within the XMPP network.
- *
- * JIDs are created from Strings or CharSequences with the {@link org.jxmpp.jid.impl.JidCreate} utility.
+ * An <b>XMPP address</b>, also known as JID (formerly for "Jabber Identifier"), which acts as globally unique address
+ * within the XMPP network.
+ * <p>
+ * JIDs are created from {@link String} or {@link CharSequence} with the {@link org.jxmpp.jid.impl.JidCreate} utility.
+ * </p>
+ * 
  * <pre>
- * {@code
  * Jid jid = JidCreate.from("juliet@capulet.org/balcony");
- * BareJid bareJid = JidCreate.from("romeo@montague.net");
- * }
+ * EntityBareJid bareJid = JidCreate.entityBareFrom("romeo@montague.net");
  * </pre>
- * This is the super interface for all JID types. Every JID consists at least of
- * a {@link Domainpart}. You can retrieve the escaped String representing the Jid with {@link #toString()}
- * or the unsecaped String of the JID with {@link #asUnescapedString()}.
+ * <p>
+ * This is the super interface for all JID types, which are constructed from two dimensions: Bare/Full and
+ * Domain/Entity. Every JID consists at least of a {@link Domainpart}. Bare JID types do not come with a
+ * {@link Resourcepart}, full JID types always have a {@link Resourcepart}. Domain JID types do not possess a
+ * {@link Localpart}, whereas entity JID types always do.
+ * </p>
+ * <p>
+ * The following table shows a few examples of JID types.
+ * </p>
+ * <table summary="XMPP Address Types">
+ * <tr>
+ * <td>Example</td>
+ * <td>Type</td>
+ * </tr>
+ * <tr>
+ * <td><code>example.org</code></td>
+ * <td>{@link DomainBareJid}</td>
+ * </tr>
+ * <tr>
+ * <td><code>example.org/resource</code></td>
+ * <td>{@link DomainFullJid}</td>
+ * </tr>
+ * <tr>
+ * <td><code>user@example.org</code></td>
+ * <td>{@link EntityBareJid}</td>
+ * </tr>
+ * <tr>
+ * <td><code>user@example.org/resource</code></td>
+ * <td>{@link EntityFullJid}</td>
+ * </tr>
+ * </table>
+ * <p>
+ * You can retrieve the escaped String representing the Jid with {@link #toString()} or the unsecaped String of the JID
+ * with {@link #asUnescapedString()}.
+ * </p>
  *
  * @see <a href="http://xmpp.org/rfcs/rfc6120.html#arch-addresses">RFC 6120 (XMPP: Core) § 2.1 Global Addresses</a>
- * @see <a href="http://xmpp.org/rfcs/rfc6122.html#addressing-fundamentals">RFC 6122 (XMPP: Address Format) § 2.1 Fundamentals</a>
+ * @see <a href="http://xmpp.org/rfcs/rfc6122.html#addressing-fundamentals">RFC 6122 (XMPP: Address Format) § 2.1
+ * Fundamentals</a>
  */
 public interface Jid extends Comparable<Jid>, CharSequence, Serializable {
 
