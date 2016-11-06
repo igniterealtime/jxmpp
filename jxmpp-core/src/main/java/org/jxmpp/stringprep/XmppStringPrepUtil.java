@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2014 Florian Schmaus
+ * Copyright © 2014-2016 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -55,7 +55,7 @@ public class XmppStringPrepUtil {
 		}
 		// Avoid cache lookup if string is the empty string
 		throwIfEmptyString(string);
-		String res = NODEPREP_CACHE.get(string);
+		String res = NODEPREP_CACHE.lookup(string);
 		if (res != null) {
 			return res;
 		}
@@ -77,7 +77,7 @@ public class XmppStringPrepUtil {
 		}
 		// Avoid cache lookup if string is the empty string
 		throwIfEmptyString(string);
-		String res = DOMAINPREP_CACHE.get(string);
+		String res = DOMAINPREP_CACHE.lookup(string);
 		if (res != null) {
 			return res;
 		}
@@ -99,7 +99,7 @@ public class XmppStringPrepUtil {
 		}
 		// Avoid cache lookup if string is the empty string
 		throwIfEmptyString(string);
-		String res = RESOURCEPREP_CACHE.get(string);
+		String res = RESOURCEPREP_CACHE.lookup(string);
 		if (res != null) {
 			return res;
 		}

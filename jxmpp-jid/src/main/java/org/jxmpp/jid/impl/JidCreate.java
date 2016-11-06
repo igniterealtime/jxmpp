@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2014-2015 Florian Schmaus
+ * Copyright © 2014-2016 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -93,7 +93,7 @@ public class JidCreate {
 	 */
 	public static Jid from(String localpart, String domainpart, String resource) throws XmppStringprepException {
 		String jidString = XmppStringUtils.completeJidFrom(localpart, domainpart, resource);
-		Jid jid = JID_CACHE.get(jidString);
+		Jid jid = JID_CACHE.lookup(jidString);
 		if (jid != null) {
 			return jid;
 		}
@@ -194,7 +194,7 @@ public class JidCreate {
 	 * @throws XmppStringprepException if an error occurs.
 	 */
 	public static BareJid bareFrom(String jid) throws XmppStringprepException {
-		BareJid bareJid = BAREJID_CACHE.get(jid);
+		BareJid bareJid = BAREJID_CACHE.lookup(jid);
 		if (bareJid != null) {
 			return bareJid;
 		}
@@ -259,7 +259,7 @@ public class JidCreate {
 	 * @throws XmppStringprepException if an error occurs.
 	 */
 	public static FullJid fullFrom(String jid) throws XmppStringprepException {
-		FullJid fullJid = FULLJID_CACHE.get(jid);
+		FullJid fullJid = FULLJID_CACHE.lookup(jid);
 		if (fullJid != null) {
 			return fullJid;
 		}
@@ -353,7 +353,7 @@ public class JidCreate {
 	 * @throws XmppStringprepException if an error occurs.
 	 */
 	public static EntityBareJid entityBareFrom(String jid) throws XmppStringprepException {
-		EntityBareJid bareJid = ENTITY_BAREJID_CACHE.get(jid);
+		EntityBareJid bareJid = ENTITY_BAREJID_CACHE.lookup(jid);
 		if (bareJid != null) {
 			return bareJid;
 		}
@@ -388,7 +388,7 @@ public class JidCreate {
 	 * @throws XmppStringprepException if an error occurs.
 	 */
 	public static EntityBareJid entityBareFromUnescaped(String unescapedJidString) throws XmppStringprepException {
-		EntityBareJid bareJid = ENTITY_BAREJID_CACHE.get(unescapedJidString);
+		EntityBareJid bareJid = ENTITY_BAREJID_CACHE.lookup(unescapedJidString);
 		if (bareJid != null) {
 			return bareJid;
 		}
@@ -448,7 +448,7 @@ public class JidCreate {
 	 * @throws XmppStringprepException if an error occurs.
 	 */
 	public static EntityFullJid entityFullFrom(String jid) throws XmppStringprepException {
-		EntityFullJid fullJid = ENTITY_FULLJID_CACHE.get(jid);
+		EntityFullJid fullJid = ENTITY_FULLJID_CACHE.lookup(jid);
 		if (fullJid != null) {
 			return fullJid;
 		}
@@ -484,7 +484,7 @@ public class JidCreate {
 	 * @throws XmppStringprepException if an error occurs.
 	 */
 	public static EntityFullJid entityFullFromUnescaped(String unescapedJidString) throws XmppStringprepException {
-		EntityFullJid fullJid = ENTITY_FULLJID_CACHE.get(unescapedJidString);
+		EntityFullJid fullJid = ENTITY_FULLJID_CACHE.lookup(unescapedJidString);
 		if (fullJid != null) {
 			return fullJid;
 		}
@@ -591,7 +591,7 @@ public class JidCreate {
 	 * @throws XmppStringprepException if an error occurs.
 	 */
 	public static DomainBareJid domainBareFrom(String jid) throws XmppStringprepException {
-		DomainBareJid domainJid = DOMAINJID_CACHE.get(jid);
+		DomainBareJid domainJid = DOMAINJID_CACHE.lookup(jid);
 		if (domainJid != null) {
 			return domainJid;
 		}
@@ -661,7 +661,7 @@ public class JidCreate {
 	 * @throws XmppStringprepException if an error happens.
 	 */
 	public static DomainFullJid domainFullFrom(String jid) throws XmppStringprepException {
-		DomainFullJid domainResourceJid = DOMAINRESOURCEJID_CACHE.get(jid);
+		DomainFullJid domainResourceJid = DOMAINRESOURCEJID_CACHE.lookup(jid);
 		if (domainResourceJid != null) {
 			return domainResourceJid;
 		}

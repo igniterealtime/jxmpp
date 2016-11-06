@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2014-2015 Florian Schmaus
+ * Copyright © 2014-2016 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -71,7 +71,14 @@ public class ExpirationCache<K, V> implements Cache<K, V>, Map<K, V>{
 		return eOld.element;
 	}
 
-	@Override
+    @Override
+    public V lookup(K key) {
+        return get(key);
+    }
+
+    @SuppressWarnings("deprecation")
+    @Deprecated
+    @Override
 	public V get(Object key) {
 		ExpireElement<V> v = cache.get(key);
 		if (v == null) {

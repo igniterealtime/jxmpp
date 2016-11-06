@@ -1,6 +1,6 @@
 /**
  *
- * Copyright 2014 Florian Schmaus
+ * Copyright 2014-2016 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,16 +31,16 @@ public class CacheTest {
 		cache.put(3, new Object());
 		cache.put(4, new Object());
 
-		Object object = cache.get(4);
+		Object object = cache.lookup(4);
 		assertNotNull(object);
 
-		object = cache.get(1);
+		object = cache.lookup(1);
 		assertNull(object);
 
 		// '2' and '3' should still be in the Cache
-		object = cache.get(2);
+		object = cache.lookup(2);
 		assertNotNull(object);
-		object = cache.get(3);
+		object = cache.lookup(3);
 		assertNotNull(object);
 	}
 

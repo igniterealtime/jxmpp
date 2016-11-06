@@ -1,6 +1,6 @@
 /**
  *
- * Copyright 2003-2005 Jive Software, 2014-2015 Florian Schmaus
+ * Copyright 2003-2005 Jive Software, 2014-2016 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -83,6 +83,13 @@ public class LruCache<K, V> extends LinkedHashMap<K, V> implements Cache<K, V> {
         return super.put(key, value);
     }
 
+    @Override
+    public final V lookup(K key) {
+        return get(key);
+    }
+
+    @SuppressWarnings("deprecation")
+    @Deprecated
     @Override
     public final V get(Object key) {
 		V cacheObject;

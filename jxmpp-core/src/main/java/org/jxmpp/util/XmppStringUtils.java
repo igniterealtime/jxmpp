@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2014-2015 Florian Schmaus
+ * Copyright © 2014-2016 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -203,7 +203,7 @@ public class XmppStringUtils {
 		if (localpart == null) {
 			return null;
 		}
-		String res = LOCALPART_ESACPE_CACHE.get(localpart);
+		String res = LOCALPART_ESACPE_CACHE.lookup(localpart);
 		if (res != null) {
 			return res;
 		}
@@ -291,7 +291,7 @@ public class XmppStringUtils {
 		if (localpart == null) {
 			return null;
 		}
-		String res = LOCALPART_UNESCAPE_CACHE.get(localpart);
+		String res = LOCALPART_UNESCAPE_CACHE.lookup(localpart);
 		if (res != null) {
 			return res;
 		}

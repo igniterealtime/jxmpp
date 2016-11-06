@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2014-2015 Florian Schmaus
+ * Copyright © 2014-2016 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,8 +32,18 @@ public interface Cache<K, V> {
 	 *
 	 * @param key the key.
 	 * @return the value found in the cache, or {@code null}.
+	 * @deprecated Use {@link #lookup(Object)} instead.
 	 */
+	@Deprecated
 	public V get(Object key);
+
+	/**
+	 * Returns the value of the specified key, or {@code null}.
+	 *
+	 * @param key the key.
+	 * @return the value found in the cache, or {@code null}.
+	 */
+	public V lookup(K key);
 
 	/**
 	 * Return the maximum cache Size.

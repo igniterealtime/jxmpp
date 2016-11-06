@@ -1,6 +1,6 @@
 /**
  *
- * Copyright 2014 Florian Schmaus
+ * Copyright 2014-2016 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,14 +32,14 @@ public class ExpirationCacheTest {
 		cache.put(2, new Object());
 
 		Thread.sleep(EXPIRATION_TIME + 1);
-		Object object = cache.get(1);
+		Object object = cache.lookup(1);
 		assertNull(object);
 
-		object = cache.get(2);
+		object = cache.lookup(2);
 		assertNull(object);
 
 		cache.put(3, new Object());
-		object = cache.get(3);
+		object = cache.lookup(3);
 		assertNotNull(object);
 	}
 
