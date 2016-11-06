@@ -34,6 +34,52 @@ import org.jxmpp.util.XmppStringUtils;
 public class JidUtil {
 
 	/**
+	 * Check if the given CharSequence represents a typical and valid entity bare JID. This method does perform the same
+	 * check as {@link #isValidEntityBareJid(CharSequence)} and additionally verifies that the domainpart of the JID
+	 * contains at least one dot ('.') character.
+	 * <p>
+	 * For more information about the different verification methods see {@link #validateEntityBareJid(CharSequence)}.
+	 * </p>
+	 * 
+	 * @param jid the CharSequence to check.
+	 * @return true if @{code jid} represents a valid entity bare JID, false otherwise
+	 * @see #isValidEntityBareJid(CharSequence)
+	 * @see EntityBareJid
+	 */
+	public static boolean isTypicalValidEntityBareJid(CharSequence jid) {
+		try {
+			validateTypicalEntityBareJid(jid);
+		} catch (NotAEntityBareJidStringException | XmppStringprepException e) {
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * Check if the given CharSequence is a typical and valid entity bare JID. This method does perform the same
+	 * check as {@link #isValidEntityBareJid(CharSequence)} and additionally verifies that the domainpart of the JID
+	 * contains at least one dot ('.') character.
+	 * <p>
+	 * The <code>…TypicalValidEntityBareJid(CharSequence)</code> methods are useful if you expect your users to always
+	 * enter a FQDN as domainpart. Whereas <code>isValidEntityBareJid(CharSequence)</code> and
+	 * <code>validateEntityBareJid</code> accept also inputs like "foo@example", the "is typical JID" methods require
+	 * the domainpart to contain a dot, e.g. "foo@example.org".
+	 * </p>
+	 * 
+	 * @param jidcs the JID CharSequence
+	 * @return a BareJid instance representing the given JID CharSequence
+	 * @throws NotAEntityBareJidStringException if the given CharSequence is not a bare JID.
+	 * @throws XmppStringprepException if an error happens.
+	 */
+	public static EntityBareJid validateTypicalEntityBareJid(CharSequence jidcs) throws NotAEntityBareJidStringException, XmppStringprepException {
+		EntityBareJid jid = validateEntityBareJid(jidcs);
+		if (jid.getDomain().toString().indexOf('.') == -1) {
+			throw new NotAEntityBareJidStringException("Domainpart does not include a dot ('.') character");
+		}
+		return jid;
+	}
+
+	/**
 	 * Check if the given CharSequence represents a valid entity bare JID. That
 	 * is, it must consists exactly of a local- and a domainpart
 	 * (&lt;localpart@domainpart&gt;).
