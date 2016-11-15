@@ -176,11 +176,25 @@ public interface Jid extends Comparable<Jid>, CharSequence, Serializable {
 	public EntityBareJid asEntityBareJidIfPossible();
 
 	/**
+	 * Convert this Jid to a {@link EntityBareJid} or throw an {@code IllegalStateException} if this is not possible.
+	 * 
+	 * @return the corresponding {@link EntityBareJid}.
+	 */
+	public EntityBareJid asEntityBareJidOrThrow();
+
+	/**
 	 * Convert this Jid to a {@link EntityFullJid} if possible.
 	 *
 	 * @return the corresponding {@link EntityFullJid} or null.
 	 */
 	public EntityFullJid asEntityFullJidIfPossible();
+
+	/**
+	 * Convert this Jid to a {@link EntityFullJid} or throw an {@code IllegalStateException} if this is not possible.
+	 * 
+	 * @return the corresponding {@link EntityFullJid}.
+	 */
+	public EntityFullJid asEntityFullJidOrThrow();
 
 	/**
 	 * Convert this Jid to a {@link EntityJid} if possible.
@@ -190,11 +204,25 @@ public interface Jid extends Comparable<Jid>, CharSequence, Serializable {
 	public EntityJid asEntityJidIfPossible();
 
 	/**
+	 * Convert this Jid to a {@link EntityJid} or throw an {@code IllegalStateException} if this is not possible.
+	 * 
+	 * @return the corresponding {@link EntityJid}.
+	 */
+	public EntityJid asEntityJidOrThrow();
+
+	/**
 	 * Convert this Jid to a {@link FullJid} if possible.
 	 *
 	 * @return the corresponding {@link FullJid} or null.
 	 */
 	public FullJid asFullJidIfPossible();
+
+	/**
+	 * Convert this Jid to a {@link FullJid} or throw an {@code IllegalStateException} if this is not possible.
+	 * 
+	 * @return the corresponding {@link FullJid}.
+	 */
+	public EntityFullJid asFullJidOrThrow();
 
 	/**
 	 * Convert this Jid to a {@link DomainBareJid}.
@@ -214,6 +242,13 @@ public interface Jid extends Comparable<Jid>, CharSequence, Serializable {
 	public DomainFullJid asDomainFullJidIfPossible();
 
 	/**
+	 * Convert this Jid to a {@link DomainFullJid} or throw an {@code IllegalStateException} if this is not possible.
+	 * 
+	 * @return the corresponding {@link DomainFullJid}.
+	 */
+	public DomainFullJid asDomainFullJidOrThrow();
+
+	/**
 	 * Get the resourcepart of this JID or null.
 	 * <p>
 	 * If the JID is of form {@code <localpart@domain.example/resource>} then this method returns 'resource'. If the JID no
@@ -225,6 +260,28 @@ public interface Jid extends Comparable<Jid>, CharSequence, Serializable {
 	public Resourcepart getResourceOrNull();
 
 	/**
+	 * Get the resourcepart of this JID or return the empty resourcepart.
+	 * <p>
+	 * If the JID is of form {@code <localpart@domain.example/resource>} then this method returns 'resource'. If the JID no
+	 * resourcepart, then {@link org.jxmpp.jid.parts.Resourcepart#EMPTY} is returned.
+	 * </p>
+	 * 
+	 * @return the resource of this JID or the empty resourcepart.
+	 */
+	public Resourcepart getResourceOrEmpty();
+
+	/**
+	 * Get the resourcepart of this JID or throw an {@code IllegalStateException}.
+	 * <p>
+	 * If the JID is of form {@code <localpart@domain.example/resource>} then this method returns 'resource'. If the JID no
+	 * resourcepart, then an {@code IllegalStateException} is thrown.
+	 * </p>
+	 * 
+	 * @return the resource of this JID.
+	 */
+	public Resourcepart getResourceOrThrow();
+
+	/**
 	 * Get the localpart of this JID or null.
 	 * <p>
 	 * If the JID is of form {@code <localpart@domain.example>} then this method returns 'localpart'. If the JID has no
@@ -234,6 +291,17 @@ public interface Jid extends Comparable<Jid>, CharSequence, Serializable {
 	 * @return the localpart of this JID or null.
 	 */
 	public Localpart getLocalpartOrNull();
+
+	/**
+	 * Get the localpart of this JID or throw an {@code IllegalStateException}.
+	 * <p>
+	 * If the JID is of form {@code <localpart@domain.example>} then this method returns 'localpart'. If the JID has no
+	 * localpart, then <code>null</code> is returned.
+	 * </p>
+	 * 
+	 * @return the localpart of this JID.
+	 */
+	public Localpart getLocalpartOrThrow();
 
 	/**
 	 * Check if this JID is the parent of another JID. The <b>parent of</b> relation is defined, under the

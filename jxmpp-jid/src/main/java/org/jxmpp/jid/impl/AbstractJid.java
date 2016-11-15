@@ -98,10 +98,66 @@ public abstract class AbstractJid implements Jid {
 	}
 
 	@Override
+	public final EntityBareJid asEntityBareJidOrThrow() {
+		EntityBareJid entityBareJid = asEntityBareJidIfPossible();
+		if (entityBareJid == null) throwIse("can not be converted to EntityBareJid");
+		return entityBareJid;
+	}
+
+	@Override
+	public EntityFullJid asEntityFullJidOrThrow() {
+		EntityFullJid entityFullJid = asEntityFullJidIfPossible();
+		if (entityFullJid == null) throwIse("can not be converted to EntityFullJid");
+		return entityFullJid;
+	}
+
+	@Override
+	public EntityJid asEntityJidOrThrow() {
+		EntityJid entityJid = asEntityJidIfPossible();
+		if (entityJid == null) throwIse("can not be converted to EntityJid");
+		return entityJid;
+	}
+
+	@Override
+	public EntityFullJid asFullJidOrThrow() {
+		EntityFullJid entityFullJid = asEntityFullJidIfPossible();
+		if (entityFullJid == null) throwIse("can not be converted to EntityBareJid");
+		return entityFullJid;
+	}
+
+	@Override
+	public DomainFullJid asDomainFullJidOrThrow() {
+		DomainFullJid domainFullJid = asDomainFullJidIfPossible();
+		if (domainFullJid == null) throwIse("can not be converted to DomainFullJid");
+		return domainFullJid;
+	}
+
+	@Override
 	public abstract Resourcepart getResourceOrNull();
 
 	@Override
+	public final Resourcepart getResourceOrEmpty() {
+		Resourcepart resourcepart = getResourceOrNull();
+		if (resourcepart == null) return Resourcepart.EMPTY;
+		return resourcepart;
+	}
+
+	@Override
+	public final Resourcepart getResourceOrThrow() {
+		Resourcepart resourcepart = getResourceOrNull();
+		if (resourcepart == null) throwIse("has no resourcepart");
+		return resourcepart;
+	}
+
+	@Override
 	public abstract Localpart getLocalpartOrNull();
+
+	@Override
+	public final Localpart getLocalpartOrThrow() {
+		Localpart localpart = getLocalpartOrNull();
+		if (localpart == null) throwIse("has no localpart");
+		return localpart;
+	}
 
 	@Override
 	public final boolean isParentOf(Jid jid) {
@@ -172,5 +228,10 @@ public abstract class AbstractJid implements Jid {
 			cache = internalizedCache = toString().intern();
 		}
 		return internalizedCache;
+	}
+
+	private void throwIse(String message) {
+		String exceptionMessage = "The JID '" + this + "' " + message;
+		throw new IllegalStateException(exceptionMessage);
 	}
 }
