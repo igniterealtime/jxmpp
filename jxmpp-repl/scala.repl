@@ -1,0 +1,6 @@
+org.jxmpp.repl.JxmppRepl.init()
+
+import org.jxmpp.repl.JxmppRepl._
+import org.jxmpp._
+import org.jxmpp.jid._
+import org.jxmpp.jid.impl._

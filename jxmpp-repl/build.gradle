@@ -1,0 +1,18 @@
+ext {
+    scalaVersion = '2.11.7'
+}
+
+dependencies {
+    compile project(':jxmpp-core')
+	compile project(':jxmpp-jid')
+	compile project(':jxmpp-stringprep-icu4j')
+	compile project(':jxmpp-stringprep-libidn')
+    compile project(':jxmpp-util-cache')
+    compile "com.lihaoyi:ammonite_$scalaVersion:0.8.0"
+    testCompile project(path: ":jxmpp-core", configuration: "testRuntime")
+    testCompile project(path: ":jxmpp-core", configuration: "archives")
+}
+
+task printClasspath(dependsOn: assemble) << {
+    println sourceSets.main.runtimeClasspath.asPath
+}
