@@ -21,6 +21,7 @@ import org.jxmpp.jid.EntityBareJid;
 import org.jxmpp.jid.DomainBareJid;
 import org.jxmpp.jid.DomainFullJid;
 import org.jxmpp.jid.EntityFullJid;
+import org.jxmpp.jid.EntityJid;
 import org.jxmpp.jid.FullJid;
 import org.jxmpp.jid.Jid;
 import org.jxmpp.jid.parts.Domainpart;
@@ -332,6 +333,58 @@ public class JidCreate {
 	 */
 	public static EntityFullJid fullFrom(EntityBareJid bareJid, Resourcepart resource) {
 		return new LocalDomainAndResourcepartJid(bareJid, resource);
+	}
+
+	/**
+	 * Get a {@link EntityJid} representing the given String.
+	 *
+	 * @param jid the JID's string.
+	 * @return an entity JID representing the given String.
+	 * @throws XmppStringprepException if an error occurs.
+	 */
+	public static EntityJid entityFrom(CharSequence jid) throws XmppStringprepException {
+		return entityFrom(jid.toString());
+	}
+
+	/**
+	 * Get a {@link EntityJid} representing the given String.
+	 *
+	 * @param jidString the JID's string.
+	 * @return an entity JID representing the given String.
+	 * @throws XmppStringprepException if an error occurs.
+	 */
+	public static EntityJid entityFrom(String jidString) throws XmppStringprepException {
+		String localpartString = XmppStringUtils.parseLocalpart(jidString);
+		if (localpartString.length() ==  0) {
+			throw new XmppStringprepException("Does not contain a localpart", jidString);
+		}
+		Localpart localpart;
+		try {
+			localpart = Localpart.from(localpartString);
+		} catch (XmppStringprepException e) {
+			throw new XmppStringprepException(jidString, e);
+		}
+
+		String domainpartString = XmppStringUtils.parseDomain(jidString);
+		Domainpart domainpart;
+		try {
+			domainpart = Domainpart.from(domainpartString);
+		} catch (XmppStringprepException e) {
+			throw new XmppStringprepException(jidString, e);
+		}
+
+		String resourceString = XmppStringUtils.parseResource(jidString);
+		if (resourceString.length() > 0) {
+			Resourcepart resourcepart;
+			try {
+				resourcepart = Resourcepart.from(resourceString);
+			} catch (XmppStringprepException e) {
+				throw new XmppStringprepException(jidString, e);
+			}
+			return entityFullFrom(localpart, domainpart, resourcepart);
+		}
+
+		return entityBareFrom(localpart, domainpart);
 	}
 
 	/**
