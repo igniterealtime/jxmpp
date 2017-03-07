@@ -56,10 +56,42 @@ public class XmppDateTime {
 	private static final Pattern dateTimeNoMillisPattern = Pattern
 			.compile("^\\d+(-\\d+){2}+T(\\d+:){2}\\d+(Z|([+-](\\d+:\\d+)))?$");
 
-	private static final DateFormat xep0091Formatter = new SimpleDateFormat("yyyyMMdd'T'HH:mm:ss");
-	private static final DateFormat xep0091Date6DigitFormatter = new SimpleDateFormat("yyyyMd'T'HH:mm:ss");
-	private static final DateFormat xep0091Date7Digit1MonthFormatter = new SimpleDateFormat("yyyyMdd'T'HH:mm:ss");
-	private static final DateFormat xep0091Date7Digit2MonthFormatter = new SimpleDateFormat("yyyyMMd'T'HH:mm:ss");
+	private static final TimeZone TIME_ZONE_UTC = TimeZone.getTimeZone("UTC");
+
+	private static final ThreadLocal<DateFormat> xep0091Formatter = new ThreadLocal<DateFormat>() {
+		@Override
+		protected DateFormat initialValue() {
+			DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd'T'HH:mm:ss");
+			dateFormat.setTimeZone(TIME_ZONE_UTC);
+			return dateFormat;
+		}
+	};
+	private static final ThreadLocal<DateFormat> xep0091Date6DigitFormatter = new ThreadLocal<DateFormat>() {
+		@Override
+		protected DateFormat initialValue() {
+			DateFormat dateFormat = new SimpleDateFormat("yyyyMd'T'HH:mm:ss");
+			dateFormat.setTimeZone(TIME_ZONE_UTC);
+			return dateFormat;
+		}
+	};
+	private static final ThreadLocal<DateFormat> xep0091Date7Digit1MonthFormatter = new ThreadLocal<DateFormat>() {
+		@Override
+		protected DateFormat initialValue() {
+			DateFormat dateFormat = new SimpleDateFormat("yyyyMdd'T'HH:mm:ss");
+			dateFormat.setTimeZone(TIME_ZONE_UTC);
+			dateFormat.setLenient(false);
+			return dateFormat;
+		}
+	};
+	private static final ThreadLocal<DateFormat> xep0091Date7Digit2MonthFormatter = new ThreadLocal<DateFormat>() {
+		@Override
+		protected DateFormat initialValue() {
+			DateFormat dateFormat = new SimpleDateFormat("yyyyMMd'T'HH:mm:ss");
+			dateFormat.setTimeZone(TIME_ZONE_UTC);
+			dateFormat.setLenient(false);
+			return dateFormat;
+		}
+	};
 	private static final Pattern xep0091Pattern = Pattern.compile("^\\d+T\\d+:\\d+:\\d+$");
 
 	private static enum DateFormatType {
@@ -75,7 +107,7 @@ public class XmppDateTime {
 		// @formatter:on
 
 		private final String FORMAT_STRING;
-		private final DateFormat FORMATTER;
+		private final ThreadLocal<DateFormat> FORMATTER;
 		private final boolean CONVERT_TIMEZONE;
 
 		/**
@@ -89,17 +121,20 @@ public class XmppDateTime {
 
 		private DateFormatType(String dateFormat) {
 			FORMAT_STRING = dateFormat;
-			FORMATTER = new SimpleDateFormat(FORMAT_STRING);
-			FORMATTER.setTimeZone(TimeZone.getTimeZone("UTC"));
+			FORMATTER = new ThreadLocal<DateFormat>() {
+				@Override
+				protected DateFormat initialValue() {
+					DateFormat dateFormat = new SimpleDateFormat(FORMAT_STRING);
+					dateFormat.setTimeZone(TIME_ZONE_UTC);
+					return dateFormat;
+				}
+			};
 			CONVERT_TIMEZONE = dateFormat.charAt(dateFormat.length() - 1) == 'Z';
 			HANDLE_MILLIS = dateFormat.contains("SSS");
 		}
 
 		private String format(Date date) {
-			String res;
-			synchronized (FORMATTER) {
-				res = FORMATTER.format(date);
-			}
+			String res = FORMATTER.get().format(date);
 			if (CONVERT_TIMEZONE) {
 				res = convertRfc822TimezoneToXep82(res);
 			}
@@ -113,24 +148,13 @@ public class XmppDateTime {
 			if (HANDLE_MILLIS) {
 				dateString = handleMilliseconds(dateString);
 			}
-			synchronized (FORMATTER) {
-				return FORMATTER.parse(dateString);
-			}
+			return FORMATTER.get().parse(dateString);
 		}
 	}
 
 	private static final List<PatternCouplings> couplings = new ArrayList<PatternCouplings>();
 
 	static {
-		TimeZone utc = TimeZone.getTimeZone("UTC");
-
-		xep0091Formatter.setTimeZone(utc);
-		xep0091Date6DigitFormatter.setTimeZone(utc);
-		xep0091Date7Digit1MonthFormatter.setTimeZone(utc);
-		xep0091Date7Digit1MonthFormatter.setLenient(false);
-		xep0091Date7Digit2MonthFormatter.setTimeZone(utc);
-		xep0091Date7Digit2MonthFormatter.setLenient(false);
-
 		couplings.add(new PatternCouplings(datePattern, dateFormatter));
 		couplings.add(new PatternCouplings(dateTimePattern, dateTimeFormatter));
 		couplings.add(new PatternCouplings(dateTimeNoMillisPattern, dateTimeNoMillisFormatter));
@@ -164,9 +188,7 @@ public class XmppDateTime {
 		 * this point. If it isn't, is is just not parseable, then we attempt to
 		 * parse it regardless and let it throw the ParseException.
 		 */
-		synchronized (dateTimeNoMillisFormatter) {
-			return dateTimeNoMillisFormatter.parse(dateString);
-		}
+		return dateTimeNoMillisFormatter.parse(dateString);
 	}
 
 	/**
@@ -200,9 +222,7 @@ public class XmppDateTime {
 				if (date != null)
 					return date;
 			} else {
-				synchronized (xep0091Formatter) {
-					return xep0091Formatter.parse(dateString);
-				}
+				return xep0091Formatter.get().parse(dateString);
 			}
 		}
 		// Assume XEP-82 date if Matcher does not match
@@ -217,9 +237,7 @@ public class XmppDateTime {
 	 * @return the formatted time string in XEP-0082 format
 	 */
 	public static String formatXEP0082Date(Date date) {
-		synchronized (dateTimeFormatter) {
-			return dateTimeFormatter.format(date);
-		}
+		return dateTimeFormatter.format(date);
 	}
 
 	/**
@@ -283,14 +301,12 @@ public class XmppDateTime {
 	 */
 	private static Date handleDateWithMissingLeadingZeros(String stampString, int dateLength) throws ParseException {
 		if (dateLength == 6) {
-			synchronized (xep0091Date6DigitFormatter) {
-				return xep0091Date6DigitFormatter.parse(stampString);
-			}
+			return xep0091Date6DigitFormatter.get().parse(stampString);
 		}
 		Calendar now = Calendar.getInstance();
 
-		Calendar oneDigitMonth = parseXEP91Date(stampString, xep0091Date7Digit1MonthFormatter);
-		Calendar twoDigitMonth = parseXEP91Date(stampString, xep0091Date7Digit2MonthFormatter);
+		Calendar oneDigitMonth = parseXEP91Date(stampString, xep0091Date7Digit1MonthFormatter.get());
+		Calendar twoDigitMonth = parseXEP91Date(stampString, xep0091Date7Digit2MonthFormatter.get());
 
 		List<Calendar> dates = filterDatesBefore(now, oneDigitMonth, twoDigitMonth);
 
@@ -302,10 +318,8 @@ public class XmppDateTime {
 
 	private static Calendar parseXEP91Date(String stampString, DateFormat dateFormat) {
 		try {
-			synchronized (dateFormat) {
-				dateFormat.parse(stampString);
-				return dateFormat.getCalendar();
-			}
+			dateFormat.parse(stampString);
+			return dateFormat.getCalendar();
 		} catch (ParseException e) {
 			return null;
 		}
