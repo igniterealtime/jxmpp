@@ -87,6 +87,7 @@ public interface Jid extends Comparable<Jid>, CharSequence, Serializable {
 	 *
 	 * @return the String representation of this JID.
 	 */
+	@Override
 	public String toString();
 
 	/**
@@ -368,10 +369,12 @@ public interface Jid extends Comparable<Jid>, CharSequence, Serializable {
 	/**
 	 * Return the downcasted instance of this Jid. This method is unsafe, make sure to check that this is actually of the type of are casting to.
 	 *
+	 * @param jidClass the class of JID to downcast too.
 	 * @param <T> the Jid type to downcast to.
 	 * @return the downcasted instanced of this
+	 * @throws ClassCastException if this JID is not assignable to the type T.
 	 */
-	public <T extends Jid> T downcast();
+	public <T extends Jid> T downcast(Class<T> jidClass) throws ClassCastException;
 
 	/**
 	 * Compares the given CharSequence with this JID. Returns true if {@code equals(charSequence.toString()} would
@@ -381,6 +384,7 @@ public interface Jid extends Comparable<Jid>, CharSequence, Serializable {
 	 * @return true if if {@code equals(charSequence.toString()} would return true.
 	 * @see #equals(String)
 	 */
+	@SuppressWarnings("NonOverridingEquals")
 	public boolean equals(CharSequence charSequence);
 
 	/**
@@ -392,6 +396,7 @@ public interface Jid extends Comparable<Jid>, CharSequence, Serializable {
 	 * @param string the String to compare this JID with.
 	 * @return true if {@code toString().equals(string)}.
 	 */
+	@SuppressWarnings("NonOverridingEquals")
 	public boolean equals(String string);
 
 	/**

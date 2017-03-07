@@ -94,6 +94,7 @@ public class XmppDateTime {
 	};
 	private static final Pattern xep0091Pattern = Pattern.compile("^\\d+T\\d+:\\d+:\\d+$");
 
+	@SuppressWarnings("ImmutableEnumChecker")
 	private static enum DateFormatType {
 		// @formatter:off
 		XEP_0082_DATE_PROFILE("yyyy-MM-dd"),
@@ -391,9 +392,10 @@ public class XmppDateTime {
 
 		Collections.sort(dates, new Comparator<Calendar>() {
 
+			@Override
 			public int compare(Calendar o1, Calendar o2) {
-				Long diff1 = new Long(now.getTimeInMillis() - o1.getTimeInMillis());
-				Long diff2 = new Long(now.getTimeInMillis() - o2.getTimeInMillis());
+				Long diff1 = now.getTimeInMillis() - o1.getTimeInMillis();
+				Long diff2 = now.getTimeInMillis() - o2.getTimeInMillis();
 				return diff1.compareTo(diff2);
 			}
 

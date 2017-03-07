@@ -75,6 +75,7 @@ public class XmppXmlSplitter extends XmlSplitter {
 		}
 	}
 
+	@Override
 	protected void onEndTag(String qName) {
 		if (streamPrefix == null || !qName.startsWith(streamPrefix)) {
 			// Shortcut if streamPrefix is not yet set or if qName does not even
