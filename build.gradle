@@ -2,11 +2,15 @@ import org.gradle.plugins.signing.Sign
 
 buildscript {
 	repositories {
+		maven {
+			url "https://plugins.gradle.org/m2/"
+		}
 		mavenCentral()
 	}
 
 	dependencies {
 		classpath "org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.4.0"
+		classpath 'net.ltgt.gradle:gradle-errorprone-plugin:0.0.9'
 	}
 }
 
@@ -16,6 +20,7 @@ allprojects {
 	apply plugin: 'java'
 	apply plugin: 'eclipse'
 	apply plugin: 'jacoco'
+	apply plugin: 'net.ltgt.errorprone'
 
 	repositories {
 		mavenLocal()
@@ -108,6 +113,12 @@ allprojects {
 		}
 	}
 
+	// Pin the errorprone version to prevent "unsupported major.minor
+	// version 52.0" error messages caused by the errorprone javac.
+	// See https://github.com/tbroyer/gradle-errorprone-plugin/issues/18 for more information.
+	configurations.errorprone {
+		resolutionStrategy.force 'com.google.errorprone:error_prone_core:2.0.18'
+	}
 }
 
 gradle.taskGraph.whenReady { taskGraph ->

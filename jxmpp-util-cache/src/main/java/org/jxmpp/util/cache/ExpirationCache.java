@@ -97,6 +97,7 @@ public class ExpirationCache<K, V> implements Cache<K, V>, Map<K, V>{
 	 * @param key the key of the value to remove.
 	 * @return the remove value, or {@code null}.
 	 */
+	@Override
 	public V remove(Object key) {
 		ExpireElement<V> e = cache.remove(key);
 		if (e == null) {

@@ -77,9 +77,8 @@ public abstract class AbstractJid implements Jid {
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
-	public final <T extends Jid> T downcast() {
-		return (T) this;
+	public final <T extends Jid> T downcast(Class<T> jidClass) {
+		return jidClass.cast(this);
 	}
 
 	@Override
@@ -196,6 +195,7 @@ public abstract class AbstractJid implements Jid {
 		return false;
 	}
 
+	@SuppressWarnings("NonOverridingEquals")
 	@Override
 	public final boolean equals(CharSequence charSequence) {
 		if (charSequence == null) {
@@ -204,6 +204,7 @@ public abstract class AbstractJid implements Jid {
 		return equals(charSequence.toString());
 	}
 
+	@SuppressWarnings("NonOverridingEquals")
 	@Override
 	public final boolean equals(String string) {
 		return toString().equals(string);
