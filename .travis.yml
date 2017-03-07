@@ -10,7 +10,7 @@ cache:
   directories:
   - $HOME/.m2
 
-install: gradle assemble
-script: gradle check
+install: gradle --stacktrace assemble
+script: gradle --stacktrace check
 after_success:
-  gradle jacocoRootReport coveralls
+  gradle --stacktrace jacocoRootReport coveralls
