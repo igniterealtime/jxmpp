@@ -58,6 +58,9 @@ public abstract class Part implements CharSequence, Serializable {
 		if (this == other) {
 			return true;
 		}
+		if (other == null) {
+			return false;
+		}
 		return part.equals(other.toString());
 	}
 
