@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2014 Florian Schmaus
+ * Copyright © 2014-2017 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -162,6 +162,11 @@ public class XmppDateTimeTest {
 		assertEquals(56, cal.get(Calendar.MINUTE));
 		assertEquals(15, cal.get(Calendar.SECOND));
 		assertEquals(123, cal.get(Calendar.MILLISECOND));
+	}
+
+	@Test(expected = ParseException.class)
+	public void parseXep0082MissingTzd() throws ParseException {
+		XmppDateTime.parseXEP0082Date("2017-07-11T18:31:34");
 	}
 
 	@Test
