@@ -10,7 +10,7 @@ buildscript {
 
 	dependencies {
 		classpath "org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.4.0"
-		classpath 'net.ltgt.gradle:gradle-errorprone-plugin:0.0.9'
+		classpath 'net.ltgt.gradle:gradle-errorprone-plugin:0.0.10'
 	}
 }
 
