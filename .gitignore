@@ -9,3 +9,6 @@ build/
 bin/
 
 */.gitignore
+*.iml
+*.ipr
+*.iws

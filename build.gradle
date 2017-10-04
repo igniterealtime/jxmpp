@@ -10,7 +10,7 @@ buildscript {
 
 	dependencies {
 		classpath "org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.4.0"
-		classpath 'net.ltgt.gradle:gradle-errorprone-plugin:0.0.9'
+		classpath 'net.ltgt.gradle:gradle-errorprone-plugin:0.0.10'
 	}
 }
 
@@ -19,6 +19,7 @@ apply from: 'version.gradle'
 allprojects {
 	apply plugin: 'java'
 	apply plugin: 'eclipse'
+	apply plugin: 'idea'
 	apply plugin: 'jacoco'
 	apply plugin: 'net.ltgt.errorprone'
 
