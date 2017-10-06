@@ -80,6 +80,11 @@ public class XmlSplitter extends Writer {
 		}
 	}
 
+	/**
+	 * The type of quotation used for the current (or last) attribute. Note that depending on which quotation is used,
+	 * the other quotation does not need to be escaped within the value. Therefore we need to remember it to reliable
+	 * detect the end quotation of the value.
+	 */
 	private AttributeValueQuotes attributeValueQuotes;
 
 	/**
