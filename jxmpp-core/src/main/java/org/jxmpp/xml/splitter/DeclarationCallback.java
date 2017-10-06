@@ -1,6 +1,6 @@
 /**
  *
- * Copyright 2015-2017 Florian Schmaus
+ * Copyright 2017 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,19 +17,16 @@
 package org.jxmpp.xml.splitter;
 
 /**
- * A factory creating {@link XmlSplitter}.
+ * Callback for {@link XmlSplitter}.
+ *
  */
-public interface XmlSplitterFactory {
+public interface DeclarationCallback {
 
 	/**
-	 * Returns a new {@link XmlSplitter} configured with the given callback.
+	 * Invoked once an XML declaration got splitted.
 	 *
-	 * @param callback the complete element callback.
-	 * @param declarationCallback a optional callback for the XML declaration.
-	 * @param processingInstructionCallback a optional callback for Processing Instructions.
-	 * @return a new splitter.
+	 * @param declaration the declaration string that was splitted.
 	 */
-	public XmlSplitter createXmlSplitter(CompleteElementCallback callback, DeclarationCallback declarationCallback,
-			ProcessingInstructionCallback processingInstructionCallback);
+	public void onDeclaration(String declaration);
 
 }

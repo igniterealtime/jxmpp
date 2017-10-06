@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2015 Florian Schmaus
+ * Copyright © 2015-2017 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,7 +36,6 @@ public class XmlSplitter extends Writer {
 		START,
 		AFTER_TAG_RIGHT_ANGLE_BRACKET,
 		IN_TAG_NAME,
-		IN_DECLARATION,
 		IN_END_TAG,
 		AFTER_START_NAME,
 		IN_EMPTY_TAG,
@@ -49,11 +48,17 @@ public class XmlSplitter extends Writer {
 		AFTER_COMMENT,
 		AFTER_COMMENT_CLOSING_DASH1,
 		AFTER_COMMENT_CLOSING_DASH2,
+		IN_PROCESSING_INSTRUCTION_OR_DECLARATION,
+		IN_PROCESSING_INSTRUCTION_OR_DECLARATION_PSEUDO_ATTRIBUTE_VALUE,
+		IN_PROCESSING_INSTRUCTION_OR_DECLARATION_QUESTION_MARK,
 	}
+
+	private final DeclarationCallback declarationCallback;
+	private final ProcessingInstructionCallback processingInstructionCallback;
 
 	protected final CompleteElementCallback completeElementCallback;
 
-	private final StringBuilder elementBuffer;
+	private final StringBuilder splittedPartBuffer;
 
 	private final StringBuilder tokenBuffer = new StringBuilder(256);
 	private final Map<String, String> attributes = new HashMap<>();
@@ -63,6 +68,38 @@ public class XmlSplitter extends Writer {
 	private String attributeName;
 	private State state = State.START;
 
+	private enum AttributeValueQuotes {
+		apos('\''),
+		quot('"'),
+		;
+
+		final char c;
+
+		private AttributeValueQuotes(char c) {
+			this.c = c;
+		}
+	}
+
+	private AttributeValueQuotes attributeValueQuotes;
+
+	/**
+	 * Construct a new XML splitter.
+	 *
+	 * @param bufferSize the initial size of the buffer.
+	 * @param completeElementCallback the callback invoked once a complete element has been processed.
+	 * @param declarationCallback a optional callback for the XML declaration.
+	 * @param processingInstructionCallback a optional callback for Processing Instructions.
+	 */
+	public XmlSplitter(int bufferSize, CompleteElementCallback completeElementCallback, DeclarationCallback declarationCallback, ProcessingInstructionCallback processingInstructionCallback) {
+		this.splittedPartBuffer = new StringBuilder(bufferSize);
+		if (completeElementCallback == null) {
+			throw new IllegalArgumentException();
+		}
+		this.completeElementCallback = completeElementCallback;
+		this.declarationCallback = declarationCallback;
+		this.processingInstructionCallback = processingInstructionCallback;
+	}
+
 	/**
 	 * Construct a new XML splitter.
 	 *
@@ -70,11 +107,7 @@ public class XmlSplitter extends Writer {
 	 * @param completeElementCallback the callback invoked once a complete element has been processed.
 	 */
 	public XmlSplitter(int bufferSize, CompleteElementCallback completeElementCallback) {
-		this.elementBuffer = new StringBuilder(bufferSize);
-		if (completeElementCallback == null) {
-			throw new IllegalArgumentException();
-		}
-		this.completeElementCallback = completeElementCallback;
+		this(bufferSize, completeElementCallback, null, null);
 	}
 
 	@Override
@@ -93,12 +126,12 @@ public class XmlSplitter extends Writer {
 	}
 
 	/**
-	 * Get the size in bytes of the element currently being processed.
+	 * Get the size in bytes of the splitted part currently being processed.
 	 * 
-	 * @return the size of the current element in chars.
+	 * @return the size of the current splitted part in chars.
 	 */
-	public final int getCurrentElementSize() {
-		return elementBuffer.length();
+	public final int getCurrentSplittedPartSize() {
+		return splittedPartBuffer.length();
 	}
 
 	protected void onNextChar() throws IOException {
@@ -110,14 +143,22 @@ public class XmlSplitter extends Writer {
 	protected void onEndTag(String qName) {
 	}
 
-	protected final void newTopLevelElement() {
+	protected final void newSplittedPart() {
 		depth = 0;
-		elementBuffer.setLength(0);
+		splittedPartBuffer.setLength(0);
+
+		assert state != State.START;
+		state = State.START;
 	}
 
 	private void processChar(char c) throws IOException {
 		onNextChar();
-		elementBuffer.append(c);
+
+		// Append every char we see to the buffer. This helps for example XmppXmlSplitter to ensure a certain size is
+		// not exceeded. In case of XMPP, the size is usually for the top level stream element (Stanzas and Nonzas), but
+		// also other XML pseudo-elements like the Declaration or Processing Instructions's size is limited by this.
+		splittedPartBuffer.append(c);
+
 		switch (state) {
 		case START:
 			switch (c) {
@@ -132,7 +173,7 @@ public class XmlSplitter extends Writer {
 				state = State.IN_END_TAG;
 				break;
 			case '?':
-				state = State.IN_DECLARATION;
+				state = State.IN_PROCESSING_INSTRUCTION_OR_DECLARATION;
 				break;
 			case '!':
 				state = State.AFTER_COMMENT_BANG;
@@ -215,6 +256,7 @@ public class XmlSplitter extends Writer {
 			switch (c) {
 			case '\'':
 			case '\"':
+				// TODO: Use attributeValueQuotes here.
 				state = State.IN_ATTRIBUTE_VALUE;
 				break;
 			default:
@@ -225,6 +267,7 @@ public class XmlSplitter extends Writer {
 			switch (c) {
 			case '\'':
 			case '\"':
+				// TODO: Use attributeValueQuotes here.
 				attributes.put(attributeName, getToken());
 				state = State.AFTER_START_NAME;
 				break;
@@ -242,13 +285,41 @@ public class XmlSplitter extends Writer {
 				throw new IOException();
 			}
 			break;
+		case IN_PROCESSING_INSTRUCTION_OR_DECLARATION:
+			switch (c) {
+				case '\'':
+					attributeValueQuotes = AttributeValueQuotes.apos;
+					state = State.IN_PROCESSING_INSTRUCTION_OR_DECLARATION_PSEUDO_ATTRIBUTE_VALUE;
+					break;
+				case '\"':
+					attributeValueQuotes = AttributeValueQuotes.quot;
+					state = State.IN_PROCESSING_INSTRUCTION_OR_DECLARATION_PSEUDO_ATTRIBUTE_VALUE;
+					break;
+				case '?':
+					state = State.IN_PROCESSING_INSTRUCTION_OR_DECLARATION_QUESTION_MARK;
+					break;
+			}
+			break;
+		case IN_PROCESSING_INSTRUCTION_OR_DECLARATION_PSEUDO_ATTRIBUTE_VALUE:
+			if (c == attributeValueQuotes.c) {
+				state = State.IN_PROCESSING_INSTRUCTION_OR_DECLARATION;
+			}
+			break;
+		case IN_PROCESSING_INSTRUCTION_OR_DECLARATION_QUESTION_MARK:
+			if (c == '>') {
+				String processingInstructionOrDeclaration = splittedPartBuffer.toString();
+				onProcessingInstructionOrDeclaration(processingInstructionOrDeclaration);
+				newSplittedPart();
+			} else {
+				state = State.IN_PROCESSING_INSTRUCTION_OR_DECLARATION;
+			}
+			break;
 		case AFTER_COMMENT_BANG:
 		case AFTER_COMMENT_DASH1:
 		case AFTER_COMMENT_DASH2:
 		case AFTER_COMMENT:
 		case AFTER_COMMENT_CLOSING_DASH1:
 		case AFTER_COMMENT_CLOSING_DASH2:
-		case IN_DECLARATION:
 			throw new UnsupportedOperationException();
 		}
 	}
@@ -270,11 +341,13 @@ public class XmlSplitter extends Writer {
 		}
 		depth--;
 		if (depth == 0) {
-			String completeElement = elementBuffer.toString();
-			elementBuffer.setLength(0);
+			String completeElement = splittedPartBuffer.toString();
+			splittedPartBuffer.setLength(0);
 			completeElementCallback.onCompleteElement(completeElement);
 		}
 		onEndTag(endTagName);
+
+		assert state != State.START;
 		state = State.START;
 	}
 
@@ -282,6 +355,18 @@ public class XmlSplitter extends Writer {
 		String token = tokenBuffer.toString();
 		tokenBuffer.setLength(0);
 		return token;
+	}
+
+	private final void onProcessingInstructionOrDeclaration(String processingInstructionOrDeclaration) {
+		if (processingInstructionOrDeclaration.startsWith("<?xml ")) {
+			if (declarationCallback != null) {
+				declarationCallback.onDeclaration(processingInstructionOrDeclaration);
+			}
+		} else {
+			if (processingInstructionCallback != null) {
+				processingInstructionCallback.onProcessingInstruction(processingInstructionOrDeclaration);
+			}
+		}
 	}
 
 	private final static String extractPrefix(String qName) {

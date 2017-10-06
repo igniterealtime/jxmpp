@@ -43,20 +43,47 @@ public class XmppXmlSplitter extends XmlSplitter {
 	}
 
 	/**
+	 * Construct a new XMPP XML splitter with a max element size of 10000.
+	 * <p>
+	 * RFC 6120 § 13.12 4. requires XMPP servers to use nothing less then 10000 as maximum stanza size.
+	 * </p>
+	 * @param xmppElementCallback the callback invoked once a complete element has been processed.
+	 * @param declarationCallback a optional callback for XML Declarations.
+	 * @param processingInstructionCallback a optional callback for XML Processing Instructions. 
+	 */
+	public XmppXmlSplitter(XmppElementCallback xmppElementCallback, DeclarationCallback declarationCallback,
+			ProcessingInstructionCallback processingInstructionCallback) {
+		this(10000, xmppElementCallback, declarationCallback, processingInstructionCallback);
+	}
+
+	/**
 	 * Construct a new XMPP XML splitter.
 	 *
 	 * @param maxElementSize the maximum size of a single top level element in bytes.
 	 * @param xmppElementCallback the callback invoked once a complete element has been processed.
 	 */
 	public XmppXmlSplitter(int maxElementSize, XmppElementCallback xmppElementCallback) {
-		super(maxElementSize, xmppElementCallback);
+		this(maxElementSize, xmppElementCallback, null, null);
+	}
+
+	/**
+	 * Construct a new XMPP XML splitter.
+	 * 
+	 * @param maxElementSize the maximum size of a single top level element in bytes.
+	 * @param xmppElementCallback the callback invoked once a complete element has been processed.
+	 * @param declarationCallback a optional callback for XML Declarations.
+	 * @param processingInstructionCallback a optional callback for XML Processing Instructions. 
+	 */
+	public XmppXmlSplitter(int maxElementSize, XmppElementCallback xmppElementCallback, DeclarationCallback declarationCallback,
+			ProcessingInstructionCallback processingInstructionCallback) {
+		super(maxElementSize, xmppElementCallback, declarationCallback, processingInstructionCallback);
 		this.maxElementSize = maxElementSize;
 		this.xmppElementCallback = xmppElementCallback;
 	}
 
 	@Override
 	protected void onNextChar() throws IOException {
-		if (getCurrentElementSize() >= maxElementSize) {
+		if (getCurrentSplittedPartSize() >= maxElementSize) {
 			throw new IOException("Max element size exceeded");
 		}
 	}
@@ -70,7 +97,7 @@ public class XmppXmlSplitter extends XmlSplitter {
 
 		if ("http://etherx.jabber.org/streams".equals(attributes.get("xmlns:" + prefix))) {
 			streamPrefix = prefix;
-			newTopLevelElement();
+			newSplittedPart();
 			xmppElementCallback.streamOpened(prefix, Collections.unmodifiableMap(attributes));
 		}
 	}
