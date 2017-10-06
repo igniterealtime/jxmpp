@@ -255,8 +255,11 @@ public class XmlSplitter extends Writer {
 		case AFTER_ATTRIBUTE_EQUALS:
 			switch (c) {
 			case '\'':
+				attributeValueQuotes = AttributeValueQuotes.apos;
+				state = State.IN_ATTRIBUTE_VALUE;
+				break;
 			case '\"':
-				// TODO: Use attributeValueQuotes here.
+				attributeValueQuotes = AttributeValueQuotes.quot;
 				state = State.IN_ATTRIBUTE_VALUE;
 				break;
 			default:
@@ -264,16 +267,11 @@ public class XmlSplitter extends Writer {
 			}
 			break;
 		case IN_ATTRIBUTE_VALUE:
-			switch (c) {
-			case '\'':
-			case '\"':
-				// TODO: Use attributeValueQuotes here.
+			if (c == attributeValueQuotes.c) {
 				attributes.put(attributeName, getToken());
 				state = State.AFTER_START_NAME;
-				break;
-			default:
+			} else {
 				tokenBuffer.append(c);
-				break;
 			}
 			break;
 		case IN_EMPTY_TAG:
