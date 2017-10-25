@@ -60,4 +60,14 @@ public class JidTest {
 		Jid jid = JidCreate.domainBareFrom(domain);
 		assertEquals("foo.bar", jid.toString());
 	}
+
+	@Test(expected = XmppStringprepException.class)
+	public void testJidValidation() throws XmppStringprepException {
+
+		String localPart = "someuser@domain"; // invalid local part
+		String domainPart = "muc.server.com";
+		String resourcePart = "resource@home";
+		String jidStr = localPart + "@" + domainPart + "/" + resourcePart;
+		JidCreate.from(jidStr);
+	}
 }
