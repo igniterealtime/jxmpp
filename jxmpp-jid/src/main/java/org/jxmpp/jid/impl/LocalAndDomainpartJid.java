@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2014-2015 Florian Schmaus
+ * Copyright © 2014-2017 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -48,7 +48,7 @@ public final class LocalAndDomainpartJid extends AbstractJid implements EntityBa
 	}
 
 	LocalAndDomainpartJid(Localpart localpart, Domainpart domain) {
-		this.localpart = localpart;
+		this.localpart = requireNonNull(localpart, "The Localpart must not be null");
 		this.domainBareJid = new DomainpartJid(domain);
 	}
 

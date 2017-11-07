@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2014-2015 Florian Schmaus
+ * Copyright © 2014-2017 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -45,8 +45,8 @@ public final class LocalDomainAndResourcepartJid extends AbstractJid implements 
 	}
 
 	LocalDomainAndResourcepartJid(EntityBareJid bareJid, Resourcepart resource) {
-		this.bareJid = bareJid;
-		this.resource = resource;
+		this.bareJid = requireNonNull(bareJid, "The EntityBareJid must not be null");
+		this.resource = requireNonNull(resource, "The Resourcepart must not be null");
 	}
 
 	@Override

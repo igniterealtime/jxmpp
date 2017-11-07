@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2014-2015 Florian Schmaus
+ * Copyright © 2014-2017 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,7 +42,7 @@ public final class DomainpartJid extends AbstractJid implements DomainBareJid {
 	}
 
 	DomainpartJid(Domainpart domain) {
-		this.domain = domain;
+		this.domain = requireNonNull(domain, "The Domainpart must not be null");
 	}
 
 	@Override

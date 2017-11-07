@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2014-2015 Florian Schmaus
+ * Copyright © 2014-2017 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -51,8 +51,8 @@ public final class DomainAndResourcepartJid extends AbstractJid implements Domai
 	}
 
 	DomainAndResourcepartJid(DomainBareJid domainBareJid, Resourcepart resource) {
-		this.domainBareJid = domainBareJid;
-		this.resource = resource;
+		this.domainBareJid = requireNonNull(domainBareJid, "The DomainBareJid must not be null");
+		this.resource = requireNonNull(resource, "The Resource must not be null");
 	}
 
 	@Override
