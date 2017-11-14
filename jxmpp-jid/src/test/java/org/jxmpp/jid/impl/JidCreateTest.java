@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2015 Florian Schmaus
+ * Copyright © 2015-2017 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,6 +24,9 @@ import org.jxmpp.jid.EntityBareJid;
 import org.jxmpp.jid.DomainBareJid;
 import org.jxmpp.jid.DomainFullJid;
 import org.jxmpp.jid.EntityFullJid;
+import org.jxmpp.jid.parts.Domainpart;
+import org.jxmpp.jid.parts.Localpart;
+import org.jxmpp.jid.parts.Resourcepart;
 import org.jxmpp.stringprep.XmppStringprepException;
 
 public class JidCreateTest {
@@ -74,5 +77,46 @@ public class JidCreateTest {
 		} catch (XmppStringprepException e) {
 			assertEquals(notADomainFullJid, e.getCausingString());
 		}
+	}
+
+	@Test
+	public void entityBareFromUnescapedTest() throws XmppStringprepException {
+		EntityBareJid entityBareJid = JidCreate.entityBareFromUnescaped("foo@boo@example.org/baz");
+
+		// Tricky question. Currently yields 'boo@example.org'. Domainparts are U-Labels, so this may be correct, even
+		// if it is not a valid DNS label/name.
+		Domainpart domainpart = entityBareJid.getDomain();
+		assertEquals(Domainpart.from("boo@example.org"), domainpart);
+
+		Localpart localpart = entityBareJid.getLocalpart();
+		assertEquals(Localpart.from("foo"), localpart);
+	}
+
+	@Test
+	public void entityFullFromComplexTest() throws XmppStringprepException {
+		EntityFullJid entityFullJid = JidCreate.entityFullFrom("foo@boo@example.org/bar@baz");
+
+		Domainpart domainpart = entityFullJid.getDomain();
+		assertEquals(Domainpart.from("boo@example.org"), domainpart);
+
+		Localpart localpart = entityFullJid.getLocalpart();
+		assertEquals(Localpart.from("foo"), localpart);
+
+		Resourcepart resourcepart = entityFullJid.getResourcepart();
+		assertEquals(Resourcepart.from("bar@baz"), resourcepart);
+	}
+
+	@Test
+	public void entityFullFromUnsecapedComplexTest() throws XmppStringprepException {
+		EntityFullJid entityFullJid = JidCreate.entityFullFromUnescaped("foo@boo@example.org/bar@baz");
+
+		Domainpart domainpart = entityFullJid.getDomain();
+		assertEquals(Domainpart.from("boo@example.org"), domainpart);
+
+		Localpart localpart = entityFullJid.getLocalpart();
+		assertEquals(Localpart.from("foo"), localpart);
+
+		Resourcepart resourcepart = entityFullJid.getResourcepart();
+		assertEquals(Resourcepart.from("bar@baz"), resourcepart);
 	}
 }
