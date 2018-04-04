@@ -37,6 +37,6 @@ public interface FullJid extends Jid {
 	 *
 	 * @return the resourcepart.
 	 */
-	public Resourcepart getResourcepart();
+	Resourcepart getResourcepart();
 
 }

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright 2017 Florian Schmaus
+ * Copyright 2017-2018 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,6 +27,6 @@ public interface ProcessingInstructionCallback {
 	 *
 	 * @param processingInstruction the string of the splitted Processing Instruction.
 	 */
-	public void onProcessingInstruction(String processingInstruction);
+	void onProcessingInstruction(String processingInstruction);
 
 }

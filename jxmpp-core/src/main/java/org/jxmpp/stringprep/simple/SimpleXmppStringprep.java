@@ -52,7 +52,7 @@ public final class SimpleXmppStringprep implements XmppStringprep {
 	 * From 6122bis-18 § 3.3.1 and PRECIS IdentifierClass which forbids U+0020
 	 */
 	// @formatter:off
-	private final static char[] LOCALPART_FURTHER_EXCLUDED_CHARACTERS = new char[] {
+	private static final char[] LOCALPART_FURTHER_EXCLUDED_CHARACTERS = new char[] {
 		'"',   // U+0022 (QUOTATION MARK) , i.e., "
 		'&',   // U+0026 (AMPERSAND), i.e., &
 		'\'',  // U+0027 (APOSTROPHE), i.e., '

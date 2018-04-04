@@ -1,6 +1,6 @@
 /**
  *
- * Copyright 2015-2017 Florian Schmaus
+ * Copyright 2015-2018 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,7 +29,7 @@ public interface XmlSplitterFactory {
 	 * @param processingInstructionCallback a optional callback for Processing Instructions.
 	 * @return a new splitter.
 	 */
-	public XmlSplitter createXmlSplitter(CompleteElementCallback callback, DeclarationCallback declarationCallback,
+	XmlSplitter createXmlSplitter(CompleteElementCallback callback, DeclarationCallback declarationCallback,
 			ProcessingInstructionCallback processingInstructionCallback);
 
 }

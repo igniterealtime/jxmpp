@@ -1,6 +1,6 @@
 /**
  *
- * Copyright 2015-2017 Florian Schmaus
+ * Copyright 2015-2018 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
-import java.util.LinkedList;
+import java.util.ArrayDeque;
 import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -39,8 +39,8 @@ public class XmlSplitterTestUtil {
 		}, elementParts);
 	}
 
-	private final static String STREAM_OPEN_SUBSTITUTE = "<stream>";
-	private final static String STREAM_CLOSE_SUBSTITUTE = "</stream>";
+	private static final String STREAM_OPEN_SUBSTITUTE = "<stream>";
+	private static final String STREAM_CLOSE_SUBSTITUTE = "</stream>";
 
 	public static void xmppSplitterTest(String... elements) throws IOException {
 		Element[] elementParts = elementsFrom(elements);
@@ -79,7 +79,7 @@ public class XmlSplitterTestUtil {
 	}
 
 	public static void splitterTest(XmlSplitterFactory xmlSplitterFactory, SplittedPart... parts) throws IOException {
-		final Queue<SplittedPart> queue = new LinkedList<>();
+		final Queue<SplittedPart> queue = new ArrayDeque<>();
 		StringBuilder xml = new StringBuilder();
 
 		boolean hasDeclarationPart = false;
@@ -163,7 +163,7 @@ public class XmlSplitterTestUtil {
 		return (P) part;
 	}
 
-	static abstract class SplittedPart {
+	abstract static class SplittedPart {
 		final String part;
 
 		protected SplittedPart(String part) {

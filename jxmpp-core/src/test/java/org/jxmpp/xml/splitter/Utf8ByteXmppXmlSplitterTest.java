@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2015 Florian Schmaus
+ * Copyright © 2015-2018 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,8 @@ import static org.junit.Assert.assertTrue;
 import static org.jxmpp.xml.splitter.XmlSplitterTestUtil.transform;
 
 import java.io.IOException;
-import java.util.LinkedList;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
 
@@ -56,8 +57,8 @@ public class Utf8ByteXmppXmlSplitterTest {
 	}
 
 	private static void testUtf8ByteSplitter(String... elements) throws IOException {
-		final Queue<String> queue = new LinkedList<>();
-		List<Byte> bytesArray = new LinkedList<>();
+		final Queue<String> queue = new ArrayDeque<>();
+		List<Byte> bytesArray = new ArrayList<>();
 		for (String element : elements) {
 			queue.add(element);
 			byte[] utf8bytes = element.getBytes("UTF-8");

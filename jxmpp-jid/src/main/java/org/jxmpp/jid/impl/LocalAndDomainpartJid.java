@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2014-2017 Florian Schmaus
+ * Copyright © 2014-2018 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,7 +27,6 @@ import org.jxmpp.jid.parts.Domainpart;
 import org.jxmpp.jid.parts.Localpart;
 import org.jxmpp.jid.parts.Resourcepart;
 import org.jxmpp.stringprep.XmppStringprepException;
-import org.jxmpp.util.XmppStringUtils;
 
 
 public final class LocalAndDomainpartJid extends AbstractJid implements EntityBareJid {
@@ -40,7 +39,7 @@ public final class LocalAndDomainpartJid extends AbstractJid implements EntityBa
 	private final DomainBareJid domainBareJid;
 	private final Localpart localpart;
 
-	private String unescapedCache;
+	private transient String unescapedCache;
 
 	LocalAndDomainpartJid(String localpart, String domain) throws XmppStringprepException {
 		domainBareJid = new DomainpartJid(domain);
@@ -53,7 +52,7 @@ public final class LocalAndDomainpartJid extends AbstractJid implements EntityBa
 	}
 
 	@Override
-	public final Localpart getLocalpart() {
+	public Localpart getLocalpart() {
 		return localpart;
 	}
 
@@ -71,7 +70,7 @@ public final class LocalAndDomainpartJid extends AbstractJid implements EntityBa
 		if (unescapedCache != null) {
 			return unescapedCache;
 		}
-		unescapedCache = XmppStringUtils.unescapeLocalpart(getLocalpart().toString()) + '@' + domainBareJid.toString();
+		unescapedCache = getLocalpart().asUnescapedString() + '@' + domainBareJid.toString();
 		return unescapedCache;
 	}
 

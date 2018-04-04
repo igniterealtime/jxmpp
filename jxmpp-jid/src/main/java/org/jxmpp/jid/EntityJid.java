@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2014-2016 Florian Schmaus
+ * Copyright © 2014-2018 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,20 +37,20 @@ public interface EntityJid extends Jid {
 	 *
 	 * @return the localpart.
 	 */
-	public Localpart getLocalpart();
+	Localpart getLocalpart();
 
 	/**
 	 * Return the bare JID of this entity JID.
 	 * 
 	 * @return the bare JID.
 	 */
-	public EntityBareJid asEntityBareJid();
+	EntityBareJid asEntityBareJid();
 
 	/**
 	 * Return the bare JID string of this full JID.
 	 *
 	 * @return the bare JID string.
 	 */
-	public String asEntityBareJidString();
+	String asEntityBareJidString();
 
 }

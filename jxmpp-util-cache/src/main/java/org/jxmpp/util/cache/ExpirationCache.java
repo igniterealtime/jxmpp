@@ -203,7 +203,7 @@ public class ExpirationCache<K, V> implements Cache<K, V>, Map<K, V>{
 		private final K key;
 		private V value;
 
-		public EntryImpl(K key, V value) {
+		EntryImpl(K key, V value) {
 			this.key = key;
 			this.value = value;
 		}
