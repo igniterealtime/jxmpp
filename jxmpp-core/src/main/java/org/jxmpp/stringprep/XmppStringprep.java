@@ -36,7 +36,7 @@ public interface XmppStringprep {
 	 * @return the prepared String.
 	 * @throws XmppStringprepException if there is an error.
 	 */
-	public String localprep(String string) throws XmppStringprepException;
+	String localprep(String string) throws XmppStringprepException;
 
 	/**
 	 * Performs String preparation on the domainpart String of a JID. In RFC 61ss terms, this means applying the
@@ -46,7 +46,7 @@ public interface XmppStringprep {
 	 * @return the prepared String.
 	 * @throws XmppStringprepException if there is an error.
 	 */
-	public String domainprep(String string) throws XmppStringprepException;
+	String domainprep(String string) throws XmppStringprepException;
 
 	/**
 	 * Performs String preparation on the resourcepart String of a JID. In RFC 6122 terms this means applying the <i>resourceprep</i> profile of Stringprep.
@@ -54,5 +54,5 @@ public interface XmppStringprep {
 	 * @return the prepared String.
 	 * @throws XmppStringprepException if there is an error.
 	 */
-	public String resourceprep(String string) throws XmppStringprepException;
+	String resourceprep(String string) throws XmppStringprepException;
 }

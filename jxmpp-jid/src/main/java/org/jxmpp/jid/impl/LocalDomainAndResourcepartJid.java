@@ -78,7 +78,7 @@ public final class LocalDomainAndResourcepartJid extends AbstractJid implements 
 	}
 
 	@Override
-	public final boolean hasNoResource() {
+	public boolean hasNoResource() {
 		return false;
 	}
 
@@ -133,7 +133,7 @@ public final class LocalDomainAndResourcepartJid extends AbstractJid implements 
 	}
 
 	@Override
-	public final Resourcepart getResourcepart() {
+	public Resourcepart getResourcepart() {
 		return resource;
 	}
 

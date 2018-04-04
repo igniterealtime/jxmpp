@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2014-2016 Florian Schmaus
+ * Copyright © 2014-2018 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -80,7 +80,7 @@ public interface Jid extends Comparable<Jid>, CharSequence, Serializable {
 	 *
 	 * @return the domainpart.
 	 */
-	public Domainpart getDomain();
+	Domainpart getDomain();
 
 	/**
 	 * Returns the String representation of this JID.
@@ -88,7 +88,7 @@ public interface Jid extends Comparable<Jid>, CharSequence, Serializable {
 	 * @return the String representation of this JID.
 	 */
 	@Override
-	public String toString();
+	String toString();
 
 	/**
 	 * Return the <b>unescaped</b> String representation of this JID.
@@ -104,126 +104,126 @@ public interface Jid extends Comparable<Jid>, CharSequence, Serializable {
 	 *
 	 * @return the unescaped String representation of this JID.
 	 */
-	public String asUnescapedString();
+	String asUnescapedString();
 
 	/**
 	 * Check if this is a {@link EntityBareJid} or {@link EntityFullJid}.
 	 *
 	 * @return true if this is an instance of BareJid or FullJid.
 	 */
-	public boolean isEntityJid();
+	boolean isEntityJid();
 
 	/**
 	 * Check if this is an instance of {@link EntityBareJid}.
 	 * 
 	 * @return true if this is an instance of BareJid
 	 */
-	public boolean isEntityBareJid();
+	boolean isEntityBareJid();
 
 	/**
 	 * Check if this is an instance of {@link EntityFullJid}.
 	 * 
 	 * @return true if this is an instance of FullJid
 	 */
-	public boolean isEntityFullJid();
+	boolean isEntityFullJid();
 
 	/**
 	 * Check if this is an instance of {@link DomainBareJid}.
 	 *  
 	 * @return true if this is an instance of DomainBareJid
 	 */
-	public boolean isDomainBareJid();
+	boolean isDomainBareJid();
 
 	/**
 	 * Check if this is an instance of {@link DomainFullJid}.
 	 * 
 	 * @return true if this is an instance of DomainFullJid
 	 */
-	public boolean isDomainFullJid();
+	boolean isDomainFullJid();
 
 	/**
 	 * Check if this is an instance of {@link EntityBareJid} or {@link DomainBareJid}.
 	 * 
 	 * @return true if this is an instance of BareJid or DomainBareJid
 	 */
-	public boolean hasNoResource();
+	boolean hasNoResource();
 
 	/**
 	 * Check if this is a Jid with a {@link Resourcepart}.
 	 *
 	 * @return true if this Jid has a resourcepart.
 	 */
-	public boolean hasResource();
+	boolean hasResource();
 
 	/**
 	 * Check if this is a Jid with a {@link Localpart}.
 	 *
 	 * @return true if this Jid has a localpart.
 	 */
-	public boolean hasLocalpart();
+	boolean hasLocalpart();
 
 	/**
 	 * Return a JID created by removing the Resourcepart from this JID.
 	 *
 	 * @return this Jid without a Resourcepart.
 	 */
-	public BareJid asBareJid();
+	BareJid asBareJid();
 
 	/**
 	 * Convert this Jid to a {@link EntityBareJid} if possible.
 	 *
 	 * @return the corresponding {@link EntityBareJid} or null.
 	 */
-	public EntityBareJid asEntityBareJidIfPossible();
+	EntityBareJid asEntityBareJidIfPossible();
 
 	/**
 	 * Convert this Jid to a {@link EntityBareJid} or throw an {@code IllegalStateException} if this is not possible.
 	 * 
 	 * @return the corresponding {@link EntityBareJid}.
 	 */
-	public EntityBareJid asEntityBareJidOrThrow();
+	EntityBareJid asEntityBareJidOrThrow();
 
 	/**
 	 * Convert this Jid to a {@link EntityFullJid} if possible.
 	 *
 	 * @return the corresponding {@link EntityFullJid} or null.
 	 */
-	public EntityFullJid asEntityFullJidIfPossible();
+	EntityFullJid asEntityFullJidIfPossible();
 
 	/**
 	 * Convert this Jid to a {@link EntityFullJid} or throw an {@code IllegalStateException} if this is not possible.
 	 * 
 	 * @return the corresponding {@link EntityFullJid}.
 	 */
-	public EntityFullJid asEntityFullJidOrThrow();
+	EntityFullJid asEntityFullJidOrThrow();
 
 	/**
 	 * Convert this Jid to a {@link EntityJid} if possible.
 	 *
 	 * @return the corresponding {@link EntityJid} or null.
 	 */
-	public EntityJid asEntityJidIfPossible();
+	EntityJid asEntityJidIfPossible();
 
 	/**
 	 * Convert this Jid to a {@link EntityJid} or throw an {@code IllegalStateException} if this is not possible.
 	 * 
 	 * @return the corresponding {@link EntityJid}.
 	 */
-	public EntityJid asEntityJidOrThrow();
+	EntityJid asEntityJidOrThrow();
 
 	/**
 	 * Convert this Jid to a {@link FullJid} if possible.
 	 *
 	 * @return the corresponding {@link FullJid} or null.
 	 */
-	public FullJid asFullJidIfPossible();
+	FullJid asFullJidIfPossible();
 
 	/**
 	 * Convert this Jid to a {@link FullJid} or throw an {@code IllegalStateException} if this is not possible.
 	 * 
 	 * @return the corresponding {@link FullJid}.
 	 */
-	public EntityFullJid asFullJidOrThrow();
+	EntityFullJid asFullJidOrThrow();
 
 	/**
 	 * Convert this Jid to a {@link DomainBareJid}.
@@ -233,21 +233,21 @@ public interface Jid extends Comparable<Jid>, CharSequence, Serializable {
 	 *
 	 * @return the corresponding DomainBareJid.
 	 */
-	public DomainBareJid asDomainBareJid();
+	DomainBareJid asDomainBareJid();
 
 	/**
 	 * Convert this Jid to a {@link DomainFullJid} if possible.
 	 *
 	 * @return the corresponding DomainFullJid or null.
 	 */
-	public DomainFullJid asDomainFullJidIfPossible();
+	DomainFullJid asDomainFullJidIfPossible();
 
 	/**
 	 * Convert this Jid to a {@link DomainFullJid} or throw an {@code IllegalStateException} if this is not possible.
 	 * 
 	 * @return the corresponding {@link DomainFullJid}.
 	 */
-	public DomainFullJid asDomainFullJidOrThrow();
+	DomainFullJid asDomainFullJidOrThrow();
 
 	/**
 	 * Get the resourcepart of this JID or null.
@@ -258,7 +258,7 @@ public interface Jid extends Comparable<Jid>, CharSequence, Serializable {
 	 * 
 	 * @return the resource of this JID or null.
 	 */
-	public Resourcepart getResourceOrNull();
+	Resourcepart getResourceOrNull();
 
 	/**
 	 * Get the resourcepart of this JID or return the empty resourcepart.
@@ -269,7 +269,7 @@ public interface Jid extends Comparable<Jid>, CharSequence, Serializable {
 	 * 
 	 * @return the resource of this JID or the empty resourcepart.
 	 */
-	public Resourcepart getResourceOrEmpty();
+	Resourcepart getResourceOrEmpty();
 
 	/**
 	 * Get the resourcepart of this JID or throw an {@code IllegalStateException}.
@@ -280,7 +280,7 @@ public interface Jid extends Comparable<Jid>, CharSequence, Serializable {
 	 * 
 	 * @return the resource of this JID.
 	 */
-	public Resourcepart getResourceOrThrow();
+	Resourcepart getResourceOrThrow();
 
 	/**
 	 * Get the localpart of this JID or null.
@@ -291,7 +291,7 @@ public interface Jid extends Comparable<Jid>, CharSequence, Serializable {
 	 * 
 	 * @return the localpart of this JID or null.
 	 */
-	public Localpart getLocalpartOrNull();
+	Localpart getLocalpartOrNull();
 
 	/**
 	 * Get the localpart of this JID or throw an {@code IllegalStateException}.
@@ -302,7 +302,7 @@ public interface Jid extends Comparable<Jid>, CharSequence, Serializable {
 	 * 
 	 * @return the localpart of this JID.
 	 */
-	public Localpart getLocalpartOrThrow();
+	Localpart getLocalpartOrThrow();
 
 	/**
 	 * Check if this JID is the parent of another JID. The <b>parent of</b> relation is defined, under the
@@ -332,7 +332,7 @@ public interface Jid extends Comparable<Jid>, CharSequence, Serializable {
 	 *            the other JID to compare with
 	 * @return true if this JID is a parent of the given JID.
 	 */
-	public boolean isParentOf(Jid jid);
+	boolean isParentOf(Jid jid);
 
 	/**
 	 * See {@link #isParentOf(Jid)}.
@@ -340,7 +340,7 @@ public interface Jid extends Comparable<Jid>, CharSequence, Serializable {
 	 * @param bareJid the bare JID.
 	 * @return true if this JID is a parent of the given JID.
 	 */
-	public boolean isParentOf(EntityBareJid bareJid);
+	boolean isParentOf(EntityBareJid bareJid);
 
 	/**
 	 * See {@link #isParentOf(Jid)}.
@@ -348,7 +348,7 @@ public interface Jid extends Comparable<Jid>, CharSequence, Serializable {
 	 * @param fullJid the full JID.
 	 * @return true if this JID is a parent of the given JID.
 	 */
-	public boolean isParentOf(EntityFullJid fullJid);
+	boolean isParentOf(EntityFullJid fullJid);
 
 	/**
 	 * See {@link #isParentOf(Jid)}.
@@ -356,7 +356,7 @@ public interface Jid extends Comparable<Jid>, CharSequence, Serializable {
 	 * @param domainBareJid the domain bare JID.
 	 * @return true if this JID is a parent of the given JID.
 	 */
-	public boolean isParentOf(DomainBareJid domainBareJid);
+	boolean isParentOf(DomainBareJid domainBareJid);
 
 	/**
 	 * See {@link #isParentOf(Jid)}.
@@ -364,7 +364,7 @@ public interface Jid extends Comparable<Jid>, CharSequence, Serializable {
 	 * @param domainFullJid the domain full JID.
 	 * @return true if this JID is a parent of the given JID.
 	 */
-	public boolean isParentOf(DomainFullJid domainFullJid);
+	boolean isParentOf(DomainFullJid domainFullJid);
 
 	/**
 	 * Return the downcasted instance of this Jid. This method is unsafe, make sure to check that this is actually of the type of are casting to.
@@ -374,7 +374,7 @@ public interface Jid extends Comparable<Jid>, CharSequence, Serializable {
 	 * @return the downcasted instanced of this
 	 * @throws ClassCastException if this JID is not assignable to the type T.
 	 */
-	public <T extends Jid> T downcast(Class<T> jidClass) throws ClassCastException;
+	<T extends Jid> T downcast(Class<T> jidClass) throws ClassCastException;
 
 	/**
 	 * Compares the given CharSequence with this JID. Returns true if {@code equals(charSequence.toString()} would
@@ -385,7 +385,7 @@ public interface Jid extends Comparable<Jid>, CharSequence, Serializable {
 	 * @see #equals(String)
 	 */
 	@SuppressWarnings("NonOverridingEquals")
-	public boolean equals(CharSequence charSequence);
+	boolean equals(CharSequence charSequence);
 
 	/**
 	 * Compares the given String wit this JID.
@@ -397,12 +397,12 @@ public interface Jid extends Comparable<Jid>, CharSequence, Serializable {
 	 * @return true if {@code toString().equals(string)}.
 	 */
 	@SuppressWarnings("NonOverridingEquals")
-	public boolean equals(String string);
+	boolean equals(String string);
 
 	/**
 	 * Returns the canonical String representation of this JID. See {@link String#intern} for details.
 	 * 
 	 * @return the canonical String representation.
 	 */
-	public String intern();
+	String intern();
 }

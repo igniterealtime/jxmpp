@@ -70,7 +70,7 @@ public final class DomainAndResourcepartJid extends AbstractJid implements Domai
 	}
 
 	@Override
-	public final boolean hasNoResource() {
+	public boolean hasNoResource() {
 		return false;
 	}
 

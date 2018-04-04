@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2014-2016 Florian Schmaus
+ * Copyright © 2014-2018 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@ public interface Cache<K, V> {
 	 * @param value the value.
 	 * @return the previous value or {@code null}.
 	 */
-	public V put(K key, V value);
+	V put(K key, V value);
 
 	/**
 	 * Returns the value of the specified key, or {@code null}.
@@ -35,7 +35,7 @@ public interface Cache<K, V> {
 	 * @deprecated Use {@link #lookup(Object)} instead.
 	 */
 	@Deprecated
-	public V get(Object key);
+	V get(Object key);
 
 	/**
 	 * Returns the value of the specified key, or {@code null}.
@@ -43,18 +43,18 @@ public interface Cache<K, V> {
 	 * @param key the key.
 	 * @return the value found in the cache, or {@code null}.
 	 */
-	public V lookup(K key);
+	V lookup(K key);
 
 	/**
 	 * Return the maximum cache Size.
 	 *
 	 * @return the maximum cache size.
 	 */
-	public int getMaxCacheSize();
+	int getMaxCacheSize();
 
 	/**
 	 * Set the maximum cache size.
 	 * @param size the new maximum cache size.
 	 */
-	public void setMaxCacheSize(int size);
+	void setMaxCacheSize(int size);
 }

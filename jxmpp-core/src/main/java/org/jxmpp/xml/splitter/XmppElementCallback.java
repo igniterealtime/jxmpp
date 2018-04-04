@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2015 Florian Schmaus
+ * Copyright © 2015-2018 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,11 +30,11 @@ public interface XmppElementCallback extends CompleteElementCallback {
 	 * @param prefix the prefix of the 'stream' element.
 	 * @param attributes the attributes of the 'stream' element.
 	 */
-	public void streamOpened(String prefix, Map<String, String> attributes);
+	void streamOpened(String prefix, Map<String, String> attributes);
 
 	/**
 	 * Invoked when a XMPP 'stream' close tag has been read.
 	 */
-	public void streamClosed();
+	void streamClosed();
 
 }

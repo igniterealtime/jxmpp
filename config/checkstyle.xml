@@ -63,6 +63,8 @@
 		<module name="AvoidStarImport"/>
 		<module name="IllegalImport"/>
 		<module name="RedundantImport"/>
+		<module name="RedundantModifier"/>
+		<module name="ModifierOrder"/>
 		<module name="UpperEll"/>
 		<module name="ArrayTypeStyle"/>
 		<!--

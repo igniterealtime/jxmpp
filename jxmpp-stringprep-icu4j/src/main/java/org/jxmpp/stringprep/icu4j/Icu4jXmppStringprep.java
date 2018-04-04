@@ -25,9 +25,9 @@ import com.ibm.icu.text.StringPrepParseException;
 
 public class Icu4jXmppStringprep implements XmppStringprep {
 
-	private final static StringPrep NODEPREP = StringPrep.getInstance(StringPrep.RFC3920_NODEPREP);
-	private final static StringPrep DOMAINPREP = StringPrep.getInstance(StringPrep.RFC3491_NAMEPREP);
-	private final static StringPrep RESOURCEPREP = StringPrep.getInstance(StringPrep.RFC3920_RESOURCEPREP);
+	private static final StringPrep NODEPREP = StringPrep.getInstance(StringPrep.RFC3920_NODEPREP);
+	private static final StringPrep DOMAINPREP = StringPrep.getInstance(StringPrep.RFC3491_NAMEPREP);
+	private static final StringPrep RESOURCEPREP = StringPrep.getInstance(StringPrep.RFC3920_RESOURCEPREP);
 
 	private static Icu4jXmppStringprep instance;
 

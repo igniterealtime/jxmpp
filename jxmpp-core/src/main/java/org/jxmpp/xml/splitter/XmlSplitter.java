@@ -75,7 +75,7 @@ public class XmlSplitter extends Writer {
 
 		final char c;
 
-		private AttributeValueQuotes(char c) {
+		AttributeValueQuotes(char c) {
 			this.c = c;
 		}
 	}
@@ -354,13 +354,13 @@ public class XmlSplitter extends Writer {
 		state = State.START;
 	}
 
-	private final String getToken() {
+	private String getToken() {
 		String token = tokenBuffer.toString();
 		tokenBuffer.setLength(0);
 		return token;
 	}
 
-	private final void onProcessingInstructionOrDeclaration(String processingInstructionOrDeclaration) {
+	private void onProcessingInstructionOrDeclaration(String processingInstructionOrDeclaration) {
 		if (processingInstructionOrDeclaration.startsWith("<?xml ")) {
 			if (declarationCallback != null) {
 				declarationCallback.onDeclaration(processingInstructionOrDeclaration);
@@ -372,12 +372,12 @@ public class XmlSplitter extends Writer {
 		}
 	}
 
-	private final static String extractPrefix(String qName) {
+	private static String extractPrefix(String qName) {
 		int index = qName.indexOf(':');
 		return index > -1  ? qName.substring(0, index) : qName;
 	}
 
-	private final static String extractLocalpart(String qName) {
+	private static String extractLocalpart(String qName) {
 		int index = qName.indexOf(':');
 		return index > -1 ? qName.substring(index + 1) : qName;
 	}

@@ -39,8 +39,8 @@ public class XmlSplitterTestUtil {
 		}, elementParts);
 	}
 
-	private final static String STREAM_OPEN_SUBSTITUTE = "<stream>";
-	private final static String STREAM_CLOSE_SUBSTITUTE = "</stream>";
+	private static final String STREAM_OPEN_SUBSTITUTE = "<stream>";
+	private static final String STREAM_CLOSE_SUBSTITUTE = "</stream>";
 
 	public static void xmppSplitterTest(String... elements) throws IOException {
 		Element[] elementParts = elementsFrom(elements);
@@ -163,7 +163,7 @@ public class XmlSplitterTestUtil {
 		return (P) part;
 	}
 
-	static abstract class SplittedPart {
+	abstract static class SplittedPart {
 		final String part;
 
 		protected SplittedPart(String part) {

@@ -95,7 +95,7 @@ public class XmppDateTime {
 	private static final Pattern xep0091Pattern = Pattern.compile("^\\d+T\\d+:\\d+:\\d+$");
 
 	@SuppressWarnings("ImmutableEnumChecker")
-	private static enum DateFormatType {
+	private enum DateFormatType {
 		// @formatter:off
 		XEP_0082_DATE_PROFILE("yyyy-MM-dd"),
 		XEP_0082_DATETIME_PROFILE("yyyy-MM-dd'T'HH:mm:ssZ"),
@@ -120,7 +120,7 @@ public class XmppDateTime {
 		 */
 		private final boolean HANDLE_MILLIS;
 
-		private DateFormatType(String dateFormat) {
+		DateFormatType(String dateFormat) {
 			FORMAT_STRING = dateFormat;
 			FORMATTER = new ThreadLocal<DateFormat>() {
 				@Override
@@ -408,7 +408,7 @@ public class XmppDateTime {
 		final Pattern pattern;
 		final DateFormatType formatter;
 
-		public PatternCouplings(Pattern datePattern, DateFormatType dateFormat) {
+		PatternCouplings(Pattern datePattern, DateFormatType dateFormat) {
 			pattern = datePattern;
 			formatter = dateFormat;
 		}
