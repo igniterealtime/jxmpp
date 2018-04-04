@@ -10,7 +10,7 @@ buildscript {
 
 	dependencies {
 		classpath "org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.4.0"
-		classpath 'net.ltgt.gradle:gradle-errorprone-plugin:0.0.10'
+		classpath 'net.ltgt.gradle:gradle-errorprone-plugin:0.0.13'
 	}
 }
 
@@ -114,11 +114,8 @@ allprojects {
 		}
 	}
 
-	// Pin the errorprone version to prevent "unsupported major.minor
-	// version 52.0" error messages caused by the errorprone javac.
-	// See https://github.com/tbroyer/gradle-errorprone-plugin/issues/18 for more information.
-	configurations.errorprone {
-		resolutionStrategy.force 'com.google.errorprone:error_prone_core:2.0.18'
+	dependencies {
+		errorprone 'com.google.errorprone:error_prone_core:2.2.0'
 	}
 }
 
