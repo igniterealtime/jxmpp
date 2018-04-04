@@ -18,6 +18,7 @@ package org.jxmpp.jid.parts;
 
 import org.jxmpp.stringprep.XmppStringPrepUtil;
 import org.jxmpp.stringprep.XmppStringprepException;
+import org.jxmpp.util.XmppStringUtils;
 
 /**
  * A <i>localpart</i> of an XMPP address (JID). The localpart is the part before the
@@ -39,8 +40,30 @@ public class Localpart extends Part {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	private transient String unescapedCache;
+
 	private Localpart(String localpart) {
 		super(localpart);
+	}
+
+	/**
+	 * Return the <b>unescaped</b> String representation of this Localpart.
+	 * <p>
+	 * Since certain Unicode code points are disallowed in the localpart of a JID by the required stringprep profile,
+	 * those need to get escaped when used in a real JID. The unescaped representation of the JID is only for
+	 * presentation to a human user or for gatewaying to a non-XMPP system.
+	 * </p>
+	 *
+	 * @return the unescaped String representation of this JID.
+	 * @see {@link org.jxmpp.jid.Jid#asUnescapedString()}
+	 * @since 0.6.1
+	 */
+	public String asUnescapedString() {
+		if (unescapedCache != null) {
+			return unescapedCache;
+		}
+		unescapedCache = XmppStringUtils.unescapeLocalpart(toString());
+		return unescapedCache;
 	}
 
 	/**

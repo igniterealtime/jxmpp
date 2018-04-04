@@ -27,7 +27,6 @@ import org.jxmpp.jid.parts.Domainpart;
 import org.jxmpp.jid.parts.Localpart;
 import org.jxmpp.jid.parts.Resourcepart;
 import org.jxmpp.stringprep.XmppStringprepException;
-import org.jxmpp.util.XmppStringUtils;
 
 
 public final class LocalAndDomainpartJid extends AbstractJid implements EntityBareJid {
@@ -71,7 +70,7 @@ public final class LocalAndDomainpartJid extends AbstractJid implements EntityBa
 		if (unescapedCache != null) {
 			return unescapedCache;
 		}
-		unescapedCache = XmppStringUtils.unescapeLocalpart(getLocalpart().toString()) + '@' + domainBareJid.toString();
+		unescapedCache = getLocalpart().asUnescapedString() + '@' + domainBareJid.toString();
 		return unescapedCache;
 	}
 
