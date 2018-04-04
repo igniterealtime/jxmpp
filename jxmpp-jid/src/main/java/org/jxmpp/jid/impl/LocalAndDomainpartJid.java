@@ -40,7 +40,7 @@ public final class LocalAndDomainpartJid extends AbstractJid implements EntityBa
 	private final DomainBareJid domainBareJid;
 	private final Localpart localpart;
 
-	private String unescapedCache;
+	private transient String unescapedCache;
 
 	LocalAndDomainpartJid(String localpart, String domain) throws XmppStringprepException {
 		domainBareJid = new DomainpartJid(domain);
