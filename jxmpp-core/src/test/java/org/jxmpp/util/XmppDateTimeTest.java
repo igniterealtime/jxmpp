@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2014-2017 Florian Schmaus
+ * Copyright © 2014-2018 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -273,7 +273,7 @@ public class XmppDateTimeTest {
 
 	/**
 	 * There was actually a leap second inserted as this date.
-	 * @throws ParseException
+	 * @throws ParseException if the date could not be parsed
 	 */
 	@Test
 	public void testLeapSeconds() throws ParseException {
@@ -286,7 +286,7 @@ public class XmppDateTimeTest {
 
 	/**
 	 * There where no leap seconds inserted, this is just to the parser behavior.
-	 * @throws ParseException
+	 * @throws ParseException if the date could not be parsed
 	 */
 	@Test
 	public void testLeapSeconds3() throws ParseException {

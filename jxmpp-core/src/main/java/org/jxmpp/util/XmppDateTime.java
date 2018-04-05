@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2014-2015 Florian Schmaus
+ * Copyright © 2014-2018 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -294,8 +294,7 @@ public class XmppDateTime {
 	 * 
 	 * @param stampString
 	 *            date in string representation
-	 * @param dateLength
-	 * @param noFuture
+	 * @param dateLength the length of the date prefix of stampString
 	 * @return the parsed date
 	 * @throws ParseException
 	 *             The date string was of an unknown format
@@ -352,7 +351,7 @@ public class XmppDateTime {
 	 * contains 3 digits. Returns the given string unmodified if it doesn't
 	 * match {@link #SECOND_FRACTION}.
 	 * 
-	 * @param dateString
+	 * @param dateString the date string
 	 * @return the date String where the fractional second addendum is a most 3
 	 *         digits
 	 */

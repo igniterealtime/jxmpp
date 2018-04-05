@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2014-2016 Florian Schmaus
+ * Copyright © 2014-2018 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -122,8 +122,8 @@ public class XmppStringPrepUtil {
 	/**
 	 * Throws a XMPP Stringprep exception if string is the empty string.
 	 *
-	 * @param string
-	 * @throws XmppStringprepException
+	 * @param string the string to check
+	 * @throws XmppStringprepException exception telling that the argument was the empty string
 	 */
 	private static void throwIfEmptyString(String string) throws XmppStringprepException {
 		// TODO replace with string.isEmpty() once Smack's min Android SDK level is > 8

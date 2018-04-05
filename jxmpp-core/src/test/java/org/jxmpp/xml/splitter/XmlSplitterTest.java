@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2015 Florian Schmaus
+ * Copyright © 2015-2018 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,7 +33,7 @@ public class XmlSplitterTest extends XmlSplitterTestUtil {
 	 * Test a space after the name of an empty element. Spaces are allowed
 	 * according to XML § 3.1 [44].
 	 *
-	 * @throws IOException
+	 * @throws IOException if an exception occurs
 	 */
 	@Test
 	public void emptyElementTest() throws IOException {
