@@ -90,7 +90,6 @@
 		<module name="JavadocStyle">
 			<property name="scope" value="public"/>
 			<property name="checkEmptyJavadoc" value="true"/>
-			<property name="checkHtml" value="false"/>
 		</module>
 		<module name="AtclauseOrder"/>
 		<module name="NonEmptyAtclauseDescription"/>
