@@ -55,7 +55,7 @@ public class Localpart extends Part {
 	 * </p>
 	 *
 	 * @return the unescaped String representation of this JID.
-	 * @see {@link org.jxmpp.jid.Jid#asUnescapedString()}
+	 * @see org.jxmpp.jid.Jid#asUnescapedString()
 	 * @since 0.6.1
 	 */
 	public String asUnescapedString() {
