@@ -14,6 +14,10 @@ buildscript {
 	}
 }
 
+plugins {
+	id 'ru.vyarus.animalsniffer' version '1.4.3'
+}
+
 apply from: 'version.gradle'
 
 allprojects {
@@ -273,15 +277,14 @@ dependencies {
 }
 
 configure (androidProjects) {
-	task compileAndroid(type: JavaCompile) {
-		source = compileJava.source
-		classpath = compileJava.classpath
-		destinationDir = new File(buildDir, 'android')
-		options.bootstrapClasspath = files(getAndroidRuntimeJar())
-	}
+    apply plugin: 'ru.vyarus.animalsniffer'
+    dependencies {
+        signature "net.sf.androidscents.signature:android-api-level-${jxmppMinAndroidSdk}:2.2_r3@signature"
+    }
+    animalsniffer {
+        sourceSets = [sourceSets.main]
+    }
 }
-
-test { dependsOn androidProjects*.compileAndroid }
 
 apply plugin: "com.github.kt3k.coveralls"
 coveralls {
