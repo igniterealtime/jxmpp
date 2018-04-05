@@ -16,16 +16,19 @@ buildscript {
 
 plugins {
 	id 'ru.vyarus.animalsniffer' version '1.4.3'
+	id 'me.champeau.gradle.jmh' version '0.4.5'
 }
 
 apply from: 'version.gradle'
+
+import net.ltgt.gradle.errorprone.ErrorProneToolChain
 
 allprojects {
 	apply plugin: 'java'
 	apply plugin: 'eclipse'
 	apply plugin: 'idea'
 	apply plugin: 'jacoco'
-	apply plugin: 'net.ltgt.errorprone'
+	apply plugin: 'net.ltgt.errorprone-base'
 
 	repositories {
 		mavenLocal()
@@ -47,6 +50,7 @@ allprojects {
 		oneLineDesc = 'An Open Source XMPP (Jabber) library'
 		jxmppMinAndroidSdk = 8
 		androidProjects = [':jxmpp-core', ':jxmpp-jid', ':jxmpp-stringprep-libidn', ':jxmpp-util-cache'].collect{ project(it) }
+		jmhProjects = [':jxmpp-util-cache'].collect { project(it) }
 	}
 	group = 'org.jxmpp'
 	sourceCompatibility = 1.7
@@ -91,6 +95,12 @@ allprojects {
 			'-Xlint:-options',
 			'-Werror',
 		]
+		if (!name.toLowerCase().contains('jmh')) {
+			// Only enable Error Prone for non JMH projects, as JMH
+			// uses generated Java source code which is prone to Error
+			// Prone bug patterns.
+			toolChain ErrorProneToolChain.create(project)
+		}
 	}
 	if (JavaVersion.current().isJava8Compatible()) {
 		tasks.withType(Javadoc) {
@@ -288,6 +298,17 @@ configure (androidProjects) {
     animalsniffer {
         sourceSets = [sourceSets.main]
     }
+}
+
+configure (jmhProjects) {
+	apply plugin: "me.champeau.gradle.jmh"
+
+	jmh {
+		jmhVersion '1.20'
+		iterations 3
+		operationsPerInvocation 3
+		fork 3
+	}
 }
 
 apply plugin: "com.github.kt3k.coveralls"
