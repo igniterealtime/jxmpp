@@ -57,6 +57,7 @@ public class JidCreate {
 
 	private static final Cache<String, Jid> JID_CACHE = new LruCache<String, Jid>(100);
 	private static final Cache<String, BareJid> BAREJID_CACHE = new LruCache<>(100);
+	private static final Cache<String, EntityJid> ENTITYJID_CACHE = new LruCache<>(100);
 	private static final Cache<String, FullJid> FULLJID_CACHE = new LruCache<>(100);
 	private static final Cache<String, EntityBareJid> ENTITY_BAREJID_CACHE = new LruCache<>(100);
 	private static final Cache<String, EntityFullJid> ENTITY_FULLJID_CACHE = new LruCache<>(100);
@@ -354,13 +355,55 @@ public class JidCreate {
 	 * @throws XmppStringprepException if an error occurs.
 	 */
 	public static EntityJid entityFrom(String jidString) throws XmppStringprepException {
+		return entityFrom(jidString, false);
+	}
+
+	/**
+	 * Get a {@link EntityJid} representing the given String.
+	 *
+	 * @param jid the JID.
+	 * @return an entity JID representing the given input..
+	 * @throws XmppStringprepException if an error occurs.
+	 */
+	public static EntityJid entityFromUnescaped(CharSequence jid) throws XmppStringprepException {
+		return entityFromUnescaped(jid.toString());
+	}
+
+	/**
+	 * Get a {@link EntityJid} representing the given String.
+	 *
+	 * @param jidString the JID's string.
+	 * @return an entity JID representing the given String.
+	 * @throws XmppStringprepException if an error occurs.
+	 */
+	public static EntityJid entityFromUnescaped(String jidString) throws XmppStringprepException {
+		return entityFrom(jidString, true);
+	}
+
+	/**
+	 * Get a {@link EntityJid} representing the given String.
+	 *
+	 * @param jidString the JID's string.
+	 * @param unescaped if the JID string is unescaped.
+	 * @return an entity JID representing the given String.
+	 * @throws XmppStringprepException if an error occurs.
+	 */
+	private static EntityJid entityFrom(String jidString, boolean unescaped) throws XmppStringprepException {
+		EntityJid entityJid = ENTITYJID_CACHE.lookup(jidString);
+		if (entityJid != null) {
+			return entityJid;
+		}
 		String localpartString = XmppStringUtils.parseLocalpart(jidString);
 		if (localpartString.length() ==  0) {
 			throw new XmppStringprepException("Does not contain a localpart", jidString);
 		}
 		Localpart localpart;
 		try {
-			localpart = Localpart.from(localpartString);
+			if (unescaped) {
+				localpart = Localpart.fromUnescaped(localpartString);
+			} else {
+				localpart = Localpart.from(localpartString);
+			}
 		} catch (XmppStringprepException e) {
 			throw new XmppStringprepException(jidString, e);
 		}
@@ -381,10 +424,13 @@ public class JidCreate {
 			} catch (XmppStringprepException e) {
 				throw new XmppStringprepException(jidString, e);
 			}
-			return entityFullFrom(localpart, domainpart, resourcepart);
+			entityJid = entityFullFrom(localpart, domainpart, resourcepart);
+		} else {
+			entityJid = entityBareFrom(localpart, domainpart);
 		}
 
-		return entityBareFrom(localpart, domainpart);
+		ENTITYJID_CACHE.put(jidString, entityJid);
+		return entityJid;
 	}
 
 	/**

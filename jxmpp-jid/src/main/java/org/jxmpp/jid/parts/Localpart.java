@@ -67,6 +67,31 @@ public class Localpart extends Part {
 	}
 
 	/**
+	 * Get a {@link Localpart} from an unescaped String.
+	 *
+	 * @param unescapedLocalpart an unescaped String representing a Localpart.
+	 * @return a Localpart
+	 * @throws XmppStringprepException if an error occurs.
+	 * @since 0.6.2
+	 */
+	public static Localpart fromUnescaped(String unescapedLocalpart) throws XmppStringprepException {
+		String escapedLocalpartString = XmppStringUtils.escapeLocalpart(unescapedLocalpart);
+		return from(escapedLocalpartString);
+	}
+
+	/**
+	 * Get a {@link Localpart} from an unescaped CharSequence.
+	 *
+	 * @param unescapedLocalpart an unescaped CharSequence representing a Localpart.
+	 * @return a Localpart
+	 * @throws XmppStringprepException if an error occurs.
+	 * @since 0.6.2
+	 */
+	public static Localpart fromUnescaped(CharSequence unescapedLocalpart) throws XmppStringprepException {
+		return fromUnescaped(unescapedLocalpart.toString());
+	}
+
+	/**
 	 * Get the {@link Localpart} representing the input String.
 	 *
 	 * @param localpart the input String.
