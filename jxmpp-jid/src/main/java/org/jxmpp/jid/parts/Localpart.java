@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2014-2015 Florian Schmaus
+ * Copyright © 2014-2018 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -64,6 +64,41 @@ public class Localpart extends Part {
 		}
 		unescapedCache = XmppStringUtils.unescapeLocalpart(toString());
 		return unescapedCache;
+	}
+
+	/**
+	 * Like {@link #from(String)} but does throw an unchecked {@link IllegalArgumentException} instead of a
+	 * {@link XmppStringprepException}.
+	 *
+	 * @param cs the character sequence which should be transformed to a {@link Localpart}
+	 * @return the {@link Localpart} if no exception occurs
+	 * @throws IllegalArgumentException if the given input is not a valid {@link Localpart}
+	 * @see #from(String)
+	 * @since 0.6.2
+	 */
+	public static Localpart fromOrThrowUnchecked(CharSequence cs) {
+		try {
+			return from(cs.toString());
+		} catch (XmppStringprepException e) {
+			throw new IllegalArgumentException(e);
+		}
+	}
+
+	/**
+	 * Like {@link #fromUnescaped(String)} but does throw an unchecked {@link IllegalArgumentException} instead of a
+	 * {@link XmppStringprepException}.
+	 *
+	 * @param cs the character sequence which should be transformed to a {@link Localpart}
+	 * @return the {@link Localpart} if no exception occurs
+	 * @see #from(String)
+	 * @since 0.6.2
+	 */
+	public static Localpart fromUnescapedOrThrowUnchecked(CharSequence cs) {
+		try {
+			return fromUnescaped(cs.toString());
+		} catch (XmppStringprepException e) {
+			throw new IllegalArgumentException(e);
+		}
 	}
 
 	/**

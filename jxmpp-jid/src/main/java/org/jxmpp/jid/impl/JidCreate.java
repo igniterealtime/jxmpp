@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2014-2016 Florian Schmaus
+ * Copyright © 2014-2018 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -115,6 +115,24 @@ public class JidCreate {
 	}
 
 	/**
+	 * Like {@link #from(CharSequence)} but does throw an unchecked {@link IllegalArgumentException} instead of a
+	 * {@link XmppStringprepException}.
+	 *
+	 * @param cs the character sequence which should be transformed to a {@link Jid}
+	 * @return the {@link Jid} if no exception occurs
+	 * @throws IllegalArgumentException if the given input is not a valid JID
+	 * @see #from(String)
+	 * @since 0.6.2
+	 */
+	public static Jid fromOrThrowUnchecked(CharSequence cs) {
+		try {
+			return from(cs);
+		} catch (XmppStringprepException e) {
+			throw new IllegalArgumentException(e);
+		}
+	}
+
+	/**
 	 * Get a {@link Jid} from a CharSequence.
 	 *
 	 * @param jid the input CharSequence.
@@ -142,6 +160,24 @@ public class JidCreate {
 			return from(localpart, domainpart, resource);
 		} catch (XmppStringprepException e) {
 			throw new XmppStringprepException(jidString, e);
+		}
+	}
+
+	/**
+	 * Like {@link #fromUnescaped(CharSequence)} but does throw an unchecked {@link IllegalArgumentException} instead of a
+	 * {@link XmppStringprepException}.
+	 *
+	 * @param cs the character sequence which should be transformed to a {@link Jid}
+	 * @return the {@link Jid} if no exception occurs
+	 * @throws IllegalArgumentException if the given input is not a valid JID
+	 * @see #fromUnescaped(CharSequence)
+	 * @since 0.6.2
+	 */
+	public static Jid fromUnescapedOrThrowUnchecked(CharSequence cs) {
+		try {
+			return fromUnescaped(cs);
+		} catch (XmppStringprepException e) {
+			throw new IllegalArgumentException(e);
 		}
 	}
 
@@ -174,6 +210,24 @@ public class JidCreate {
 			return from(localpart, domainpart, resource);
 		} catch (XmppStringprepException e) {
 			throw new XmppStringprepException(unescapedJidString, e);
+		}
+	}
+
+	/**
+	 * Like {@link #bareFrom(CharSequence)} but does throw an unchecked {@link IllegalArgumentException} instead of a
+	 * {@link XmppStringprepException}.
+	 *
+	 * @param cs the character sequence which should be transformed to a {@link BareJid}
+	 * @return the {@link BareJid} if no exception occurs
+	 * @throws IllegalArgumentException if the given input is not a valid JID
+	 * @see #bareFrom(CharSequence)
+	 * @since 0.6.2
+	 */
+	public static BareJid bareFromOrThrowUnchecked(CharSequence cs) {
+		try {
+			return bareFrom(cs);
+		} catch (XmppStringprepException e) {
+			throw new IllegalArgumentException(e);
 		}
 	}
 
@@ -239,6 +293,24 @@ public class JidCreate {
 			return new LocalAndDomainpartJid(localpart, domain);
 		} else {
 			return new DomainpartJid(domain);
+		}
+	}
+
+	/**
+	 * Like {@link #fullFrom(CharSequence)} but does throw an unchecked {@link IllegalArgumentException} instead of a
+	 * {@link XmppStringprepException}.
+	 *
+	 * @param cs the character sequence which should be transformed to a {@link FullJid}
+	 * @return the {@link FullJid} if no exception occurs
+	 * @throws IllegalArgumentException if the given input is not a valid JID
+	 * @see #fullFrom(CharSequence)
+	 * @since 0.6.2
+	 */
+	public static FullJid fullFromOrThrowUnchecked(CharSequence cs) {
+		try {
+			return fullFrom(cs);
+		} catch (XmppStringprepException e) {
+			throw new IllegalArgumentException(e);
 		}
 	}
 
@@ -326,6 +398,24 @@ public class JidCreate {
 	}
 
 	/**
+	 * Like {@link #entityFrom(CharSequence)} but does throw an unchecked {@link IllegalArgumentException} instead of a
+	 * {@link XmppStringprepException}.
+	 *
+	 * @param cs the character sequence which should be transformed to a {@link EntityJid}
+	 * @return the {@link EntityJid} if no exception occurs
+	 * @throws IllegalArgumentException if the given input is not a valid JID
+	 * @see #entityFrom(CharSequence)
+	 * @since 0.6.2
+	 */
+	public static EntityJid entityFromOrThrowUnchecked(CharSequence cs) {
+		try {
+			return entityFrom(cs);
+		} catch (XmppStringprepException e) {
+			throw new IllegalArgumentException(e);
+		}
+	}
+
+	/**
 	 * Get a {@link EntityFullJid} constructed from a {@link EntityBareJid} and a {@link Resourcepart}.
 	 *
 	 * @param bareJid a entity bare JID.
@@ -356,6 +446,24 @@ public class JidCreate {
 	 */
 	public static EntityJid entityFrom(String jidString) throws XmppStringprepException {
 		return entityFrom(jidString, false);
+	}
+
+	/**
+	 * Like {@link #entityFromUnescaped(CharSequence)} but does throw an unchecked {@link IllegalArgumentException} instead of a
+	 * {@link XmppStringprepException}.
+	 *
+	 * @param cs the character sequence which should be transformed to a {@link EntityJid}
+	 * @return the {@link EntityJid} if no exception occurs
+	 * @throws IllegalArgumentException if the given input is not a valid JID
+	 * @see #entityFromUnescaped(CharSequence)
+	 * @since 0.6.2
+	 */
+	public static EntityJid entityFromUnescapedOrThrowUnchecked(CharSequence cs) {
+		try {
+			return entityFromUnescaped(cs);
+		} catch (XmppStringprepException e) {
+			throw new IllegalArgumentException(e);
+		}
 	}
 
 	/**
@@ -434,6 +542,24 @@ public class JidCreate {
 	}
 
 	/**
+	 * Like {@link #entityBareFrom(CharSequence)} but does throw an unchecked {@link IllegalArgumentException} instead of a
+	 * {@link XmppStringprepException}.
+	 *
+	 * @param cs the character sequence which should be transformed to a {@link EntityBareJid}
+	 * @return the {@link EntityBareJid} if no exception occurs
+	 * @throws IllegalArgumentException if the given input is not a valid JID
+	 * @see #entityBareFrom(CharSequence)
+	 * @since 0.6.2
+	 */
+	public static EntityBareJid entityBareFromOrThrowUnchecked(CharSequence cs) {
+		try {
+			return entityBareFrom(cs);
+		} catch (XmppStringprepException e) {
+			throw new IllegalArgumentException(e);
+		}
+	}
+
+	/**
 	 * Get a {@link EntityBareJid} representing the given CharSequence.
 	 *
 	 * @param jid the input CharSequence.
@@ -466,6 +592,24 @@ public class JidCreate {
 		}
 		ENTITY_BAREJID_CACHE.put(jid, bareJid);
 		return bareJid;
+	}
+
+	/**
+	 * Like {@link #entityBareFromUnescaped(CharSequence)} but does throw an unchecked {@link IllegalArgumentException} instead of a
+	 * {@link XmppStringprepException}.
+	 *
+	 * @param cs the character sequence which should be transformed to a {@link EntityBareJid}
+	 * @return the {@link EntityBareJid} if no exception occurs
+	 * @throws IllegalArgumentException if the given input is not a valid JID
+	 * @see #entityBareFromUnescaped(CharSequence)
+	 * @since 0.6.2
+	 */
+	public static EntityBareJid entityBareFromUnescapedOrThrowUnchecked(CharSequence cs) {
+		try {
+			return entityBareFromUnescaped(cs);
+		} catch (XmppStringprepException e) {
+			throw new IllegalArgumentException(e);
+		}
 	}
 
 	/**
@@ -529,6 +673,24 @@ public class JidCreate {
 	}
 
 	/**
+	 * Like {@link #entityFullFrom(CharSequence)} but does throw an unchecked {@link IllegalArgumentException} instead of a
+	 * {@link XmppStringprepException}.
+	 *
+	 * @param cs the character sequence which should be transformed to a {@link EntityFullJid}
+	 * @return the {@link EntityFullJid} if no exception occurs
+	 * @throws IllegalArgumentException if the given input is not a valid JID
+	 * @see #entityFullFrom(CharSequence)
+	 * @since 0.6.2
+	 */
+	public static EntityFullJid entityFullFromOrThrowUnchecked(CharSequence cs) {
+		try {
+			return entityFullFrom(cs);
+		} catch (XmppStringprepException e) {
+			throw new IllegalArgumentException(e);
+		}
+	}
+
+	/**
 	 * Get a {@link EntityFullJid} representing the given CharSequence.
 	 *
 	 * @param jid a CharSequence representing a JID.
@@ -562,6 +724,24 @@ public class JidCreate {
 		}
 		ENTITY_FULLJID_CACHE.put(jid, fullJid);
 		return fullJid;
+	}
+
+	/**
+	 * Like {@link #entityFullFromUnescaped(CharSequence)} but does throw an unchecked {@link IllegalArgumentException} instead of a
+	 * {@link XmppStringprepException}.
+	 *
+	 * @param cs the character sequence which should be transformed to a {@link EntityFullJid}
+	 * @return the {@link EntityFullJid} if no exception occurs
+	 * @throws IllegalArgumentException if the given input is not a valid JID
+	 * @see #entityFullFromUnescaped(CharSequence)
+	 * @since 0.6.2
+	 */
+	public static EntityFullJid entityFullFromUnescapedOrThrowUnchecked(CharSequence cs) {
+		try {
+			return entityFullFromUnescaped(cs);
+		} catch (XmppStringprepException e) {
+			throw new IllegalArgumentException(e);
+		}
 	}
 
 	/**
@@ -672,6 +852,23 @@ public class JidCreate {
 	}
 
 	/**
+	 * Like {@link #domainBareFrom(CharSequence)} but does throw an unchecked {@link IllegalArgumentException} instead of a
+	 * {@link XmppStringprepException}.
+	 *
+	 * @param cs the character sequence which should be transformed to a {@link EntityFullJid}
+	 * @return the {@link EntityFullJid} if no exception occurs
+	 * @see #from(String)
+	 * @since 0.6.2
+	 */
+	public static DomainBareJid domainBareFromOrThrowUnchecked(CharSequence cs) {
+		try {
+			return domainBareFrom(cs);
+		} catch (XmppStringprepException e) {
+			throw new IllegalArgumentException(e);
+		}
+	}
+
+	/**
 	 * Get a domain bare JID.
 	 *
 	 * @param jid the JID CharSequence.
@@ -739,6 +936,24 @@ public class JidCreate {
 	@Deprecated
 	public static DomainFullJid donmainFullFrom(String jid) throws XmppStringprepException {
 		return domainFullFrom(jid);
+	}
+
+	/**
+	 * Like {@link #domainFullFrom(CharSequence)} but does throw an unchecked {@link IllegalArgumentException} instead of a
+	 * {@link XmppStringprepException}.
+	 *
+	 * @param cs the character sequence which should be transformed to a {@link DomainFullJid}
+	 * @return the {@link DomainFullJid} if no exception occurs
+	 * @throws IllegalArgumentException if the given input is not a valid JID
+	 * @see #domainFullFrom(CharSequence)
+	 * @since 0.6.2
+	 */
+	public static DomainFullJid domainFullFromOrThrowUnchecked(CharSequence cs) {
+		try {
+			return domainFullFrom(cs);
+		} catch (XmppStringprepException e) {
+			throw new IllegalArgumentException(e);
+		}
 	}
 
 	/**
