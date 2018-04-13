@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2014-2016 Florian Schmaus
+ * Copyright © 2014-2018 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,6 +36,24 @@ public class Domainpart extends Part {
 
 	private Domainpart(String domain) {
 		super(domain);
+	}
+
+	/**
+	 * Like {@link #from(String)} but does throw an unchecked {@link IllegalArgumentException} instead of a
+	 * {@link XmppStringprepException}.
+	 *
+	 * @param cs the character sequence which should be transformed to a {@link Domainpart}
+	 * @return the {@link Domainpart} if no exception occurs
+	 * @throws IllegalArgumentException if the given input is not a valid {@link Domainpart}
+	 * @see #from(String)
+	 * @since 0.6.2
+	 */
+	public static Domainpart fromOrThrowUnchecked(CharSequence cs) {
+		try {
+			return from(cs.toString());
+		} catch (XmppStringprepException e) {
+			throw new IllegalArgumentException(e);
+		}
 	}
 
 	/**

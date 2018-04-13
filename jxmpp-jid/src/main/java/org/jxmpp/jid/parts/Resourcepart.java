@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2014-2015 Florian Schmaus
+ * Copyright © 2014-2018 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -46,6 +46,24 @@ public class Resourcepart extends Part {
 
 	private Resourcepart(String resource) {
 		super(resource);
+	}
+
+	/**
+	 * Like {@link #from(String)} but does throw an unchecked {@link IllegalArgumentException} instead of a
+	 * {@link XmppStringprepException}.
+	 *
+	 * @param cs the character sequence which should be transformed to a {@link Resourcepart}
+	 * @return the {@link Resourcepart} if no exception occurs
+	 * @throws IllegalArgumentException if the given input is not a valid {@link Resourcepart}
+	 * @see #from(String)
+	 * @since 0.6.2
+	 */
+	public static Resourcepart fromOrThrowUnchecked(CharSequence cs) {
+		try {
+			return from(cs.toString());
+		} catch (XmppStringprepException e) {
+			throw new IllegalArgumentException(e);
+		}
 	}
 
 	/**

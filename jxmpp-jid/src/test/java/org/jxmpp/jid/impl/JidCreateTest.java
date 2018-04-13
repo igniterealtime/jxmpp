@@ -24,6 +24,7 @@ import org.jxmpp.jid.EntityBareJid;
 import org.jxmpp.jid.DomainBareJid;
 import org.jxmpp.jid.DomainFullJid;
 import org.jxmpp.jid.EntityFullJid;
+import org.jxmpp.jid.EntityJid;
 import org.jxmpp.jid.parts.Domainpart;
 import org.jxmpp.jid.parts.Localpart;
 import org.jxmpp.jid.parts.Resourcepart;
@@ -118,5 +119,32 @@ public class JidCreateTest {
 
 		Resourcepart resourcepart = entityFullJid.getResourcepart();
 		assertEquals(Resourcepart.from("bar@baz"), resourcepart);
+	}
+
+	@Test
+	public void entityFromUnescapedBareTest() throws XmppStringprepException {
+		EntityJid entityJid = JidCreate.entityFromUnescaped("d'artagnan@musketeers.lit");
+
+		Domainpart domainpart = entityJid.getDomain();
+		assertEquals(Domainpart.from("musketeers.lit"), domainpart);
+
+		Localpart localpart = entityJid.getLocalpart();
+		assertEquals(Localpart.from("d\\27artagnan"), localpart);
+
+		assertEquals(localpart, Localpart.fromUnescaped("d'artagnan"));
+	}
+
+	@Test
+	public void entityFromUnescapedFullTest() throws XmppStringprepException {
+		EntityJid entityBareJid = JidCreate.entityFromUnescaped("d'artagnan@gascon.fr/elder");
+
+		Domainpart domainpart = entityBareJid.getDomain();
+		assertEquals(Domainpart.from("gascon.fr"), domainpart);
+
+		Resourcepart resourcepart = entityBareJid.getResourceOrThrow();
+		assertEquals(Resourcepart.from("elder"), resourcepart);
+
+		Localpart localpart = entityBareJid.getLocalpart();
+		assertEquals(Localpart.from("d\\27artagnan"), localpart);
 	}
 }

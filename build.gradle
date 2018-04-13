@@ -82,6 +82,10 @@ allprojects {
 		}
 	}
 
+	// Make all project's 'test' target depend on javadoc, so that
+	// javadoc is also linted.
+	test.dependsOn javadoc
+
 	tasks.withType(JavaCompile) {
 		// Some systems may not have set their platform default
 		// converter to 'utf8', but we use unicode in our source
