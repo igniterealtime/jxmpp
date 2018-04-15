@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2014-2016 Florian Schmaus
+ * Copyright © 2014-2018 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -93,21 +93,6 @@ public class XmppStringUtils {
 		} else {
 			return jid.substring(slashIndex + 1);
 		}
-	}
-
-	/**
-	 * Returns the JID with any resource information removed. For example, for
-	 * the address "matt@jivesoftware.com/Smack", "matt@jivesoftware.com" would
-	 * be returned.
-	 * 
-	 * @param jid
-	 *            the XMPP JID.
-	 * @return the bare XMPP JID without resource information.
-	 * @deprecated use {@link #parseBareJid(String)} instead
-	 */
-	@Deprecated
-	public static String parseBareAddress(String jid) {
-		return parseBareJid(jid);
 	}
 
 	/**

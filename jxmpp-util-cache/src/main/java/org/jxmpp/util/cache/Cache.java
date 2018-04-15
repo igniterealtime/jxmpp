@@ -32,16 +32,6 @@ public interface Cache<K, V> {
 	 *
 	 * @param key the key.
 	 * @return the value found in the cache, or {@code null}.
-	 * @deprecated Use {@link #lookup(Object)} instead.
-	 */
-	@Deprecated
-	V get(Object key);
-
-	/**
-	 * Returns the value of the specified key, or {@code null}.
-	 *
-	 * @param key the key.
-	 * @return the value found in the cache, or {@code null}.
 	 */
 	V lookup(K key);
 

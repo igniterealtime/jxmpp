@@ -845,19 +845,6 @@ public class JidCreate {
 	}
 
 	/**
-	 * Deprecated.
-	 *
-	 * @param jid the JID.
-	 * @return a DopmainBareJid
-	 * @throws XmppStringprepException if an error happens.
-	 * @deprecated use {@link #domainBareFrom(String)} instead
-	 */
-	@Deprecated
-	public static DomainBareJid serverBareFrom(String jid) throws XmppStringprepException {
-		return domainBareFrom(jid);
-	}
-
-	/**
 	 * Like {@link #domainBareFrom(CharSequence)} but does throw an unchecked {@link IllegalArgumentException} instead of a
 	 * {@link XmppStringprepException}.
 	 *
@@ -916,32 +903,6 @@ public class JidCreate {
 	 */
 	public static DomainBareJid domainBareFrom(Domainpart domainpart) {
 		return new DomainpartJid(domainpart);
-	}
-
-	/**
-	 * Deprecated.
-	 *
-	 * @param jid the JID.
-	 * @return a DomainFullJid
-	 * @throws XmppStringprepException if an error happens.
-	 * @deprecated use {@link #domainFullFrom(String)} instead
-	 */
-	@Deprecated
-	public static DomainFullJid serverFullFrom(String jid) throws XmppStringprepException {
-		return donmainFullFrom(jid);
-	}
-
-	/**
-	 * Get a domain full JID from the given String.
-	 *
-	 * @param jid the JID.
-	 * @return a DomainFullJid.
-	 * @throws XmppStringprepException if an error happens.
-	 * @deprecated use {@link #domainFullFrom(String)} instead.
-	 */
-	@Deprecated
-	public static DomainFullJid donmainFullFrom(String jid) throws XmppStringprepException {
-		return domainFullFrom(jid);
 	}
 
 	/**
