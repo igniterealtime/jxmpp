@@ -416,14 +416,20 @@ public class JidCreate {
 	}
 
 	/**
-	 * Get a {@link EntityFullJid} constructed from a {@link EntityBareJid} and a {@link Resourcepart}.
+	 * Get a {@link FullJid} constructed from a {@link BareJid} and a {@link Resourcepart}.
 	 *
 	 * @param bareJid a entity bare JID.
 	 * @param resource a resourcepart.
 	 * @return a full JID.
 	 */
-	public static EntityFullJid fullFrom(EntityBareJid bareJid, Resourcepart resource) {
-		return new LocalDomainAndResourcepartJid(bareJid, resource);
+	public static FullJid fullFrom(BareJid bareJid, Resourcepart resource) {
+		if (bareJid.isEntityBareJid()) {
+			EntityBareJid entityBareJid = (EntityBareJid) bareJid;
+			return new LocalDomainAndResourcepartJid(entityBareJid, resource);
+		} else {
+			DomainBareJid domainBareJid = (DomainBareJid) bareJid;
+			return new DomainAndResourcepartJid(domainBareJid, resource);
+		}
 	}
 
 	/**
