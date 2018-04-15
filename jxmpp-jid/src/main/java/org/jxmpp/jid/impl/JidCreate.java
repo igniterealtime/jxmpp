@@ -398,6 +398,23 @@ public class JidCreate {
 	}
 
 	/**
+	 * Get a {@link FullJid} constructed from a {@link BareJid} and a {@link Resourcepart}.
+	 *
+	 * @param bareJid a entity bare JID.
+	 * @param resource a resourcepart.
+	 * @return a full JID.
+	 */
+	public static FullJid fullFrom(BareJid bareJid, Resourcepart resource) {
+		if (bareJid.isEntityBareJid()) {
+			EntityBareJid entityBareJid = (EntityBareJid) bareJid;
+			return new LocalDomainAndResourcepartJid(entityBareJid, resource);
+		} else {
+			DomainBareJid domainBareJid = (DomainBareJid) bareJid;
+			return new DomainAndResourcepartJid(domainBareJid, resource);
+		}
+	}
+
+	/**
 	 * Like {@link #entityFrom(CharSequence)} but does throw an unchecked {@link IllegalArgumentException} instead of a
 	 * {@link XmppStringprepException}.
 	 *
@@ -412,23 +429,6 @@ public class JidCreate {
 			return entityFrom(cs);
 		} catch (XmppStringprepException e) {
 			throw new IllegalArgumentException(e);
-		}
-	}
-
-	/**
-	 * Get a {@link FullJid} constructed from a {@link BareJid} and a {@link Resourcepart}.
-	 *
-	 * @param bareJid a entity bare JID.
-	 * @param resource a resourcepart.
-	 * @return a full JID.
-	 */
-	public static FullJid fullFrom(BareJid bareJid, Resourcepart resource) {
-		if (bareJid.isEntityBareJid()) {
-			EntityBareJid entityBareJid = (EntityBareJid) bareJid;
-			return new LocalDomainAndResourcepartJid(entityBareJid, resource);
-		} else {
-			DomainBareJid domainBareJid = (DomainBareJid) bareJid;
-			return new DomainAndResourcepartJid(domainBareJid, resource);
 		}
 	}
 
