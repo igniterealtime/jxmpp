@@ -102,6 +102,20 @@ public class Localpart extends Part {
 	}
 
 	/**
+	 * Get a {@link Localpart} from a given {@link CharSequence} or {@code null} if the input is not a valid localpart.
+	 *
+	 * @param cs the input CharSequence
+	 * @return a Localpart or {@code null}
+	 */
+	public static Localpart formUnescapedOrNull(CharSequence cs) {
+		try {
+			return fromUnescaped(cs);
+		} catch (XmppStringprepException e) {
+			return null;
+		}
+	}
+
+	/**
 	 * Get a {@link Localpart} from an unescaped String.
 	 *
 	 * @param unescapedLocalpart an unescaped String representing a Localpart.
@@ -124,6 +138,20 @@ public class Localpart extends Part {
 	 */
 	public static Localpart fromUnescaped(CharSequence unescapedLocalpart) throws XmppStringprepException {
 		return fromUnescaped(unescapedLocalpart.toString());
+	}
+
+	/**
+	 * Get a {@link Localpart} from a given {@link CharSequence} or {@code null} if the input is not a valid localpart.
+	 *
+	 * @param cs the input CharSequence
+	 * @return a Localpart or {@code null}
+	 */
+	public static Localpart fromOrNull(CharSequence cs) {
+		try {
+			return from(cs.toString());
+		} catch (XmppStringprepException e) {
+			return null;
+		}
 	}
 
 	/**
