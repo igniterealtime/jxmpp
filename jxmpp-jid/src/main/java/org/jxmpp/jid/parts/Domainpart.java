@@ -39,6 +39,20 @@ public class Domainpart extends Part {
 	}
 
 	/**
+	 * Get a {@link Domainpart} from a given {@link CharSequence} or {@code null} if the input is not a valid domainpart.
+	 *
+	 * @param cs the input CharSequence
+	 * @return a Domainpart or {@code null}
+	 */
+	public static Domainpart fromOrNull(CharSequence cs) {
+		try {
+			return from(cs.toString());
+		} catch (XmppStringprepException e) {
+			return null;
+		}
+	}
+
+	/**
 	 * Like {@link #from(String)} but does throw an unchecked {@link IllegalArgumentException} instead of a
 	 * {@link XmppStringprepException}.
 	 *

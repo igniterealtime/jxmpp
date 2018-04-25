@@ -49,6 +49,20 @@ public class Resourcepart extends Part {
 	}
 
 	/**
+	 * Get a {@link Resourcepart} from a given {@link CharSequence} or {@code null} if the input is not a valid resourcepart.
+	 *
+	 * @param cs the input CharSequence
+	 * @return a Resourcepart or {@code null}
+	 */
+	public static Resourcepart fromOrNull(CharSequence cs) {
+		try {
+			return from(cs.toString());
+		} catch (XmppStringprepException e) {
+			return null;
+		}
+	}
+
+	/**
 	 * Like {@link #from(String)} but does throw an unchecked {@link IllegalArgumentException} instead of a
 	 * {@link XmppStringprepException}.
 	 *

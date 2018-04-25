@@ -164,6 +164,20 @@ public class JidCreate {
 	}
 
 	/**
+	 * Get a {@link Jid} from a given {@link CharSequence} or {@code null} if the input does not represent a JID.
+	 *
+	 * @param cs the input {@link CharSequence}
+	 * @return a JID or {@code null}
+	 */
+	public static Jid fromOrNull(CharSequence cs) {
+		try {
+			return from(cs);
+		} catch (XmppStringprepException e) {
+			return null;
+		}
+	}
+
+	/**
 	 * Like {@link #fromUnescaped(CharSequence)} but does throw an unchecked {@link IllegalArgumentException} instead of a
 	 * {@link XmppStringprepException}.
 	 *
@@ -210,6 +224,20 @@ public class JidCreate {
 			return from(localpart, domainpart, resource);
 		} catch (XmppStringprepException e) {
 			throw new XmppStringprepException(unescapedJidString, e);
+		}
+	}
+
+	/**
+	 * Get a {@link Jid} from a given {@link CharSequence} or {@code null} if the input does not represent a JID.
+	 *
+	 * @param cs the input {@link CharSequence}
+	 * @return a JID or {@code null}
+	 */
+	public static Jid fromUnescapedOrNull(CharSequence cs) {
+		try {
+			return fromUnescaped(cs);
+		} catch (XmppStringprepException e) {
+			return null;
 		}
 	}
 
@@ -293,6 +321,20 @@ public class JidCreate {
 			return new LocalAndDomainpartJid(localpart, domain);
 		} else {
 			return new DomainpartJid(domain);
+		}
+	}
+
+	/**
+	 * Get a {@link BareJid} from a given {@link CharSequence} or {@code null} if the input does not represent a JID.
+	 *
+	 * @param cs the input {@link CharSequence}
+	 * @return a JID or {@code null}
+	 */
+	public static BareJid bareFromOrNull(CharSequence cs) {
+		try {
+			return bareFrom(cs);
+		} catch (XmppStringprepException e) {
+			return null;
 		}
 	}
 
@@ -398,6 +440,20 @@ public class JidCreate {
 	}
 
 	/**
+	 * Get a {@link FullJid} from a given {@link CharSequence} or {@code null} if the input does not represent a JID.
+	 *
+	 * @param cs the input {@link CharSequence}
+	 * @return a JID or {@code null}
+	 */
+	public static FullJid fullFromOrNull(CharSequence cs) {
+		try {
+			return fullFrom(cs);
+		} catch (XmppStringprepException e) {
+			return null;
+		}
+	}
+
+	/**
 	 * Like {@link #entityFrom(CharSequence)} but does throw an unchecked {@link IllegalArgumentException} instead of a
 	 * {@link XmppStringprepException}.
 	 *
@@ -489,6 +545,20 @@ public class JidCreate {
 	}
 
 	/**
+	 * Get a {@link EntityJid} from a given {@link CharSequence} or {@code null} if the input does not represent a JID.
+	 *
+	 * @param cs the input {@link CharSequence}
+	 * @return a JID or {@code null}
+	 */
+	public static EntityJid entityFromUnesacpedOrNull(CharSequence cs) {
+		try {
+			return entityFromUnescaped(cs.toString());
+		} catch (XmppStringprepException e) {
+			return null;
+		}
+	}
+
+	/**
 	 * Get a {@link EntityJid} representing the given String.
 	 *
 	 * @param jidString the JID's string.
@@ -539,6 +609,20 @@ public class JidCreate {
 
 		ENTITYJID_CACHE.put(jidString, entityJid);
 		return entityJid;
+	}
+
+	/**
+	 * Get a {@link EntityJid} from a given {@link CharSequence} or {@code null} if the input does not represent a JID.
+	 *
+	 * @param cs the input {@link CharSequence}
+	 * @return a JID or {@code null}
+	 */
+	public static EntityJid entityFromOrNull(CharSequence cs) {
+		try {
+			return entityFrom(cs);
+		} catch (XmppStringprepException e) {
+			return null;
+		}
 	}
 
 	/**
@@ -651,6 +735,20 @@ public class JidCreate {
 	}
 
 	/**
+	 * Get a {@link EntityBareJid} from a given {@link CharSequence} or {@code null} if the input does not represent a JID.
+	 *
+	 * @param cs the input {@link CharSequence}
+	 * @return a JID or {@code null}
+	 */
+	public static EntityBareJid entityBareFromUnescapedOrNull(CharSequence cs) {
+		try {
+			return entityBareFromUnescaped(cs.toString());
+		} catch (XmppStringprepException e) {
+			return null;
+		}
+	}
+
+	/**
 	 * Get a {@link EntityBareJid} constructed from the given {@link Localpart} and {link DomainBareJid}.
 	 *
 	 * @param localpart a localpart.
@@ -670,6 +768,20 @@ public class JidCreate {
 	 */
 	public static EntityBareJid entityBareFrom(Localpart localpart, Domainpart domain) {
 		return new LocalAndDomainpartJid(localpart, domain);
+	}
+
+	/**
+	 * Get a {@link EntityBareJid} from a given {@link CharSequence} or {@code null} if the input does not represent a JID.
+	 *
+	 * @param cs the input {@link CharSequence}
+	 * @return a JID or {@code null}
+	 */
+	public static EntityBareJid entityBareFromOrNull(CharSequence cs) {
+		try {
+			return entityBareFrom(cs);
+		} catch (XmppStringprepException e) {
+			return null;
+		}
 	}
 
 	/**
@@ -724,6 +836,20 @@ public class JidCreate {
 		}
 		ENTITY_FULLJID_CACHE.put(jid, fullJid);
 		return fullJid;
+	}
+
+	/**
+	 * Get a {@link EntityFullJid} from a given {@link CharSequence} or {@code null} if the input does not represent a JID.
+	 *
+	 * @param cs the input {@link CharSequence}
+	 * @return a JID or {@code null}
+	 */
+	public static EntityFullJid entityFullFromOrNull(CharSequence cs) {
+		try {
+			return entityFullFrom(cs);
+		} catch (XmppStringprepException e) {
+			return null;
+		}
 	}
 
 	/**
@@ -782,6 +908,20 @@ public class JidCreate {
 
 		ENTITY_FULLJID_CACHE.put(unescapedJidString, fullJid);
 		return fullJid;
+	}
+
+	/**
+	 * Get a {@link EntityFullJid} from a given {@link CharSequence} or {@code null} if the input does not represent a JID.
+	 *
+	 * @param cs the input {@link CharSequence}
+	 * @return a JID or {@code null}
+	 */
+	public static EntityFullJid entityFullFromUnescapedOrNull(CharSequence cs) {
+		try {
+			return entityFullFromUnescaped(cs.toString());
+		} catch (XmppStringprepException e) {
+			return null;
+		}
 	}
 
 	/**
@@ -913,6 +1053,20 @@ public class JidCreate {
 	}
 
 	/**
+	 * Get a {@link DomainBareJid} from a given {@link CharSequence} or {@code null} if the input does not represent a JID.
+	 *
+	 * @param cs the input {@link CharSequence}
+	 * @return a JID or {@code null}
+	 */
+	public static DomainBareJid domainBareFromOrNull(CharSequence cs) {
+		try {
+			return domainBareFrom(cs);
+		} catch (XmppStringprepException e) {
+			return null;
+		}
+	}
+
+	/**
 	 * Deprecated.
 	 *
 	 * @param jid the JID.
@@ -1011,5 +1165,19 @@ public class JidCreate {
 	 */
 	public static DomainFullJid domainFullFrom(DomainBareJid domainBareJid, Resourcepart resource) {
 		return new DomainAndResourcepartJid(domainBareJid, resource);
+	}
+
+	/**
+	 * Get a {@link DomainFullJid} from a given {@link CharSequence} or {@code null} if the input does not represent a JID.
+	 *
+	 * @param cs the input {@link CharSequence}
+	 * @return a JID or {@code null}
+	 */
+	public static DomainFullJid domainFullFromOrNull(CharSequence cs) {
+		try {
+			return domainFullFrom(cs);
+		} catch (XmppStringprepException e) {
+			return null;
+		}
 	}
 }
