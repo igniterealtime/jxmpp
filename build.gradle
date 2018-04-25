@@ -154,7 +154,7 @@ task javadocAll(type: Javadoc) {
 		project.sourceSets.main.compileClasspath})
 	options.linkSource = true
 	options.use = true
-	options.links = ["http://docs.oracle.com/javase/$sourceCompatibility/docs/api/"] as String[]
+	options.links = ["https://docs.oracle.com/javase/${sourceCompatibility.getMajorVersion()}/docs/api/"] as String[]
 }
 
 task distributionZip(type: Zip, dependsOn: [javadocAll]) {
