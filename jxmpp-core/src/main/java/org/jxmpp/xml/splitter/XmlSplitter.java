@@ -32,7 +32,7 @@ import java.util.Map;
  */
 public class XmlSplitter extends Writer {
 
-	private enum State {
+	enum State {
 		START,
 		TAG_LEFT_ANGLE_BRACKET,
 		TAG_RIGHT_ANGLE_BRACKET,
@@ -57,6 +57,8 @@ public class XmlSplitter extends Writer {
 
 	private final DeclarationCallback declarationCallback;
 	private final ProcessingInstructionCallback processingInstructionCallback;
+
+	private final XmlPrinter xmlPrinter;
 
 	protected final CompleteElementCallback completeElementCallback;
 
@@ -98,6 +100,30 @@ public class XmlSplitter extends Writer {
 	 * @param processingInstructionCallback a optional callback for Processing Instructions.
 	 */
 	public XmlSplitter(int bufferSize, CompleteElementCallback completeElementCallback, DeclarationCallback declarationCallback, ProcessingInstructionCallback processingInstructionCallback) {
+		this(bufferSize, completeElementCallback, declarationCallback, processingInstructionCallback, null);
+	}
+
+	/**
+	 * Construct a new XML splitter.
+	 *
+	 * @param bufferSize the initial size of the buffer.
+	 * @param completeElementCallback the callback invoked once a complete element has been processed.
+	 * @param xmlPrinter an optional {@link XmlPrinter}.
+	 */
+	public XmlSplitter(int bufferSize, CompleteElementCallback completeElementCallback, XmlPrinter xmlPrinter) {
+		this(bufferSize, completeElementCallback, null, null, xmlPrinter);
+	}
+
+	/**
+	 * Construct a new XML splitter.
+	 *
+	 * @param bufferSize the initial size of the buffer.
+	 * @param completeElementCallback the callback invoked once a complete element has been processed.
+	 * @param declarationCallback a optional callback for the XML declaration.
+	 * @param processingInstructionCallback a optional callback for Processing Instructions.
+	 * @param xmlPrinter an optional {@link XmlPrinter}.
+	 */
+	public XmlSplitter(int bufferSize, CompleteElementCallback completeElementCallback, DeclarationCallback declarationCallback, ProcessingInstructionCallback processingInstructionCallback, XmlPrinter xmlPrinter) {
 		this.splittedPartBuffer = new StringBuilder(bufferSize);
 		if (completeElementCallback == null) {
 			throw new IllegalArgumentException();
@@ -105,6 +131,7 @@ public class XmlSplitter extends Writer {
 		this.completeElementCallback = completeElementCallback;
 		this.declarationCallback = declarationCallback;
 		this.processingInstructionCallback = processingInstructionCallback;
+		this.xmlPrinter = xmlPrinter;
 	}
 
 	/**
@@ -119,8 +146,14 @@ public class XmlSplitter extends Writer {
 
 	@Override
 	public void write(char[] cbuf, int off, int len) throws IOException {
+		if (xmlPrinter != null) {
+			xmlPrinter.onChunkStart();
+		}
 		for (int cur = off; cur < off+len; cur++) {
 			processChar(cbuf[off+cur]);
+		}
+		if (xmlPrinter != null) {
+			xmlPrinter.onChunkEnd();
 		}
 	}
 
@@ -168,6 +201,7 @@ public class XmlSplitter extends Writer {
 		splittedPartBuffer.append(c);
 
 		boolean endTagFinished = false;
+		State initialState = state;
 
 		switch (state) {
 		case TAG_RIGHT_ANGLE_BRACKET:
@@ -340,6 +374,10 @@ public class XmlSplitter extends Writer {
 			throw new UnsupportedOperationException();
 		}
 
+		if (xmlPrinter != null) {
+			xmlPrinter.onNextChar(c, depth, initialState, state);
+		}
+
 		if (endTagFinished) {
 			onEndTagFinished();
 		}
@@ -365,6 +403,9 @@ public class XmlSplitter extends Writer {
 			String completeElement = splittedPartBuffer.toString();
 			splittedPartBuffer.setLength(0);
 			completeElementCallback.onCompleteElement(completeElement);
+			if (xmlPrinter != null) {
+				xmlPrinter.onCompleteElement();
+			}
 		}
 		onEndTag(endTagName);
 

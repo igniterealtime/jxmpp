@@ -104,6 +104,11 @@ allprojects {
 			// uses generated Java source code which is prone to Error
 			// Prone bug patterns.
 			toolChain ErrorProneToolChain.create(project)
+			options.compilerArgs = [
+				// Disable MissingCasesInEnumSwitch error prone check
+				// because this check is already done by javac as incomplete-switch.
+				'-Xep:MissingCasesInEnumSwitch:OFF',
+			]
 		}
 	}
 	if (JavaVersion.current().isJava8Compatible()) {
