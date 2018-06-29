@@ -169,6 +169,11 @@ public class XmlSplitterTestUtil {
 		protected SplittedPart(String part) {
 			this.part = part;
 		}
+
+		@Override
+		public String toString() {
+			return part;
+		}
 	}
 
 	static final class Declaration extends SplittedPart {
