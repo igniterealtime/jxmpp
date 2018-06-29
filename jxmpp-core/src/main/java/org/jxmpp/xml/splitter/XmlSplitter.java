@@ -34,7 +34,9 @@ public class XmlSplitter extends Writer {
 
 	private enum State {
 		START,
-		AFTER_TAG_RIGHT_ANGLE_BRACKET,
+		TAG_LEFT_ANGLE_BRACKET,
+		TAG_RIGHT_ANGLE_BRACKET,
+		END_TAG_SOLIDUS,
 		IN_TAG_NAME,
 		IN_END_TAG,
 		AFTER_START_NAME,
@@ -156,6 +158,7 @@ public class XmlSplitter extends Writer {
 		state = State.START;
 	}
 
+	@SuppressWarnings("fallthrough")
 	private void processChar(char c) throws IOException {
 		onNextChar();
 
@@ -164,18 +167,22 @@ public class XmlSplitter extends Writer {
 		// also other XML pseudo-elements like the Declaration or Processing Instructions's size is limited by this.
 		splittedPartBuffer.append(c);
 
+		boolean endTagFinished = false;
+
 		switch (state) {
+		case TAG_RIGHT_ANGLE_BRACKET:
+			state = State.START;
 		case START:
 			switch (c) {
 			case '<':
-				state = State.AFTER_TAG_RIGHT_ANGLE_BRACKET;
+				state = State.TAG_LEFT_ANGLE_BRACKET;
 				break;
 			}
 			break;
-		case AFTER_TAG_RIGHT_ANGLE_BRACKET:
+		case TAG_LEFT_ANGLE_BRACKET:
 			switch (c) {
 			case '/':
-				state = State.IN_END_TAG;
+				state = State.END_TAG_SOLIDUS;
 				break;
 			case '?':
 				state = State.IN_PROCESSING_INSTRUCTION_OR_DECLARATION;
@@ -188,6 +195,11 @@ public class XmlSplitter extends Writer {
 				state = State.IN_TAG_NAME;
 				break;
 			}
+			break;
+		case END_TAG_SOLIDUS:
+			// TODO: We could perform some verification here, like "c != '>'" or no space (?).
+			state = State.IN_END_TAG;
+			tokenBuffer.append(c);
 			break;
 		case IN_TAG_NAME:
 			switch (c) {
@@ -207,7 +219,7 @@ public class XmlSplitter extends Writer {
 			case '>':
 				qName = getToken();
 				onStartTagFinished();
-				state = State.START;
+				state = State.TAG_RIGHT_ANGLE_BRACKET;
 				break;
 			default:
 				tokenBuffer.append(c);
@@ -217,7 +229,8 @@ public class XmlSplitter extends Writer {
 		case IN_END_TAG:
 			switch (c) {
 			case '>':
-				onEndTagFinished();
+				endTagFinished = true;
+				state = State.TAG_RIGHT_ANGLE_BRACKET;
 				break;
 			default:
 				tokenBuffer.append(c);
@@ -232,7 +245,7 @@ public class XmlSplitter extends Writer {
 				break;
 			case '>':
 				onStartTagFinished();
-				state = State.START;
+				state = State.TAG_RIGHT_ANGLE_BRACKET;
 				break;
 			// XML 1.1 § 2.3 "White Space"
 			case ' ':
@@ -282,7 +295,8 @@ public class XmlSplitter extends Writer {
 		case IN_EMPTY_TAG:
 			switch (c) {
 			case '>':
-				onEndTagFinished();
+				endTagFinished = true;
+				state = State.TAG_RIGHT_ANGLE_BRACKET;
 				break;
 			default:
 				throw new IOException();
@@ -324,6 +338,10 @@ public class XmlSplitter extends Writer {
 		case AFTER_COMMENT_CLOSING_DASH1:
 		case AFTER_COMMENT_CLOSING_DASH2:
 			throw new UnsupportedOperationException();
+		}
+
+		if (endTagFinished) {
+			onEndTagFinished();
 		}
 	}
 
