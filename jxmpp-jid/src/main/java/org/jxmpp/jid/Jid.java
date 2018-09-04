@@ -68,6 +68,13 @@ import org.jxmpp.jid.parts.Resourcepart;
  * You can retrieve the escaped String representing the Jid with {@link #toString()} or the unsecaped String of the JID
  * with {@link #asUnescapedString()}.
  * </p>
+ * <h2>URL Encoded JIDs</h2>
+ * <p>
+ * The URL encoded representation of a JID is ideal if a JID should be stored as part of a path name, e.g. as file name.
+ * You can retrieve this information using {@link #asUrlEncodedString()}. The JidCreate API provides methods to create
+ * JIDs from URL encoded Strings like {@link org.jxmpp.jid.impl.JidCreate#fromUrlEncoded(CharSequence)}.
+ * </p>
+ *
  *
  * @see <a href="http://xmpp.org/rfcs/rfc6120.html#arch-addresses">RFC 6120 (XMPP: Core) § 2.1 Global Addresses</a>
  * @see <a href="http://xmpp.org/rfcs/rfc6122.html#addressing-fundamentals">RFC 6122 (XMPP: Address Format) § 2.1
@@ -105,6 +112,14 @@ public interface Jid extends Comparable<Jid>, CharSequence, Serializable {
 	 * @return the unescaped String representation of this JID.
 	 */
 	String asUnescapedString();
+
+	/**
+	 * Get the URL encoded version of this JID.
+	 *
+	 * @return the URL encoded version of this JID.
+	 * @since 0.7.0
+	 */
+	String asUrlEncodedString();
 
 	/**
 	 * Check if this is a {@link EntityBareJid} or {@link EntityFullJid}.

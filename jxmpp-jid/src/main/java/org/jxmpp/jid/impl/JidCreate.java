@@ -16,6 +16,9 @@
  */
 package org.jxmpp.jid.impl;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+
 import org.jxmpp.jid.BareJid;
 import org.jxmpp.jid.EntityBareJid;
 import org.jxmpp.jid.DomainBareJid;
@@ -242,6 +245,19 @@ public class JidCreate {
 	}
 
 	/**
+	 * Get a {@link Jid} from an URL encoded CharSequence.
+	 *
+	 * @param cs a CharSequence representing an URL encoded JID.
+	 * @return a JID
+	 * @throws XmppStringprepException if an error occurs.
+	 * @see URLDecoder
+	 */
+	public static Jid fromUrlEncoded(CharSequence cs) throws XmppStringprepException {
+		String decoded = urlDecode(cs);
+		return from(decoded);
+	}
+
+	/**
 	 * Like {@link #bareFrom(CharSequence)} but does throw an unchecked {@link IllegalArgumentException} instead of a
 	 * {@link XmppStringprepException}.
 	 *
@@ -336,6 +352,19 @@ public class JidCreate {
 		} catch (XmppStringprepException e) {
 			return null;
 		}
+	}
+
+	/**
+	 * Get a {@link BareJid} from an URL encoded CharSequence.
+	 *
+	 * @param cs a CharSequence representing an URL encoded bare JID.
+	 * @return a bare JID
+	 * @throws XmppStringprepException if an error occurs.
+	 * @see URLDecoder
+	 */
+	public static BareJid bareFromUrlEncoded(CharSequence cs) throws XmppStringprepException {
+		String decoded = urlDecode(cs.toString());
+		return bareFrom(decoded);
 	}
 
 	/**
@@ -468,6 +497,19 @@ public class JidCreate {
 		} catch (XmppStringprepException e) {
 			return null;
 		}
+	}
+
+	/**
+	 * Get a {@link FullJid} from an URL encoded CharSequence.
+	 *
+	 * @param cs a CharSequence representing an URL encoded full JID.
+	 * @return a full JID
+	 * @throws XmppStringprepException if an error occurs.
+	 * @see URLDecoder
+	 */
+	public static FullJid fullFromUrlEncoded(CharSequence cs) throws XmppStringprepException {
+		String decoded = urlDecode(cs);
+		return fullFrom(decoded);
 	}
 
 	/**
@@ -632,6 +674,19 @@ public class JidCreate {
 	}
 
 	/**
+	 * Get a {@link EntityJid} from an URL encoded CharSequence.
+	 *
+	 * @param cs a CharSequence representing an URL encoded entity JID.
+	 * @return an entity JID
+	 * @throws XmppStringprepException if an error occurs.
+	 * @see URLDecoder
+	 */
+	public static EntityJid entityFromUrlEncoded(CharSequence cs) throws XmppStringprepException {
+		String decoded = urlDecode(cs);
+		return entityFrom(decoded);
+	}
+
+	/**
 	 * Like {@link #entityBareFrom(CharSequence)} but does throw an unchecked {@link IllegalArgumentException} instead of a
 	 * {@link XmppStringprepException}.
 	 *
@@ -788,6 +843,19 @@ public class JidCreate {
 		} catch (XmppStringprepException e) {
 			return null;
 		}
+	}
+
+	/**
+	 * Get a {@link EntityBareJid} from an URL encoded CharSequence.
+	 *
+	 * @param cs a CharSequence representing an URL encoded entity bare JID.
+	 * @return an entity bare JID
+	 * @throws XmppStringprepException if an error occurs.
+	 * @see URLDecoder
+	 */
+	public static EntityBareJid entityBareFromUrlEncoded(CharSequence cs) throws XmppStringprepException {
+		String decoded = urlDecode(cs);
+		return entityBareFrom(decoded);
 	}
 
 	/**
@@ -985,6 +1053,19 @@ public class JidCreate {
 	}
 
 	/**
+	 * Get a {@link EntityFullJid} from an URL encoded CharSequence.
+	 *
+	 * @param cs a CharSequence representing an URL encoded entity full JID.
+	 * @return an entity full JID
+	 * @throws XmppStringprepException if an error occurs.
+	 * @see URLDecoder
+	 */
+	public static EntityFullJid entityFullFromUrlEncoded(CharSequence cs) throws XmppStringprepException {
+		String decoded = urlDecode(cs);
+		return entityFullFrom(decoded);
+	}
+
+	/**
 	 * Like {@link #domainBareFrom(CharSequence)} but does throw an unchecked {@link IllegalArgumentException} instead of a
 	 * {@link XmppStringprepException}.
 	 *
@@ -1057,6 +1138,19 @@ public class JidCreate {
 		} catch (XmppStringprepException e) {
 			return null;
 		}
+	}
+
+	/**
+	 * Get a {@link DomainBareJid} from an URL encoded CharSequence.
+	 *
+	 * @param cs a CharSequence representing an URL encoded domain bare JID.
+	 * @return a domain bare JID
+	 * @throws XmppStringprepException if an error occurs.
+	 * @see URLDecoder
+	 */
+	public static DomainBareJid domainBareFromUrlEncoded(CharSequence cs) throws XmppStringprepException {
+		String decode = urlDecode(cs);
+		return domainBareFrom(decode);
 	}
 
 	/**
@@ -1145,6 +1239,27 @@ public class JidCreate {
 			return domainFullFrom(cs);
 		} catch (XmppStringprepException e) {
 			return null;
+		}
+	}
+
+	/**
+	 * Get a {@link DomainFullJid} from an URL encoded CharSequence.
+	 *
+	 * @param cs a CharSequence representing an URL encoded domain full JID.
+	 * @return a domain full JID
+	 * @throws XmppStringprepException if an error occurs.
+	 * @see URLDecoder
+	 */
+	public static DomainFullJid domainFullFromUrlEncoded(CharSequence cs) throws XmppStringprepException {
+		String decoded = urlDecode(cs);
+		return domainFullFrom(decoded);
+	}
+
+	private static String urlDecode(CharSequence cs) {
+		try {
+			return URLDecoder.decode(cs.toString(), "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			throw new AssertionError(e);
 		}
 	}
 }

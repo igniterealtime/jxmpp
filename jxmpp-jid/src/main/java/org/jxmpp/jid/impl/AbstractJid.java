@@ -17,6 +17,10 @@
 package org.jxmpp.jid.impl;
 
 import org.jxmpp.jid.EntityBareJid;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 import org.jxmpp.jid.DomainBareJid;
 import org.jxmpp.jid.DomainFullJid;
 import org.jxmpp.jid.EntityFullJid;
@@ -229,6 +233,21 @@ public abstract class AbstractJid implements Jid {
 			cache = internalizedCache = toString().intern();
 		}
 		return internalizedCache;
+	}
+
+	private transient String urlEncodedCache;
+
+	@Override
+	public final String asUrlEncodedString() {
+		if (urlEncodedCache == null) {
+			String string = toString();
+			try {
+				urlEncodedCache = URLEncoder.encode(string, "UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				throw new AssertionError(e);
+			}
+		}
+		return urlEncodedCache;
 	}
 
 	private void throwIse(String message) {
