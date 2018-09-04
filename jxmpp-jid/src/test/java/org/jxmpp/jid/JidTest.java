@@ -18,11 +18,13 @@ package org.jxmpp.jid;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.jxmpp.jid.impl.JidCreate;
 import org.jxmpp.stringprep.XmppStringprepException;
+import org.jxmpp.util.XmppStringUtils;
 
 public class JidTest {
 
@@ -59,5 +61,29 @@ public class JidTest {
 		String domain = "foo.bar.";
 		Jid jid = JidCreate.domainBareFrom(domain);
 		assertEquals("foo.bar", jid.toString());
+	}
+
+	@Test(expected = XmppStringprepException.class)
+	public void testJidValidation() throws XmppStringprepException {
+
+		String localPart = "someuser@domain"; // invalid local part
+		String domainPart = "muc.server.com";
+		String resourcePart = "resource@home";
+		String jidStr = localPart + "@" + domainPart + "/" + resourcePart;
+		JidCreate.from(jidStr);
+	}
+
+	@Test
+	public void testJidLocalPartEscape() throws XmppStringprepException {
+		String localPart = "someuser@domain"; // invalid local part
+		String domainPart = "muc.server.com";
+		String resourcePart = "resource@home";
+		String jidStr = localPart + "@" + domainPart + "/" + resourcePart;
+		Jid jid = JidCreate.fromUnescaped(jidStr);
+
+		assertNotNull("Missing jid local part", jid.getLocalpartOrNull());
+		assertEquals("Jid localpart not escaped",
+			XmppStringUtils.escapeLocalpart(localPart),
+			jid.getLocalpartOrNull().toString());
 	}
 }

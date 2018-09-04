@@ -26,7 +26,7 @@ public class XmppStringUtils {
 	/**
 	 * Returns the localpart of an XMPP address (JID). For example, for the address "user@xmpp.org/Resource", "user"
 	 * would be returned. If <code>jid</code> is <code>null</code>, then this method returns also <code>null</code>. If
-	 * the input String is no valid JID or has no localpart, then this method will return the empty String.
+	 * the input String has no localpart, then this method will return the empty String.
 	 * 
 	 * @param jid
 	 *            the XMPP address to parse.
@@ -35,16 +35,18 @@ public class XmppStringUtils {
 	public static String parseLocalpart(String jid) {
 		if (jid == null) return null;
 
-		int atIndex = jid.indexOf('@');
+		int slashIndex = jid.indexOf('/');
+		// if there is a resource part remove it so we can operate on the
+		// rest of the string and use lastIndexOf
+		if (slashIndex >= 0) {
+			jid = jid.substring(0, slashIndex);
+		}
+
+		int atIndex = jid.lastIndexOf('@');
 		if (atIndex <= 0) {
 			return "";
 		}
-		int slashIndex = jid.indexOf('/');
-		if (slashIndex >= 0 && slashIndex < atIndex) {
-			return "";
-		} else {
-			return jid.substring(0, atIndex);
-		}
+		return jid.substring(0, atIndex);
 	}
 
 	/**
