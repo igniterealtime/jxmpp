@@ -405,4 +405,22 @@ public class JidUtil {
 			jidStrings.add(jid.toString());
 		}
 	}
+
+	/**
+	 * Check if two JIDs are equals. Takes <code>null</code> values into consideration. Which means that this method will return <code>true</code> if both JIDs are <code>null</code>.
+	 *
+	 * @param jidOne The first JID to compare.
+	 * @param jidTwo The second JID to compare.
+	 * @return <code>true</code> if both JIDs are equals.
+	 * @since 0.7.0
+	 */
+	public static boolean equals(Jid jidOne, Jid jidTwo) {
+		if (jidOne == null && jidTwo == null) {
+			return true;
+		}
+		if (jidOne != null) {
+			return jidOne.equals(jidTwo);
+		}
+		return jidTwo.equals(jidOne);
+	}
 }
