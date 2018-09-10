@@ -131,14 +131,14 @@ public interface Jid extends Comparable<Jid>, CharSequence, Serializable {
 	/**
 	 * Check if this is an instance of {@link EntityBareJid}.
 	 * 
-	 * @return true if this is an instance of BareJid
+	 * @return true if this is an instance of EntityBareJid
 	 */
 	boolean isEntityBareJid();
 
 	/**
 	 * Check if this is an instance of {@link EntityFullJid}.
 	 * 
-	 * @return true if this is an instance of FullJid
+	 * @return true if this is an instance of EntityFullJid
 	 */
 	boolean isEntityFullJid();
 
