@@ -415,12 +415,13 @@ public class JidUtil {
 	 * @since 0.7.0
 	 */
 	public static boolean equals(Jid jidOne, Jid jidTwo) {
-		if (jidOne == null && jidTwo == null) {
-			return true;
-		}
 		if (jidOne != null) {
 			return jidOne.equals(jidTwo);
 		}
-		return jidTwo.equals(jidOne);
+		if (jidTwo != null) {
+			return jidTwo.equals(jidOne);
+		}
+
+		return jidOne == jidTwo;
 	}
 }
