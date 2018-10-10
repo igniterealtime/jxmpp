@@ -61,7 +61,7 @@ public class XmppStringUtils {
 
 		int atIndex = jid.indexOf('@');
 		int slashIndex = jid.indexOf('/');
-		if (slashIndex > 0) {
+		if (slashIndex >= 0) {
 			// 'local@domain.foo/resource' and 'local@domain.foo/res@otherres' case
 			if (slashIndex > atIndex) {
 				return jid.substring(atIndex + 1, slashIndex);
