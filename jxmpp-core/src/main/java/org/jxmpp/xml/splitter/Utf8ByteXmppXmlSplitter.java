@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2015 Florian Schmaus
+ * Copyright © 2015-2018 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,7 +42,16 @@ public class Utf8ByteXmppXmlSplitter extends OutputStream {
 	 * @param xmppElementCallback the callback invoked once a complete element has been processed.
 	 */
 	public Utf8ByteXmppXmlSplitter(XmppElementCallback xmppElementCallback) {
-		xmppXmlSplitter = new XmppXmlSplitter(xmppElementCallback);
+		this(new XmppXmlSplitter(xmppElementCallback));
+	}
+
+	/**
+	 * Create a new UTF-8 splitter with the given XMPP XML splitter.
+	 *
+	 * @param xmppXmlSplitter the used XMPP XML splitter.
+	 */
+	public Utf8ByteXmppXmlSplitter(XmppXmlSplitter xmppXmlSplitter) {
+		this.xmppXmlSplitter = xmppXmlSplitter;
 	}
 
 	private final char[] writeBuffer = new char[2];
