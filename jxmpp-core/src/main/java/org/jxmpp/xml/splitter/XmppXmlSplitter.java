@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2015 Florian Schmaus
+ * Copyright © 2015-2018 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -74,9 +74,24 @@ public class XmppXmlSplitter extends XmlSplitter {
 	 * @param declarationCallback a optional callback for XML Declarations.
 	 * @param processingInstructionCallback a optional callback for XML Processing Instructions. 
 	 */
-	public XmppXmlSplitter(int maxElementSize, XmppElementCallback xmppElementCallback, DeclarationCallback declarationCallback,
-			ProcessingInstructionCallback processingInstructionCallback) {
-		super(maxElementSize, xmppElementCallback, declarationCallback, processingInstructionCallback);
+	public XmppXmlSplitter(int maxElementSize, XmppElementCallback xmppElementCallback,
+			DeclarationCallback declarationCallback, ProcessingInstructionCallback processingInstructionCallback) {
+		this(maxElementSize, xmppElementCallback, declarationCallback, processingInstructionCallback, null);
+	}
+
+	/**
+	 * Construct a new XMPP XML splitter.
+	 *
+	 * @param maxElementSize the maximum size of a single top level element in bytes.
+	 * @param xmppElementCallback the callback invoked once a complete element has been processed.
+	 * @param declarationCallback a optional callback for XML Declarations.
+	 * @param processingInstructionCallback a optional callback for XML Processing Instructions.
+	 * @param xmlPrinter The optional XML printer to use.
+	 */
+	public XmppXmlSplitter(int maxElementSize, XmppElementCallback xmppElementCallback,
+			DeclarationCallback declarationCallback, ProcessingInstructionCallback processingInstructionCallback,
+			XmlPrinter xmlPrinter) {
+		super(maxElementSize, xmppElementCallback, declarationCallback, processingInstructionCallback, xmlPrinter);
 		this.maxElementSize = maxElementSize;
 		this.xmppElementCallback = xmppElementCallback;
 	}
