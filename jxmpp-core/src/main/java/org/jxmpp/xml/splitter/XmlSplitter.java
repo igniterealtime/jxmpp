@@ -119,11 +119,23 @@ public class XmlSplitter extends Writer {
 	 *
 	 * @param bufferSize the initial size of the buffer.
 	 * @param completeElementCallback the callback invoked once a complete element has been processed.
+	 */
+	public XmlSplitter(int bufferSize, CompleteElementCallback completeElementCallback) {
+		this(bufferSize, completeElementCallback, null, null);
+	}
+
+	/**
+	 * Construct a new XML splitter.
+	 *
+	 * @param bufferSize the initial size of the buffer.
+	 * @param completeElementCallback the callback invoked once a complete element has been processed.
 	 * @param declarationCallback a optional callback for the XML declaration.
 	 * @param processingInstructionCallback a optional callback for Processing Instructions.
 	 * @param xmlPrinter an optional {@link XmlPrinter}.
 	 */
-	public XmlSplitter(int bufferSize, CompleteElementCallback completeElementCallback, DeclarationCallback declarationCallback, ProcessingInstructionCallback processingInstructionCallback, XmlPrinter xmlPrinter) {
+	public XmlSplitter(int bufferSize, CompleteElementCallback completeElementCallback,
+			DeclarationCallback declarationCallback, ProcessingInstructionCallback processingInstructionCallback,
+			XmlPrinter xmlPrinter) {
 		this.splittedPartBuffer = new StringBuilder(bufferSize);
 		if (completeElementCallback == null) {
 			throw new IllegalArgumentException();
@@ -132,16 +144,6 @@ public class XmlSplitter extends Writer {
 		this.declarationCallback = declarationCallback;
 		this.processingInstructionCallback = processingInstructionCallback;
 		this.xmlPrinter = xmlPrinter;
-	}
-
-	/**
-	 * Construct a new XML splitter.
-	 *
-	 * @param bufferSize the initial size of the buffer.
-	 * @param completeElementCallback the callback invoked once a complete element has been processed.
-	 */
-	public XmlSplitter(int bufferSize, CompleteElementCallback completeElementCallback) {
-		this(bufferSize, completeElementCallback, null, null);
 	}
 
 	@Override
