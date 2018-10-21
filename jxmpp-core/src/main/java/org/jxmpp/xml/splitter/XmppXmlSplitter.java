@@ -80,6 +80,26 @@ public class XmppXmlSplitter extends XmlSplitter {
 	}
 
 	/**
+	 * Constructs a new XMPP XML splitter without any maximum element size restrictions using the given XML printer.
+	 *
+	 * @param xmlPrinter the optional XML printer to use.
+	 */
+	public XmppXmlSplitter(XmlPrinter xmlPrinter) {
+		this(-1, null, xmlPrinter);
+	}
+
+	/**
+	 * Constructs a new XMPP XML splitter.
+	 *
+	 * @param maxElementSize the maximum size of a single top level element in bytes.
+	 * @param xmppElementCallback the callback invoked once a complete element has been processed.
+	 * @param xmlPrinter the optional XML printer to use.
+	 */
+	public XmppXmlSplitter(int maxElementSize, XmppElementCallback xmppElementCallback, XmlPrinter xmlPrinter) {
+		this(maxElementSize, xmppElementCallback, null, null, xmlPrinter);
+	}
+
+	/**
 	 * Construct a new XMPP XML splitter.
 	 *
 	 * @param maxElementSize the maximum size of a single top level element in bytes.
