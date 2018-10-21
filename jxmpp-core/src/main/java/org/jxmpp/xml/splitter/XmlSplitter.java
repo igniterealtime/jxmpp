@@ -140,9 +140,6 @@ public class XmlSplitter extends Writer {
 			bufferSize = 128;
 		}
 		this.splittedPartBuffer = new StringBuilder(bufferSize);
-		if (completeElementCallback == null) {
-			throw new IllegalArgumentException();
-		}
 		this.completeElementCallback = completeElementCallback;
 		this.declarationCallback = declarationCallback;
 		this.processingInstructionCallback = processingInstructionCallback;
@@ -407,7 +404,9 @@ public class XmlSplitter extends Writer {
 		if (depth == 0) {
 			String completeElement = splittedPartBuffer.toString();
 			splittedPartBuffer.setLength(0);
-			completeElementCallback.onCompleteElement(completeElement);
+			if (completeElementCallback != null) {
+				completeElementCallback.onCompleteElement(completeElement);
+			}
 			if (xmlPrinter != null) {
 				xmlPrinter.onCompleteElement();
 			}

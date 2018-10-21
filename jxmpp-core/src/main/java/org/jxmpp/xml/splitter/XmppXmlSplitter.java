@@ -113,7 +113,9 @@ public class XmppXmlSplitter extends XmlSplitter {
 		if ("http://etherx.jabber.org/streams".equals(attributes.get("xmlns:" + prefix))) {
 			streamPrefix = prefix;
 			newSplittedPart();
-			xmppElementCallback.streamOpened(prefix, Collections.unmodifiableMap(attributes));
+			if (xmppElementCallback != null) {
+				xmppElementCallback.streamOpened(prefix, Collections.unmodifiableMap(attributes));
+			}
 		}
 	}
 
@@ -125,7 +127,7 @@ public class XmppXmlSplitter extends XmlSplitter {
 			return;
 		}
 
-		if ((streamPrefix + ":stream").equals(qName)) {
+		if ((streamPrefix + ":stream").equals(qName) && xmppElementCallback != null) {
 			xmppElementCallback.streamClosed();
 		}
 	}
