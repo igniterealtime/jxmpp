@@ -194,6 +194,19 @@ public class XmlPrettyPrinter extends XmlPrinter {
 	}
 
 	/**
+	 * A functional interface which acts as sink for character sequences.
+	 */
+	public interface CharSequenceSink {
+
+		/**
+		 * Sink a new character sequence.
+		 *
+		 * @param charSequence the new character sequence feed into this sink.
+		 */
+		void sink(CharSequence charSequence);
+	}
+
+	/**
 	 * Create a new builder.
 	 *
 	 * @return a new builder.
@@ -300,19 +313,5 @@ public class XmlPrettyPrinter extends XmlPrinter {
 				throw new IllegalArgumentException();
 			}
 		}
-	}
-
-	/**
-	 * A functional interface which acts as sink for character sequences.
-	 */
-	public interface CharSequenceSink {
-
-		/**
-		 * Sink a new character sequence.
-		 *
-		 * @param charSequence the new character sequence feed into this sink.
-		 */
-		void sink(CharSequence charSequence);
-
 	}
 }
