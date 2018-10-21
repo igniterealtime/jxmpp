@@ -136,6 +136,9 @@ public class XmlSplitter extends Writer {
 	public XmlSplitter(int bufferSize, CompleteElementCallback completeElementCallback,
 			DeclarationCallback declarationCallback, ProcessingInstructionCallback processingInstructionCallback,
 			XmlPrinter xmlPrinter) {
+		if (bufferSize < 0) {
+			bufferSize = 128;
+		}
 		this.splittedPartBuffer = new StringBuilder(bufferSize);
 		if (completeElementCallback == null) {
 			throw new IllegalArgumentException();

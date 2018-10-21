@@ -98,7 +98,7 @@ public class XmppXmlSplitter extends XmlSplitter {
 
 	@Override
 	protected void onNextChar() throws IOException {
-		if (getCurrentSplittedPartSize() >= maxElementSize) {
+		if (maxElementSize > 0 && getCurrentSplittedPartSize() >= maxElementSize) {
 			throw new IOException("Max element size exceeded");
 		}
 	}
