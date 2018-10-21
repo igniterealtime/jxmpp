@@ -17,7 +17,6 @@
 package org.jxmpp.xml.splitter;
 
 import java.io.IOException;
-import java.io.Writer;
 
 import org.jxmpp.xml.splitter.XmlSplitter.State;
 
@@ -29,7 +28,7 @@ public class XmlPrettyPrinter extends XmlPrinter {
 
 	private final PrettyPrintedXmlChunkCallback newChunkCallback;
 	private final PrettyPrintedXmlPartCallback newPartCallback;
-	private final Writer prettyWriter;
+	private final CharSequenceSink prettyWriter;
 
 	private StringBuilder currentPart;
 	private StringBuilder currentChunk;
@@ -48,7 +47,7 @@ public class XmlPrettyPrinter extends XmlPrinter {
 	 *
 	 * @param prettyWriter a writer for the pretty printed XML stream.
 	 */
-	public XmlPrettyPrinter(Writer prettyWriter) {
+	public XmlPrettyPrinter(CharSequenceSink prettyWriter) {
 		this(builder().setPrettyWriter(prettyWriter));
 	}
 
@@ -135,7 +134,7 @@ public class XmlPrettyPrinter extends XmlPrinter {
 			currentPart.append(sb);
 		}
 		if (prettyWriter != null) {
-			prettyWriter.append(sb);
+			prettyWriter.sink(sb);
 		}
 	}
 
@@ -210,7 +209,7 @@ public class XmlPrettyPrinter extends XmlPrinter {
 
 		private PrettyPrintedXmlChunkCallback newChunkCallback;
 		private PrettyPrintedXmlPartCallback newPartCallback;
-		private Writer prettyWriter;
+		private CharSequenceSink prettyWriter;
 
 		private Builder() {
 		}
@@ -277,12 +276,12 @@ public class XmlPrettyPrinter extends XmlPrinter {
 		}
 
 		/**
-		 * Set a {@link Writer} for the pretty printed XML stream.
+		 * Set a {@link CharSequenceSink} for the pretty printed XML stream.
 		 *
 		 * @param prettyWriter the writer to pretty print to.
 		 * @return a reference to this builder.
 		 */
-		public Builder setPrettyWriter(Writer prettyWriter) {
+		public Builder setPrettyWriter(CharSequenceSink prettyWriter) {
 			this.prettyWriter = prettyWriter;
 			return this;
 		}
@@ -301,5 +300,19 @@ public class XmlPrettyPrinter extends XmlPrinter {
 				throw new IllegalArgumentException();
 			}
 		}
+	}
+
+	/**
+	 * A functional interface which acts as sink for character sequences.
+	 */
+	public interface CharSequenceSink {
+
+		/**
+		 * Sink a new character sequence.
+		 *
+		 * @param charSequence the new character sequence feed into this sink.
+		 */
+		void sink(CharSequence charSequence);
+
 	}
 }
