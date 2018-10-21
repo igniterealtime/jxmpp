@@ -26,12 +26,13 @@ public class XmlPrettyPrinter extends XmlPrinter {
 	private final int attributeIndent;
 	private final int tabWidth;
 
-	private final PrettyPrintedXmlChunkCallback newChunkCallback;
+	private final PrettyPrintedXmlChunkWithCurrentPartCallback newChunkCallback;
 	private final PrettyPrintedXmlPartCallback newPartCallback;
-	private final CharSequenceSink prettyWriter;
+	private final PrettyPrintedXmlChunkSink prettyWriter;
 
 	private StringBuilder currentPart;
 	private StringBuilder currentChunk;
+	private StringBuilder currentChunkWithCurrentPart;
 
 	/**
 	 * Construct a new XML pretty printer.
@@ -47,7 +48,7 @@ public class XmlPrettyPrinter extends XmlPrinter {
 	 *
 	 * @param prettyWriter a writer for the pretty printed XML stream.
 	 */
-	public XmlPrettyPrinter(CharSequenceSink prettyWriter) {
+	public XmlPrettyPrinter(PrettyPrintedXmlChunkSink prettyWriter) {
 		this(builder().setPrettyWriter(prettyWriter));
 	}
 
@@ -62,22 +63,30 @@ public class XmlPrettyPrinter extends XmlPrinter {
 
 	@Override
 	void onChunkStart() {
-		if (newChunkCallback == null) {
-			return;
+		if (newChunkCallback != null) {
+			currentChunkWithCurrentPart = new StringBuilder(currentPart.length() + 1024);
+			currentChunkWithCurrentPart.append(currentPart);
+			currentChunkWithCurrentPart.append('[');
 		}
-		currentChunk = new StringBuilder(currentPart.length() + 1024);
-		currentChunk.append(currentPart);
-		currentChunk.append('[');
+
+		if (prettyWriter != null) {
+			// TODO: Initial size of this StringBuilder?
+			currentChunk = new StringBuilder();
+		}
 	}
 
 	@Override
 	void onChunkEnd() {
-		if (newChunkCallback == null) {
-			return;
+		if (newChunkCallback != null) {
+			currentChunkWithCurrentPart.append(']');
+			newChunkCallback.onPrettyPrintedXmlChunk(currentChunkWithCurrentPart);
+			currentChunkWithCurrentPart = null;
 		}
-		currentChunk.append(']');
-		newChunkCallback.onPrettyPrintedXmlChunk(currentChunk);
-		currentChunk = null;
+
+		if (prettyWriter != null) {
+			prettyWriter.sink(currentChunk);
+			currentChunk = null;
+		}
 	}
 
 	@SuppressWarnings("incomplete-switch")
@@ -124,8 +133,8 @@ public class XmlPrettyPrinter extends XmlPrinter {
 
 		sb.append(c);
 
-		if (currentChunk != null) {
-			currentChunk.append(sb);
+		if (currentChunkWithCurrentPart != null) {
+			currentChunkWithCurrentPart.append(sb);
 		}
 		if (newPartCallback != null) {
 			if (currentPart == null) {
@@ -134,7 +143,7 @@ public class XmlPrettyPrinter extends XmlPrinter {
 			currentPart.append(sb);
 		}
 		if (prettyWriter != null) {
-			prettyWriter.sink(sb);
+			currentChunk.append(sb);
 		}
 	}
 
@@ -172,7 +181,7 @@ public class XmlPrettyPrinter extends XmlPrinter {
 		}
 	}
 
-	public interface PrettyPrintedXmlChunkCallback {
+	public interface PrettyPrintedXmlChunkWithCurrentPartCallback {
 
 		/**
 		 * Invoked after the XML pretty printer handled a chunk. The pretty printed chunk will contain the current part
@@ -196,14 +205,14 @@ public class XmlPrettyPrinter extends XmlPrinter {
 	/**
 	 * A functional interface which acts as sink for character sequences.
 	 */
-	public interface CharSequenceSink {
+	public interface PrettyPrintedXmlChunkSink {
 
 		/**
-		 * Sink a new character sequence.
+		 * Sink of the pretty printed XML chunk.
 		 *
-		 * @param charSequence the new character sequence feed into this sink.
+		 * @param stringBuilder a StringBuilder containing the pretty printed XML of the current chunk.
 		 */
-		void sink(CharSequence charSequence);
+		void sink(StringBuilder stringBuilder);
 	}
 
 	/**
@@ -220,9 +229,9 @@ public class XmlPrettyPrinter extends XmlPrinter {
 		private int attributeIndent;
 		private int tabWidth;
 
-		private PrettyPrintedXmlChunkCallback newChunkCallback;
+		private PrettyPrintedXmlChunkWithCurrentPartCallback newChunkCallback;
 		private PrettyPrintedXmlPartCallback newPartCallback;
-		private CharSequenceSink prettyWriter;
+		private PrettyPrintedXmlChunkSink prettyWriter;
 
 		private Builder() {
 		}
@@ -272,7 +281,7 @@ public class XmlPrettyPrinter extends XmlPrinter {
 		 * @param chunkCallback the cunk callback.
 		 * @return a reference to this builder.
 		 */
-		public Builder setChunkCallback(PrettyPrintedXmlChunkCallback chunkCallback) {
+		public Builder setChunkCallback(PrettyPrintedXmlChunkWithCurrentPartCallback chunkCallback) {
 			this.newChunkCallback = chunkCallback;
 			return this;
 		}
@@ -289,12 +298,12 @@ public class XmlPrettyPrinter extends XmlPrinter {
 		}
 
 		/**
-		 * Set a {@link CharSequenceSink} for the pretty printed XML stream.
+		 * Set a {@link PrettyPrintedXmlChunkSink} for the pretty printed XML stream.
 		 *
 		 * @param prettyWriter the writer to pretty print to.
 		 * @return a reference to this builder.
 		 */
-		public Builder setPrettyWriter(CharSequenceSink prettyWriter) {
+		public Builder setPrettyWriter(PrettyPrintedXmlChunkSink prettyWriter) {
 			this.prettyWriter = prettyWriter;
 			return this;
 		}
