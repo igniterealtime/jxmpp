@@ -70,8 +70,7 @@ public class XmlPrettyPrinter extends XmlPrinter {
 		}
 
 		if (prettyWriter != null) {
-			// TODO: Initial size of this StringBuilder?
-			currentChunk = new StringBuilder();
+			currentChunk = new StringBuilder(1024);
 		}
 	}
 
