@@ -22,6 +22,7 @@ import static org.junit.Assert.assertTrue;
 import static org.jxmpp.xml.splitter.XmlSplitterTestUtil.transform;
 
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
@@ -81,7 +82,42 @@ public class Utf8ByteXmppXmlSplitterTest {
 				assertEquals(nextElement, completeElement);
 			}
 		}));
+		// Size the write buffer small that a resize is likely and we are able to test the code.
+		splitter.resetWriteBuffer(1);
 		splitter.write(utf8bytes);
+		assertTrue(queue.isEmpty());
+	}
+
+	@Test
+	public void simpleByteBufferArrayWriteTest() throws IOException {
+		final String stanza1 = "<message from='foo' to='bar'><body>Hi there</body></message>";
+		final String stanza2 = "<message from='foo' to='bar'><body>My name is John</body></message>";
+		testUtf8ByteSplitterByteBufferArray(stanza1, stanza2);
+	}
+
+	private static void testUtf8ByteSplitterByteBufferArray(String... elements) throws IOException {
+		final Queue<String> queue = new ArrayDeque<>();
+		List<ByteBuffer> byteBufferArray = new ArrayList<>();
+		for (String element : elements) {
+			queue.add(element);
+			byte[] utf8bytes = element.getBytes("UTF-8");
+			ByteBuffer byteBuffer = ByteBuffer.wrap(utf8bytes);
+			byteBufferArray.add(byteBuffer);
+		}
+
+		// TODO This is basically duplicate code which is also found in
+		// XmlSplitterTestUtil and should be replaced by it.
+		@SuppressWarnings("resource")
+		Utf8ByteXmppXmlSplitter splitter = new Utf8ByteXmppXmlSplitter(transform(new CompleteElementCallback() {
+			@Override
+			public void onCompleteElement(String completeElement) {
+				String nextElement = queue.poll();
+				assertEquals(nextElement, completeElement);
+			}
+		}));
+		// Size the write buffer small that a resize is likely and we are able to test the code.
+		splitter.resetWriteBuffer(1);
+		splitter.write(byteBufferArray);
 		assertTrue(queue.isEmpty());
 	}
 
