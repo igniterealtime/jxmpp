@@ -40,21 +40,21 @@ public class XmppDateTime {
 	private static final Pattern datePattern = Pattern.compile("^\\d+-\\d+-\\d+$");
 
 	private static final DateFormatType timeFormatter = DateFormatType.XEP_0082_TIME_MILLIS_ZONE_PROFILE;
-	private static final Pattern timePattern = Pattern.compile("^(\\d+:){2}\\d+.\\d+(Z|([+-](\\d+:\\d+)))$");
+	private static final Pattern timePattern = Pattern.compile("^(\\d+:){2}\\d+.\\d+(Z|([+-](\\d+:?\\d+)))$");
 	private static final DateFormatType timeNoZoneFormatter = DateFormatType.XEP_0082_TIME_MILLIS_PROFILE;
 	private static final Pattern timeNoZonePattern = Pattern.compile("^(\\d+:){2}\\d+.\\d+$");
 
 	private static final DateFormatType timeNoMillisFormatter = DateFormatType.XEP_0082_TIME_ZONE_PROFILE;
-	private static final Pattern timeNoMillisPattern = Pattern.compile("^(\\d+:){2}\\d+(Z|([+-](\\d+:\\d+)))$");
+	private static final Pattern timeNoMillisPattern = Pattern.compile("^(\\d+:){2}\\d+(Z|([+-](\\d+:?\\d+)))$");
 	private static final DateFormatType timeNoMillisNoZoneFormatter = DateFormatType.XEP_0082_TIME_PROFILE;
 	private static final Pattern timeNoMillisNoZonePattern = Pattern.compile("^(\\d+:){2}\\d+$");
 
 	private static final DateFormatType dateTimeFormatter = DateFormatType.XEP_0082_DATETIME_MILLIS_PROFILE;
 	private static final Pattern dateTimePattern = Pattern
-			.compile("^\\d+(-\\d+){2}+T(\\d+:){2}\\d+.\\d+(Z|([+-](\\d+:\\d+)))$");
+			.compile("^\\d+(-\\d+){2}+T(\\d+:){2}\\d+.\\d+(Z|([+-](\\d+:?\\d+)))$");
 	private static final DateFormatType dateTimeNoMillisFormatter = DateFormatType.XEP_0082_DATETIME_PROFILE;
 	private static final Pattern dateTimeNoMillisPattern = Pattern
-			.compile("^\\d+(-\\d+){2}+T(\\d+:){2}\\d+(Z|([+-](\\d+:\\d+)))$");
+			.compile("^\\d+(-\\d+){2}+T(\\d+:){2}\\d+(Z|([+-](\\d+:?\\d+)))$");
 
 	private static final TimeZone TIME_ZONE_UTC = TimeZone.getTimeZone("UTC");
 
