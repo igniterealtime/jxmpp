@@ -313,7 +313,7 @@ configure (jmhProjects) {
 	apply plugin: "me.champeau.gradle.jmh"
 
 	jmh {
-		jmhVersion '1.20'
+		jmhVersion '1.21'
 		iterations 3
 		operationsPerInvocation 3
 		fork 3
