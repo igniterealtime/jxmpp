@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2014-2015 Florian Schmaus
+ * Copyright © 2014-2019 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -49,7 +49,8 @@ public final class SimpleXmppStringprep implements XmppStringprep {
 	}
 
 	/**
-	 * From 6122bis-18 § 3.3.1 and PRECIS IdentifierClass which forbids U+0020
+	 * From <a href="https://tools.ietf.org/html/rfc7622#section-3.3.1">RFC 7622 §
+	 * 3.3.1</a> and PRECIS IdentifierClass which forbids U+0020
 	 */
 	// @formatter:off
 	private static final char[] LOCALPART_FURTHER_EXCLUDED_CHARACTERS = new char[] {
