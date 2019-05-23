@@ -25,6 +25,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -57,11 +58,12 @@ public class XmppDateTime {
 			.compile("^\\d+(-\\d+){2}+T(\\d+:){2}\\d+(Z|([+-](\\d+:\\d+)))$");
 
 	private static final TimeZone TIME_ZONE_UTC = TimeZone.getTimeZone("UTC");
+	private static final Locale LOCALE_EN = Locale.ENGLISH
 
 	private static final ThreadLocal<DateFormat> xep0091Formatter = new ThreadLocal<DateFormat>() {
 		@Override
 		protected DateFormat initialValue() {
-			DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd'T'HH:mm:ss");
+			DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd'T'HH:mm:ss", LOCALE_EN);
 			dateFormat.setTimeZone(TIME_ZONE_UTC);
 			return dateFormat;
 		}
@@ -69,7 +71,7 @@ public class XmppDateTime {
 	private static final ThreadLocal<DateFormat> xep0091Date6DigitFormatter = new ThreadLocal<DateFormat>() {
 		@Override
 		protected DateFormat initialValue() {
-			DateFormat dateFormat = new SimpleDateFormat("yyyyMd'T'HH:mm:ss");
+			DateFormat dateFormat = new SimpleDateFormat("yyyyMd'T'HH:mm:ss", LOCALE_EN);
 			dateFormat.setTimeZone(TIME_ZONE_UTC);
 			return dateFormat;
 		}
@@ -77,7 +79,7 @@ public class XmppDateTime {
 	private static final ThreadLocal<DateFormat> xep0091Date7Digit1MonthFormatter = new ThreadLocal<DateFormat>() {
 		@Override
 		protected DateFormat initialValue() {
-			DateFormat dateFormat = new SimpleDateFormat("yyyyMdd'T'HH:mm:ss");
+			DateFormat dateFormat = new SimpleDateFormat("yyyyMdd'T'HH:mm:ss", LOCALE_EN);
 			dateFormat.setTimeZone(TIME_ZONE_UTC);
 			dateFormat.setLenient(false);
 			return dateFormat;
@@ -86,7 +88,7 @@ public class XmppDateTime {
 	private static final ThreadLocal<DateFormat> xep0091Date7Digit2MonthFormatter = new ThreadLocal<DateFormat>() {
 		@Override
 		protected DateFormat initialValue() {
-			DateFormat dateFormat = new SimpleDateFormat("yyyyMMd'T'HH:mm:ss");
+			DateFormat dateFormat = new SimpleDateFormat("yyyyMMd'T'HH:mm:ss", LOCALE_EN);
 			dateFormat.setTimeZone(TIME_ZONE_UTC);
 			dateFormat.setLenient(false);
 			return dateFormat;
@@ -125,7 +127,7 @@ public class XmppDateTime {
 			FORMATTER = new ThreadLocal<DateFormat>() {
 				@Override
 				protected DateFormat initialValue() {
-					DateFormat dateFormat = new SimpleDateFormat(FORMAT_STRING);
+					DateFormat dateFormat = new SimpleDateFormat(FORMAT_STRING, LOCALE_EN);
 					dateFormat.setTimeZone(TIME_ZONE_UTC);
 					return dateFormat;
 				}
@@ -169,7 +171,7 @@ public class XmppDateTime {
 	 * Parses the given date string in the <a
 	 * href="http://xmpp.org/extensions/xep-0082.html">XEP-0082 - XMPP Date and
 	 * Time Profiles</a>.
-	 * 
+	 *
 	 * @param dateString
 	 *            the date string to parse
 	 * @return the parsed Date
@@ -200,7 +202,7 @@ public class XmppDateTime {
 	 * Delivery</a> format.
 	 * <p>
 	 * This method uses internal date formatters and is thus threadsafe.
-	 * 
+	 *
 	 * @param dateString
 	 *            the date string to parse
 	 * @return the parsed Date
@@ -232,7 +234,7 @@ public class XmppDateTime {
 
 	/**
 	 * Formats a Date into a XEP-0082 - XMPP Date and Time Profiles string.
-	 * 
+	 *
 	 * @param date
 	 *            the time value to be formatted into a time string
 	 * @return the formatted time string in XEP-0082 format
@@ -245,7 +247,7 @@ public class XmppDateTime {
 	 * Converts a XEP-0082 date String's time zone definition into a RFC822 time
 	 * zone definition. The major difference is that XEP-0082 uses a smicolon
 	 * between hours and minutes and RFC822 does not.
-	 * 
+	 *
 	 * @param dateString the date String.
 	 * @return the String with converted timezone
 	 */
@@ -277,7 +279,7 @@ public class XmppDateTime {
 
 	/**
 	 * Converts a time zone to the String format as specified in XEP-0082.
-	 * 
+	 *
 	 * @param timeZone the time zone to convert.
 	 * @return the String representation of the TimeZone
 	 */
@@ -291,7 +293,7 @@ public class XmppDateTime {
 	/**
 	 * Parses the given date string in different ways and returns the date that
 	 * lies in the past and/or is nearest to the current date-time.
-	 * 
+	 *
 	 * @param stampString
 	 *            date in string representation
 	 * @param dateLength the length of the date prefix of stampString
@@ -350,7 +352,7 @@ public class XmppDateTime {
 	 * truncate the date String so that the fractional second addendum only
 	 * contains 3 digits. Returns the given string unmodified if it doesn't
 	 * match {@link #SECOND_FRACTION}.
-	 * 
+	 *
 	 * @param dateString the date string
 	 * @return the date String where the fractional second addendum is a most 3
 	 *         digits
