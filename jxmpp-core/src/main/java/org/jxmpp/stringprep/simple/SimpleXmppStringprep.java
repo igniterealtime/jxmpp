@@ -57,7 +57,7 @@ public final class SimpleXmppStringprep implements XmppStringprep {
 		'&',   // U+0026 (AMPERSAND), i.e., &
 		'\'',  // U+0027 (APOSTROPHE), i.e., '
 		'/',   // U+002F (SOLIDUS), i.e., /
-		',',   // U+003A (COLON), i.e., :
+		':',   // U+003A (COLON), i.e., :
 		'<',   // U+003C (LESS-THAN SIGN), i.e., <
 		'>',   // U+003E (GREATER-THAN SIGN), i.e., >
 		'@',   // U+0040 (COMMERCIAL AT), i.e., @
