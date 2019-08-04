@@ -4,5 +4,4 @@ JXMPP Stringprep with libidn."""
 dependencies {
 	compile project(':jxmpp-core')
 	compile 'org.gnu.inet:libidn:1.15'
-	testCompile 'junit:junit:4.11'
 }

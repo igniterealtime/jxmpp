@@ -51,6 +51,15 @@ allprojects {
 		jxmppMinAndroidSdk = 8
 		androidProjects = [':jxmpp-core', ':jxmpp-jid', ':jxmpp-stringprep-libidn', ':jxmpp-util-cache'].collect{ project(it) }
 		jmhProjects = [':jxmpp-util-cache'].collect { project(it) }
+		junit4Projects = [
+			':jxmpp-core',
+			':jxmpp-jid',
+			':jxmpp-repl',
+			':jxmpp-stringprep-icu4j',
+			':jxmpp-stringprep-libidn',
+			':jxmpp-util-cache',
+		].collect { project(it) }
+		junitVersion = '5.4.2'
 	}
 	group = 'org.jxmpp'
 	sourceCompatibility = 1.7
@@ -142,7 +151,20 @@ allprojects {
 	}
 
 	dependencies {
+		testImplementation "org.junit.jupiter:junit-jupiter-api:$junitVersion"
+		testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
+
 		errorprone 'com.google.errorprone:error_prone_core:2.2.0'
+	}
+
+	test {
+		useJUnitPlatform()
+		// Enable full stacktraces of failed tests. Especially handy
+		// for environments like Travis.
+		testLogging {
+			events "failed"
+			exceptionFormat "full"
+		}
 	}
 }
 
@@ -296,6 +318,13 @@ subprojects {
 dependencies {
 	androidProjects.each { project ->
 		compile project
+	}
+}
+
+configure (junit4Projects) {
+	dependencies {
+		testImplementation "junit:junit:4.12"
+		testRuntimeOnly "org.junit.vintage:junit-vintage-engine:$junitVersion"
 	}
 }
 
