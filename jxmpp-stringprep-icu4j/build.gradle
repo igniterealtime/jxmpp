@@ -3,5 +3,5 @@ JXMPP Stringprep with ICU4J."""
 
 dependencies {
 	compile project(':jxmpp-core')
-	compile 'com.ibm.icu:icu4j:55.1'
+	compile 'com.ibm.icu:icu4j:62.2'
 }
