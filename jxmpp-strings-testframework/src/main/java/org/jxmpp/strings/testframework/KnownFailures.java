@@ -30,8 +30,6 @@ public class KnownFailures {
 	private static final Set<XmppStringprepStringCoupling> VALID_JIDS_WHITELIST = new HashSet<>();
 	private static final Set<XmppStringprepStringCoupling> INVALID_JIDS_WHITELIST = new HashSet<>();
 
-	private static final Set<String> GLOBAL_INVALID_JIDS_WHITELIST = new HashSet<>();
-
 	static {
 		// ICU4J
 		whitelistValidJid(XmppStringPrepper.ICU4J, "fußball@example.com");
@@ -58,9 +56,6 @@ public class KnownFailures {
 
 		whitelistInvalidJid(XmppStringPrepper.SIMPLE, "♚@example.com");
 		whitelistInvalidJid(XmppStringPrepper.SIMPLE, "henry\u2163@example.com");
-
-		// TODO: jXMPP should probably recognize this as invalid JID, right now it parses it to 'example.org'.
-		GLOBAL_INVALID_JIDS_WHITELIST.add("@example.com/");
 	}
 
 	/**
@@ -101,7 +96,7 @@ public class KnownFailures {
 				String invalidJid = failed.invalidJid.invalidJid;
 				XmppStringprepStringCoupling coupling = new XmppStringprepStringCoupling(
 						failed.xmppStringPrepper.xmppStringprepClass, invalidJid);
-				boolean wasWhitelisted = invalidJidsWhitelist.remove(coupling) || GLOBAL_INVALID_JIDS_WHITELIST.contains(invalidJid);
+				boolean wasWhitelisted = invalidJidsWhitelist.remove(coupling);
 				if (wasWhitelisted) {
 					it.remove();
 				}

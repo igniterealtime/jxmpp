@@ -84,10 +84,10 @@ public class XmppStringprepException extends IOException {
 		 */
 		public static MissingDomainpart from(String localpart, String resourcepart) {
 			StringBuilder causingString = new StringBuilder();
-			if (!localpart.isEmpty()) {
+			if (localpart != null) {
 				causingString.append(localpart).append('@');
 			}
-			if (!resourcepart.isEmpty()) {
+			if (resourcepart != null) {
 				causingString.append('/').append(resourcepart);
 			}
 			return new MissingDomainpart(causingString.toString());

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2014-2015 Florian Schmaus
+ * Copyright © 2014-2019 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,13 +27,15 @@ public class XmppStringUtilsTest {
 	@Test
 	public void parseLocalpart() {
 		final String error = "Error parsing localpart";
-		assertEquals(error, "", XmppStringUtils.parseLocalpart("yahoo.myjabber.net"));
-		assertEquals(error, "", XmppStringUtils.parseLocalpart("yahoo.myjabber.net/registred"));
+		assertEquals(error, null, XmppStringUtils.parseLocalpart("yahoo.myjabber.net"));
+		assertEquals(error, null, XmppStringUtils.parseLocalpart("yahoo.myjabber.net/registred"));
 		assertEquals(error, "user", XmppStringUtils.parseLocalpart("user@yahoo.myjabber.net/registred"));
 		assertEquals(error, "user", XmppStringUtils.parseLocalpart("user@yahoo.myjabber.net"));
 
+		assertEquals(error, "", XmppStringUtils.parseLocalpart("@example.org/"));
+
 		// Some more advanced parsing cases
-		assertEquals(error, "", XmppStringUtils.parseLocalpart("foo.jxmpp.org/resOne@resTwo"));
+		assertEquals(error, null, XmppStringUtils.parseLocalpart("foo.jxmpp.org/resOne@resTwo"));
 	}
 
 	@Test
@@ -57,10 +59,12 @@ public class XmppStringUtilsTest {
 	@Test
 	public void parseResource() {
 		final String error = "Error parsing resource";
-		assertEquals(error, "", XmppStringUtils.parseResource("foo.jxmpp.org"));
+		assertEquals(error, null, XmppStringUtils.parseResource("foo.jxmpp.org"));
 		assertEquals(error, "registered", XmppStringUtils.parseResource("foo.jxmpp.org/registered"));
 		assertEquals(error, "registered", XmppStringUtils.parseResource("user@foo.jxmpp.org/registered"));
-		assertEquals(error, "", XmppStringUtils.parseResource("user@foo.jxmpp.org"));
+		assertEquals(error, null, XmppStringUtils.parseResource("user@foo.jxmpp.org"));
+
+		assertEquals(error, "", XmppStringUtils.parseResource("@example.org/"));
 
 		// Some more advanced parsing cases
 		assertEquals(error, "resOne@resTwo", XmppStringUtils.parseResource("user@foo.jxmpp.org/resOne@resTwo"));

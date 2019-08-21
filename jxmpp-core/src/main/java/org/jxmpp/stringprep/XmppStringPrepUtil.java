@@ -17,6 +17,7 @@
 package org.jxmpp.stringprep;
 
 import org.jxmpp.JxmppContext;
+import org.jxmpp.XmppAddressParttype;
 import org.jxmpp.stringprep.simple.SimpleXmppStringprep;
 import org.jxmpp.util.cache.Cache;
 import org.jxmpp.util.cache.LruCache;
@@ -64,7 +65,7 @@ public class XmppStringPrepUtil {
 	 * @throws XmppStringprepException if the input String can not be transformed.
 	 */
 	public static String localprep(String string, JxmppContext context) throws XmppStringprepException {
-		throwIfEmptyString(string);
+		throwIfNullOrEmpty(string, XmppAddressParttype.localpart);
 		String res;
 		if (context.isCachingEnabled()) {
 			res = NODEPREP_CACHE.lookup(string);
@@ -102,7 +103,7 @@ public class XmppStringPrepUtil {
 	 * @throws XmppStringprepException if the input String can not be transformed.
 	 */
 	public static String domainprep(String string, JxmppContext context) throws XmppStringprepException {
-		throwIfEmptyString(string);
+		throwIfNullOrEmpty(string, XmppAddressParttype.domainpart);
 		String res;
 		if (context.isCachingEnabled()) {
 			res = DOMAINPREP_CACHE.lookup(string);
@@ -139,7 +140,7 @@ public class XmppStringPrepUtil {
 	 * @throws XmppStringprepException if the input String can not be transformed.
 	 */
 	public static String resourceprep(String string, JxmppContext context) throws XmppStringprepException {
-		throwIfEmptyString(string);
+		throwIfNullOrEmpty(string, XmppAddressParttype.resourcepart);
 		String res;
 		if (context.isCachingEnabled()) {
 			res = RESOURCEPREP_CACHE.lookup(string);
@@ -173,10 +174,12 @@ public class XmppStringPrepUtil {
 	 * @param string the string to check
 	 * @throws XmppStringprepException exception telling that the argument was the empty string
 	 */
-	private static void throwIfEmptyString(String string) throws XmppStringprepException {
-		// TODO replace with string.isEmpty() once Smack's min Android SDK level is > 8
-		if (string.length() == 0) {
-			throw new XmppStringprepException(string, "Argument can't be the empty string");
+	private static void throwIfNullOrEmpty(String string, XmppAddressParttype type) throws XmppStringprepException {
+		if (string == null) {
+			throw new XmppStringprepException(string, type + " can't be null");
+		}
+		if (string.isEmpty()) {
+			throw new XmppStringprepException(string, type + " can't be the empty string");
 		}
 	}
 }

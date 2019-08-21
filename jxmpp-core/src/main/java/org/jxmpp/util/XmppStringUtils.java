@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2014-2018 Florian Schmaus
+ * Copyright © 2014-2019 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,26 +25,32 @@ public class XmppStringUtils {
 
 	/**
 	 * Returns the localpart of an XMPP address (JID). For example, for the address "user@xmpp.org/Resource", "user"
-	 * would be returned. If <code>jid</code> is <code>null</code>, then this method returns also <code>null</code>. If
-	 * the input String is no valid JID or has no localpart, then this method will return the empty String.
+	 * would be returned. Returns <code>null</code> if the given JID has no localpart. Returns the empty string if
+	 * the given JIDs localpart is the empty string (which is invalid).
 	 * 
 	 * @param jid
 	 *            the XMPP address to parse.
 	 * @return the name portion of the XMPP address, the empty String or <code>null</code>.
 	 */
 	public static String parseLocalpart(String jid) {
-		if (jid == null) return null;
-
 		int atIndex = jid.indexOf('@');
-		if (atIndex <= 0) {
+		if (atIndex < 0) {
+			return null;
+		}
+		if (atIndex == 0) {
+			// '@' as first character, i.e. '@example.org". Return emtpy string as
+			// localpart, to make it possible to differentiate this from 'example.org'
+			// (which would return 'null' as localpart).
 			return "";
 		}
+
 		int slashIndex = jid.indexOf('/');
 		if (slashIndex >= 0 && slashIndex < atIndex) {
-			return "";
-		} else {
-			return jid.substring(0, atIndex);
+			// This is an '@' character in the resourcepart.
+			return null;
 		}
+
+		return jid.substring(0, atIndex);
 	}
 
 	/**
@@ -76,19 +82,19 @@ public class XmppStringUtils {
 
 	/**
 	 * Returns the resource portion of an XMPP address (JID). For example, for the address "user@xmpp.org/Resource",
-	 * "Resource" would be returned. If <code>jid</code> is <code>null</code>, then this method returns also
-	 * <code>null</code>. If the input String is no valid JID or has no resourcepart, then this method will return the
-	 * empty String.
+	 * "Resource" would be returned. Returns <code>null</code> if the given JID has no resourcepart. Returns the
+	 * empty string if the given JID has an empty resourcepart (which is invalid).
 	 * 
 	 * @param jid
 	 *            the XMPP address to parse.
 	 * @return the resource portion of the XMPP address.
 	 */
 	public static String parseResource(String jid) {
-		if (jid == null) return null;
-
 		int slashIndex = jid.indexOf('/');
-		if (slashIndex + 1 > jid.length() || slashIndex < 0) {
+		if (slashIndex < 0) {
+			return null;
+		}
+		if (slashIndex + 1 > jid.length()) {
 			return "";
 		} else {
 			return jid.substring(slashIndex + 1);

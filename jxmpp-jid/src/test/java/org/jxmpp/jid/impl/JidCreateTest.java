@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2015-2017 Florian Schmaus
+ * Copyright © 2015-2019 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,6 +25,7 @@ import org.jxmpp.jid.DomainBareJid;
 import org.jxmpp.jid.DomainFullJid;
 import org.jxmpp.jid.EntityFullJid;
 import org.jxmpp.jid.EntityJid;
+import org.jxmpp.jid.Jid;
 import org.jxmpp.jid.parts.Domainpart;
 import org.jxmpp.jid.parts.Localpart;
 import org.jxmpp.jid.parts.Resourcepart;
@@ -146,5 +147,13 @@ public class JidCreateTest {
 
 		Localpart localpart = entityBareJid.getLocalpart();
 		assertEquals(Localpart.from("d\\27artagnan"), localpart);
+	}
+
+	@Test
+	public void jidResourcepartWithAtSignTest() throws XmppStringprepException {
+		Jid jid = JidCreate.from("a.example.com/b@example.net");
+
+		assertEquals(Domainpart.from("a.example.com"), jid.getDomain());
+		assertEquals(Resourcepart.from("b@example.net"), jid.getResourceOrNull());
 	}
 }

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2014-2018 Florian Schmaus
+ * Copyright © 2014-2019 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -115,6 +115,11 @@ public class JidCreate {
 	 * @throws XmppStringprepException if an error occurs.
 	 */
 	public static Jid from(String localpart, String domainpart, String resource, JxmppContext context) throws XmppStringprepException {
+		// Every JID must come with an domainpart.
+		if (domainpart.isEmpty()) {
+			throw XmppStringprepException.MissingDomainpart.from(localpart, resource);
+		}
+
 		String jidString = XmppStringUtils.completeJidFrom(localpart, domainpart, resource);
 		Jid jid;
 		if (context.isCachingEnabled()) {
@@ -124,18 +129,17 @@ public class JidCreate {
 			}
 		}
 
-		if (localpart.length() > 0 && domainpart.length() > 0 && resource.length() > 0) {
+		jid = null;
+		if (localpart != null && resource != null) {
 			jid = new LocalDomainAndResourcepartJid(localpart, domainpart, resource, context);
-		} else if (localpart.length() > 0 && domainpart.length() > 0 && resource.length() == 0) {
+		} else if (localpart != null && resource == null) {
 			jid = new LocalAndDomainpartJid(localpart, domainpart, context);
-		} else if (localpart.length() == 0 && domainpart.length() > 0 && resource.length() == 0) {
+		} else if (localpart == null && resource == null) {
 			jid = new DomainpartJid(domainpart, context);
-		} else if (localpart.length() == 0 && domainpart.length() > 0 && resource.length() > 0) {
+		} else if (localpart == null && resource != null) {
 			jid = new DomainAndResourcepartJid(domainpart, resource, context);
-		} else {
-			assert domainpart.isEmpty();
-			throw XmppStringprepException.MissingDomainpart.from(localpart, resource);
 		}
+		assert jid != null;
 
 		if (context.isCachingEnabled()) {
 			JID_CACHE.put(jidString, jid);
@@ -691,7 +695,7 @@ public class JidCreate {
 			return entityJid;
 		}
 		String localpartString = XmppStringUtils.parseLocalpart(jidString);
-		if (localpartString.length() ==  0) {
+		if (localpartString == null) {
 			throw new XmppStringprepException("Does not contain a localpart", jidString);
 		}
 		Localpart localpart;
@@ -714,7 +718,7 @@ public class JidCreate {
 		}
 
 		String resourceString = XmppStringUtils.parseResource(jidString);
-		if (resourceString.length() > 0) {
+		if (resourceString != null) {
 			Resourcepart resourcepart;
 			try {
 				resourcepart = Resourcepart.from(resourceString);
