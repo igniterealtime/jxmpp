@@ -16,6 +16,7 @@
  */
 package org.jxmpp.stringprep.simple;
 
+import java.util.Arrays;
 import java.util.Locale;
 
 import org.jxmpp.JxmppContext;
@@ -68,17 +69,34 @@ public final class SimpleXmppStringprep implements XmppStringprep {
 	};
 	// @formatter:on
 
+	static {
+		// Ensure that the char array is sorted as we use Arrays.binarySearch() on it.
+		Arrays.sort(LOCALPART_FURTHER_EXCLUDED_CHARACTERS);
+	}
+
 	@Override
 	public String localprep(String string) throws XmppStringprepException {
 		string = simpleStringprep(string);
-		for (char charFromString : string.toCharArray()) {
-			for (char forbiddenChar : LOCALPART_FURTHER_EXCLUDED_CHARACTERS) {
-				if (charFromString == forbiddenChar) {
-					throw new XmppStringprepException(string, "Localpart must not contain '" + forbiddenChar + "'");
-				}
+		ensureLocalpartDoesNotIncludeFurtherExcludedCharacters(string);
+		return string;
+	}
+
+	/**
+	 * Ensure that the input string does not contain any of the further excluded characters of XMPP localparts.
+	 *
+	 * @param localpart the input string.
+	 * @throws XmppStringprepException if one of the further excluded characters is found.
+	 * @see <a href="https://tools.ietf.org/html/rfc7622#section-3.3.1">RFC 7622 § 3.3.1</a>
+	 */
+	public static void ensureLocalpartDoesNotIncludeFurtherExcludedCharacters(String localpart)
+			throws XmppStringprepException {
+		for (char charFromString : localpart.toCharArray()) {
+			int forbiddenCharPos = Arrays.binarySearch(LOCALPART_FURTHER_EXCLUDED_CHARACTERS, charFromString);
+			if (forbiddenCharPos >= 0) {
+				throw new XmppStringprepException(localpart,
+						"Localpart must not contain '" + LOCALPART_FURTHER_EXCLUDED_CHARACTERS[forbiddenCharPos] + "'");
 			}
 		}
-		return string;
 	}
 
 	@Override
