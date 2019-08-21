@@ -74,18 +74,18 @@ public abstract class ValidJidTestresult {
 				.append("but there is a mismatch in the:\n");
 			if (domainpartMismatch) {
 				sb.append("- domainpart\n");
-				sb.append("  expected:").append(validJid.domainpart).append('\n');
-				sb.append("  actual  :").append(jid.getDomain()).append('\n');
+				sb.append("  expected: ").append(validJid.domainpart).append('\n');
+				sb.append("  actual  : ").append(jid.getDomain()).append('\n');
 			}
 			if (localpartMismatch) {
 				sb.append("- localpart\n");
-				sb.append("  expected:").append(validJid.localpart).append('\n');
-				sb.append("  actual  :").append(jid.getLocalpartOrThrow()).append('\n');
+				sb.append("  expected: ").append(validJid.localpart).append('\n');
+				sb.append("  actual  : ").append(jid.getLocalpartOrThrow()).append('\n');
 			}
 			if (resourcepartMismatch) {
 				sb.append("- resourcepart\n");
-				sb.append("  expected:").append(validJid.resourcepart).append('\n');
-				sb.append("  actual  :").append(jid.getResourceOrThrow()).append('\n');
+				sb.append("  expected: ").append(validJid.resourcepart).append('\n');
+				sb.append("  actual  : ").append(jid.getResourceOrThrow()).append('\n');
 			}
 			return sb.toString();
 		}
