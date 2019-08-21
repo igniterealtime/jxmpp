@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2014-2017 Florian Schmaus
+ * Copyright © 2014-2019 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
  */
 package org.jxmpp.jid.impl;
 
+import org.jxmpp.JxmppContext;
 import org.jxmpp.jid.BareJid;
 import org.jxmpp.jid.EntityBareJid;
 import org.jxmpp.jid.DomainBareJid;
@@ -46,8 +47,8 @@ public final class DomainAndResourcepartJid extends AbstractJid implements Domai
 	private final DomainBareJid domainBareJid;
 	private final Resourcepart resource;
 
-	DomainAndResourcepartJid(String domain, String resource) throws XmppStringprepException {
-		this(new DomainpartJid(domain), Resourcepart.from(resource));
+	DomainAndResourcepartJid(String domain, String resource, JxmppContext context) throws XmppStringprepException {
+		this(new DomainpartJid(domain, context), Resourcepart.from(resource, context));
 	}
 
 	DomainAndResourcepartJid(DomainBareJid domainBareJid, Resourcepart resource) {

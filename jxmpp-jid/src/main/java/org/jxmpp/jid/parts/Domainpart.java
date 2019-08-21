@@ -16,6 +16,7 @@
  */
 package org.jxmpp.jid.parts;
 
+import org.jxmpp.JxmppContext;
 import org.jxmpp.stringprep.XmppStringPrepUtil;
 import org.jxmpp.stringprep.XmppStringprepException;
 
@@ -78,6 +79,18 @@ public class Domainpart extends Part {
 	 * @throws XmppStringprepException if an error occurs.
 	 */
 	public static Domainpart from(String domain) throws XmppStringprepException {
+		return from(domain, JxmppContext.getDefaultContext());
+	}
+
+	/**
+	 * Get the {@link Domainpart} representing the input String.
+	 *
+	 * @param domain the input String.
+	 * @param context the JXMPP context.
+	 * @return the domainpart.
+	 * @throws XmppStringprepException if an error occurs.
+	 */
+	public static Domainpart from(String domain, JxmppContext context) throws XmppStringprepException {
 		if (domain == null) {
 			throw new XmppStringprepException(domain, "Input 'domain' must not be null");
 		}
@@ -87,7 +100,7 @@ public class Domainpart extends Part {
 		if (domain.length() > 0 && domain.charAt(domain.length() - 1) == '.') {
 			domain = domain.substring(0, domain.length() - 1);
 		}
-		domain = XmppStringPrepUtil.domainprep(domain);
+		domain = XmppStringPrepUtil.domainprep(domain, context);
 		// First prep the String, then assure the limits of the *result*
 		assertNotLongerThan1023BytesOrEmpty(domain);
 		return new Domainpart(domain);

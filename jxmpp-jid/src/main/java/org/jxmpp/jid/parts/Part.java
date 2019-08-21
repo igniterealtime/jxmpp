@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2014 Florian Schmaus
+ * Copyright © 2014-2019 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@
 package org.jxmpp.jid.parts;
 
 import java.io.Serializable;
+import java.nio.charset.StandardCharsets;
 
 import org.jxmpp.stringprep.XmppStringprepException;
 
@@ -70,7 +71,7 @@ public abstract class Part implements CharSequence, Serializable {
 	}
 
 	protected static void assertNotLongerThan1023BytesOrEmpty(String string) throws XmppStringprepException {
-		char[] bytes = string.toCharArray();
+		byte[] bytes = string.getBytes(StandardCharsets.UTF_8);
 
 		// Better throw XmppStringprepException instead of IllegalArgumentException here, because users don't expect an
 		// IAE and it also makes the error handling for users easier.

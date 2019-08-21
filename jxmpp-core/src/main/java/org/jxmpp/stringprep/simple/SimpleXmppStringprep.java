@@ -18,7 +18,7 @@ package org.jxmpp.stringprep.simple;
 
 import java.util.Locale;
 
-import org.jxmpp.stringprep.XmppStringPrepUtil;
+import org.jxmpp.JxmppContext;
 import org.jxmpp.stringprep.XmppStringprep;
 import org.jxmpp.stringprep.XmppStringprepException;
 
@@ -26,11 +26,13 @@ public final class SimpleXmppStringprep implements XmppStringprep {
 
 	private static SimpleXmppStringprep instance;
 
+	public static final String NAME = "simple";
+
 	/**
 	 * Setup Simple XMPP Stringprep as implementation to use.
 	 */
 	public static void setup() {
-		XmppStringPrepUtil.setXmppStringprep(getInstance());
+		JxmppContext.setDefaultXmppStringprep(getInstance());
 	}
 
 	/**

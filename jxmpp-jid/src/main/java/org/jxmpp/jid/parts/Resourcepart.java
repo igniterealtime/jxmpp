@@ -16,6 +16,7 @@
  */
 package org.jxmpp.jid.parts;
 
+import org.jxmpp.JxmppContext;
 import org.jxmpp.stringprep.XmppStringPrepUtil;
 import org.jxmpp.stringprep.XmppStringprepException;
 
@@ -88,9 +89,20 @@ public class Resourcepart extends Part {
 	 * @throws XmppStringprepException if an error occurs.
 	 */
 	public static Resourcepart from(String resource) throws XmppStringprepException {
-		resource = XmppStringPrepUtil.resourceprep(resource);
+		return from(resource, JxmppContext.getDefaultContext());
+	}
+
+	/**
+	 * Get the {@link Resourcepart} representing the input String.
+	 *
+	 * @param resource the input String.
+	 * @param context the JXMPP context.
+	 * @return the resource part.
+	 * @throws XmppStringprepException if an error occurs.
+	 */
+	public static Resourcepart from(String resource, JxmppContext context) throws XmppStringprepException {
+		resource = XmppStringPrepUtil.resourceprep(resource, context);
 		// First prep the String, then assure the limits of the *result*
 		assertNotLongerThan1023BytesOrEmpty(resource);
 		return new Resourcepart(resource);
-	}
-}
+	}}

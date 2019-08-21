@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2014-2018 Florian Schmaus
+ * Copyright © 2014-2019 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
  */
 package org.jxmpp.jid.impl;
 
+import org.jxmpp.JxmppContext;
 import org.jxmpp.jid.BareJid;
 import org.jxmpp.jid.EntityBareJid;
 import org.jxmpp.jid.DomainBareJid;
@@ -41,9 +42,9 @@ public final class LocalAndDomainpartJid extends AbstractJid implements EntityBa
 
 	private transient String unescapedCache;
 
-	LocalAndDomainpartJid(String localpart, String domain) throws XmppStringprepException {
-		domainBareJid = new DomainpartJid(domain);
-		this.localpart = Localpart.from(localpart);
+	LocalAndDomainpartJid(String localpart, String domain, JxmppContext context) throws XmppStringprepException {
+		domainBareJid = new DomainpartJid(domain, context);
+		this.localpart = Localpart.from(localpart, context);
 	}
 
 	LocalAndDomainpartJid(Localpart localpart, Domainpart domain) {

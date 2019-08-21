@@ -16,6 +16,7 @@
  */
 package org.jxmpp.jid.parts;
 
+import org.jxmpp.JxmppContext;
 import org.jxmpp.stringprep.XmppStringPrepUtil;
 import org.jxmpp.stringprep.XmppStringprepException;
 import org.jxmpp.util.XmppStringUtils;
@@ -162,7 +163,19 @@ public class Localpart extends Part {
 	 * @throws XmppStringprepException if an error occurs.
 	 */
 	public static Localpart from(String localpart) throws XmppStringprepException {
-		localpart = XmppStringPrepUtil.localprep(localpart);
+		return from(localpart, JxmppContext.getDefaultContext());
+	}
+
+	/**
+	 * Get the {@link Localpart} representing the input String.
+	 *
+	 * @param localpart the input String.
+	 * @param context the JXMPP context.
+	 * @return the localpart.
+	 * @throws XmppStringprepException if an error occurs.
+	 */
+	public static Localpart from(String localpart, JxmppContext context) throws XmppStringprepException {
+		localpart = XmppStringPrepUtil.localprep(localpart, context);
 		// First prep the String, then assure the limits of the *result*
 		assertNotLongerThan1023BytesOrEmpty(localpart);
 		return new Localpart(localpart);

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2015 Florian Schmaus
+ * Copyright © 2015-2019 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
  */
 package org.jxmpp.stringprep.icu4j;
 
-import org.jxmpp.stringprep.XmppStringPrepUtil;
+import org.jxmpp.JxmppContext;
 import org.jxmpp.stringprep.XmppStringprep;
 import org.jxmpp.stringprep.XmppStringprepException;
 
@@ -24,6 +24,8 @@ import com.ibm.icu.text.StringPrep;
 import com.ibm.icu.text.StringPrepParseException;
 
 public class Icu4jXmppStringprep implements XmppStringprep {
+
+	public static final String NAME = "icu4j";
 
 	private static final StringPrep NODEPREP = StringPrep.getInstance(StringPrep.RFC3920_NODEPREP);
 	private static final StringPrep DOMAINPREP = StringPrep.getInstance(StringPrep.RFC3491_NAMEPREP);
@@ -35,7 +37,7 @@ public class Icu4jXmppStringprep implements XmppStringprep {
 	 * Setup the ICU4J Stringprep implementation as active Stringprep implementation.
 	 */
 	public static void setup() {
-		XmppStringPrepUtil.setXmppStringprep(getInstance());
+		JxmppContext.setDefaultXmppStringprep(getInstance());
 	}
 
 	/**

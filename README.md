@@ -86,3 +86,16 @@ jxmpp-util-cache
 ----------------
 
 Provides a lightweight and efficient Cache without external dependencies used by various JXMPP Components.
+
+jxmpp-strings-testframework
+---------------------------
+
+A framework to test "XMPP Strings".
+
+Simply run
+
+```bash
+$ ./test-xmpp-strings
+```
+
+to run the testframework.

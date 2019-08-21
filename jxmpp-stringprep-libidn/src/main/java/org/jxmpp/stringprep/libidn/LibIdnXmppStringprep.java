@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2014 Florian Schmaus
+ * Copyright © 2014-2019 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,22 +16,24 @@
  */
 package org.jxmpp.stringprep.libidn;
 
-import gnu.inet.encoding.Stringprep;
-import gnu.inet.encoding.StringprepException;
-
-import org.jxmpp.stringprep.XmppStringPrepUtil;
+import org.jxmpp.JxmppContext;
 import org.jxmpp.stringprep.XmppStringprep;
 import org.jxmpp.stringprep.XmppStringprepException;
+
+import gnu.inet.encoding.Stringprep;
+import gnu.inet.encoding.StringprepException;
 
 public class LibIdnXmppStringprep implements XmppStringprep {
 
 	private static LibIdnXmppStringprep instance;
 
+	public static final String NAME = "libidn";
+
 	/**
 	 * Setup the libidn Stringprep implementation as active Stringprep implementation.
 	 */
 	public static void setup() {
-		XmppStringPrepUtil.setXmppStringprep(getInstance());
+		JxmppContext.setDefaultXmppStringprep(getInstance());
 	}
 
 	/**

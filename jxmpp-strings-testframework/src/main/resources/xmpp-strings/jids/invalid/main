@@ -1,0 +1,41 @@
+-*- coding: utf-8; -*-
+
+RFC 7622 Table 2
+================
+Simplified BSD License
+
+From RFC 7622 Table 2: A Sample of String That Violate the JID Rules
+
+Note that we do not include "Leading space in resourcepart" example
+here. As it is not valid. See Errata ID 4560
+https://www.rfc-editor.org/errata/eid4560
+
+invalid jid:
+"juliet"@example.com
+Quotation marks (U+0022) in localpart
+
+invalid jid:
+foo bar@example.com
+Space (U+0020) in localpart
+
+invalid jid:
+@example.com/
+Zero-length localpart and resourcepart
+
+invalid jid:
+henryⅣ@example.com
+he sixth character is ROMAN NUMERAL FOUR (U+2163)
+
+invalid jid:
+♚@example.com
+A localpart of BLACK CHESS KING (U+265A)
+
+invalid jid:
+juliet@
+A localpart without a domainpart
+
+invalid jid:
+/foobar
+A resourcepart without a domainpart
+
+End Of Corpus

@@ -19,6 +19,7 @@ package org.jxmpp.jid.impl;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 
+import org.jxmpp.JxmppContext;
 import org.jxmpp.jid.BareJid;
 import org.jxmpp.jid.EntityBareJid;
 import org.jxmpp.jid.DomainBareJid;
@@ -97,23 +98,48 @@ public class JidCreate {
 	 * @throws XmppStringprepException if an error occurs.
 	 */
 	public static Jid from(String localpart, String domainpart, String resource) throws XmppStringprepException {
+		return from(localpart, domainpart, resource, JxmppContext.getDefaultContext());
+	}
+
+	/**
+	 * Get a {@link Jid} from the given parts.
+	 * <p>
+	 * Only the domainpart is required.
+	 * </p>
+	 *
+	 * @param localpart a optional localpart.
+	 * @param domainpart a required domainpart.
+	 * @param resource a optional resourcepart.
+	 * @param context the JXMPP context.
+	 * @return a JID which consists of the given parts.
+	 * @throws XmppStringprepException if an error occurs.
+	 */
+	public static Jid from(String localpart, String domainpart, String resource, JxmppContext context) throws XmppStringprepException {
 		String jidString = XmppStringUtils.completeJidFrom(localpart, domainpart, resource);
-		Jid jid = JID_CACHE.lookup(jidString);
-		if (jid != null) {
-			return jid;
+		Jid jid;
+		if (context.isCachingEnabled()) {
+			jid = JID_CACHE.lookup(jidString);
+			if (jid != null) {
+				return jid;
+			}
 		}
+
 		if (localpart.length() > 0 && domainpart.length() > 0 && resource.length() > 0) {
-			jid = new LocalDomainAndResourcepartJid(localpart, domainpart, resource);
+			jid = new LocalDomainAndResourcepartJid(localpart, domainpart, resource, context);
 		} else if (localpart.length() > 0 && domainpart.length() > 0 && resource.length() == 0) {
-			jid = new LocalAndDomainpartJid(localpart, domainpart);
+			jid = new LocalAndDomainpartJid(localpart, domainpart, context);
 		} else if (localpart.length() == 0 && domainpart.length() > 0 && resource.length() == 0) {
-			jid = new DomainpartJid(domainpart);
+			jid = new DomainpartJid(domainpart, context);
 		} else if (localpart.length() == 0 && domainpart.length() > 0 && resource.length() > 0) {
-			jid = new DomainAndResourcepartJid(domainpart, resource);
+			jid = new DomainAndResourcepartJid(domainpart, resource, context);
 		} else {
-			throw new IllegalArgumentException("Not a valid combination of localpart, domainpart and resource");
+			assert domainpart.isEmpty();
+			throw XmppStringprepException.MissingDomainpart.from(localpart, resource);
 		}
-		JID_CACHE.put(jidString, jid);
+
+		if (context.isCachingEnabled()) {
+			JID_CACHE.put(jidString, jid);
+		}
 		return jid;
 	}
 
@@ -156,11 +182,24 @@ public class JidCreate {
 	 * @see #from(CharSequence)
 	 */
 	public static Jid from(String jidString) throws XmppStringprepException {
+		return from(jidString, JxmppContext.getDefaultContext());
+	}
+
+	/**
+	 * Get a {@link Jid} from the given String.
+	 *
+	 * @param jidString the input String.
+	 * @param context the JXMPP context.
+	 * @return the Jid represented by the input String.
+	 * @throws XmppStringprepException if an error occurs.
+	 * @see #from(CharSequence)
+	 */
+	public static Jid from(String jidString, JxmppContext context) throws XmppStringprepException {
 		String localpart = XmppStringUtils.parseLocalpart(jidString);
 		String domainpart = XmppStringUtils.parseDomain(jidString);
 		String resource = XmppStringUtils.parseResource(jidString);
 		try {
-			return from(localpart, domainpart, resource);
+			return from(localpart, domainpart, resource, context);
 		} catch (XmppStringprepException e) {
 			throw new XmppStringprepException(jidString, e);
 		}
@@ -294,23 +333,41 @@ public class JidCreate {
 	 * @throws XmppStringprepException if an error occurs.
 	 */
 	public static BareJid bareFrom(String jid) throws XmppStringprepException {
-		BareJid bareJid = BAREJID_CACHE.lookup(jid);
-		if (bareJid != null) {
-			return bareJid;
+		return bareFrom(jid, JxmppContext.getDefaultContext());
+	}
+
+	/**
+	 * Get a {@link BareJid} representing the given String.
+	 *
+	 * @param jid the input String.
+	 * @param context the JXMPP context.
+	 * @return a bare JID representing the given String.
+	 * @throws XmppStringprepException if an error occurs.
+	 */
+	public static BareJid bareFrom(String jid, JxmppContext context) throws XmppStringprepException {
+		BareJid bareJid;
+		if (context.isCachingEnabled()) {
+			bareJid = BAREJID_CACHE.lookup(jid);
+			if (bareJid != null) {
+				return bareJid;
+			}
 		}
 
 		String localpart = XmppStringUtils.parseLocalpart(jid);
 		String domainpart = XmppStringUtils.parseDomain(jid);
 		try {
 			if (localpart.length() != 0) {
-				bareJid = new LocalAndDomainpartJid(localpart, domainpart);
+				bareJid = new LocalAndDomainpartJid(localpart, domainpart, context);
 			} else {
-				bareJid = new DomainpartJid(domainpart);
+				bareJid = new DomainpartJid(domainpart, context);
 			}
 		} catch (XmppStringprepException e) {
 			throw new XmppStringprepException(jid, e);
 		}
-		BAREJID_CACHE.put(jid, bareJid);
+
+		if (context.isCachingEnabled()) {
+			BAREJID_CACHE.put(jid, bareJid);
+		}
 		return bareJid;
 	}
 
@@ -431,12 +488,26 @@ public class JidCreate {
 	 * @throws XmppStringprepException if an error occurs.
 	 */
 	public static FullJid fullFrom(String localpart, String domainpart, String resource) throws XmppStringprepException {
+		return fullFrom(localpart, domainpart, resource, JxmppContext.getDefaultContext());
+	}
+
+	/**
+	 * Get a {@link FullJid} constructed from the given parts.
+	 *
+	 * @param localpart a optional localpart.
+	 * @param domainpart a domainpart.
+	 * @param resource a resourcepart.
+	 * @param context the JXMPP context.
+	 * @return a full JID.
+	 * @throws XmppStringprepException if an error occurs.
+	 */
+	public static FullJid fullFrom(String localpart, String domainpart, String resource, JxmppContext context) throws XmppStringprepException {
 		FullJid fullJid;
 		try {
 			if (localpart == null || localpart.length() == 0) {
-				fullJid = new DomainAndResourcepartJid(domainpart, resource);
+				fullJid = new DomainAndResourcepartJid(domainpart, resource, context);
 			} else {
-				fullJid = new LocalDomainAndResourcepartJid(localpart, domainpart, resource);
+				fullJid = new LocalDomainAndResourcepartJid(localpart, domainpart, resource, context);
 			}
 		} catch (XmppStringprepException e) {
 			throw new XmppStringprepException(localpart + '@' + domainpart + '/' + resource, e);
@@ -723,19 +794,37 @@ public class JidCreate {
 	 * @throws XmppStringprepException if an error occurs.
 	 */
 	public static EntityBareJid entityBareFrom(String jid) throws XmppStringprepException {
-		EntityBareJid bareJid = ENTITY_BAREJID_CACHE.lookup(jid);
-		if (bareJid != null) {
-			return bareJid;
+		return entityBareFrom(jid, JxmppContext.getDefaultContext());
+	}
+
+	/**
+	 * Get a {@link EntityBareJid} representing the given String.
+	 *
+	 * @param jid the input String.
+	 * @param context the JXMPP context.
+	 * @return a bare JID representing the given String.
+	 * @throws XmppStringprepException if an error occurs.
+	 */
+	public static EntityBareJid entityBareFrom(String jid, JxmppContext context) throws XmppStringprepException {
+		EntityBareJid bareJid;
+		if (context.isCachingEnabled()) {
+			bareJid = ENTITY_BAREJID_CACHE.lookup(jid);
+			if (bareJid != null) {
+				return bareJid;
+			}
 		}
 
 		String localpart = XmppStringUtils.parseLocalpart(jid);
 		String domainpart = XmppStringUtils.parseDomain(jid);
 		try {
-			bareJid = new LocalAndDomainpartJid(localpart, domainpart);
+			bareJid = new LocalAndDomainpartJid(localpart, domainpart, context);
 		} catch (XmppStringprepException e) {
 			throw new XmppStringprepException(jid, e);
 		}
-		ENTITY_BAREJID_CACHE.put(jid, bareJid);
+
+		if (context.isCachingEnabled()) {
+			ENTITY_BAREJID_CACHE.put(jid, bareJid);
+		}
 		return bareJid;
 	}
 
@@ -776,9 +865,24 @@ public class JidCreate {
 	 * @throws XmppStringprepException if an error occurs.
 	 */
 	public static EntityBareJid entityBareFromUnescaped(String unescapedJidString) throws XmppStringprepException {
-		EntityBareJid bareJid = ENTITY_BAREJID_CACHE.lookup(unescapedJidString);
-		if (bareJid != null) {
-			return bareJid;
+		return entityBareFromUnescaped(unescapedJidString, JxmppContext.getDefaultContext());
+	}
+
+	/**
+	 * Get a {@link EntityBareJid} representing the given unescaped String.
+	 *
+	 * @param unescapedJidString the input String.
+	 * @param context the JXMPP context.
+	 * @return a bare JID representing the given String.
+	 * @throws XmppStringprepException if an error occurs.
+	 */
+	public static EntityBareJid entityBareFromUnescaped(String unescapedJidString, JxmppContext context) throws XmppStringprepException {
+		EntityBareJid bareJid;
+		if (context.isCachingEnabled()) {
+			bareJid = ENTITY_BAREJID_CACHE.lookup(unescapedJidString);
+			if (bareJid != null) {
+				return bareJid;
+			}
 		}
 
 		String localpart = XmppStringUtils.parseLocalpart(unescapedJidString);
@@ -787,11 +891,14 @@ public class JidCreate {
 
 		String domainpart = XmppStringUtils.parseDomain(unescapedJidString);
 		try {
-			bareJid = new LocalAndDomainpartJid(localpart, domainpart);
+			bareJid = new LocalAndDomainpartJid(localpart, domainpart, context);
 		} catch (XmppStringprepException e) {
 			throw new XmppStringprepException(unescapedJidString, e);
 		}
-		ENTITY_BAREJID_CACHE.put(unescapedJidString, bareJid);
+
+		if (context.isCachingEnabled()) {
+			ENTITY_BAREJID_CACHE.put(unescapedJidString, bareJid);
+		}
 		return bareJid;
 	}
 
@@ -963,9 +1070,24 @@ public class JidCreate {
 	 * @throws XmppStringprepException if an error occurs.
 	 */
 	public static EntityFullJid entityFullFromUnescaped(String unescapedJidString) throws XmppStringprepException {
-		EntityFullJid fullJid = ENTITY_FULLJID_CACHE.lookup(unescapedJidString);
-		if (fullJid != null) {
-			return fullJid;
+		return entityFullFromUnescaped(unescapedJidString, JxmppContext.getDefaultContext());
+	}
+
+	/**
+	 * Get a {@link EntityFullJid} representing the given unescaped String.
+	 *
+	 * @param unescapedJidString the JID's String.
+	 * @param context the JXMPP context.
+	 * @return a full JID representing the input String.
+	 * @throws XmppStringprepException if an error occurs.
+	 */
+	public static EntityFullJid entityFullFromUnescaped(String unescapedJidString, JxmppContext context) throws XmppStringprepException {
+		EntityFullJid fullJid;
+		if (context.isCachingEnabled()) {
+			fullJid = ENTITY_FULLJID_CACHE.lookup(unescapedJidString);
+			if (fullJid != null) {
+				return fullJid;
+			}
 		}
 
 		String localpart = XmppStringUtils.parseLocalpart(unescapedJidString);
@@ -975,12 +1097,14 @@ public class JidCreate {
 		String domainpart = XmppStringUtils.parseDomain(unescapedJidString);
 		String resource = XmppStringUtils.parseResource(unescapedJidString);
 		try {
-			fullJid = new LocalDomainAndResourcepartJid(localpart, domainpart, resource);
+			fullJid = new LocalDomainAndResourcepartJid(localpart, domainpart, resource, context);
 		} catch (XmppStringprepException e) {
 			throw new XmppStringprepException(unescapedJidString, e);
 		}
 
-		ENTITY_FULLJID_CACHE.put(unescapedJidString, fullJid);
+		if (context.isCachingEnabled()) {
+			ENTITY_FULLJID_CACHE.put(unescapedJidString, fullJid);
+		}
 		return fullJid;
 	}
 
@@ -1008,9 +1132,23 @@ public class JidCreate {
 	 * @throws XmppStringprepException if an error occurs.
 	 */
 	public static EntityFullJid entityFullFrom(String localpart, String domainpart, String resource) throws XmppStringprepException {
+		return entityFullFrom(localpart, domainpart, resource, JxmppContext.getDefaultContext());
+	}
+
+	/**
+	 * Get a {@link EntityFullJid} constructed from the given parts.
+	 *
+	 * @param localpart a localpart.
+	 * @param domainpart a domainpart.
+	 * @param resource a resourcepart.
+	 * @param context the JXMPP context.
+	 * @return a full JID.
+	 * @throws XmppStringprepException if an error occurs.
+	 */
+	public static EntityFullJid entityFullFrom(String localpart, String domainpart, String resource, JxmppContext context) throws XmppStringprepException {
 		EntityFullJid fullJid;
 		try {
-			fullJid = new LocalDomainAndResourcepartJid(localpart, domainpart, resource);
+			fullJid = new LocalDomainAndResourcepartJid(localpart, domainpart, resource, context);
 		} catch (XmppStringprepException e) {
 			throw new XmppStringprepException(localpart + '@' + domainpart + '/' + resource, e);
 		}
@@ -1101,18 +1239,36 @@ public class JidCreate {
 	 * @throws XmppStringprepException if an error occurs.
 	 */
 	public static DomainBareJid domainBareFrom(String jid) throws XmppStringprepException {
-		DomainBareJid domainJid = DOMAINJID_CACHE.lookup(jid);
-		if (domainJid != null) {
-			return domainJid;
+		return domainBareFrom(jid, JxmppContext.getDefaultContext());
+	}
+
+	/**
+	 * Get a domain bare JID.
+	 *
+	 * @param jid the JID String.
+	 * @param context the JXMPP context.
+	 * @return a domain bare JID.
+	 * @throws XmppStringprepException if an error occurs.
+	 */
+	public static DomainBareJid domainBareFrom(String jid, JxmppContext context) throws XmppStringprepException {
+		DomainBareJid domainJid;
+		if (context.isCachingEnabled()) {
+			domainJid = DOMAINJID_CACHE.lookup(jid);
+			if (domainJid != null) {
+				return domainJid;
+			}
 		}
 
 		String domain = XmppStringUtils.parseDomain(jid);
 		try {
-			domainJid = new DomainpartJid(domain);
+			domainJid = new DomainpartJid(domain, context);
 		} catch (XmppStringprepException e) {
 			throw new XmppStringprepException(jid, e);
 		}
-		DOMAINJID_CACHE.put(jid, domainJid);
+
+		if (context.isCachingEnabled()) {
+			DOMAINJID_CACHE.put(jid, domainJid);
+		}
 		return domainJid;
 	}
 
@@ -1190,19 +1346,37 @@ public class JidCreate {
 	 * @throws XmppStringprepException if an error happens.
 	 */
 	public static DomainFullJid domainFullFrom(String jid) throws XmppStringprepException {
-		DomainFullJid domainResourceJid = DOMAINRESOURCEJID_CACHE.lookup(jid);
-		if (domainResourceJid != null) {
-			return domainResourceJid;
+		return domainFullFrom(jid, JxmppContext.getDefaultContext());
+	}
+
+	/**
+	 * Get a domain full JID from the given String.
+	 *
+	 * @param jid the JID.
+	 * @param context the JXMPP context.
+	 * @return a DomainFullJid.
+	 * @throws XmppStringprepException if an error happens.
+	 */
+	public static DomainFullJid domainFullFrom(String jid, JxmppContext context) throws XmppStringprepException {
+		DomainFullJid domainResourceJid;
+		if (context.isCachingEnabled()) {
+			domainResourceJid = DOMAINRESOURCEJID_CACHE.lookup(jid);
+			if (domainResourceJid != null) {
+				return domainResourceJid;
+			}
 		}
 
 		String domain = XmppStringUtils.parseDomain(jid);
 		String resource = XmppStringUtils.parseResource(jid);
 		try {
-			domainResourceJid = new DomainAndResourcepartJid(domain, resource);
+			domainResourceJid = new DomainAndResourcepartJid(domain, resource, context);
 		} catch (XmppStringprepException e) {
 			throw new XmppStringprepException(jid, e);
 		}
-		DOMAINRESOURCEJID_CACHE.put(jid, domainResourceJid);
+
+		if (context.isCachingEnabled()) {
+			DOMAINRESOURCEJID_CACHE.put(jid, domainResourceJid);
+		}
 		return domainResourceJid;
 	}
 

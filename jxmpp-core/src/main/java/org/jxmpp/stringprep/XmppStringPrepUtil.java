@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2014-2018 Florian Schmaus
+ * Copyright © 2014-2019 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
  */
 package org.jxmpp.stringprep;
 
+import org.jxmpp.JxmppContext;
 import org.jxmpp.stringprep.simple.SimpleXmppStringprep;
 import org.jxmpp.util.cache.Cache;
 import org.jxmpp.util.cache.LruCache;
@@ -31,15 +32,16 @@ public class XmppStringPrepUtil {
 	private static final Cache<String, String> DOMAINPREP_CACHE = new LruCache<String, String>(100);
 	private static final Cache<String, String> RESOURCEPREP_CACHE = new LruCache<String, String>(100);
 
-	private static XmppStringprep xmppStringprep;
-
 	/**
 	 * Set the XMPP Stringprep implementation to use.
 	 *
 	 * @param xmppStringprep the XMPP Stringprep implementation to use.
+	 * @deprecated use {@link JxmppContext#setDefaultXmppStringprep(XmppStringprep)} instead.
 	 */
+	@Deprecated
+	// TODO: Remove in JXMPP 0.8.
 	public static void setXmppStringprep(XmppStringprep xmppStringprep) {
-		XmppStringPrepUtil.xmppStringprep = xmppStringprep;
+		JxmppContext.setDefaultXmppStringprep(xmppStringprep);
 	}
 
 	/**
@@ -50,17 +52,32 @@ public class XmppStringPrepUtil {
 	 * @throws XmppStringprepException if the input String can not be transformed.
 	 */
 	public static String localprep(String string) throws XmppStringprepException {
-		if (xmppStringprep == null) {
-			return string;
-		}
-		// Avoid cache lookup if string is the empty string
+		return localprep(string, JxmppContext.getDefaultContext());
+	}
+
+	/**
+	 * Perform localprep on the input String.
+	 *
+	 * @param string the input String.
+	 * @param context the JXMPP JID context.
+	 * @return the localpreped String.
+	 * @throws XmppStringprepException if the input String can not be transformed.
+	 */
+	public static String localprep(String string, JxmppContext context) throws XmppStringprepException {
 		throwIfEmptyString(string);
-		String res = NODEPREP_CACHE.lookup(string);
-		if (res != null) {
-			return res;
+		String res;
+		if (context.isCachingEnabled()) {
+			res = NODEPREP_CACHE.lookup(string);
+			if (res != null) {
+				return res;
+			}
 		}
-		res = xmppStringprep.localprep(string);
-		NODEPREP_CACHE.put(string, res);
+
+		res = context.xmppStringprep.localprep(string);
+
+		if (context.isCachingEnabled()) {
+			NODEPREP_CACHE.put(string, res);
+		}
 		return res;
 	}
 
@@ -72,17 +89,33 @@ public class XmppStringPrepUtil {
 	 * @throws XmppStringprepException if the input String can not be transformed.
 	 */
 	public static String domainprep(String string) throws XmppStringprepException {
-		if (xmppStringprep == null) {
-			return string;
-		}
-		// Avoid cache lookup if string is the empty string
+		return domainprep(string, JxmppContext.getDefaultContext());
+	}
+
+
+	/**
+	 * Perform domainprep on the input String.
+	 *
+	 * @param string the input String.
+	 * @param context the JXMPP JID context.
+	 * @return the domainprep String.
+	 * @throws XmppStringprepException if the input String can not be transformed.
+	 */
+	public static String domainprep(String string, JxmppContext context) throws XmppStringprepException {
 		throwIfEmptyString(string);
-		String res = DOMAINPREP_CACHE.lookup(string);
-		if (res != null) {
-			return res;
+		String res;
+		if (context.isCachingEnabled()) {
+			res = DOMAINPREP_CACHE.lookup(string);
+			if (res != null) {
+				return res;
+			}
 		}
-		res = xmppStringprep.domainprep(string);
-		DOMAINPREP_CACHE.put(string, res);
+
+		res = context.xmppStringprep.domainprep(string);
+
+		if (context.isCachingEnabled()) {
+			DOMAINPREP_CACHE.put(string, res);
+		}
 		return res;
 	}
 
@@ -94,17 +127,32 @@ public class XmppStringPrepUtil {
 	 * @throws XmppStringprepException if the input String can not be transformed.
 	 */
 	public static String resourceprep(String string) throws XmppStringprepException {
-		if (xmppStringprep == null) {
-			return string;
-		}
-		// Avoid cache lookup if string is the empty string
+		return resourceprep(string, JxmppContext.getDefaultContext());
+	}
+
+	/**
+	 * Perform resourceprep on the input String.
+	 *
+	 * @param string the input String.
+	 * @param context the JXMPP JID context.
+	 * @return the resourceprep String.
+	 * @throws XmppStringprepException if the input String can not be transformed.
+	 */
+	public static String resourceprep(String string, JxmppContext context) throws XmppStringprepException {
 		throwIfEmptyString(string);
-		String res = RESOURCEPREP_CACHE.lookup(string);
-		if (res != null) {
-			return res;
+		String res;
+		if (context.isCachingEnabled()) {
+			res = RESOURCEPREP_CACHE.lookup(string);
+			if (res != null) {
+				return res;
+			}
 		}
-		res = xmppStringprep.resourceprep(string);
-		RESOURCEPREP_CACHE.put(string, res);
+
+		res = context.xmppStringprep.resourceprep(string);
+
+		if (context.isCachingEnabled()) {
+			RESOURCEPREP_CACHE.put(string, res);
+		}
 		return res;
 	}
 

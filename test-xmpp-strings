@@ -1,0 +1,16 @@
+#!/usr/bin/env python3
+
+import subprocess
+import sys
+
+CMD = [
+    "gradle",
+    "jxmpp-strings-testframework:run",
+]
+
+if len(sys.argv) > 1:
+    PASSED_ARGS = sys.argv[1:]
+    FLATTENED_ARGS = " ".join(PASSED_ARGS)
+    CMD.append(f"--args='{FLATTENED_ARGS}'")
+
+subprocess.run(CMD)

@@ -1,6 +1,8 @@
 include 'jxmpp-core',
 		'jxmpp-jid',
+		'jxmpp-strings-testframework',
 		'jxmpp-stringprep-icu4j',
 		'jxmpp-stringprep-libidn',
+		'jxmpp-stringprep-rocksxmppprecis',
 		'jxmpp-util-cache',
 		'jxmpp-repl'

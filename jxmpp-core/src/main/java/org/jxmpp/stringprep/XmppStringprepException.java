@@ -24,7 +24,7 @@ import java.io.IOException;
 public class XmppStringprepException extends IOException {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -8491853210107124624L;
 
@@ -60,5 +60,37 @@ public class XmppStringprepException extends IOException {
 	 */
 	public String getCausingString() {
 		return causingString;
+	}
+
+	/**
+	 * The input string does not contain a domainpart.
+	 */
+	public static class MissingDomainpart extends XmppStringprepException {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		private MissingDomainpart(String causingString) {
+			super(causingString, "The provided string does not have a domainpart");
+		}
+
+		/**
+		 * Create a new "missing domainpart" exception from the give parts.
+		 *
+		 * @param localpart the localpart.
+		 * @param resourcepart the resourcepart.
+		 * @return a new "missing domanipart" exception.
+		 */
+		public static MissingDomainpart from(String localpart, String resourcepart) {
+			StringBuilder causingString = new StringBuilder();
+			if (!localpart.isEmpty()) {
+				causingString.append(localpart).append('@');
+			}
+			if (!resourcepart.isEmpty()) {
+				causingString.append('/').append(resourcepart);
+			}
+			return new MissingDomainpart(causingString.toString());
+		}
 	}
 }
