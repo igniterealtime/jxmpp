@@ -1,13 +1,19 @@
 -*- coding: utf-8; -*-
 
+Corpus of Valid JIDs (XMPP Addresses)
+=====================================
+
 The corpus layout was designed with two goals in mind:
 1. Being easy to parse
 2. Being directly editable
 
+Parsing Expression Grammar
+--------------------------
+
 Corpus → Entry*
 Entry → Jid* | CommentLine*
 CommentLine → EveryNonCtrlChar* '\n'
-JidEntry → JidHeader UnnormalizedJid NormalizedJid
+Jid → JidHeader UnnormalizedJid NormalizedJid
 JidHeader → 'jid:\n'
 UnnormalizedJid → NoCtrlCharText 'RS' '\n'
 NormalizedJid → NoCtrlCharText 'US' NoCtrlCharText 'US' NoCtrlCharText 'RS' \n
@@ -26,6 +32,12 @@ resourceparts clearly visible. We use ASCII control characters as
 separator mark because they are not valid in any XMPP address part
 (although they would be valid in XML 1.1).  TODO: Present the rules
 why they are not valid in local- domain- and resourceparts.
+
+Emacs
+You can enter the required control characters <RS> and <US> using
+RS: C-x 8 RET #x1e
+US: C-x 8 RET #x1f
+or smiply copy and paste a previous entry and then edit it.
 
 RFC 7622 Table 1
 ================

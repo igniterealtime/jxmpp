@@ -1,5 +1,21 @@
 -*- coding: utf-8; -*-
 
+Corpus of Invalid JIDs (XMPP Addresses)
+=======================================
+
+Parsing Expression Grammar
+--------------------------
+
+Corpus → Entry*
+Entry → InvalidJidEntry* | CommentLine*
+CommentLine → EveryNonRsChar* '\n'
+InvalidJidEntry → InvalidJidHeader InvalidJid
+InvalidJidHeader → 'invalid jid:\n'
+InvalidJid → EveryNonRsChar* 'RS' '\n'
+EveryNonRsChar → !'RS'
+
+For more information see 'jids/valid/main'.
+
 RFC 7622 Table 2
 ================
 Simplified BSD License
