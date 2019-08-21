@@ -38,4 +38,47 @@ invalid jid:
 /foobar
 A resourcepart without a domainpart
 
+Prosody Util Jid Spec
+=====================
+<https://hg.prosody.im/trunk/file/tip/spec/util_jid_spec.lua> (MIT)
+
+invalid jid:
+node@/server
+
+invalid jid:
+@server
+
+invalid jid:
+@server/resource
+
+invalid jid:
+@/resource
+
+invalid jid:
+@/resource
+
+invalid jid:
+@/
+
+invalid jid:
+/
+
+invalid jid:
+@
+
+invalid jid:
+user@
+
+invalid jid:
+user@@
+
+invalid jid:
+user@@host
+
+invalid jid:
+user@@host/resource
+
+invalid jid:
+user@@host/
+
 End Of Corpus
