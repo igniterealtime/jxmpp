@@ -44,7 +44,7 @@ public class RocksXmppPrecisStringprep implements XmppStringprep {
 	public String domainprep(String string) throws XmppStringprepException {
 		try {
 			return PrecisProfiles.IDN.enforce(string);
-		} catch (InvalidCodePointException e) {
+		} catch (IllegalArgumentException e) {
 			throw new XmppStringprepException(string, e);
 		}
 	}
