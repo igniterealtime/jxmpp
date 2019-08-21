@@ -17,6 +17,9 @@
 package org.jxmpp.strings.testframework;
 
 import org.jxmpp.jid.Jid;
+import org.jxmpp.jid.parts.Domainpart;
+import org.jxmpp.jid.parts.Localpart;
+import org.jxmpp.jid.parts.Resourcepart;
 import org.jxmpp.stringprep.XmppStringprepException;
 
 public abstract class InvalidJidTestresult {
@@ -58,6 +61,16 @@ public abstract class InvalidJidTestresult {
 			.append(invalidJid).append('\n')
 			.append("as it produced the following JID (when it should have thrown an exception):\n")
 			.append(jid).append('\n');
+			Localpart localpart = jid.getLocalpartOrNull();
+			if (localpart != null) {
+				sb.append("- localpart: ").append(localpart).append('\n');
+			}
+			Domainpart domainpart = jid.getDomain();
+			sb.append("- domanipart: ").append(domainpart).append('\n');
+			Resourcepart resourcepart = jid.getResourceOrNull();
+			if (resourcepart != null) {
+				sb.append("- resourcepart: ").append(resourcepart).append('\n');
+			}
 			return sb.toString();
 		}
 	}
