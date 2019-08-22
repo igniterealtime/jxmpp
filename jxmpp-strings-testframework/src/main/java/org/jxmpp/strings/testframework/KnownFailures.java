@@ -52,8 +52,6 @@ public class KnownFailures {
 		// ROCKS_XMPP_PRECIS
 		whitelistValidJid(XmppStringPrepper.ROCKS_XMPP_PRECIS, "ς@example.com");
 
-		whitelistInvalidJid(XmppStringPrepper.ROCKS_XMPP_PRECIS, "\"juliet\"@example.com");
-
 
 		// SIMPLE
 		whitelistValidJid(XmppStringPrepper.SIMPLE, "ς@example.com");

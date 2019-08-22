@@ -18,6 +18,7 @@ package org.jxmpp.stringprep.rocksxmppprecis;
 
 import org.jxmpp.stringprep.XmppStringprep;
 import org.jxmpp.stringprep.XmppStringprepException;
+import org.jxmpp.stringprep.simple.SimpleXmppStringprep;
 
 import rocks.xmpp.precis.InvalidCodePointException;
 import rocks.xmpp.precis.PrecisProfiles;
@@ -33,6 +34,8 @@ public class RocksXmppPrecisStringprep implements XmppStringprep {
 
 	@Override
 	public String localprep(String string) throws XmppStringprepException {
+		// Workaround until https://bitbucket.org/sco0ter/precis/pull-requests/3 is merged.
+		SimpleXmppStringprep.ensureLocalpartDoesNotIncludeFurtherExcludedCharacters(string);
 		try {
 			return PrecisProfiles.USERNAME_CASE_MAPPED.enforce(string);
 		} catch (InvalidCodePointException e) {
