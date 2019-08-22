@@ -16,10 +16,28 @@
  */
 package org.jxmpp;
 
+import java.util.Locale;
+
 public enum XmppAddressParttype {
 
 	localpart,
 	domainpart,
 	resourcepart,
+	;
 
+	final String capitalizedName;
+
+	XmppAddressParttype() {
+		String name = name();
+		capitalizedName = name.substring(0, 1).toUpperCase(Locale.US) + name.substring(1);
+	}
+
+	/**
+	 * Get the capitalized name of this XMPP address part.
+	 *
+	 * @return the capitalized name of this part.
+	 */
+	public String getCapitalizedName() {
+		return capitalizedName;
+	}
 }

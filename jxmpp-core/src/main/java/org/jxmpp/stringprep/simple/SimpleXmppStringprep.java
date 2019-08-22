@@ -20,8 +20,10 @@ import java.util.Arrays;
 import java.util.Locale;
 
 import org.jxmpp.JxmppContext;
+import org.jxmpp.XmppAddressParttype;
 import org.jxmpp.stringprep.XmppStringprep;
 import org.jxmpp.stringprep.XmppStringprepException;
+import org.jxmpp.util.ArraysUtil;
 
 public final class SimpleXmppStringprep implements XmppStringprep {
 
@@ -53,7 +55,7 @@ public final class SimpleXmppStringprep implements XmppStringprep {
 
 	/**
 	 * From <a href="https://tools.ietf.org/html/rfc7622#section-3.3.1">RFC 7622 §
-	 * 3.3.1</a> and PRECIS IdentifierClass which forbids U+0020
+	 * 3.3.1</a>.
 	 */
 	// @formatter:off
 	private static final char[] LOCALPART_FURTHER_EXCLUDED_CHARACTERS = new char[] {
@@ -65,20 +67,47 @@ public final class SimpleXmppStringprep implements XmppStringprep {
 		'<',   // U+003C (LESS-THAN SIGN), i.e., <
 		'>',   // U+003E (GREATER-THAN SIGN), i.e., >
 		'@',   // U+0040 (COMMERCIAL AT), i.e., @
-		' ',   // U+0020 (SPACE)
 	};
 	// @formatter:on
+
+	// @formatter:off
+	private static final char[] USERNAME_CASE_MAPPED_EXCLUDED_CHARACTERS = new char[] {
+		' ',   // U+0020 (SPACE) - forbidden by PRECIS IdentifierClass.
+	};
+	// @formatter:on
+
+	private static final char[] LOCALPART_EXCLUDED_CHARACTERS;
 
 	static {
 		// Ensure that the char array is sorted as we use Arrays.binarySearch() on it.
 		Arrays.sort(LOCALPART_FURTHER_EXCLUDED_CHARACTERS);
+
+		// Combine LOCALPART_FURTHER_EXCLUDED_CHARACTERS and USERNAME_CASE_MAPPED_EXCLUDED_CHARACTERS into
+		// LOCALPART_EXCLUDED_CHARACTERS.
+		LOCALPART_EXCLUDED_CHARACTERS = ArraysUtil.concatenate(
+				LOCALPART_FURTHER_EXCLUDED_CHARACTERS,
+				USERNAME_CASE_MAPPED_EXCLUDED_CHARACTERS);
+		Arrays.sort(LOCALPART_EXCLUDED_CHARACTERS);
 	}
 
 	@Override
 	public String localprep(String string) throws XmppStringprepException {
 		string = simpleStringprep(string);
-		ensureLocalpartDoesNotIncludeFurtherExcludedCharacters(string);
+		ensurePartDoesNotContain(XmppAddressParttype.localpart, string, LOCALPART_EXCLUDED_CHARACTERS);
 		return string;
+	}
+
+	private static void ensurePartDoesNotContain(XmppAddressParttype parttype, String input, char[] excludedChars)
+			throws XmppStringprepException {
+		assert isSorted(excludedChars);
+
+		for (char c : input.toCharArray()) {
+			int forbiddenCharPos = Arrays.binarySearch(excludedChars, c);
+			if (forbiddenCharPos >= 0) {
+				throw new XmppStringprepException(input, parttype.getCapitalizedName() + " must not contain '"
+						+ LOCALPART_FURTHER_EXCLUDED_CHARACTERS[forbiddenCharPos] + "'");
+			}
+		}
 	}
 
 	/**
@@ -90,13 +119,7 @@ public final class SimpleXmppStringprep implements XmppStringprep {
 	 */
 	public static void ensureLocalpartDoesNotIncludeFurtherExcludedCharacters(String localpart)
 			throws XmppStringprepException {
-		for (char charFromString : localpart.toCharArray()) {
-			int forbiddenCharPos = Arrays.binarySearch(LOCALPART_FURTHER_EXCLUDED_CHARACTERS, charFromString);
-			if (forbiddenCharPos >= 0) {
-				throw new XmppStringprepException(localpart,
-						"Localpart must not contain '" + LOCALPART_FURTHER_EXCLUDED_CHARACTERS[forbiddenCharPos] + "'");
-			}
-		}
+		ensurePartDoesNotContain(XmppAddressParttype.localpart, localpart, LOCALPART_FURTHER_EXCLUDED_CHARACTERS);
 	}
 
 	@Override
@@ -117,5 +140,14 @@ public final class SimpleXmppStringprep implements XmppStringprep {
 	private static String simpleStringprep(String string) {
 		String res = string.toLowerCase(Locale.US);
 		return res;
+	}
+
+	private static boolean isSorted(char[] chars) {
+		for (int i = 1; i < chars.length; i++) {
+			if (chars[i-1] > chars[i]) {
+				return false;
+			}
+		}
+		return true;
 	}
 }
