@@ -51,6 +51,9 @@ public class KnownFailures {
 
 		// ROCKS_XMPP_PRECIS
 		whitelistValidJid(XmppStringPrepper.ROCKS_XMPP_PRECIS, "ς@example.com");
+		whitelistValidJid(XmppStringPrepper.ROCKS_XMPP_PRECIS, "user@[2001:638:a000:4134::ffff:40]");
+		whitelistValidJid(XmppStringPrepper.ROCKS_XMPP_PRECIS, "user@[2001:638:a000:4134::ffff:40%eno1]");
+		whitelistValidJid(XmppStringPrepper.ROCKS_XMPP_PRECIS, "user@averylongdomainpartisstillvalideventhoughitexceedsthesixtyfourbytelimitofdnslabels");
 
 
 		// SIMPLE

@@ -130,4 +130,32 @@ jid:
 server/resource@foo/bar
 serverresource@foo/bar
 
+Valid Domainparts
+=================
+See:
+- https://tools.ietf.org/html/rfc7622#section-3.2
+- https://www.rfc-editor.org/errata/eid5789
+
+jid:
+user@192.168.1.1
+user192.168.1.1
+IPv4 addresses are valid domainparts.
+
+jid:
+user@[2001:638:a000:4134::ffff:40]
+user[2001:638:a000:4134::ffff:40]
+IPv6 addresses are valid domainparts.
+
+jid:
+user@[2001:638:a000:4134::ffff:40%eno1]
+user[2001:638:a000:4134::ffff:40%eno1]
+IPv6 addresses with zone identifier are valid domainparts.
+
+jid:
+user@averylongdomainpartisstillvalideventhoughitexceedsthesixtyfourbytelimitofdnslabels
+useraverylongdomainpartisstillvalideventhoughitexceedsthesixtyfourbytelimitofdnslabels
+A very long text label (that is resolvable on a local network) is a
+valid domainpart.  Note that RFC7622 does not restrict the text label
+in any form.  Whereas DNS labels are restricted to 64 bytes.
+
 End Of Corpus
