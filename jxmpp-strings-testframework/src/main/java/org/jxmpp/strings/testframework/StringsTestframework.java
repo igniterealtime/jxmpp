@@ -94,19 +94,23 @@ public class StringsTestframework {
 	}
 
 	private <T,U> void executeForEach(Collection<? extends T> first, Collection<? extends U> second, BiConsumer<T, U> biConsumer) {
-		int numberOfExecutes = first.size() * second.size();
-		Phaser childPhaser = new Phaser(phaser, numberOfExecutes);
+		Phaser childPhaser = new Phaser(phaser, 1);
+
 		for (T t : first) {
+			Phaser grandChildPhaser = new Phaser(childPhaser, second.size() + 1);
+
 			for (U u : second) {
 				EXECUTOR.execute(() -> {
 					try {
 						biConsumer.accept(t, u);
 					} finally {
-						childPhaser.arriveAndDeregister();
+						grandChildPhaser.arrive();
 					}
 				});
 			}
+			grandChildPhaser.arrive();
 		}
+		childPhaser.arrive();
 	}
 
 	private void testValidJids(XmppStringPrepper xmppStringPrepper, ValidJid validJid) {
