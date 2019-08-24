@@ -137,6 +137,11 @@ See:
 - https://www.rfc-editor.org/errata/eid5789
 
 jid:
+user@CaSe-InSeNsItIvE
+usercase-insensitive
+Domainparts are case-insensitive.
+
+jid:
 user@192.168.1.1
 user192.168.1.1
 IPv4 addresses are valid domainparts.
