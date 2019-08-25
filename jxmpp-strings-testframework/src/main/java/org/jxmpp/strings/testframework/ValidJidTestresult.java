@@ -19,30 +19,32 @@ package org.jxmpp.strings.testframework;
 import org.jxmpp.jid.Jid;
 import org.jxmpp.stringprep.XmppStringprepException;
 
-public abstract class ValidJidTestresult {
+public abstract class ValidJidTestresult extends JidTestresult {
 
-	public final XmppStringPrepper xmppStringPrepper;
 	public final ValidJid validJid;
 	public final Jid jid;
 
-	protected ValidJidTestresult(XmppStringPrepper xmppStringPrepper, ValidJid validJid, Jid jid) {
-		this.xmppStringPrepper = xmppStringPrepper;
+	protected ValidJidTestresult(XmppStringPrepper xmppStringPrepper, long startNanos, long stopNanos,
+			ValidJid validJid, Jid jid) {
+		super(xmppStringPrepper, startNanos, stopNanos);
 		this.validJid = validJid;
 		this.jid = jid;
 	}
 
 	public static class Successful extends ValidJidTestresult {
 
-		protected Successful(XmppStringPrepper xmppStringPrepper, ValidJid validJid, Jid jid) {
-			super(xmppStringPrepper, validJid, jid);
+		protected Successful(XmppStringPrepper xmppStringPrepper, long startNanos, long stopNanos, ValidJid validJid,
+				Jid jid) {
+			super(xmppStringPrepper, startNanos, stopNanos, validJid, jid);
 		}
 
 	}
 
 	public abstract static class Failed extends ValidJidTestresult {
 
-		protected Failed(XmppStringPrepper xmppStringPrepper, ValidJid validJid, Jid jid) {
-			super(xmppStringPrepper, validJid, jid);
+		protected Failed(XmppStringPrepper xmppStringPrepper, long startNanos, long stopNanos, ValidJid validJid,
+				Jid jid) {
+			super(xmppStringPrepper, startNanos, stopNanos, validJid, jid);
 		}
 
 		protected StringBuilder buildToString() {
@@ -58,9 +60,9 @@ public abstract class ValidJidTestresult {
 
 		public final boolean domainpartMismatch, localpartMismatch, resourcepartMismatch;
 
-		protected FailedBecauseMismatch(XmppStringPrepper xmppStringPrepper, ValidJid validJid, Jid jid, boolean domainpartMismatch,
+		protected FailedBecauseMismatch(XmppStringPrepper xmppStringPrepper, long startNanos, long stopNanos, ValidJid validJid, Jid jid, boolean domainpartMismatch,
 				boolean localpartMismatch, boolean resourcepartMismatch) {
-			super(xmppStringPrepper, validJid, jid);
+			super(xmppStringPrepper, startNanos, stopNanos, validJid, jid);
 			this.domainpartMismatch = domainpartMismatch;
 			this.localpartMismatch = localpartMismatch;
 			this.resourcepartMismatch = resourcepartMismatch;
@@ -95,8 +97,9 @@ public abstract class ValidJidTestresult {
 
 		public final XmppStringprepException xmppStringprepException;
 
-		protected FailedBecauseException(XmppStringPrepper xmppStringPrepper, ValidJid validJid, XmppStringprepException xmppStringprepException) {
-			super(xmppStringPrepper, validJid, null);
+		protected FailedBecauseException(XmppStringPrepper xmppStringPrepper, long startNanos, long stopNanos,
+				ValidJid validJid, XmppStringprepException xmppStringprepException) {
+			super(xmppStringPrepper, startNanos, stopNanos, validJid, null);
 			this.xmppStringprepException = xmppStringprepException;
 		}
 

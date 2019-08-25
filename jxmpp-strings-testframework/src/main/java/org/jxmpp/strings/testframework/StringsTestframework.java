@@ -26,6 +26,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Phaser;
 import java.util.function.BiConsumer;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.jxmpp.jid.Jid;
 import org.jxmpp.jid.impl.JidCreate;
@@ -40,12 +42,6 @@ public class StringsTestframework {
 	private final Configuration configuration;
 
 	private final Phaser phaser = new Phaser(0);
-
-	private List<ValidJidTestresult.Successful> validJidSuccessfulTestresults;
-	private List<ValidJidTestresult.Failed> validJidFailedTestresults;
-
-	public List<InvalidJidTestresult.Successful> invalidJidSuccessfulTestresults;
-	public List<InvalidJidTestresult.Failed> invalidJidFailedTestresults;
 
 	/**
 	 * Construct a new instance of the test framework with the default configuration.
@@ -71,57 +67,64 @@ public class StringsTestframework {
 	public synchronized Result runTests() {
 		phaser.register();
 
-		{
-			List<ValidJid> validJids = parseValidJids();
-			final int numberOfValidJidTests = validJids.size() * configuration.xmppStringPreppers.size();
-			validJidSuccessfulTestresults = Collections.synchronizedList(new ArrayList<>(numberOfValidJidTests));
-			validJidFailedTestresults = Collections.synchronizedList(new ArrayList<>());
-			executeForEach(configuration.xmppStringPreppers, validJids, this::testValidJids);
-		}
+		List<ValidJid> validJids = parseValidJids();
+		List<InvalidJid> invalidJids = parseInvalidJids();
 
-		{
-			List<InvalidJid> invalidJids = parseInvalidJids();
-			final int numberofInvalidJidTests = invalidJids.size() * configuration.xmppStringPreppers.size();
-			invalidJidSuccessfulTestresults = Collections.synchronizedList(new ArrayList<>(numberofInvalidJidTests));
-			invalidJidFailedTestresults = Collections.synchronizedList(new ArrayList<>());
-			executeForEach(configuration.xmppStringPreppers, invalidJids, this::testInvalidJids);
-		}
+
+		List<XmppStringPrepperState> xmppStringPreppersState = configuration.xmppStringPreppers
+				.stream()
+				.map(s -> new XmppStringPrepperState(s, validJids.size(), invalidJids.size()))
+				.collect(Collectors.toList());
+
+		executeForEach(xmppStringPreppersState, validJids, this::testValidJids);
+
+		executeForEach(xmppStringPreppersState, invalidJids, this::testInvalidJids);
 
 		phaser.arriveAndAwaitAdvance();
 
-		return new Result(validJidSuccessfulTestresults, validJidFailedTestresults, invalidJidSuccessfulTestresults,
-				invalidJidFailedTestresults);
+		return new Result(xmppStringPreppersState);
 	}
 
-	private <T,U> void executeForEach(Collection<? extends T> first, Collection<? extends U> second, BiConsumer<T, U> biConsumer) {
-		Phaser childPhaser = new Phaser(phaser, 1);
+	private <T, U> void executeForEach(List<? extends T> smallList, Collection<? extends U> bigCollection,
+			BiConsumer<T, U> biConsumer) {
+		// Create a childPhaser for every item in smallList.
+		List<Phaser> childPhasers = smallList.stream()
+				.map(__ -> new Phaser(phaser, bigCollection.size() + 1))
+				.collect(Collectors.toList());
 
-		for (T t : first) {
-			Phaser grandChildPhaser = new Phaser(childPhaser, second.size() + 1);
+		for (U u : bigCollection) {
+			for (int i = 0; i < smallList.size(); i++) {
+				T t = smallList.get(i);
+				Phaser phaser = childPhasers.get(i);
 
-			for (U u : second) {
 				EXECUTOR.execute(() -> {
 					try {
 						biConsumer.accept(t, u);
 					} finally {
-						grandChildPhaser.arrive();
+						phaser.arrive();
 					}
 				});
 			}
-			grandChildPhaser.arrive();
 		}
-		childPhaser.arrive();
+
+		childPhasers.forEach(p -> p.arrive());
 	}
 
-	private void testValidJids(XmppStringPrepper xmppStringPrepper, ValidJid validJid) {
+	private void testValidJids(XmppStringPrepperState xmppStringPrepperState, ValidJid validJid) {
+		XmppStringPrepper xmppStringPrepper = xmppStringPrepperState.xmppStringPrepper;
 		Jid jid;
+
+		long startNanos = System.nanoTime();
 		try {
 			jid = JidCreate.from(validJid.unnormalizedJid, xmppStringPrepper.context);
 		} catch (XmppStringprepException e) {
-			ValidJidTestresult.FailedBecauseException failed = new ValidJidTestresult.FailedBecauseException(xmppStringPrepper, validJid, e);
-			validJidFailedTestresults.add(failed);
+			long stopNanos = System.nanoTime();
+			ValidJidTestresult.FailedBecauseException failed = new ValidJidTestresult.FailedBecauseException(
+					xmppStringPrepper, startNanos, stopNanos, validJid, e);
+			xmppStringPrepperState.validJidFailedTestresults.add(failed);
 			return;
 		}
+		long stopNanos = System.nanoTime();
 
 		boolean domainpartMismatch = false, localpartMismatch = false, resourcepartMismatch = false;
 
@@ -153,26 +156,36 @@ public class StringsTestframework {
 		}
 
 		if (domainpartMismatch || localpartMismatch || resourcepartMismatch) {
-			ValidJidTestresult.FailedBecauseMismatch failed = new ValidJidTestresult.FailedBecauseMismatch(xmppStringPrepper, validJid, jid, domainpartMismatch, localpartMismatch, resourcepartMismatch);
-			validJidFailedTestresults.add(failed);
+			ValidJidTestresult.FailedBecauseMismatch failed = new ValidJidTestresult.FailedBecauseMismatch(
+					xmppStringPrepper, startNanos, stopNanos, validJid, jid, domainpartMismatch, localpartMismatch,
+					resourcepartMismatch);
+			xmppStringPrepperState.validJidFailedTestresults.add(failed);
 		} else {
-			ValidJidTestresult.Successful successful = new ValidJidTestresult.Successful(xmppStringPrepper, validJid, jid);
-			validJidSuccessfulTestresults.add(successful);
+			ValidJidTestresult.Successful successful = new ValidJidTestresult.Successful(xmppStringPrepper, startNanos,
+					stopNanos, validJid, jid);
+			xmppStringPrepperState.validJidSuccessfulTestresults.add(successful);
 		}
 	}
 
-	private void testInvalidJids(XmppStringPrepper xmppStringPrepper, InvalidJid invalidJid) {
+	private void testInvalidJids(XmppStringPrepperState xmppStringPrepperState, InvalidJid invalidJid) {
+		XmppStringPrepper xmppStringPrepper = xmppStringPrepperState.xmppStringPrepper;
 		Jid jid;
+
+		long startNanos = System.nanoTime();
 		try {
 			jid = JidCreate.from(invalidJid.invalidJid, xmppStringPrepper.context);
 		} catch (XmppStringprepException e) {
-			InvalidJidTestresult.Successful successful = new InvalidJidTestresult.Successful(xmppStringPrepper, invalidJid, e);
-			invalidJidSuccessfulTestresults.add(successful);
+			long stopNanos = System.nanoTime();
+			InvalidJidTestresult.Successful successful = new InvalidJidTestresult.Successful(xmppStringPrepper,
+					startNanos, stopNanos, invalidJid, e);
+			xmppStringPrepperState.invalidJidSuccessfulTestresults.add(successful);
 			return;
 		}
+		long stopNanos = System.nanoTime();
 
-		InvalidJidTestresult.Failed failed = new InvalidJidTestresult.Failed(xmppStringPrepper, invalidJid, jid);
-		invalidJidFailedTestresults.add(failed);
+		InvalidJidTestresult.Failed failed = new InvalidJidTestresult.Failed(xmppStringPrepper, startNanos, stopNanos,
+				invalidJid, jid);
+		xmppStringPrepperState.invalidJidFailedTestresults.add(failed);
 	}
 
 	static List<ValidJid> parseValidJids() {
@@ -187,6 +200,29 @@ public class StringsTestframework {
 		InvalidJidCorpusParser parser = new InvalidJidCorpusParser(mainInvalidJids);
 		List<InvalidJid> invalidJids = parser.parse();
 		return invalidJids;
+	}
+
+	private static class XmppStringPrepperState {
+
+		private final XmppStringPrepper xmppStringPrepper;
+
+		private final List<ValidJidTestresult.Successful> validJidSuccessfulTestresults;
+		private final List<ValidJidTestresult.Failed> validJidFailedTestresults;
+
+		private final List<InvalidJidTestresult.Successful> invalidJidSuccessfulTestresults;
+		private final List<InvalidJidTestresult.Failed> invalidJidFailedTestresults;
+
+		private XmppStringPrepperState(XmppStringPrepper xmppStringPrepper, int validJidCorpusSize,
+				int invalidJidCorpusSize) {
+			this.xmppStringPrepper = xmppStringPrepper;
+
+			this.validJidSuccessfulTestresults = Collections.synchronizedList(new ArrayList<>(validJidCorpusSize));
+			this.validJidFailedTestresults = Collections.synchronizedList(new ArrayList<>());
+
+			this.invalidJidSuccessfulTestresults = Collections.synchronizedList(new ArrayList<>(invalidJidCorpusSize));
+			this.invalidJidFailedTestresults = Collections.synchronizedList(new ArrayList<>());
+		}
+
 	}
 
 	public static class Configuration {
@@ -262,7 +298,55 @@ public class StringsTestframework {
 		}
 	}
 
+	public static class XmppStringPrepperResult implements Comparable<XmppStringPrepperResult> {
+
+		public final XmppStringPrepper xmppStringPrepper;
+
+		public final List<ValidJidTestresult.Successful> validJidSuccessfulTestresults;
+		public final List<ValidJidTestresult.Failed> validJidFailedTestresults;
+
+		public final List<InvalidJidTestresult.Successful> invalidJidSuccessfulTestresults;
+		public final List<InvalidJidTestresult.Failed> invalidJidFailedTestresults;
+
+		public final int totalSuccessful, totalFailed;
+
+		private XmppStringPrepperResult(XmppStringPrepperState xmppStringPrepperState) {
+			xmppStringPrepper = xmppStringPrepperState.xmppStringPrepper;
+
+			validJidSuccessfulTestresults = Collections
+					.unmodifiableList(new ArrayList<>(xmppStringPrepperState.validJidSuccessfulTestresults));
+			validJidFailedTestresults = Collections
+					.unmodifiableList(new ArrayList<>(xmppStringPrepperState.validJidFailedTestresults));
+
+			invalidJidSuccessfulTestresults = Collections
+					.unmodifiableList(new ArrayList<>(xmppStringPrepperState.invalidJidSuccessfulTestresults));
+			invalidJidFailedTestresults = Collections
+					.unmodifiableList(new ArrayList<>(xmppStringPrepperState.invalidJidFailedTestresults));
+
+			totalSuccessful = validJidSuccessfulTestresults.size() + invalidJidSuccessfulTestresults.size();
+			totalFailed = validJidFailedTestresults.size() + invalidJidFailedTestresults.size();
+		}
+
+		@Override
+		public int compareTo(XmppStringPrepperResult o) {
+			if (totalSuccessful != o.totalSuccessful) {
+				return Integer.compare(totalSuccessful, o.totalSuccessful);
+			}
+
+			int myValidJidSuccessfulCount = validJidFailedTestresults.size();
+			int otherValidJidSuccessfulCount = o.validJidSuccessfulTestresults.size();
+			if (myValidJidSuccessfulCount != otherValidJidSuccessfulCount) {
+				return Integer.compare(myValidJidSuccessfulCount, otherValidJidSuccessfulCount);
+			}
+
+			return 0;
+		}
+
+	}
+
 	public static class Result {
+		public final List<XmppStringPrepperResult> xmppStringPrepperResults;
+
 		public final List<ValidJidTestresult.Successful> validJidSuccessfulTestresults;
 		public final List<ValidJidTestresult.Failed> validJidFailedTestresults;
 
@@ -275,15 +359,33 @@ public class StringsTestframework {
 
 		public final ZonedDateTime time = ZonedDateTime.now();
 
-		Result(List<ValidJidTestresult.Successful> validJidSuccessfulTestresults, List<ValidJidTestresult.Failed> validJidFailedTestresults, List<InvalidJidTestresult.Successful> invalidJidSuccessfulTestresults, List<InvalidJidTestresult.Failed> invalidJidFailedTestresults) {
-			this.validJidSuccessfulTestresults = Collections.unmodifiableList(validJidSuccessfulTestresults);
-			this.validJidFailedTestresults = Collections.unmodifiableList(validJidFailedTestresults);
-			this.invalidJidSuccessfulTestresults = Collections.unmodifiableList(invalidJidSuccessfulTestresults);
-			this.invalidJidFailedTestresults = Collections.unmodifiableList(invalidJidFailedTestresults);
+		Result(List<XmppStringPrepperState> xmppStringPreppersState) {
+			xmppStringPrepperResults = xmppStringPreppersState.stream()
+					.map(s -> new XmppStringPrepperResult(s))
+					.collect(Collectors.collectingAndThen(Collectors.toList(),
+							results -> {
+								Collections.sort(results);
+								return Collections.unmodifiableList(results);
+							}));
+
+			validJidSuccessfulTestresults = gather(xmppStringPrepperResults, s -> s.validJidSuccessfulTestresults);
+			validJidFailedTestresults = gather(xmppStringPrepperResults, s -> s.validJidFailedTestresults);
+
+			invalidJidSuccessfulTestresults = gather(xmppStringPrepperResults, s -> s.invalidJidSuccessfulTestresults);
+			invalidJidFailedTestresults = gather(xmppStringPrepperResults, s -> s.invalidJidFailedTestresults);
 
 			totalSuccessful = validJidSuccessfulTestresults.size() + invalidJidSuccessfulTestresults.size();
 			totalFailed = validJidFailedTestresults.size() + invalidJidFailedTestresults.size();
 			wasSucccessful = totalFailed == 0;
+		}
+
+		private static <I,R> List<R> gather(Collection<I> inputCollection,
+				Function<? super I, Collection<? extends R>> mapper) {
+			return inputCollection.stream()
+					.map(mapper)
+					.flatMap(l -> l.stream())
+					// TODO Use Collectors.toUnmodifiableList() once jXMPP is on Java 10 or higher.
+					.collect(Collectors.collectingAndThen(Collectors.toList(), Collections::unmodifiableList));
 		}
 
 		/**

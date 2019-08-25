@@ -22,13 +22,12 @@ import org.jxmpp.jid.parts.Localpart;
 import org.jxmpp.jid.parts.Resourcepart;
 import org.jxmpp.stringprep.XmppStringprepException;
 
-public abstract class InvalidJidTestresult {
+public abstract class InvalidJidTestresult extends JidTestresult {
 
-	public final XmppStringPrepper xmppStringPrepper;
 	public final InvalidJid invalidJid;
 
-	protected InvalidJidTestresult(XmppStringPrepper xmppStringPrepper, InvalidJid invalidJid) {
-		this.xmppStringPrepper = xmppStringPrepper;
+	protected InvalidJidTestresult(XmppStringPrepper xmppStringPrepper, long startNanos, long stopNanos, InvalidJid invalidJid) {
+		super(xmppStringPrepper, startNanos, stopNanos);
 		this.invalidJid = invalidJid;
 	}
 
@@ -36,9 +35,9 @@ public abstract class InvalidJidTestresult {
 
 		public final XmppStringprepException xmppStringprepException;
 
-		protected Successful(XmppStringPrepper xmppStringPrepper, InvalidJid invalidJid,
-				XmppStringprepException xmppStringprepException) {
-			super(xmppStringPrepper, invalidJid);
+		protected Successful(XmppStringPrepper xmppStringPrepper, long startNanos, long stopNanos,
+				InvalidJid invalidJid, XmppStringprepException xmppStringprepException) {
+			super(xmppStringPrepper, startNanos, stopNanos, invalidJid);
 			this.xmppStringprepException = xmppStringprepException;
 		}
 
@@ -48,8 +47,9 @@ public abstract class InvalidJidTestresult {
 
 		public final Jid jid;
 
-		protected Failed(XmppStringPrepper xmppStringPrepper, InvalidJid invalidJid, Jid jid) {
-			super(xmppStringPrepper, invalidJid);
+		protected Failed(XmppStringPrepper xmppStringPrepper, long startNanos, long stopNanos, InvalidJid invalidJid,
+				Jid jid) {
+			super(xmppStringPrepper, startNanos, stopNanos, invalidJid);
 			this.jid = jid;
 		}
 
