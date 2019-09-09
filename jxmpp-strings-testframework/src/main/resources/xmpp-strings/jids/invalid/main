@@ -97,4 +97,13 @@ user@@host/resource
 invalid jid:
 user@@host/
 
+invalid jid:
+xsf@muc.xmpp.org/؜x
+xsf@muc.xmpp.org/<U+061C>x
+U+061C ARABIC LETTER MARK
+U+0078 LATIN SMALL LETTER X
+U+061C is assigned since 2013 and in the Cf category, which makes it a
+control character, which are disallowed in by the FreeformClass (RFC
+7564 § 4.3.3) and therefore disallowed in resourceparts.
+
 End Of Corpus
