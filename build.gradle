@@ -1,5 +1,3 @@
-import org.gradle.plugins.signing.Sign
-
 buildscript {
 	repositories {
 		maven {
@@ -43,7 +41,8 @@ allprojects {
 		rootConfigDir = new File(rootDir, 'config')
 		sonatypeCredentialsAvailable = project.hasProperty('sonatypeUsername') && project.hasProperty('sonatypePassword')
 		isReleaseVersion = !isSnapshot
-		signingRequired = isReleaseVersion
+		isContinuousIntegrationEnvironment = Boolean.parseBoolean(System.getenv('CI'))
+		signingRequired = !(isSnapshot || isContinuousIntegrationEnvironment)
 		sonatypeSnapshotUrl = 'https://oss.sonatype.org/content/repositories/snapshots'
 		sonatypeStagingUrl = 'https://oss.sonatype.org/service/local/staging/deploy/maven2'
 		builtDate = (new java.text.SimpleDateFormat("yyyy-MM-dd")).format(new Date())
@@ -167,20 +166,6 @@ allprojects {
 	}
 }
 
-gradle.taskGraph.whenReady { taskGraph ->
-	if (signingRequired
-		&& taskGraph.allTasks.any { it instanceof Sign }) {
-		// Use Java 6's console to read from the console (no good for a CI environment)
-		def console = System.console()
-		console.printf '\n\nWe have to sign some things in this build.\n\nPlease enter your signing details.\n\n'
-		def password = console.readPassword('GnuPG Private Key Password: ')
-
-		allprojects { ext.'signing.password' = password }
-
-		console.printf '\nThanks.\n\n'
-	}
-}
-
 task javadocAll(type: Javadoc) {
 	source subprojects.collect {project ->
 		project.sourceSets.main.allJava }
@@ -214,7 +199,7 @@ uploadArchives.enabled = false
 
 evaluationDependsOnChildren()
 subprojects {
-	apply plugin: 'maven'
+	apply plugin: 'maven-publish'
 	apply plugin: 'osgi'
 	apply plugin: 'signing'
 	apply plugin: 'checkstyle'
@@ -236,67 +221,60 @@ subprojects {
 		from sourceSets.test.output
 	}
 	artifacts {
-		archives sourcesJar
-		archives javadocJar
-		archives testsJar
+		// See http://stackoverflow.com/a/21946676/194894
+		testRuntime testsJar
 	}
 
-	uploadArchives {
-		repositories {
-			mavenDeployer {
-				if (signingRequired) {
-					beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
-				}
-				repository(url: project.sonatypeStagingUrl) {
-					if (sonatypeCredentialsAvailable) {
-						authentication(userName: sonatypeUsername, password: sonatypePassword)
-					}
-				}
-				snapshotRepository(url: project.sonatypeSnapshotUrl) {
-					if (sonatypeCredentialsAvailable) {
-						authentication(userName: sonatypeUsername, password: sonatypePassword)
-					}
-				}
-
-				pom.project {
-					name 'JXMPP'
-					packaging 'jar'
-					inceptionYear '2014'
-					url 'http://www.igniterealtime.org/projects/jxmpp/'
+	publishing {
+		publications {
+			mavenJava(MavenPublication) {
+				from components.java
+				artifact sourcesJar
+				artifact javadocJar
+				artifact testsJar
+				pom {
+					name = 'JXMPP'
+					packaging = 'jar'
+					inceptionYear = '2014'
+					url = 'http://www.igniterealtime.org/projects/jxmpp/'
 					description project.description
 
 					issueManagement {
-						system 'JIRA'
-						url 'http://issues.igniterealtime.org/browse/JXMPP'
-					}
-
-					distributionManagement {
-						snapshotRepository {
-							id 'smack.snapshot'
-							url project.sonatypeSnapshotUrl
-						}
+						system = 'JIRA'
+						url = 'http://issues.igniterealtime.org/browse/JXMPP'
 					}
 
 					scm {
-						url 'https://github.com/igniterealtime/Smack'
-						connection 'scm:git:https://github.com/igniterealtime/Smack.git'
-						developerConnection 'scm:git:https://github.com/igniterealtime/Smack.git'
+						url = 'https://github.com/igniterealtime/Smack'
+						connection = 'scm:git:https://github.com/igniterealtime/Smack.git'
+						developerConnection = 'scm:git:https://github.com/igniterealtime/Smack.git'
 					}
 
 					licenses {
 						license {
-							name 'The Apache Software License, Version 2.0'
-							url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-							distribution 'repo'
+							name = 'The Apache Software License, Version 2.0'
+							url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+							distribution = 'repo'
 						}
 					}
 
 					developers {
 						developer {
-							id 'flow'
-							name 'Florian Schmaus'
-							email 'flow@igniterealtime.org'
+							id = 'flow'
+							name = 'Florian Schmaus'
+							email = 'flow@igniterealtime.org'
 						}
+					}
+				}
+			}
+		}
+		repositories {
+			maven {
+				url isSnapshot ? sonatypeSnapshotUrl : sonatypeStagingUrl
+				if (sonatypeCredentialsAvailable) {
+					credentials {
+						username = sonatypeUsername
+						password = sonatypePassword
 					}
 				}
 			}
@@ -308,9 +286,19 @@ subprojects {
 			include "$libsDirName/**"
 		}
 	}
+
+	// Workaround for gpg signatory not supporting the 'required' option
+	// See https://github.com/gradle/gradle/issues/5064#issuecomment-381924984
+	// Note what we use 'signing.gnupg.keyName' instead of 'signing.keyId'.
+	tasks.withType(Sign) {
+		onlyIf {
+			project.hasProperty('signing.gnupg.keyName')
+		}
+	}
 	signing {
 		required { signingRequired }
-		sign configurations.archives
+		useGpgCmd()
+		sign publishing.publications.mavenJava
 	}
 }
 

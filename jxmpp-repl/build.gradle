@@ -10,7 +10,6 @@ dependencies {
     compile project(':jxmpp-util-cache')
     compile "com.lihaoyi:ammonite_$scalaVersion:0.8.0"
     testCompile project(path: ":jxmpp-core", configuration: "testRuntime")
-    testCompile project(path: ":jxmpp-core", configuration: "archives")
 }
 
 task printClasspath(dependsOn: assemble) {

@@ -19,6 +19,6 @@ before_install:
   - export PATH="$(pwd)/gradle-${GRADLE_VERSION}/bin:$PATH"
 
 install: gradle --stacktrace assemble
-script: gradle --stacktrace check
+script: gradle --stacktrace check publishToMavenLocal
 after_success:
   gradle --stacktrace jacocoRootReport coveralls
