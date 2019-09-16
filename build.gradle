@@ -8,25 +8,22 @@ buildscript {
 
 	dependencies {
 		classpath "org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.8.2"
-		classpath 'net.ltgt.gradle:gradle-errorprone-plugin:0.0.13'
 	}
 }
 
 plugins {
 	id 'ru.vyarus.animalsniffer' version '1.5.0'
+	id 'net.ltgt.errorprone' version '0.8.1'
 	id 'me.champeau.gradle.jmh' version '0.4.8'
 }
 
 apply from: 'version.gradle'
-
-import net.ltgt.gradle.errorprone.ErrorProneToolChain
 
 allprojects {
 	apply plugin: 'java'
 	apply plugin: 'eclipse'
 	apply plugin: 'idea'
 	apply plugin: 'jacoco'
-	apply plugin: 'net.ltgt.errorprone-base'
 
 	repositories {
 		mavenLocal()
@@ -57,6 +54,10 @@ allprojects {
 			':jxmpp-stringprep-libidn',
 			':jxmpp-util-cache',
 		].collect { project(it) }
+		// Only enable Error Prone for non JMH projects, as JMH
+		// uses generated Java source code which is prone to Error
+		// Prone bug patterns.
+		errorProneProjects = subprojects - project(":jxmpp-util-cache")
 		junitVersion = '5.4.2'
 	}
 	group = 'org.jxmpp'
@@ -106,17 +107,6 @@ allprojects {
 			'-Xlint:-options',
 			'-Werror',
 		]
-		if (!name.toLowerCase().contains('jmh')) {
-			// Only enable Error Prone for non JMH projects, as JMH
-			// uses generated Java source code which is prone to Error
-			// Prone bug patterns.
-			toolChain ErrorProneToolChain.create(project)
-			options.compilerArgs = [
-				// Disable MissingCasesInEnumSwitch error prone check
-				// because this check is already done by javac as incomplete-switch.
-				'-Xep:MissingCasesInEnumSwitch:OFF',
-			]
-		}
 	}
 	if (JavaVersion.current().isJava8Compatible()) {
 		tasks.withType(Javadoc) {
@@ -151,8 +141,6 @@ allprojects {
 	dependencies {
 		testImplementation "org.junit.jupiter:junit-jupiter-api:$junitVersion"
 		testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
-
-		errorprone 'com.google.errorprone:error_prone_core:2.2.0'
 	}
 
 	test {
@@ -299,6 +287,32 @@ subprojects {
 		required { signingRequired }
 		useGpgCmd()
 		sign publishing.publications.mavenJava
+	}
+}
+
+configure (errorProneProjects) {
+	apply plugin: 'net.ltgt.errorprone'
+
+	tasks.withType(JavaCompile) {
+		options.errorprone {
+			error(
+				"UnusedVariable",
+				"UnusedMethod",
+				"MethodCanBeStatic",
+			)
+			errorproneArgs = [
+				// Disable MissingCasesInEnumSwitch error prone check
+				// because this check is already done by javac as incomplete-switch.
+				'-Xep:MissingCasesInEnumSwitch:OFF',
+				'-Xep:StringSplitter:OFF',
+				'-Xep:JavaTimeDefaultTimeZone:OFF',
+			]
+		}
+	}
+
+	dependencies {
+		errorprone 'com.google.errorprone:error_prone_core:2.3.3'
+		errorproneJavac('com.google.errorprone:javac:9+181-r4173-1')
 	}
 }
 

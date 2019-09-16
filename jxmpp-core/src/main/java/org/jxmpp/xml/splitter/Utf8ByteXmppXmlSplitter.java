@@ -104,18 +104,7 @@ public class Utf8ByteXmppXmlSplitter extends OutputStream {
 		ensureWriteBufferHasCapacityFor(requiredNewCapacity);
 
 		for (ByteBuffer byteBuffer : byteBuffers) {
-			final int remaining = byteBuffer.remaining();
-
-			if (byteBuffer.isDirect()) {
-				int initialPosition = byteBuffer.position();
-				for (int i = 0; i < remaining; i++) {
-					process(byteBuffer.get(initialPosition + i));
-				}
-			} else {
-				writeInternal(byteBuffer.array(), byteBuffer.position(), remaining);
-			}
-
-			byteBuffer.flip();
+			writeByteBufferInternal(byteBuffer);
 		}
 
 		afterInputProcessed();
@@ -131,16 +120,22 @@ public class Utf8ByteXmppXmlSplitter extends OutputStream {
 		final int remaining = byteBuffer.remaining();
 		ensureWriteBufferHasCapacityFor(remaining);
 
-		if (byteBuffer.isDirect()) {
+		writeByteBufferInternal(byteBuffer);
+
+		afterInputProcessed();
+	}
+
+	private void writeByteBufferInternal(ByteBuffer byteBuffer) throws IOException {
+		final int remaining = byteBuffer.remaining();
+
+		if (byteBuffer.hasArray()) {
+			writeInternal(byteBuffer.array(), byteBuffer.arrayOffset(), remaining);
+		} else {
 			int initialPosition = byteBuffer.position();
 			for (int i = 0; i < remaining; i++) {
 				process(byteBuffer.get(initialPosition + i));
 			}
-		} else {
-			writeInternal(byteBuffer.array(), byteBuffer.position(), remaining);
 		}
-
-		afterInputProcessed();
 
 		byteBuffer.flip();
 	}

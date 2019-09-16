@@ -76,9 +76,9 @@ public class StringsTestframework {
 				.map(s -> new XmppStringPrepperState(s, validJids.size(), invalidJids.size()))
 				.collect(Collectors.toList());
 
-		executeForEach(xmppStringPreppersState, validJids, this::testValidJids);
+		executeForEach(xmppStringPreppersState, validJids, StringsTestframework::testValidJids);
 
-		executeForEach(xmppStringPreppersState, invalidJids, this::testInvalidJids);
+		executeForEach(xmppStringPreppersState, invalidJids, StringsTestframework::testInvalidJids);
 
 		phaser.arriveAndAwaitAdvance();
 
@@ -110,7 +110,7 @@ public class StringsTestframework {
 		childPhasers.forEach(p -> p.arrive());
 	}
 
-	private void testValidJids(XmppStringPrepperState xmppStringPrepperState, ValidJid validJid) {
+	private static void testValidJids(XmppStringPrepperState xmppStringPrepperState, ValidJid validJid) {
 		XmppStringPrepper xmppStringPrepper = xmppStringPrepperState.xmppStringPrepper;
 		Jid jid;
 
@@ -167,7 +167,7 @@ public class StringsTestframework {
 		}
 	}
 
-	private void testInvalidJids(XmppStringPrepperState xmppStringPrepperState, InvalidJid invalidJid) {
+	private static void testInvalidJids(XmppStringPrepperState xmppStringPrepperState, InvalidJid invalidJid) {
 		XmppStringPrepper xmppStringPrepper = xmppStringPrepperState.xmppStringPrepper;
 		Jid jid;
 

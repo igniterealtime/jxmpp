@@ -239,18 +239,18 @@ public class KnownFailures {
 	}
 
 	private static class XmppStringprepStringCoupling {
-		public final Class<? extends XmppStringprep> xmppStringPrepClass;
+		public final Class<? extends XmppStringprep> xmppStringprepClass;
 		public final String string;
 
 		private XmppStringprepStringCoupling(Class<? extends XmppStringprep> xmppStringprepClass, String string) {
-			this.xmppStringPrepClass = xmppStringprepClass;
+			this.xmppStringprepClass = xmppStringprepClass;
 			this.string = string;
 		}
 
 		@Override
 		public int hashCode() {
 			int result = 17;
-			result = 31 * result + xmppStringPrepClass.hashCode();
+			result = 31 * result + xmppStringprepClass.hashCode();
 			result = 31 * result + string.hashCode();
 			return result;
 		}
@@ -266,12 +266,12 @@ public class KnownFailures {
 			}
 
 			XmppStringprepStringCoupling lhs = (XmppStringprepStringCoupling) other;
-			return xmppStringPrepClass.equals(lhs.xmppStringPrepClass) && string.equals(lhs.string);
+			return xmppStringprepClass.equals(lhs.xmppStringprepClass) && string.equals(lhs.string);
 		}
 
 		@Override
 		public String toString() {
-			return xmppStringPrepClass.getName() + " '" + string + "\'";
+			return xmppStringprepClass.getName() + " '" + string + "\'";
 		}
 	}
 
