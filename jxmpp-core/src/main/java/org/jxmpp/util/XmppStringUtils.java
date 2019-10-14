@@ -18,6 +18,8 @@ package org.jxmpp.util;
 
 import org.jxmpp.util.cache.LruCache;
 
+import static java.lang.Character.isWhitespace;
+
 /**
  * Utility class for handling Strings in XMPP.
  */
@@ -230,7 +232,7 @@ public class XmppStringUtils {
 				buf.append("\\5c");
 				break;
 			default: {
-				if (Character.isWhitespace(c)) {
+				if (isWhitespace(c) || isNonBreakingSpace(c)) {
 					buf.append("\\20");
 				} else {
 					buf.append(c);
@@ -241,6 +243,10 @@ public class XmppStringUtils {
 		res = buf.toString();
 		LOCALPART_ESACPE_CACHE.put(localpart, res);
 		return res;
+	}
+
+	private static boolean isNonBreakingSpace(char chr) {
+		return chr == '\u00A0' || chr == '\u2007' || chr == '\u202F';
 	}
 
 	/**
