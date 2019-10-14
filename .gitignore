@@ -1,6 +1,7 @@
 .classpath
 .settings
 .project
+.idea
 
 gradle.properties
 .gradle/
