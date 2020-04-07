@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2014-2018 Florian Schmaus
+ * Copyright © 2014-2020 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,7 +42,8 @@ import org.jxmpp.jid.parts.Resourcepart;
  * <p>
  * The following table shows a few examples of JID types.
  * </p>
- * <table summary="XMPP Address Types">
+ * <table>
+ * <caption>XMPP Address Types</caption>
  * <tr>
  * <td>Example</td>
  * <td>Type</td>
