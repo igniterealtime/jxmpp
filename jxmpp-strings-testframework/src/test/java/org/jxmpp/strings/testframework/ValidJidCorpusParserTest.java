@@ -1,6 +1,6 @@
 /**
  *
- * Copyright 2019 Florian Schmaus
+ * Copyright 2019-2020 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,8 +24,8 @@ import org.junit.jupiter.api.Test;
 
 public class ValidJidCorpusParserTest {
 
-	public static final char US = ValidJidCorpusParser.ASCII_UNIT_SEPARATOR_UNICODE_INFORMATION_SEPARATOR_ONE;
-	public static final char RS = ValidJidCorpusParser.ASCII_RECORD_SEPARATOR_UNICODE_INFORMATION_SEPARATOR_TWO;
+	public static final char US = JidCorpusParser.ASCII_UNIT_SEPARATOR_UNICODE_INFORMATION_SEPARATOR_ONE;
+	public static final char RS = JidCorpusParser.ASCII_RECORD_SEPARATOR_UNICODE_INFORMATION_SEPARATOR_TWO;
 
 	@Test
 	public void parseTestAllParts() {
@@ -96,7 +96,7 @@ public class ValidJidCorpusParserTest {
 
 	private static String createJidEntry(String unnormalizedJid, String normalizedLocalpart, String normalizedDomainpart, String normalizedResourcepart) {
 		return "jid:\n"
-				+ unnormalizedJid + ValidJidCorpusParser.END_OF_RECORD
+				+ unnormalizedJid + JidCorpusParser.END_OF_RECORD
 				+ normalizedLocalpart + US + normalizedDomainpart + US + normalizedResourcepart + RS + '\n';
 	}
 }

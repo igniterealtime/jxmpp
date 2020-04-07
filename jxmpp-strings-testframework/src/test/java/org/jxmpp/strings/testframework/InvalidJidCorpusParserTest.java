@@ -1,6 +1,6 @@
 /**
  *
- * Copyright 2019 Florian Schmaus
+ * Copyright 2019-2020 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@ public class InvalidJidCorpusParserTest {
 	@Test
 	public void simpleParseTest() {
 		String input = "invalid jid:\n"
-				+ "not a valid jid" + InvalidJidCorpusParser.END_OF_RECORD;
+				+ "not a valid jid" + JidCorpusParser.END_OF_RECORD;
 		InvalidJidCorpusParser parser = new InvalidJidCorpusParser(input, true);
 		List<InvalidJid> invalidJids = parser.parse();
 
