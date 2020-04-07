@@ -58,7 +58,7 @@ allprojects {
 		// uses generated Java source code which is prone to Error
 		// Prone bug patterns.
 		errorProneProjects = subprojects - project(":jxmpp-util-cache")
-		junitVersion = '5.4.2'
+		junitVersion = '5.6.1'
 	}
 	group = 'org.jxmpp'
 	sourceCompatibility = 1.8
