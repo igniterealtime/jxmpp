@@ -59,9 +59,11 @@ allprojects {
 		// Prone bug patterns.
 		errorProneProjects = subprojects - project(":jxmpp-util-cache")
 		junitVersion = '5.6.1'
+		javaCompatilibity = JavaVersion.VERSION_1_8
+		javaMajor = javaCompatilibity.getMajorVersion()
 	}
 	group = 'org.jxmpp'
-	sourceCompatibility = 1.8
+	sourceCompatibility = javaCompatilibity
 	targetCompatibility = sourceCompatibility
 	version = shortVersion
 	if (isSnapshot) {
@@ -115,6 +117,18 @@ allprojects {
 			options.addStringOption('Xwerror', '-quiet')
 		}
 	}
+
+	if (JavaVersion.current().isJava9Compatible()) {
+		tasks.withType(Javadoc) {
+			options.addStringOption('-release', javaMajor)
+		}
+		tasks.withType(JavaCompile) {
+			options.compilerArgs.addAll([
+				'--release', javaMajor,
+			])
+		}
+	}
+
 	tasks.withType(Javadoc) {
 		options.charSet = "UTF-8"
 	}
@@ -157,7 +171,7 @@ task javadocAll(type: Javadoc) {
 		project.sourceSets.main.compileClasspath})
 	options.linkSource = true
 	options.use = true
-	options.links = ["https://docs.oracle.com/javase/${sourceCompatibility.getMajorVersion()}/docs/api/"] as String[]
+	options.links = ["https://docs.oracle.com/javase/${javaMajor}/docs/api/"] as String[]
 }
 
 task distributionZip(type: Zip, dependsOn: [javadocAll]) {
