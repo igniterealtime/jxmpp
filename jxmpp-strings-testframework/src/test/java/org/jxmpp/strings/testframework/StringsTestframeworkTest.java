@@ -1,6 +1,6 @@
 /**
  *
- * Copyright 2019 Florian Schmaus
+ * Copyright 2019-2020 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
 public class StringsTestframeworkTest {
 
 	private static final int VALID_JID_CORPUS_SIZE = 21;
-	private static final int INVALID_JID_CORPUS_SIZE = 21;
+	private static final int INVALID_JID_CORPUS_SIZE = 22;
 
 	@Test
 	public void testStringsTestframeworkIsSuccessful() {

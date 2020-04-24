@@ -1,6 +1,6 @@
 /**
  *
- * Copyright 2019 Florian Schmaus
+ * Copyright 2019-2020 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,6 +39,7 @@ public class KnownFailures {
 		whitelistInvalidJid(XmppStringPrepper.ICU4J, "user@@host/resource");
 		whitelistInvalidJid(XmppStringPrepper.ICU4J, "user@@host");
 		whitelistInvalidJid(XmppStringPrepper.ICU4J, "user@@");
+		whitelistInvalidJid(XmppStringPrepper.ICU4J, "username@example.org@example.org");
 
 		// LIBIDN
 		whitelistValidJid(XmppStringPrepper.LIBIDN, "fußball@example.com");
@@ -49,6 +50,8 @@ public class KnownFailures {
 		whitelistInvalidJid(XmppStringPrepper.LIBIDN, "user@@host");
 		whitelistInvalidJid(XmppStringPrepper.LIBIDN, "user@@");
 		whitelistInvalidJid(XmppStringPrepper.LIBIDN, "xsf@muc.xmpp.org/؜x");
+		whitelistInvalidJid(XmppStringPrepper.LIBIDN, "username@example.org@example.org");
+
 
 		// ROCKS_XMPP_PRECIS
 		whitelistValidJid(XmppStringPrepper.ROCKS_XMPP_PRECIS, "ς@example.com");
@@ -66,6 +69,7 @@ public class KnownFailures {
 		whitelistInvalidJid(XmppStringPrepper.SIMPLE, "user@@host");
 		whitelistInvalidJid(XmppStringPrepper.SIMPLE, "user@@");
 		whitelistInvalidJid(XmppStringPrepper.SIMPLE, "xsf@muc.xmpp.org/؜x");
+		whitelistInvalidJid(XmppStringPrepper.SIMPLE, "username@example.org@example.org");
 
 	}
 

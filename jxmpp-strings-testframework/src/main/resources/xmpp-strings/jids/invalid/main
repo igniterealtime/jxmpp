@@ -106,4 +106,14 @@ U+061C is assigned since 2013 and in the Cf category, which makes it a
 control character, which are disallowed in by the FreeformClass (RFC
 7564 § 4.3.3) and therefore disallowed in resourceparts.
 
+invalid jid:
+username@example.org@example.org
+According to the JID split rules this *must* result in a JID with
+'username' as localpart and 'example.org@example.org' as
+domainpart. But following the rules of RFC 7622, and especially
+considering RFC Errata ID# 5789
+(https://www.rfc-editor.org/errata/eid5789) the '@' in a domainpart is
+disallowed, because it is disallowed in NR-LDH labels and in U-Labels
+(see RFC 5892 Appendix B.1 where U+0040 '@' is DISALLOWED.
+
 End Of Corpus
