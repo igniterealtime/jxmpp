@@ -230,7 +230,7 @@ subprojects {
 					packaging = 'jar'
 					inceptionYear = '2014'
 					url = 'http://www.igniterealtime.org/projects/jxmpp/'
-					description project.description
+					description = project.description
 
 					issueManagement {
 						system = 'JIRA'
