@@ -17,8 +17,6 @@ plugins {
 	id 'me.champeau.gradle.jmh' version '0.4.8'
 }
 
-apply from: 'version.gradle'
-
 allprojects {
 	apply plugin: 'java'
 	apply plugin: 'eclipse'
@@ -30,7 +28,10 @@ allprojects {
 		mavenCentral()
 	}
 
+	version readVersionFile()
+
 	ext {
+		isSnapshot = version.endsWith('-SNAPSHOT')
 		gitCommit = getGitCommit()
 		javadocAllDir = new File(buildDir, 'javadoc')
 		documentationDir = new File(projectDir, 'documentation')
@@ -61,14 +62,12 @@ allprojects {
 		junitVersion = '5.6.1'
 		javaCompatilibity = JavaVersion.VERSION_1_8
 		javaMajor = javaCompatilibity.getMajorVersion()
+		jxmppMinAndroidSdk = 19
 	}
+
 	group = 'org.jxmpp'
 	sourceCompatibility = javaCompatilibity
 	targetCompatibility = sourceCompatibility
-	version = shortVersion
-	if (isSnapshot) {
-		version += '-SNAPSHOT'
-	}
 
 	ext.sharedManifest = manifest {
 		attributes('Implementation-Version': version,
@@ -404,4 +403,15 @@ def getAndroidRuntimeJar() {
 	} else {
 		throw new Exception("Can't find android.jar for $jxmppMinAndroidSdk API. Please install corresponding SDK platform package")
 	}
+}
+
+def readVersionFile() {
+	def versionFile = new File(rootDir, 'version')
+	if (!versionFile.isFile()) {
+		throw new Exception("Could not find version file")
+	}
+	if (versionFile.text.isEmpty()) {
+		throw new Exception("Version file does not contain a version")
+	}
+	versionFile.text.trim()
 }
