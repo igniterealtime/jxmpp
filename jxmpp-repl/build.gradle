@@ -2,6 +2,9 @@ ext {
     scalaVersion = '2.11.7'
 }
 
+description = """\
+A REPL for jXMPP."""
+
 dependencies {
     compile project(':jxmpp-core')
 	compile project(':jxmpp-jid')
