@@ -33,6 +33,7 @@ public class KnownFailures {
 	static {
 		// ICU4J
 		whitelistValidJid(XmppStringPrepper.ICU4J, "fußball@example.com");
+		whitelistValidJid(XmppStringPrepper.ICU4J, "user@example.org/🍺");
 
 		whitelistInvalidJid(XmppStringPrepper.ICU4J, "♚@example.com");
 		whitelistInvalidJid(XmppStringPrepper.ICU4J, "henry\u2163@example.com");
@@ -43,6 +44,7 @@ public class KnownFailures {
 
 		// LIBIDN
 		whitelistValidJid(XmppStringPrepper.LIBIDN, "fußball@example.com");
+		whitelistValidJid(XmppStringPrepper.LIBIDN, "user@example.org/🍺");
 
 		whitelistInvalidJid(XmppStringPrepper.LIBIDN, "♚@example.com");
 		whitelistInvalidJid(XmppStringPrepper.LIBIDN, "henry\u2163@example.com");
