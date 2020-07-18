@@ -163,4 +163,12 @@ A very long text label (that is resolvable on a local network) is a
 valid domainpart.  Note that RFC7622 does not restrict the text label
 in any form.  Whereas DNS labels are restricted to 64 bytes.
 
+Valid Resourceparts
+===================
+
+jid:
+user@example.org/🍺
+userexample.org🍺
+A resourcepart of the Unicode character BEER MUG (U+1F37A)
+
 End Of Corpus
