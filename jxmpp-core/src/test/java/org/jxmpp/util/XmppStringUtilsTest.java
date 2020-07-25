@@ -16,11 +16,11 @@
  */
 package org.jxmpp.util;
 
-import static org.junit.Assert.assertEquals;
-
-import static org.jxmpp.util.XmppStringUtils.parseDomain;
-
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.jxmpp.util.XmppStringUtils.parseDomain;
 
 public class XmppStringUtilsTest {
 
@@ -68,5 +68,49 @@ public class XmppStringUtilsTest {
 
 		// Some more advanced parsing cases
 		assertEquals(error, "resOne@resTwo", XmppStringUtils.parseResource("user@foo.jxmpp.org/resOne@resTwo"));
+	}
+
+	@Test
+	public void escapeLocalpart() {
+		String specialChars = " \"&'/:<>@\\_string";
+		assertEquals("\\20\\22\\26\\27\\2f\\3a\\3c\\3e\\40\\5c_string", XmppStringUtils.escapeLocalpart(specialChars));
+
+		// is null-safe
+		assertNull(XmppStringUtils.escapeLocalpart(null));
+	}
+
+	@Test
+	public void escapeLocalpart_whitespaces() {
+		// non ascii spaces, according to RFC 7613, Section 7.3, have to be mapped to '\20' as well
+		char[] whiteSpaces = {
+				'\u00A0', // NO-BREAK SPACE
+				'\u2007', // FIGURE SPACE
+				'\u202F', // NARROW NO-BREAK SPACE
+				'\t', // CHARACTER TABULATION
+				'\n', // LINE FEED (LF)
+				'\u000B', // LINE TABULATION
+				'\f', // FORM FEED (FF)
+				'\r', // CARRIAGE RETURN (CR)
+				'\u001C', // INFORMATION SEPARATOR FOUR
+				'\u001D', // INFORMATION SEPARATOR THREE
+				'\u001E', // INFORMATION SEPARATOR TWO
+				'\u001F' // INFORMATION SEPARATOR ONE
+		};
+		for (int i = 0; i < whiteSpaces.length; i++) {
+			char whiteSpace = whiteSpaces[i];
+			String whiteSpaceStr = new String(new char[]{whiteSpace});
+			String message = "character: index:" + i + ", name:" + Character.getName(whiteSpace);
+			assertEquals(message,"\\20", XmppStringUtils.escapeLocalpart(whiteSpaceStr));
+		}
+	}
+
+	@Test
+	public void unescapeLocalpart() {
+		String escapedString = "\\20\\22\\26\\27\\2f\\3a\\3c\\3e\\40\\5c";
+		String specialChars = " \"&'/:<>@\\";
+		assertEquals(specialChars, XmppStringUtils.unescapeLocalpart(escapedString));
+
+		// is null-safe
+		assertNull(XmppStringUtils.unescapeLocalpart(null));
 	}
 }
