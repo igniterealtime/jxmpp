@@ -360,10 +360,10 @@ public class JidCreate {
 		String localpart = XmppStringUtils.parseLocalpart(jid);
 		String domainpart = XmppStringUtils.parseDomain(jid);
 		try {
-			if (localpart.length() != 0) {
-				bareJid = new LocalAndDomainpartJid(localpart, domainpart, context);
-			} else {
+			if (localpart == null || localpart.length() == 0) {
 				bareJid = new DomainpartJid(domainpart, context);
+			} else {
+				bareJid = new LocalAndDomainpartJid(localpart, domainpart, context);
 			}
 		} catch (XmppStringprepException e) {
 			throw new XmppStringprepException(jid, e);
