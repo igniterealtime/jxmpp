@@ -66,7 +66,7 @@ import org.jxmpp.jid.parts.Resourcepart;
  * </tr>
  * </table>
  * <p>
- * You can retrieve the escaped String representing the Jid with {@link #toString()} or the unsecaped String of the JID
+ * You can retrieve the escaped String representing the Jid with {@link #toString()} or the unescaped String of the JID
  * with {@link #asUnescapedString()}.
  * </p>
  * <h2>URL Encoded JIDs</h2>

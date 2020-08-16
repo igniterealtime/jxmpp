@@ -66,7 +66,7 @@ public abstract class InvalidJidTestresult extends JidTestresult {
 				sb.append("- localpart: ").append(localpart).append('\n');
 			}
 			Domainpart domainpart = jid.getDomain();
-			sb.append("- domanipart: ").append(domainpart).append('\n');
+			sb.append("- domainpart: ").append(domainpart).append('\n');
 			Resourcepart resourcepart = jid.getResourceOrNull();
 			if (resourcepart != null) {
 				sb.append("- resourcepart: ").append(resourcepart).append('\n');

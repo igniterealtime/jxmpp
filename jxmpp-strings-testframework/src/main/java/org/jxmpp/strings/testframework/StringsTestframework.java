@@ -353,7 +353,7 @@ public class StringsTestframework {
 		public final List<InvalidJidTestresult.Successful> invalidJidSuccessfulTestresults;
 		public final List<InvalidJidTestresult.Failed> invalidJidFailedTestresults;
 
-		public final boolean wasSucccessful;
+		public final boolean wasSuccessful;
 		public final int totalSuccessful;
 		public final int totalFailed;
 
@@ -376,7 +376,7 @@ public class StringsTestframework {
 
 			totalSuccessful = validJidSuccessfulTestresults.size() + invalidJidSuccessfulTestresults.size();
 			totalFailed = validJidFailedTestresults.size() + invalidJidFailedTestresults.size();
-			wasSucccessful = totalFailed == 0;
+			wasSuccessful = totalFailed == 0;
 		}
 
 		private static <I,R> List<R> gather(Collection<I> inputCollection,
@@ -401,7 +401,7 @@ public class StringsTestframework {
 					"Successful Tests: " + totalSuccessful + '\n' +
 					"Failed Tests    : " + totalFailed + '\n'
 					);
-			if (!wasSucccessful) {
+			if (!wasSuccessful) {
 				appendable.append(
 						"Some tests FAILED! :(\n");
 				for (ValidJidTestresult.Failed failed : validJidFailedTestresults) {

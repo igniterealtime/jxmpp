@@ -38,7 +38,7 @@ public class XmppStringUtils {
 			return null;
 		}
 		if (atIndex == 0) {
-			// '@' as first character, i.e. '@example.org". Return emtpy string as
+			// '@' as first character, i.e. '@example.org". Return empty string as
 			// localpart, to make it possible to differentiate this from 'example.org'
 			// (which would return 'null' as localpart).
 			return "";

@@ -56,7 +56,7 @@ public class ExpirationCache<K, V> implements Cache<K, V>, Map<K, V>{
 	}
 
 	/**
-	 * Put a value in the cahce with the specified expiration time in milliseconds.
+	 * Put a value in the cache with the specified expiration time in milliseconds.
 	 *
 	 * @param key the key of the value.
 	 * @param value the value.

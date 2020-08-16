@@ -118,7 +118,7 @@ public class JidCreateTest {
 	}
 
 	@Test
-	public void entityFullFromUnsecapedComplexTest() throws XmppStringprepException {
+	public void entityFullFromUnescapedComplexTest() throws XmppStringprepException {
 		EntityFullJid entityFullJid = JidCreate.entityFullFromUnescaped("foo@boo@example.org/bar@baz");
 
 		Domainpart domainpart = entityFullJid.getDomain();
