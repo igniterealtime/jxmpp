@@ -153,7 +153,7 @@ public class XmppStringUtils {
 				&& parseResource(jid).length() == 0;
 	}
 
-	private static final LruCache<String, String> LOCALPART_ESACPE_CACHE = new LruCache<String, String>(100);
+	private static final LruCache<String, String> LOCALPART_ESCAPE_CACHE = new LruCache<String, String>(100);
 	private static final LruCache<String, String> LOCALPART_UNESCAPE_CACHE = new LruCache<String, String>(100);
 
 	/**
@@ -194,7 +194,7 @@ public class XmppStringUtils {
 		if (localpart == null) {
 			return null;
 		}
-		String res = LOCALPART_ESACPE_CACHE.lookup(localpart);
+		String res = LOCALPART_ESCAPE_CACHE.lookup(localpart);
 		if (res != null) {
 			return res;
 		}
@@ -239,7 +239,7 @@ public class XmppStringUtils {
 			}
 		}
 		res = buf.toString();
-		LOCALPART_ESACPE_CACHE.put(localpart, res);
+		LOCALPART_ESCAPE_CACHE.put(localpart, res);
 		return res;
 	}
 
