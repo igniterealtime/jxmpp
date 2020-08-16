@@ -128,8 +128,10 @@ public class XmppStringUtils {
 	 * @return true if full JID, false otherwise
 	 */
 	public static boolean isFullJID(String jid) {
-		if (parseLocalpart(jid).length() <= 0 || parseDomain(jid).length() <= 0
-				|| parseResource(jid).length() <= 0) {
+		String domain = parseDomain(jid);
+		String resource = parseResource(jid);
+		if ((domain == null || domain.length() <= 0)
+				|| (resource == null || resource.length() <= 0)) {
 			return false;
 		}
 		return true;
@@ -148,9 +150,10 @@ public class XmppStringUtils {
 	 * @return true if bare JID, false otherwise
 	 */
 	public static boolean isBareJid(String jid) {
-		return parseLocalpart(jid).length() > 0
-				&& parseDomain(jid).length() > 0
-				&& parseResource(jid).length() == 0;
+		String domain = parseDomain(jid);
+		String resource = parseResource(jid);
+		return (domain != null && domain.length() > 0
+				&& (resource == null || resource.length() == 0));
 	}
 
 	private static final LruCache<String, String> LOCALPART_ESCAPE_CACHE = new LruCache<String, String>(100);

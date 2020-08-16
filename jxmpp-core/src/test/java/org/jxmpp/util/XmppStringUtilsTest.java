@@ -18,6 +18,8 @@ package org.jxmpp.util;
 
 import static org.junit.Assert.assertEquals;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.jxmpp.util.XmppStringUtils.parseDomain;
 
 import org.junit.Test;
@@ -68,5 +70,23 @@ public class XmppStringUtilsTest {
 
 		// Some more advanced parsing cases
 		assertEquals(error, "resOne@resTwo", XmppStringUtils.parseResource("user@foo.jxmpp.org/resOne@resTwo"));
+	}
+
+	@Test
+	public void isFullOrBareJidTest() {
+		final String entityFullJid = "alice@wonderland.lit/rabbit_hole";
+		final String entityBareJid = "alice@wonderland.lit";
+		final String domainFullJid = "domain.part/resource";
+		final String domainBareJid = "domain.part";
+
+		assertTrue(XmppStringUtils.isFullJID(entityFullJid));
+		assertFalse(XmppStringUtils.isFullJID(entityBareJid));
+		assertTrue(XmppStringUtils.isFullJID(domainFullJid));
+		assertFalse(XmppStringUtils.isFullJID(domainBareJid));
+
+		assertFalse(XmppStringUtils.isBareJid(entityFullJid));
+		assertTrue(XmppStringUtils.isBareJid(entityBareJid));
+		assertFalse(XmppStringUtils.isBareJid(domainFullJid));
+		assertTrue(XmppStringUtils.isBareJid(domainBareJid));
 	}
 }
