@@ -418,10 +418,7 @@ public class JidUtil {
 		if (jidOne != null) {
 			return jidOne.equals(jidTwo);
 		}
-		if (jidTwo != null) {
-			return jidTwo.equals(jidOne);
-		}
 
-		return jidOne == jidTwo;
+		return jidTwo == null;
 	}
 }
