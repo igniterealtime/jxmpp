@@ -387,8 +387,9 @@ def getGitCommit() {
 	def dotGit = new File("$projectDir/.git")
 	if (!dotGit.isDirectory()) return 'non-git build'
 
+	def projectDirFile = new File("$projectDir")
 	def cmd = 'git describe --always --tags --dirty=+'
-	def proc = cmd.execute()
+	def proc = cmd.execute(null, projectDirFile)
 	def gitCommit = proc.text.trim()
 	assert !gitCommit.isEmpty()
 	gitCommit
