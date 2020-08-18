@@ -674,6 +674,7 @@ public class JidCreate {
 	 * @return a JID or {@code null}
 	 * @deprecated use {@link #entityFromUnescapedOrNull(CharSequence)} instead.
 	 */
+	// TODO: remove in jxmpp 1.1
 	@Deprecated
 	public static EntityJid entityFromUnesacpedOrNull(CharSequence cs) {
 		return entityFromUnescapedOrNull(cs);
