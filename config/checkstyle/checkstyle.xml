@@ -83,7 +83,7 @@
 			<property name="ignoreComments" value="true"/>
 		</module>
 		<module name="JavadocMethod">
-			<!-- TODO stricten those checks -->
+			<!-- TODO tighten those checks -->
 			<property name="scope" value="public"/>
 		</module>
 		<module name="JavadocStyle">

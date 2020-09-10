@@ -360,10 +360,10 @@ public class JidCreate {
 		String localpart = XmppStringUtils.parseLocalpart(jid);
 		String domainpart = XmppStringUtils.parseDomain(jid);
 		try {
-			if (localpart.length() != 0) {
-				bareJid = new LocalAndDomainpartJid(localpart, domainpart, context);
-			} else {
+			if (localpart == null || localpart.length() == 0) {
 				bareJid = new DomainpartJid(domainpart, context);
+			} else {
+				bareJid = new LocalAndDomainpartJid(localpart, domainpart, context);
 			}
 		} catch (XmppStringprepException e) {
 			throw new XmppStringprepException(jid, e);
@@ -672,8 +672,21 @@ public class JidCreate {
 	 *
 	 * @param cs the input {@link CharSequence}
 	 * @return a JID or {@code null}
+	 * @deprecated use {@link #entityFromUnescapedOrNull(CharSequence)} instead.
 	 */
+	// TODO: remove in jxmpp 1.1
+	@Deprecated
 	public static EntityJid entityFromUnesacpedOrNull(CharSequence cs) {
+		return entityFromUnescapedOrNull(cs);
+	}
+
+	/**
+	 * Get a {@link EntityJid} from a given {@link CharSequence} or {@code null} if the input does not represent a JID.
+	 *
+	 * @param cs the input {@link CharSequence}
+	 * @return a JID or {@code null}
+	 */
+	public static EntityJid entityFromUnescapedOrNull(CharSequence cs) {
 		try {
 			return entityFromUnescaped(cs.toString());
 		} catch (XmppStringprepException e) {

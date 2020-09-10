@@ -39,9 +39,9 @@ public class XmlPrettyPrinterTest {
 				"  </i>\n" +
 				"</o>";
 		// Create an XmlPrettyPrinter.Builder with the default settings.
-		XmlPrettyPrinter.Builder xmlPrettyPrinteBuilder = XmlPrettyPrinter.builder();
+		XmlPrettyPrinter.Builder xmlPrettyPrinterBuilder = XmlPrettyPrinter.builder();
 
-		xmlPrettyPrintTest(expectedPrettyPrintedXml, inputXml, xmlPrettyPrinteBuilder);
+		xmlPrettyPrintTest(expectedPrettyPrintedXml, inputXml, xmlPrettyPrinterBuilder);
 	}
 
 	@Test
@@ -54,11 +54,11 @@ public class XmlPrettyPrinterTest {
 				"    t\n" +
 				"  </i>\n" +
 				"</o>";
-		XmlPrettyPrinter.Builder xmlPrettyPrinteBuilder = XmlPrettyPrinter
+		XmlPrettyPrinter.Builder xmlPrettyPrinterBuilder = XmlPrettyPrinter
 				.builder()
 				.setAttributeIndent(1);
 
-		xmlPrettyPrintTest(expectedPrettyPrintedXml, inputXml, xmlPrettyPrinteBuilder);
+		xmlPrettyPrintTest(expectedPrettyPrintedXml, inputXml, xmlPrettyPrinterBuilder);
 	}
 
 	@Test
@@ -70,11 +70,11 @@ public class XmlPrettyPrinterTest {
 				"\t\tt\n" +
 				"\t</i>\n" +
 				"</o>";
-		XmlPrettyPrinter.Builder xmlPrettyPrinteBuilder = XmlPrettyPrinter
+		XmlPrettyPrinter.Builder xmlPrettyPrinterBuilder = XmlPrettyPrinter
 				.builder()
 				.setTabWidth(2);
 
-		xmlPrettyPrintTest(expectedPrettyPrintedXml, inputXml, xmlPrettyPrinteBuilder);
+		xmlPrettyPrintTest(expectedPrettyPrintedXml, inputXml, xmlPrettyPrinterBuilder);
 	}
 
 	private static void xmlPrettyPrintTest(String expectedPrettyPrintedXml, String inputXml,

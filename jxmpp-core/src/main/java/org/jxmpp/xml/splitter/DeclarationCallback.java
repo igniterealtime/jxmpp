@@ -23,9 +23,9 @@ package org.jxmpp.xml.splitter;
 public interface DeclarationCallback {
 
 	/**
-	 * Invoked once an XML declaration got splitted.
+	 * Invoked once an XML declaration got split.
 	 *
-	 * @param declaration the declaration string that was splitted.
+	 * @param declaration the declaration string that was split.
 	 */
 	void onDeclaration(String declaration);
 

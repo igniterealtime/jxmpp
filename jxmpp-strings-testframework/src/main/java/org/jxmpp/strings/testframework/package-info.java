@@ -16,6 +16,6 @@
  */
 
 /**
- * A framework to test various XMPP specific string preperation libraries.
+ * A framework to test various XMPP specific string preparation libraries.
  */
 package org.jxmpp.strings.testframework;

@@ -196,7 +196,7 @@ public class XmlPrettyPrinter extends XmlPrinter {
 		/**
 		 * Invoked after a part was completed.
 		 *
-		 * @param part the pertty printed part.
+		 * @param part the pretty printed part.
 		 */
 		void onPrettyPrintedXmlPart(StringBuilder part);
 	}
@@ -277,7 +277,7 @@ public class XmlPrettyPrinter extends XmlPrinter {
 		/**
 		 * Set a chunk callback.
 		 *
-		 * @param chunkCallback the cunk callback.
+		 * @param chunkCallback the chunk callback.
 		 * @return a reference to this builder.
 		 */
 		public Builder setChunkCallback(PrettyPrintedXmlChunkWithCurrentPartCallback chunkCallback) {

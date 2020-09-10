@@ -23,9 +23,9 @@ package org.jxmpp.xml.splitter;
 public interface ProcessingInstructionCallback {
 
 	/**
-	 * Invoked once a new XML Processing Instruction got splitted.
+	 * Invoked once a new XML Processing Instruction got split.
 	 *
-	 * @param processingInstruction the string of the splitted Processing Instruction.
+	 * @param processingInstruction the string of the split Processing Instruction.
 	 */
 	void onProcessingInstruction(String processingInstruction);
 

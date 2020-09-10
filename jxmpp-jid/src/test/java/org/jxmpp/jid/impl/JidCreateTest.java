@@ -17,9 +17,11 @@
 package org.jxmpp.jid.impl;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import org.junit.Test;
+import org.jxmpp.jid.BareJid;
 import org.jxmpp.jid.EntityBareJid;
 import org.jxmpp.jid.DomainBareJid;
 import org.jxmpp.jid.DomainFullJid;
@@ -43,6 +45,13 @@ public class JidCreateTest {
 		} catch (XmppStringprepException e) {
 			assertEquals(notABareJid, e.getCausingString());
 		}
+	}
+
+	@Test
+	public void bareFromDomainJidTest() throws XmppStringprepException {
+		final String domainJid = "pubsub.hamlet.lit";
+		BareJid jid = JidCreate.bareFrom(domainJid);
+		assertTrue(jid instanceof DomainBareJid);
 	}
 
 	@Test
@@ -109,7 +118,7 @@ public class JidCreateTest {
 	}
 
 	@Test
-	public void entityFullFromUnsecapedComplexTest() throws XmppStringprepException {
+	public void entityFullFromUnescapedComplexTest() throws XmppStringprepException {
 		EntityFullJid entityFullJid = JidCreate.entityFullFromUnescaped("foo@boo@example.org/bar@baz");
 
 		Domainpart domainpart = entityFullJid.getDomain();
