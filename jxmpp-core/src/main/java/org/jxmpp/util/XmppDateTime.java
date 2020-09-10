@@ -186,7 +186,7 @@ public class XmppDateTime {
 		}
 		/*
 		 * We assume it is the XEP-0082 DateTime profile with no milliseconds at
-		 * this point. If it isn't, is is just not parseable, then we attempt to
+		 * this point. If it isn't, is is just not parsable, then we attempt to
 		 * parse it regardless and let it throw the ParseException.
 		 */
 		return dateTimeNoMillisFormatter.parse(dateString);
@@ -243,7 +243,7 @@ public class XmppDateTime {
 
 	/**
 	 * Converts a XEP-0082 date String's time zone definition into a RFC822 time
-	 * zone definition. The major difference is that XEP-0082 uses a smicolon
+	 * zone definition. The major difference is that XEP-0082 uses a semicolon
 	 * between hours and minutes and RFC822 does not.
 	 * 
 	 * @param dateString the date String.

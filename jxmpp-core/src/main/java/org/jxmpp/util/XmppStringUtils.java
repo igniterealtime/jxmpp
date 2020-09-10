@@ -38,7 +38,7 @@ public class XmppStringUtils {
 			return null;
 		}
 		if (atIndex == 0) {
-			// '@' as first character, i.e. '@example.org". Return emtpy string as
+			// '@' as first character, i.e. '@example.org". Return empty string as
 			// localpart, to make it possible to differentiate this from 'example.org'
 			// (which would return 'null' as localpart).
 			return "";
@@ -128,8 +128,10 @@ public class XmppStringUtils {
 	 * @return true if full JID, false otherwise
 	 */
 	public static boolean isFullJID(String jid) {
-		if (parseLocalpart(jid).length() <= 0 || parseDomain(jid).length() <= 0
-				|| parseResource(jid).length() <= 0) {
+		String domain = parseDomain(jid);
+		String resource = parseResource(jid);
+		if ((domain == null || domain.length() <= 0)
+				|| (resource == null || resource.length() <= 0)) {
 			return false;
 		}
 		return true;
@@ -148,12 +150,13 @@ public class XmppStringUtils {
 	 * @return true if bare JID, false otherwise
 	 */
 	public static boolean isBareJid(String jid) {
-		return parseLocalpart(jid).length() > 0
-				&& parseDomain(jid).length() > 0
-				&& parseResource(jid).length() == 0;
+		String domain = parseDomain(jid);
+		String resource = parseResource(jid);
+		return (domain != null && domain.length() > 0
+				&& (resource == null || resource.length() == 0));
 	}
 
-	private static final LruCache<String, String> LOCALPART_ESACPE_CACHE = new LruCache<String, String>(100);
+	private static final LruCache<String, String> LOCALPART_ESCAPE_CACHE = new LruCache<String, String>(100);
 	private static final LruCache<String, String> LOCALPART_UNESCAPE_CACHE = new LruCache<String, String>(100);
 
 	/**
@@ -194,7 +197,7 @@ public class XmppStringUtils {
 		if (localpart == null) {
 			return null;
 		}
-		String res = LOCALPART_ESACPE_CACHE.lookup(localpart);
+		String res = LOCALPART_ESCAPE_CACHE.lookup(localpart);
 		if (res != null) {
 			return res;
 		}
@@ -239,7 +242,7 @@ public class XmppStringUtils {
 			}
 		}
 		res = buf.toString();
-		LOCALPART_ESACPE_CACHE.put(localpart, res);
+		LOCALPART_ESCAPE_CACHE.put(localpart, res);
 		return res;
 	}
 

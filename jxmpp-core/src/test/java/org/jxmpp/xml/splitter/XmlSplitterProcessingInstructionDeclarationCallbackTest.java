@@ -23,7 +23,7 @@ import org.junit.Test;
 public class XmlSplitterProcessingInstructionDeclarationCallbackTest extends XmlSplitterTestUtil {
 
 	@Test
-	public void sinmpleDeclarationCallbackTest() throws IOException {
+	public void simpleDeclarationCallbackTest() throws IOException {
 		SplittedPart[] splittedParts = new SplittedPart[] { decl("<?xml version='4.2' ?>"), elem("<element>foo</element>") };
 		xmppSplitterTest(splittedParts);
 	}

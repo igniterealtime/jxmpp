@@ -672,8 +672,21 @@ public class JidCreate {
 	 *
 	 * @param cs the input {@link CharSequence}
 	 * @return a JID or {@code null}
+	 * @deprecated use {@link #entityFromUnescapedOrNull(CharSequence)} instead.
 	 */
+	// TODO: remove in jxmpp 1.1
+	@Deprecated
 	public static EntityJid entityFromUnesacpedOrNull(CharSequence cs) {
+		return entityFromUnescapedOrNull(cs);
+	}
+
+	/**
+	 * Get a {@link EntityJid} from a given {@link CharSequence} or {@code null} if the input does not represent a JID.
+	 *
+	 * @param cs the input {@link CharSequence}
+	 * @return a JID or {@code null}
+	 */
+	public static EntityJid entityFromUnescapedOrNull(CharSequence cs) {
 		try {
 			return entityFromUnescaped(cs.toString());
 		} catch (XmppStringprepException e) {

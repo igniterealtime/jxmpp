@@ -27,7 +27,7 @@ import org.jxmpp.stringprep.XmppStringprepException;
 public class JidTest {
 
 	@Test
-	public void testJidIsPartentOf() throws XmppStringprepException {
+	public void testJidIsParentOf() throws XmppStringprepException {
 		final Jid domainBareJid = JidCreate.from("dom.example");
 		final Jid domainFullJid = JidCreate.from("dom.example/res");
 		final Jid bareJid = JidCreate.from("loc@dom.example");

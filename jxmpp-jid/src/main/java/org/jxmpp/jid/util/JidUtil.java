@@ -130,11 +130,11 @@ public class JidUtil {
 			throw new NotAEntityBareJidStringException("'" + jid + "' contains multiple '@' characters");
 		}
 		final String localpart = XmppStringUtils.parseLocalpart(jid);
-		if (localpart.length() == 0) {
+		if (localpart == null || localpart.length() == 0) {
 			throw new NotAEntityBareJidStringException("'" + jid + "' has empty localpart");
 		}
 		final String domainpart = XmppStringUtils.parseDomain(jid);
-		if (domainpart.length() == 0) {
+		if (domainpart == null || domainpart.length() == 0) {
 			throw new NotAEntityBareJidStringException("'" + jid + "' has empty domainpart");
 		}
 		return JidCreate.entityBareFromUnescaped(jid);
@@ -418,10 +418,7 @@ public class JidUtil {
 		if (jidOne != null) {
 			return jidOne.equals(jidTwo);
 		}
-		if (jidTwo != null) {
-			return jidTwo.equals(jidOne);
-		}
 
-		return jidOne == jidTwo;
+		return jidTwo == null;
 	}
 }

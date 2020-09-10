@@ -55,7 +55,7 @@ public class StringsTestframeworkMain implements Callable<Integer> {
 		result.writeResults(out);
 		out.flush();
 
-		int exitcode = result.wasSucccessful ? 0 : 1;
+		int exitcode = result.wasSuccessful ? 0 : 1;
 		return exitcode;
 	}
 
