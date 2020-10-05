@@ -43,9 +43,15 @@ A utility to apply the various string transformation profiles required by XMPP i
 jxmpp-jid
 ---------
 
-Abstracts XMPP JIDs with Java classes, performing string preparation and validation.
+This part of the API abstracts XMPP JIDs with Java classes, performing string preparation and validation.
 Although JIDs are split over five classes, jxmpp-jid is designed so that you often only need to use the simple `Jid` type.
-It therefore combines the simplicity of the single JID class approach, where JIDs are represented by a single class no matter what kind of JID they are, which the expressiveness of the JID class hierarchy approach, where you can express in a method signature the required JID type (e.g. `foo(BareJid bareJid)`.
+It therefore combines the simplicity of the single JID class approach, where JIDs are represented by a single class no matter what kind of JID they are, which the expressiveness of the JID class hierarchy approach, where you can express in a method signature the required JID type (e.g. `foo(BareJid bareJid)`).
+
+Jid instances are created with the help of the `JidCreate` utility:
+
+```java
+Jid jid = JidCreate.from("foo@bar.example");
+```
 
 ```text
          ,______Jid______,
@@ -69,11 +75,12 @@ EntityBareJid  DomainBareJid     EntityFullJid  DomainFullJid
 EntityBareJid  EntityFullJid     DomainBareJid  DomainFullJid
 ```
 
-Jid instances are created with the help of the `JidCreate` utility:
-
-```java
-Jid jid = JidCreate.from("foo@bar.example");
-```
+| Example JID               | JXMPP JID Type  |
+|---------------------------|-----------------|
+| example.org               | `DomainBareJid` |
+| example.org/resource      | `DomainFullJid` |
+| user@example.org          | `EntityBareJid` |
+| user@example.org/resource | `EntityFullJid` |
 
 jxmpp-stringprep-libidn
 -----------------------
