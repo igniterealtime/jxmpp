@@ -72,7 +72,6 @@ allprojects {
 	ext.sharedManifest = manifest {
 		attributes('Implementation-Version': version,
 				   'Implementation-GitRevision': ext.gitCommit,
-				   'Built-Date': ext.builtDate,
 				   'Built-JDK': System.getProperty('java.version'),
 				   'Built-Gradle': gradle.gradleVersion,
 				   'Built-By': System.getProperty('user.name')
