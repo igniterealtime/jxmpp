@@ -39,4 +39,9 @@ public class XmlSplitterTest extends XmlSplitterTestUtil {
 	public void emptyElementTest() throws IOException {
 		xmlSplitterTest("<ele att='foo'><empty /></ele>");
 	}
+
+	@Test
+	public void attributeValueWithRightAngleBracketTest() throws IOException {
+		xmlSplitterTest("<x a='/>'>c</x>");
+	}
 }
