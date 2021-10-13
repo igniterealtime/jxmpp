@@ -55,11 +55,7 @@ allprojects {
 			':jxmpp-stringprep-libidn',
 			':jxmpp-util-cache',
 		].collect { project(it) }
-		// Only enable Error Prone for non JMH projects, as JMH
-		// uses generated Java source code which is prone to Error
-		// Prone bug patterns.
-		errorProneProjects = subprojects - project(":jxmpp-util-cache")
-		junitVersion = '5.6.1'
+		junitVersion = '5.8.1'
 		javaCompatilibity = JavaVersion.VERSION_1_8
 		javaMajor = javaCompatilibity.getMajorVersion()
 		jxmppMinAndroidSdk = 19
