@@ -12,7 +12,7 @@ buildscript {
 }
 
 plugins {
-	id 'me.champeau.gradle.jmh' version '0.4.8'
+	id 'me.champeau.jmh' version '0.6.6'
 	id 'net.ltgt.errorprone' version '2.0.2'
 	id 'ru.vyarus.animalsniffer' version '1.5.3'
 }
@@ -347,7 +347,7 @@ configure (androidProjects) {
 }
 
 configure (jmhProjects) {
-	apply plugin: "me.champeau.gradle.jmh"
+	apply plugin: "me.champeau.jmh"
 
 	// From https://github.com/melix/jmh-gradle-plugin/issues/35
 	// This should be theoretically not be needed with newer jmh
@@ -357,10 +357,10 @@ configure (jmhProjects) {
 	// project.eclipse.classpath.plusConfigurations += [ configurations.jmh ]
 
 	jmh {
-		jmhVersion '1.21'
-		iterations 3
-		operationsPerInvocation 3
-		fork 3
+		jmhVersion = '1.29'
+		iterations = 3
+		operationsPerInvocation = 3
+		fork = 3
 	}
 }
 
