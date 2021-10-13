@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2014-2018 Florian Schmaus
+ * Copyright © 2014-2021 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,6 +25,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -58,27 +59,30 @@ public class XmppDateTime {
 
 	private static final TimeZone TIME_ZONE_UTC = TimeZone.getTimeZone("UTC");
 
+	private static DateFormat constructUtcDateFormat(String format) {
+		DateFormat dateFormat = new SimpleDateFormat(format, Locale.ENGLISH);
+		dateFormat.setTimeZone(TIME_ZONE_UTC);
+		return dateFormat;
+	}
+
 	private static final ThreadLocal<DateFormat> xep0091Formatter = new ThreadLocal<DateFormat>() {
 		@Override
 		protected DateFormat initialValue() {
-			DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd'T'HH:mm:ss");
-			dateFormat.setTimeZone(TIME_ZONE_UTC);
+			DateFormat dateFormat = constructUtcDateFormat("yyyyMMdd'T'HH:mm:ss");
 			return dateFormat;
 		}
 	};
 	private static final ThreadLocal<DateFormat> xep0091Date6DigitFormatter = new ThreadLocal<DateFormat>() {
 		@Override
 		protected DateFormat initialValue() {
-			DateFormat dateFormat = new SimpleDateFormat("yyyyMd'T'HH:mm:ss");
-			dateFormat.setTimeZone(TIME_ZONE_UTC);
+			DateFormat dateFormat = constructUtcDateFormat("yyyyMd'T'HH:mm:ss");
 			return dateFormat;
 		}
 	};
 	private static final ThreadLocal<DateFormat> xep0091Date7Digit1MonthFormatter = new ThreadLocal<DateFormat>() {
 		@Override
 		protected DateFormat initialValue() {
-			DateFormat dateFormat = new SimpleDateFormat("yyyyMdd'T'HH:mm:ss");
-			dateFormat.setTimeZone(TIME_ZONE_UTC);
+			DateFormat dateFormat = constructUtcDateFormat("yyyyMdd'T'HH:mm:ss");
 			dateFormat.setLenient(false);
 			return dateFormat;
 		}
@@ -86,8 +90,7 @@ public class XmppDateTime {
 	private static final ThreadLocal<DateFormat> xep0091Date7Digit2MonthFormatter = new ThreadLocal<DateFormat>() {
 		@Override
 		protected DateFormat initialValue() {
-			DateFormat dateFormat = new SimpleDateFormat("yyyyMMd'T'HH:mm:ss");
-			dateFormat.setTimeZone(TIME_ZONE_UTC);
+			DateFormat dateFormat = constructUtcDateFormat("yyyyMMd'T'HH:mm:ss");
 			dateFormat.setLenient(false);
 			return dateFormat;
 		}
@@ -125,8 +128,7 @@ public class XmppDateTime {
 			FORMATTER = new ThreadLocal<DateFormat>() {
 				@Override
 				protected DateFormat initialValue() {
-					DateFormat dateFormat = new SimpleDateFormat(FORMAT_STRING);
-					dateFormat.setTimeZone(TIME_ZONE_UTC);
+					DateFormat dateFormat = constructUtcDateFormat(FORMAT_STRING);
 					return dateFormat;
 				}
 			};
