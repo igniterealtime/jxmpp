@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2014-2019 Florian Schmaus
+ * Copyright © 2014-2021 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -101,7 +101,8 @@ public final class SimpleXmppStringprep implements XmppStringprep {
 			throws XmppStringprepException {
 		assert isSorted(excludedChars);
 
-		for (char c : input.toCharArray()) {
+		for (int i = 0; i < input.length(); i++) {
+			char c = input.charAt(i);
 			int forbiddenCharPos = Arrays.binarySearch(excludedChars, c);
 			if (forbiddenCharPos >= 0) {
 				throw new XmppStringprepException(input, parttype.getCapitalizedName() + " must not contain '"

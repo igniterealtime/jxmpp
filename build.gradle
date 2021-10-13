@@ -13,8 +13,8 @@ buildscript {
 
 plugins {
 	id 'ru.vyarus.animalsniffer' version '1.5.0'
-	id 'net.ltgt.errorprone' version '0.8.1'
 	id 'me.champeau.gradle.jmh' version '0.4.8'
+	id 'net.ltgt.errorprone' version '2.0.2'
 }
 
 allprojects {
@@ -294,11 +294,13 @@ subprojects {
 	}
 }
 
-configure (errorProneProjects) {
+configure (subprojects) {
 	apply plugin: 'net.ltgt.errorprone'
 
 	tasks.withType(JavaCompile) {
 		options.errorprone {
+			disableWarningsInGeneratedCode = true
+			excludedPaths = ".*/jmh_generated/.*"
 			error(
 				"UnusedVariable",
 				"UnusedMethod",
@@ -310,12 +312,13 @@ configure (errorProneProjects) {
 				'-Xep:MissingCasesInEnumSwitch:OFF',
 				'-Xep:StringSplitter:OFF',
 				'-Xep:JavaTimeDefaultTimeZone:OFF',
+				'-Xep:InlineMeSuggester:OFF',
 			]
 		}
 	}
 
 	dependencies {
-		errorprone 'com.google.errorprone:error_prone_core:2.3.3'
+		errorprone 'com.google.errorprone:error_prone_core:2.9.0'
 		errorproneJavac('com.google.errorprone:javac:9+181-r4173-1')
 	}
 }

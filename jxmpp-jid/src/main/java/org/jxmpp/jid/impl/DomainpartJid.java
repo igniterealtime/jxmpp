@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2014-2019 Florian Schmaus
+ * Copyright © 2014-2021 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,7 +36,7 @@ public final class DomainpartJid extends AbstractJid implements DomainBareJid {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	protected final Domainpart domain;
+	final Domainpart domain;
 
 	DomainpartJid(String domain, JxmppContext context) throws XmppStringprepException {
 		this(Domainpart.from(domain, context));

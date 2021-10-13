@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2015-2018 Florian Schmaus
+ * Copyright © 2015-2021 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@ import java.util.Map;
 
 /**
  * A XML splitter for XMPP. Unlike {@link XmlSplitter}, this splitter is aware
- * of the special semantics of XMPP's {@code &lt;stream:stream&gt;} element.
+ * of the special semantics of XMPP's {@code <stream:stream>} element.
  */
 public class XmppXmlSplitter extends XmlSplitter {
 

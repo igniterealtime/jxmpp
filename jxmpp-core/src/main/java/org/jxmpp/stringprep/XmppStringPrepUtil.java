@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2014-2019 Florian Schmaus
+ * Copyright © 2014-2021 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,18 +32,6 @@ public class XmppStringPrepUtil {
 	private static final Cache<String, String> NODEPREP_CACHE = new LruCache<String, String>(100);
 	private static final Cache<String, String> DOMAINPREP_CACHE = new LruCache<String, String>(100);
 	private static final Cache<String, String> RESOURCEPREP_CACHE = new LruCache<String, String>(100);
-
-	/**
-	 * Set the XMPP Stringprep implementation to use.
-	 *
-	 * @param xmppStringprep the XMPP Stringprep implementation to use.
-	 * @deprecated use {@link JxmppContext#setDefaultXmppStringprep(XmppStringprep)} instead.
-	 */
-	@Deprecated
-	// TODO: Remove in JXMPP 0.8.
-	public static void setXmppStringprep(XmppStringprep xmppStringprep) {
-		JxmppContext.setDefaultXmppStringprep(xmppStringprep);
-	}
 
 	/**
 	 * Perform localprep on the input String.
