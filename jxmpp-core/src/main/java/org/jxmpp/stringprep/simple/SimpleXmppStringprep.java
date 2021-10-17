@@ -106,7 +106,7 @@ public final class SimpleXmppStringprep implements XmppStringprep {
 			int forbiddenCharPos = Arrays.binarySearch(excludedChars, c);
 			if (forbiddenCharPos >= 0) {
 				throw new XmppStringprepException(input, parttype.getCapitalizedName() + " must not contain '"
-						+ LOCALPART_FURTHER_EXCLUDED_CHARACTERS[forbiddenCharPos] + "'");
+						+ excludedChars[forbiddenCharPos] + "'");
 			}
 		}
 	}

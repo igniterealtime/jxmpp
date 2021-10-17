@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2014-2018 Florian Schmaus
+ * Copyright © 2014-2021 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@ import static org.junit.Assert.assertEquals;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 import java.util.TimeZone;
 
 import org.junit.Test;
@@ -296,4 +297,14 @@ public class XmppDateTimeTest {
 		cal.setTimeZone(TimeZone.getTimeZone("GMT"));
 		assertEquals(3, cal.get(Calendar.SECOND));
 	}
+
+	@Test
+	public void testArabicLocale() throws ParseException {
+		Locale.setDefault(new Locale("AR"));
+		String initialDateString = "2018-09-22T20:09:42.000+00:00";
+		Date date = XmppDateTime.parseXEP0082Date(initialDateString);
+		String dateString = XmppDateTime.formatXEP0082Date(date);
+		assertEquals(initialDateString, dateString);
+	}
+
 }
