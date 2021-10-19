@@ -8,6 +8,7 @@ buildscript {
 
 	dependencies {
 		classpath "org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.8.2"
+		classpath "biz.aQute.bnd:biz.aQute.bnd.gradle:6.0.0"
 	}
 }
 
@@ -197,7 +198,16 @@ subprojects {
 	apply plugin: 'maven-publish'
 	apply plugin: 'signing'
 	apply plugin: 'checkstyle'
+	apply plugin: 'biz.aQute.bnd.builder'
 
+	jar {
+		bundle {
+			bnd(
+					'-removeheaders': 'Tool, Bnd-*',
+					'-exportcontents': 'org.jxmpp.*',
+			)
+		}
+	}
 	checkstyle {
 		toolVersion = '8.22'
 	}
