@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2015-2018 Florian Schmaus
+ * Copyright © 2015-2021 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -317,7 +317,7 @@ public class XmlSplitter extends Writer {
 				state = State.IN_ATTRIBUTE_VALUE;
 				break;
 			default:
-				throw new IOException();
+				throw InvalidXmlException.InvalidAttributeDeclarationException.create(c, splittedPartBuffer);
 			}
 			break;
 		case IN_ATTRIBUTE_VALUE:
@@ -335,7 +335,7 @@ public class XmlSplitter extends Writer {
 				state = State.TAG_RIGHT_ANGLE_BRACKET;
 				break;
 			default:
-				throw new IOException();
+				throw InvalidXmlException.InvalidEmptyTagException.create(c, splittedPartBuffer);
 			}
 			break;
 		case IN_PROCESSING_INSTRUCTION_OR_DECLARATION:
