@@ -1154,6 +1154,20 @@ public class JidCreate {
 		return entityFullFrom(jid.toString(), JxmppContext.getDefaultContext());
 	}
 
+
+	/* avoid method not defined exception */
+	/**
+	 * Get a {@link EntityFullJid} representing the given String.
+	 *
+	 * @param jid a CharSequence representing a JID.
+	 * @return a full JID representing the given CharSequence.
+	 * @throws XmppStringprepException if an error occurs.
+	 */
+	public static EntityFullJid entityFullFrom(String jid) throws XmppStringprepException {
+		return entityFullFrom(jid, JxmppContext.getDefaultContext());
+	}
+
+
 	/**
 	 * Get a {@link EntityFullJid} representing the given String.
 	 *
