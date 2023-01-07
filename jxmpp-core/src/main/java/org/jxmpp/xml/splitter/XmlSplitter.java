@@ -373,7 +373,7 @@ public class XmlSplitter extends Writer {
 		case AFTER_COMMENT:
 		case AFTER_COMMENT_CLOSING_DASH1:
 		case AFTER_COMMENT_CLOSING_DASH2:
-			throw new UnsupportedOperationException();
+			throw new UnsupportedOperationException("XML comments are not supported by XmlSplitter (yet). They are also not allowed in XMPP streams (cf. RFC 6120 § 11.1).");
 		}
 
 		if (xmlPrinter != null) {
