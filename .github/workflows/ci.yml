@@ -1,0 +1,85 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    name: Build JXMPP
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        java:
+          - 11
+          - 15
+    env:
+      PRIMARY_JAVA_VERSION: 11
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Set up JDK ${{ matrix.java }}
+        uses: actions/setup-java@v1
+        with:
+          java-version: ${{ matrix.java }}
+
+      # Caches
+      - name: Cache Maven
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2/repository
+          key: maven-${{ hashFiles('**/build.gradle') }}
+          restore-keys: |
+            maven-
+      - name: Cache Gradle
+        uses: actions/cache@v2
+        with:
+          path: ~/.gradle/caches
+          key: gradle-caches-${{ hashFiles('**/build.gradle') }}
+          restore-keys:
+            gradle-caches
+      - name: Cache Android SDK
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.android/sdk
+          key: android-${{ hashFiles('build.gradle') }}
+          restore-keys: |
+            android-
+
+      # Pre-reqs
+      - name: Install Android SDK Manager
+        uses: android-actions/setup-android@v2
+      - name: Install Android SDK
+        run: |
+          sdkmanager "platforms;android-19"
+
+      # Testing
+      - name: Gradle Check
+        run: ./gradlew check --stacktrace
+
+      # Test local publish
+      - name: Gradle publish
+        run: ./gradlew publishToMavenLocal --stacktrace
+
+      # Javadoc
+      - name: Javadoc
+        if: ${{ matrix.java == env.PRIMARY_JAVA_VERSION }}
+        run: ./gradlew aggregateJavadoc --stacktrace
+
+      # Test Coverage Report
+      - name: Jacoco Test Coverage
+        if: ${{ matrix.java == env.PRIMARY_JAVA_VERSION }}
+        run: ./gradlew testCodeCoverageReport
+        env:
+          COVERALLS_REPO_TOKEN: S2ecSJja2cKJa9yv45C8ZFPohXuRrTXKd
+
+      # Upload build artifacts
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: jxmpp-java-${{ matrix.java }}
+          path: |
+            jxmpp-*/build/libs/*.jar
+            !**/*-test-fixtures.jar
+            !**/*-tests.jar
