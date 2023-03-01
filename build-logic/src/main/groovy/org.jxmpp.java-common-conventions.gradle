@@ -35,7 +35,7 @@ ext {
 	sonatypeStagingUrl = 'https://oss.sonatype.org/service/local/staging/deploy/maven2'
 	builtDate = (new java.text.SimpleDateFormat("yyyy-MM-dd")).format(new Date())
 	oneLineDesc = 'An Open Source XMPP (Jabber) library'
-	junitVersion = '5.8.1'
+	junitVersion = '5.9.2'
 	jxmppMinAndroidSdk = 19
 }
 
