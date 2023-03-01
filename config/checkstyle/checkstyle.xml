@@ -84,7 +84,7 @@
 		</module>
 		<module name="JavadocMethod">
 			<!-- TODO tighten those checks -->
-			<property name="scope" value="public"/>
+			<property name="accessModifiers" value="public"/>
 		</module>
 		<module name="JavadocStyle">
 			<property name="scope" value="protected"/>
