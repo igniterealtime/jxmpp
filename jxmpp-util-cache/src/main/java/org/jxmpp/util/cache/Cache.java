@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2014-2018 Florian Schmaus
+ * Copyright © 2014-2023 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,12 @@
  */
 package org.jxmpp.util.cache;
 
+/**
+ * This is jXMPP's cache interface.
+ *
+ * @param <K> the type of the keys of this cache.
+ * @param <V> the type of the values this cache caches.
+ */
 public interface Cache<K, V> {
 
 	/**

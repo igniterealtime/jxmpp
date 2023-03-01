@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2014-2018 Florian Schmaus
+ * Copyright © 2014-2023 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,12 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * A cache which expires its values.
+ *
+ * @param <K> the type of the keys of this cache.
+ * @param <V> the type of the values this cache caches.
+ */
 public class ExpirationCache<K, V> implements Cache<K, V>, Map<K, V>{
 
 	private final LruCache<K, ExpireElement<V>> cache;

@@ -1,7 +1,13 @@
+plugins {
+	id 'org.jxmpp.java-common-conventions'
+	id 'org.jxmpp.android-conventions'
+	id 'org.jxmpp.junit4-conventions'
+}
+
 description = """\
 JXMPP Stringprep with libidn."""
 
 dependencies {
-	compile project(':jxmpp-core')
-	compile 'org.gnu.inet:libidn:1.15'
+	api project(':jxmpp-core')
+	api 'org.gnu.inet:libidn:1.15'
 }

@@ -1,7 +1,12 @@
+plugins {
+	id 'org.jxmpp.java-common-conventions'
+	id 'org.jxmpp.junit4-conventions'
+}
+
 description = """\
 JXMPP Stringprep with ICU4J."""
 
 dependencies {
-	compile project(':jxmpp-core')
-	compile 'com.ibm.icu:icu4j:62.2'
+	api project(':jxmpp-core')
+	api 'com.ibm.icu:icu4j:62.2'
 }

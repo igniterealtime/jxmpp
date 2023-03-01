@@ -1,0 +1,17 @@
+plugins {
+	id "me.champeau.jmh"
+}
+
+// From https://github.com/melix/jmh-gradle-plugin/issues/35
+// This should be theoretically not be needed with newer jmh
+// gradle plugin versions. But without the following line "gradle
+// eclipse" will add the jmh dependencies to the classpath
+// TODO: This breaks with parboiled and is thus commented out.
+// project.eclipse.classpath.plusConfigurations += [ configurations.jmh ]
+
+jmh {
+	jmhVersion = '1.29'
+	iterations = 3
+	operationsPerInvocation = 3
+	fork = 3
+}

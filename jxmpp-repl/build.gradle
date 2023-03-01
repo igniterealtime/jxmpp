@@ -1,3 +1,8 @@
+plugins {
+	id 'org.jxmpp.java-common-conventions'
+	id 'org.jxmpp.junit4-conventions'
+}
+
 ext {
     scalaVersion = '2.11.7'
 }
@@ -6,13 +11,13 @@ description = """\
 A REPL for jXMPP."""
 
 dependencies {
-    compile project(':jxmpp-core')
-	compile project(':jxmpp-jid')
-	compile project(':jxmpp-stringprep-icu4j')
-	compile project(':jxmpp-stringprep-libidn')
-    compile project(':jxmpp-util-cache')
-    compile "com.lihaoyi:ammonite_$scalaVersion:0.8.0"
-    testCompile project(path: ":jxmpp-core", configuration: "testRuntime")
+    api project(':jxmpp-core')
+	api project(':jxmpp-jid')
+	api project(':jxmpp-stringprep-icu4j')
+	api project(':jxmpp-stringprep-libidn')
+    api project(':jxmpp-util-cache')
+    api "com.lihaoyi:ammonite_$scalaVersion:0.8.0"
+    testImplementation project(":jxmpp-core")
 }
 
 task printClasspath(dependsOn: assemble) {

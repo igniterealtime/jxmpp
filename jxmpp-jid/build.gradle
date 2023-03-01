@@ -1,7 +1,13 @@
+plugins {
+	id 'org.jxmpp.java-common-conventions'
+	id 'org.jxmpp.android-conventions'
+	id 'org.jxmpp.junit4-conventions'
+}
+
 description = """\
 JID classes from JXMPP."""
 
 dependencies {
-	compile project(':jxmpp-core')
-	compile project(':jxmpp-util-cache')
+	api project(':jxmpp-core')
+	api project(':jxmpp-util-cache')
 }
