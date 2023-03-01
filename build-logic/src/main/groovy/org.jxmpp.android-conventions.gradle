@@ -1,0 +1,9 @@
+plugins {
+	id 'ru.vyarus.animalsniffer'
+}
+dependencies {
+	signature "net.sf.androidscents.signature:android-api-level-${jxmppMinAndroidSdk}:4.4.2_r4@signature"
+}
+animalsniffer {
+	sourceSets = [sourceSets.main]
+}

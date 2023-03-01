@@ -1,7 +1,12 @@
+plugins {
+	id 'org.jxmpp.java-common-conventions'
+	id 'org.jxmpp.junit4-conventions'
+}
+
 description = """\
 JXMPP Stringprep with xmpp.rocks's Precis library."""
 
 dependencies {
-	compile project(':jxmpp-core')
-	compile 'rocks.xmpp:precis:1.1.0'
+	api project(':jxmpp-core')
+	api 'rocks.xmpp:precis:1.1.0'
 }

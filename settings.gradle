@@ -1,3 +1,7 @@
+pluginManagement {
+    includeBuild('build-logic')
+}
+
 include 'jxmpp-core',
 		'jxmpp-jid',
 		'jxmpp-strings-testframework',

@@ -1,3 +1,8 @@
+plugins {
+	id 'org.jxmpp.java-common-conventions'
+	id 'org.jxmpp.junit4-conventions'
+}
+
 apply plugin: 'application'
 
 description = """\
@@ -11,10 +16,10 @@ ext {
 }
 
 dependencies {
-	compile project(':jxmpp-jid')
-	compile project(':jxmpp-stringprep-icu4j')
-	compile project(':jxmpp-stringprep-libidn')
-	compile project(':jxmpp-stringprep-rocksxmppprecis')
+	api project(':jxmpp-jid')
+	api project(':jxmpp-stringprep-icu4j')
+	api project(':jxmpp-stringprep-libidn')
+	api project(':jxmpp-stringprep-rocksxmppprecis')
 
 	implementation 'org.parboiled:parboiled-java:1.3.1'
 	implementation "info.picocli:picocli:${picocliVersion}"

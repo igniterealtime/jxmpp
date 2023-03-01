@@ -1,6 +1,6 @@
 /**
  *
- * Copyright 2017 Florian Schmaus
+ * Copyright 2017-2023 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,6 +24,9 @@ import org.jxmpp.stringprep.libidn.LibIdnXmppStringprep;
  *
  */
 public class JxmppRepl {
+
+	private JxmppRepl() {
+	}
 
 	/**
 	 * Initializes the REPL.

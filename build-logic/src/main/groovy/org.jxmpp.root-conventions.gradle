@@ -1,0 +1,3 @@
+plugins {
+	id 'io.freefair.aggregate-javadoc'
+}

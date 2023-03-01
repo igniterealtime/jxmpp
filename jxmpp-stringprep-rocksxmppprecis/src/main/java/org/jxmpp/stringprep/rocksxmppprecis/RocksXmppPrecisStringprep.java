@@ -1,6 +1,6 @@
 /**
  *
- * Copyright 2019 Florian Schmaus
+ * Copyright 2019-2023 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,10 +23,19 @@ import org.jxmpp.stringprep.simple.SimpleXmppStringprep;
 import rocks.xmpp.precis.InvalidCodePointException;
 import rocks.xmpp.precis.PrecisProfiles;
 
+/**
+ * XMPP string preparation using rocks-xmpp-precis.
+ */
 public class RocksXmppPrecisStringprep implements XmppStringprep {
 
+	/**
+	 * The ready to use instance of this.
+	 */
 	public static final RocksXmppPrecisStringprep INSTANCE = new RocksXmppPrecisStringprep();
 
+	/**
+	 * The name of the stringprep implementation.
+	 */
 	public static final String NAME = "rocks-xmpp-precis";
 
 	private RocksXmppPrecisStringprep() {

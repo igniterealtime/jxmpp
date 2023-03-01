@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2015-2019 Florian Schmaus
+ * Copyright © 2015-2023 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,8 +23,14 @@ import org.jxmpp.stringprep.XmppStringprepException;
 import com.ibm.icu.text.StringPrep;
 import com.ibm.icu.text.StringPrepParseException;
 
+/**
+ * XMPP string preparation using libidn.
+ */
 public class Icu4jXmppStringprep implements XmppStringprep {
 
+	/**
+	 * The name of the stringprep implementation.
+	 */
 	public static final String NAME = "icu4j";
 
 	private static final StringPrep NODEPREP = StringPrep.getInstance(StringPrep.RFC3920_NODEPREP);
