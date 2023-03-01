@@ -1,6 +1,7 @@
 plugins {
 	id 'biz.aQute.bnd.builder'
 	id 'checkstyle'
+	id 'com.github.kt3k.coveralls'
 	id 'eclipse'
 	id 'idea'
 	id 'jacoco'
@@ -266,10 +267,9 @@ dependencies {
 // 	}
 // }
 
-// apply plugin: "com.github.kt3k.coveralls"
-// coveralls {
-// 	sourceDirs = files(subprojects.sourceSets.main.allSource.srcDirs).files.absolutePath
-// }
+coveralls {
+	jacocoReportPath 'build/reports/jacoco/testCodeCoverageReport/testCodeCoverageReport.xml'
+}
 
 def getGitCommit() {
 	def projectDirFile = new File("$projectDir")
