@@ -1,6 +1,7 @@
 plugins {
 	id 'biz.aQute.bnd.builder'
 	id 'checkstyle'
+	id 'com.github.kt3k.coveralls'
 	id 'eclipse'
 	id 'idea'
 	id 'jacoco'
@@ -35,7 +36,7 @@ ext {
 	sonatypeStagingUrl = 'https://oss.sonatype.org/service/local/staging/deploy/maven2'
 	builtDate = (new java.text.SimpleDateFormat("yyyy-MM-dd")).format(new Date())
 	oneLineDesc = 'An Open Source XMPP (Jabber) library'
-	junitVersion = '5.8.1'
+	junitVersion = '5.9.2'
 	jxmppMinAndroidSdk = 19
 }
 
@@ -143,7 +144,7 @@ jar {
 	}
 }
 checkstyle {
-	toolVersion = '8.22'
+	toolVersion = '10.8.0'
 }
 task sourcesJar(type: Jar, dependsOn: classes) {
 	classifier = 'sources'
@@ -266,10 +267,9 @@ dependencies {
 // 	}
 // }
 
-// apply plugin: "com.github.kt3k.coveralls"
-// coveralls {
-// 	sourceDirs = files(subprojects.sourceSets.main.allSource.srcDirs).files.absolutePath
-// }
+coveralls {
+	jacocoReportPath 'build/reports/jacoco/testCodeCoverageReport/testCodeCoverageReport.xml'
+}
 
 def getGitCommit() {
 	def projectDirFile = new File("$projectDir")

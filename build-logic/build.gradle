@@ -7,10 +7,10 @@ repositories {
 }
 
 dependencies {
-	implementation "biz.aQute.bnd:biz.aQute.bnd.gradle:6.0.0"
+	implementation "biz.aQute.bnd:biz.aQute.bnd.gradle:6.4.0"
 	implementation "io.freefair.gradle:maven-plugin:6.6.3" // for io.freefair.agregate-javadoc
 	implementation "me.champeau.jmh:jmh-gradle-plugin:0.6.8"
-	implementation "net.ltgt.gradle:gradle-errorprone-plugin:2.0.2" // latest 3.0.1
-	implementation "org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.8.2"
-	implementation "ru.vyarus:gradle-animalsniffer-plugin:1.5.3" // latest 1.7.0
+	implementation "net.ltgt.gradle:gradle-errorprone-plugin:3.0.1"
+	implementation "gradle.plugin.org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.12.0"
+	implementation "ru.vyarus:gradle-animalsniffer-plugin:1.7.0"
 }
