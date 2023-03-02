@@ -1,7 +1,7 @@
 JXMPP
 =====
 
-[![Build Status](https://travis-ci.org/igniterealtime/jxmpp.svg)](https://travis-ci.org/igniterealtime/jxmpp)  [![Project Stats](https://www.openhub.net/p/jxmpp/widgets/project_thin_badge.gif)](https://www.openhub.net/p/jxmpp)  [![Coverage Status](https://coveralls.io/repos/igniterealtime/jxmpp/badge.svg)](https://coveralls.io/r/igniterealtime/jxmpp)
+[![Project Stats](https://www.openhub.net/p/jxmpp/widgets/project_thin_badge.gif)](https://www.openhub.net/p/jxmpp)
 
 About
 -----
