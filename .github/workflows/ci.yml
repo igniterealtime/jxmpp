@@ -80,7 +80,8 @@ jobs:
           else
               echo COVERALLS_REPO_TOKEN is not empty
           fi
-          ./gradlew testCodeCoverageReport jxmpp-repl:coveralls
+          ./gradlew testCodeCoverageReport
+          ./gradlew jxmpp-repl:coveralls
 
       # Upload build artifacts
       - name: Upload build artifacts
