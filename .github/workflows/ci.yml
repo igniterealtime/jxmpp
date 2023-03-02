@@ -69,6 +69,8 @@ jobs:
 
       # Test Coverage Report
       - name: Jacoco Test Coverage
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
         if: |
           ${{ matrix.java == env.PRIMARY_JAVA_VERSION }} &&
           ${{ env.COVERALLS_REPO_TOKEN != '' }}
