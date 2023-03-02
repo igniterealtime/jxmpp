@@ -69,12 +69,16 @@ jobs:
 
       # Test Coverage Report
       - name: Jacoco Test Coverage
-        env:
-          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
         if: |
           ${{ matrix.java == env.PRIMARY_JAVA_VERSION }} &&
           ${{ env.COVERALLS_REPO_TOKEN != '' }}
-        run: ./gradlew testCodeCoverageReport jxmpp-repl:coveralls
+        run: |
+          if [[ -z ${COVERALLS_REPO_TOKEN} ]]; then
+              echo WARNING: COVERALLS_REPO_TOKEN is empty
+          else
+              echo COVERALLS_REPO_TOKEN is not empty
+          fi
+          ./gradlew testCodeCoverageReport jxmpp-repl:coveralls
 
       # Upload build artifacts
       - name: Upload build artifacts
