@@ -16,6 +16,10 @@ EveryNonRsChar → !'RS'
 
 For more information see 'jids/valid/main'.
 
+invalid jid:
+juliet@example.com
+SOH character (U+0001) in localpart
+
 RFC 7622 Table 2
 ================
 Simplified BSD License
