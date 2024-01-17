@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2014-2021 Florian Schmaus
+ * Copyright © 2014-2024 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -93,7 +93,10 @@ public final class SimpleXmppStringprep implements XmppStringprep {
 	@Override
 	public String localprep(String string) throws XmppStringprepException {
 		string = simpleStringprep(string);
+
 		ensurePartDoesNotContain(XmppAddressParttype.localpart, string, LOCALPART_EXCLUDED_CHARACTERS);
+		ensureValid(XmppAddressParttype.localpart, string);
+
 		return string;
 	}
 
@@ -125,7 +128,9 @@ public final class SimpleXmppStringprep implements XmppStringprep {
 
 	@Override
 	public String domainprep(String string) throws XmppStringprepException {
-		return simpleStringprep(string);
+		string = simpleStringprep(string);
+		ensureValid(XmppAddressParttype.localpart, string);
+		return string;
 	}
 
 	@Override
@@ -135,6 +140,9 @@ public final class SimpleXmppStringprep implements XmppStringprep {
 
 		// TODO apply Unicode Normalization Form C (NFC) with help of java.text.Normalize
 		// but unfortunately this is API is only available on Android API 9 or higher and Smack is currently API 8
+
+		ensureValid(XmppAddressParttype.resourcepart, string);
+
 		return string;
 	}
 
@@ -150,5 +158,36 @@ public final class SimpleXmppStringprep implements XmppStringprep {
 			}
 		}
 		return true;
+	}
+
+	private static void ensureValid(XmppAddressParttype parttype, String input) throws XmppStringprepException {
+		for (int i = 0; i < input.length(); i++) {
+			char c = input.charAt(i);
+
+			boolean disallowedAsciiChar = isDisallowedAsciiChar(c);
+			if (disallowedAsciiChar)
+				throw new XmppStringprepException(input,
+						parttype.getCapitalizedName() + " does contain disallowed ASCII character at pos " + i);
+		}
+	}
+
+	/**
+	 * XML 1.0 disallows certain characters. Below 0x20 (SPACE) only 0x09 (\t), 0x0A (\n), and 0x0D (\r) are allowed. See XML 1.0 § 2.2 which has the following production rule:
+	 *  Char       ::=       #x9 | #xA | #xD | [#x20-#xD7FF] | [#xE000-#xFFFD] | [#x10000-#x10FFFF]
+     *
+	 * @param c the character is check.
+	 * @return true if the character is disallowed by XML.
+	 */
+	private static boolean isDisallowedAsciiChar(char c) {
+		if (c >= 0x20) return false;
+
+		switch (c) {
+		case 0x09:
+		case 0x0A:
+		case 0X0D:
+			return false;
+		default:
+			return true;
+		}
 	}
 }
