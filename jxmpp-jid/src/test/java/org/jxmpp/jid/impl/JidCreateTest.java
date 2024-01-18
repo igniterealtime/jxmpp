@@ -181,4 +181,13 @@ public class JidCreateTest {
 		String invalidJid = "@noCachedJidShadowingLocalpartTest.org";
 		assertThrows(XmppStringprepException.class, () -> JidCreate.from(invalidJid) );
 	}
+
+	@Test
+	public void leadingAndTrailingWhitespaceTest() throws XmppStringprepException {
+		String invalidJid = "  foo@leadingAndTrailingWhitespaceTest.org  ";
+		assertThrows(XmppStringprepException.class, () -> JidCreate.from(invalidJid) );
+
+		String invalidJid2 = "  foo@leadingAndTrailingWhitespaceTest.org/bar  ";
+		assertThrows(XmppStringprepException.class, () -> JidCreate.from(invalidJid2) );
+	}
 }
