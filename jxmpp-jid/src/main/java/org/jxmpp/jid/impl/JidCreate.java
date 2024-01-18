@@ -152,12 +152,31 @@ public class JidCreate {
 	 * @throws XmppStringprepException if an error occurs.
 	 */
 	public static Jid from(String localpart, String domainpart, String resource, JxmppContext context) throws XmppStringprepException {
+		String jid = XmppStringUtils.completeJidFrom(localpart, domainpart, resource);
+		return from(localpart, domainpart, resource, jid, context);
+	}
+
+	/**
+	 * Get a {@link Jid} from the given parts.
+
+	 *
+	 * @param localpart a optional localpart.
+	 * @param domainpart a required domainpart.
+	 * @param resource a optional resourcepart.
+	 * @param jidString the raw String of the as parsed.
+	 * @param context the JXMPP context.
+	 * @return a JID which consists of the given parts.
+	 * @throws XmppStringprepException if an error occurs.
+	 */
+	private static Jid from(String localpart, String domainpart, String resource, String jidString, JxmppContext context) throws XmppStringprepException {
 		// Every JID must come with an domainpart.
 		if (domainpart.isEmpty()) {
 			throw XmppStringprepException.MissingDomainpart.from(localpart, resource);
 		}
 
-		String jidString = XmppStringUtils.completeJidFrom(localpart, domainpart, resource);
+		// The provided jidString must be equal to the assembled parts.
+		assert jidString.equals(XmppStringUtils.completeJidFrom(localpart, domainpart, resource));
+
 		Jid jid;
 
 		JidStringAndStringprep jidStringAndStringprep = null;
@@ -245,7 +264,7 @@ public class JidCreate {
 		String domainpart = XmppStringUtils.parseDomain(jidString);
 		String resource = XmppStringUtils.parseResource(jidString);
 		try {
-			return from(localpart, domainpart, resource, context);
+			return from(localpart, domainpart, resource, jidString, context);
 		} catch (XmppStringprepException e) {
 			throw new XmppStringprepException(jidString, e);
 		}
