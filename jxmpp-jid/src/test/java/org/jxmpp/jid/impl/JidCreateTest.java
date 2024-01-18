@@ -19,6 +19,7 @@ package org.jxmpp.jid.impl;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.Test;
 import org.jxmpp.jid.BareJid;
@@ -164,5 +165,20 @@ public class JidCreateTest {
 
 		assertEquals(Domainpart.from("a.example.com"), jid.getDomain());
 		assertEquals(Resourcepart.from("b@example.net"), jid.getResourceOrNull());
+	}
+
+	@Test
+	public void emptyLocalpartShouldThrowTest() throws XmppStringprepException {
+		String invalidJid = "@emptyLocalpartShouldThrowTest.org";
+		assertThrows(XmppStringprepException.class, () -> JidCreate.from(invalidJid) );
+	}
+
+	@Test
+	public void noCachedJidShadowingLocalpartTest() throws XmppStringprepException {
+		String validJid = "noCachedJidShadowingLocalpartTest.org";
+		JidCreate.from(validJid);
+
+		String invalidJid = "@noCachedJidShadowingLocalpartTest.org";
+		assertThrows(XmppStringprepException.class, () -> JidCreate.from(invalidJid) );
 	}
 }

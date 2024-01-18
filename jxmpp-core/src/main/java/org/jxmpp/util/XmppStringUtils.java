@@ -415,11 +415,11 @@ public class XmppStringUtils {
 		if (resource != null) maxResLength += resource.length() + 1;
 
 		StringBuilder sb = new StringBuilder(maxResLength);
-		if (localpartLength > 0) {
+		if (localpart != null) {
 			sb.append(localpart).append('@');
 		}
 		sb.append(domainpart);
-		if (resourceLength > 0) {
+		if (resource != null) {
 			sb.append('/').append(resource);
 		}
 		return sb.toString();
