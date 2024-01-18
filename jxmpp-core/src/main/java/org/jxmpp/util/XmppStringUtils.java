@@ -409,10 +409,11 @@ public class XmppStringUtils {
 		if (domainpart == null) {
 			throw new IllegalArgumentException("domainpart must not be null");
 		}
-		int localpartLength = localpart != null ? localpart.length() : 0;
-		int domainpartLength = domainpart.length();
-		int resourceLength = resource != null ? resource.length() : 0;
-		int maxResLength = localpartLength + domainpartLength + resourceLength + 2;
+
+		int maxResLength = domainpart.length();
+		if (localpart != null) maxResLength += localpart.length() + 1;
+		if (resource != null) maxResLength += resource.length() + 1;
+
 		StringBuilder sb = new StringBuilder(maxResLength);
 		if (localpartLength > 0) {
 			sb.append(localpart).append('@');
