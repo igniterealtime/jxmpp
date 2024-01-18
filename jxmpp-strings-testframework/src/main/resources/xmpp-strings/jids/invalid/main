@@ -20,6 +20,12 @@ invalid jid:
 juliet@example.com
 SOH character (U+0001) in localpart
 
+invalid jid:
+@example.com
+Localpart is empty string
+RFC 7622 § 3.1 specifies that all parts must have a length
+between 1 to 1023 octets, making the empty string invalid as part.
+
 RFC 7622 Table 2
 ================
 Simplified BSD License

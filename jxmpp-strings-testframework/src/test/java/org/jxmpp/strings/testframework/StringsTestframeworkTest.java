@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
 public class StringsTestframeworkTest {
 
 	private static final int VALID_JID_CORPUS_SIZE = 22;
-	private static final int INVALID_JID_CORPUS_SIZE = 23;
+	private static final int INVALID_JID_CORPUS_SIZE = 24;
 
 	@Test
 	public void testStringsTestframeworkIsSuccessful() {
