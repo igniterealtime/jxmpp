@@ -36,6 +36,7 @@ public class XmppStringprepException extends IOException {
 	 * @param causingString the String causing the exception.
 	 * @param exception the exception.
 	 */
+	@SuppressWarnings("this-escape")
 	public XmppStringprepException(String causingString, Exception exception) {
 		super("XmppStringprepException caused by '" + causingString + "': " + exception);
 		initCause(exception);
