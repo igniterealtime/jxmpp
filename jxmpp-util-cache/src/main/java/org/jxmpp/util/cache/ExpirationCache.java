@@ -49,7 +49,7 @@ public class ExpirationCache<K, V> implements Cache<K, V>, Map<K, V>{
 	 *
 	 * @param defaultExpirationTime the default expiration time.
 	 */
-	public void setDefaultExpirationTime(long defaultExpirationTime) {
+	public final void setDefaultExpirationTime(long defaultExpirationTime) {
 		if (defaultExpirationTime <= 0) {
 			throw new IllegalArgumentException();
 		}
