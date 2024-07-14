@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2014-2018 Florian Schmaus
+ * Copyright © 2014-2024 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -90,6 +90,17 @@ public class Resourcepart extends Part {
 	 */
 	public static Resourcepart from(String resource) throws XmppStringprepException {
 		return from(resource, JxmppContext.getDefaultContext());
+	}
+
+	/**
+	 * Get the {@link Resourcepart} representing the input String.
+	 *
+	 * @param resource the input String.
+	 * @return the resource part.
+	 * @throws XmppStringprepException if an error occurs.
+	 */
+	public static Resourcepart from(CharSequence resource) throws XmppStringprepException {
+		return from(resource.toString());
 	}
 
 	/**
