@@ -1118,6 +1118,18 @@ public class JidCreate {
 	}
 
 	/**
+	 * Get a {@link EntityBareJid} constructed from the given {@link Localpart} and {@link Domainpart}.
+	 *
+	 * @param localpart a localpart.
+	 * @param domain a domainpart.
+	 * @return a bare JID constructed from the given parts.
+	 * @throws XmppStringprepException if an error occurs.
+	 */
+	public static EntityBareJid entityBareFrom(CharSequence localpart, Domainpart domain) throws XmppStringprepException {
+		return new LocalAndDomainpartJid(Localpart.fromUnescaped(localpart), domain);
+	}
+
+	/**
 	 * Get a {@link EntityBareJid} from a given {@link CharSequence} or {@code null} if the input does not represent a JID.
 	 *
 	 * @param cs the input {@link CharSequence}
@@ -1375,6 +1387,19 @@ public class JidCreate {
 	 */
 	public static EntityFullJid entityFullFrom(Localpart localpart, Domainpart domainpart, Resourcepart resource) {
 		return entityFullFrom(entityBareFrom(localpart, domainpart), resource);
+	}
+
+	/**
+	 * Get a {@link EntityFullJid} constructed from the given parts.
+	 *
+	 * @param localpart the localpart.
+	 * @param domainpart the domainpart.
+	 * @param resource the resourcepart.
+	 * @return a full JID.
+	 * @throws XmppStringprepException if an error occurs.
+	 */
+	public static EntityFullJid entityFullFrom(CharSequence localpart, Domainpart domainpart, CharSequence resource) throws XmppStringprepException {
+		return entityFullFrom(entityBareFrom(Localpart.fromUnescaped(localpart), domainpart), Resourcepart.from(resource));
 	}
 
 	/**
