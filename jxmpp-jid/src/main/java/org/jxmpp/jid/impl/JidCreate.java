@@ -1357,7 +1357,7 @@ public class JidCreate {
 	 * Get a {@link EntityFullJid} constructed from the given parts.
 	 *
 	 * @param localpart a localpart.
-	 * @param domainBareJid a domain bare JID.. 
+	 * @param domainBareJid a domain bare JID..
 	 * @param resource a resourcepart
 	 * @return a full JID.
 	 */
@@ -1367,7 +1367,7 @@ public class JidCreate {
 
 	/**
 	 * Get a {@link EntityFullJid} constructed from the given parts.
-	 * 
+	 *
 	 * @param localpart the localpart.
 	 * @param domainpart the domainpart.
 	 * @param resource the resourcepart.
