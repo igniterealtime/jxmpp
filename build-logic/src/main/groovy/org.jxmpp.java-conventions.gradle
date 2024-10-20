@@ -118,7 +118,7 @@ jar {
 	}
 }
 checkstyle {
-	toolVersion = '10.8.0'
+	toolVersion = '10.18.2'
 }
 task sourcesJar(type: Jar, dependsOn: classes) {
 	archiveClassifier = 'sources'
