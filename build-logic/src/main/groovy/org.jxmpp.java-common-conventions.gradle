@@ -43,8 +43,10 @@ ext {
 group = 'org.jxmpp'
 
 import org.jxmpp.BuildConstants
-sourceCompatibility = BuildConstants.JAVA_COMPATIBILITY
-targetCompatibility = sourceCompatibility
+java {
+	sourceCompatibility = BuildConstants.JAVA_COMPATIBILITY
+	targetCompatibility = sourceCompatibility
+}
 
 ext.sharedManifest = manifest {
 	attributes('Implementation-Version': version,
@@ -174,20 +176,20 @@ publishing {
 				name = 'JXMPP'
 				packaging = 'jar'
 				inceptionYear = '2014'
-				url = 'http://www.igniterealtime.org/projects/jxmpp/'
+				url = 'https://github.com/igniterealtime/jxmpp'
 				afterEvaluate {
 					description = project.description
 				}
 
 				issueManagement {
-					system = 'JIRA'
-					url = 'http://issues.igniterealtime.org/browse/JXMPP'
+					system = 'github'
+					url = 'https://github.com/igniterealtime/jxmpp/issues'
 				}
 
 				scm {
-					url = 'https://github.com/igniterealtime/Smack'
-					connection = 'scm:git:https://github.com/igniterealtime/Smack.git'
-					developerConnection = 'scm:git:https://github.com/igniterealtime/Smack.git'
+					url = 'https://github.com/igniterealtime/jxmpp'
+					connection = 'scm:git:https://github.com/igniterealtime/jxmpp.git'
+					developerConnection = 'scm:git:https://github.com/igniterealtime/jxmpp.git'
 				}
 
 				licenses {
