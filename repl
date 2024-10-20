@@ -1,16 +1,28 @@
 #!/usr/bin/env bash
-set -e
-set -u
-set -o pipefail
+set -euo pipefail
 
+JDWP=false
+JDWP_PORT=8000
 
-while getopts d OPTION "$@"; do
+while getopts djp: OPTION "$@"; do
     case $OPTION in
 	d)
 	    set -x
 	    ;;
+	j)
+		JDWP=true
+		;;
+	p)
+		JDWP_PORT=$OPTARG
+		;;
     esac
 done
+
+EXTRA_JAVA_ARGS=()
+if $JDWP; then
+	EXTRA_JAVA_ARGS+=("-Xdebug")
+	EXTRA_JAVA_ARGS+=("-Xrunjdwp:server=y,transport=dt_socket,address=${JDWP_PORT},suspend=n")
+fi
 
 PROJECT_ROOT=$(dirname "${BASH_SOURCE[0]}")
 cd "${PROJECT_ROOT}"
@@ -23,12 +35,13 @@ echo "Compiling and computing classpath (May take a while)"
 # /smack/smack-repl/build/classes/main:/smack/smack-repl/build/
 # resources/main:/smack/smack-tcp/build/libs/smack-tcp-4.2.0-alpha4-SNAPSHOT.jar
 # So perform a "tail -n1" on the output of gradle
-GRADLE_CLASSPATH="$(gradle :jxmpp-repl:printClasspath --quiet |\
+GRADLE_CLASSPATH="$(${GRADLE_BIN:-./gradlew} :jxmpp-repl:printClasspath --quiet |\
 	tail -n1)"
 echo "Finished, starting REPL"
 
-java \
+exec java \
+	"${EXTRA_JAVA_ARGS[@]}" \
 	-Dscala.usejavacp=true \
 	-classpath "${GRADLE_CLASSPATH}" \
 	ammonite.Main \
-	-f jxmpp-repl/scala.repl
+	--predef jxmpp-repl/scala.repl
