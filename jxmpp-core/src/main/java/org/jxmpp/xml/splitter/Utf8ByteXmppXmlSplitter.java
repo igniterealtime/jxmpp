@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2015-2018 Florian Schmaus
+ * Copyright © 2015-2024 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -137,7 +137,7 @@ public class Utf8ByteXmppXmlSplitter extends OutputStream {
 			}
 		}
 
-		byteBuffer.flip();
+		((java.nio.Buffer) byteBuffer).flip();
 	}
 
 	@Override

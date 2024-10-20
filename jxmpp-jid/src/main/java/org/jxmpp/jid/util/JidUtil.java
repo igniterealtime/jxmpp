@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2014-2015 Florian Schmaus
+ * Copyright © 2014-2024 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,7 +42,7 @@ public class JidUtil {
 	 * </p>
 	 * 
 	 * @param jid the CharSequence to check.
-	 * @return true if @{code jid} represents a valid entity bare JID, false otherwise
+	 * @return true if {@code jid} represents a valid entity bare JID, false otherwise
 	 * @see #isValidEntityBareJid(CharSequence)
 	 * @see EntityBareJid
 	 */
@@ -91,7 +91,7 @@ public class JidUtil {
 	 * 
 	 * @param jid
 	 *            the CharSequence to check.
-	 * @return true if @{code jid} represents a valid entity bare JID, false otherwise
+	 * @return true if {@code jid} represents a valid entity bare JID, false otherwise
 	 * @see EntityBareJid
 	 */
 	public static boolean isValidEntityBareJid(CharSequence jid) {

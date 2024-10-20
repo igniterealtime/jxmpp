@@ -1,7 +1,6 @@
 plugins {
 	id 'biz.aQute.bnd.builder'
 	id 'checkstyle'
-	id 'com.github.kt3k.coveralls'
 	id 'eclipse'
 	id 'idea'
 	id 'jacoco'
@@ -13,11 +12,9 @@ plugins {
 
 	id 'jacoco-report-aggregation'
 	id 'test-report-aggregation'
-}
 
-repositories {
-	mavenLocal()
-	mavenCentral()
+	id 'org.jxmpp.common-conventions'
+	id 'org.jxmpp.javadoc-conventions'
 }
 
 version readVersionFile()
@@ -37,14 +34,12 @@ ext {
 	builtDate = (new java.text.SimpleDateFormat("yyyy-MM-dd")).format(new Date())
 	oneLineDesc = 'An Open Source XMPP (Jabber) library'
 	junitVersion = '5.9.2'
-	jxmppMinAndroidSdk = 19
 }
 
 group = 'org.jxmpp'
 
-import org.jxmpp.BuildConstants
 java {
-	sourceCompatibility = BuildConstants.JAVA_COMPATIBILITY
+	sourceCompatibility = javaVersion
 	targetCompatibility = sourceCompatibility
 }
 
@@ -80,39 +75,11 @@ tasks.withType(JavaCompile) {
 		'-Xlint:-options',
 		'-Werror',
 	]
-}
-if (JavaVersion.current().isJava8Compatible()) {
-	tasks.withType(Javadoc) {
-		// The '-quiet' as second argument is actually a hack,
-		// since the one parameter addStringOption doesn't seem to
-		// work, we extra add '-quiet', which is added anyway by
-		// gradle.
-		// We disable 'missing' as we do most of javadoc checking via checkstyle.
-		options.addStringOption('Xdoclint:all,-missing', '-quiet')
-		// Abort on javadoc warnings.
-		// See JDK-8200363 (https://bugs.openjdk.java.net/browse/JDK-8200363)
-		// for information about the -Xwerror option.
-		options.addStringOption('Xwerror', '-quiet')
-	}
-}
-
-if (JavaVersion.current().isJava9Compatible()) {
-	tasks.withType(Javadoc) {
-		options.addStringOption('-release', BuildConstants.JAVA_MAJOR_COMPATIBILITY)
-	}
-	tasks.withType(JavaCompile) {
-		options.compilerArgs.addAll([
-			'--release', BuildConstants.JAVA_MAJOR_COMPATIBILITY,
-		])
-	}
-}
-
-tasks.withType(Javadoc) {
-	options.charSet = "UTF-8"
+	options.release = Integer.valueOf(javaMajor)
 }
 
 jacoco {
-	toolVersion = "0.8.8"
+	toolVersion = "0.8.12"
 }
 
 jacocoTestReport {
@@ -125,10 +92,15 @@ jacocoTestReport {
 dependencies {
 	testImplementation "org.junit.jupiter:junit-jupiter-api:$junitVersion"
 	testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
+
+	errorprone 'com.google.errorprone:error_prone_core:2.32.0'
 }
 
 test {
 	useJUnitPlatform()
+
+	maxParallelForks = Runtime.runtime.availableProcessors().intdiv(2) ?: 1
+
 	// Enable full stacktraces of failed tests. Especially handy
 	// for environments like Travis.
 	testLogging {
@@ -149,15 +121,15 @@ checkstyle {
 	toolVersion = '10.8.0'
 }
 task sourcesJar(type: Jar, dependsOn: classes) {
-	classifier = 'sources'
+	archiveClassifier = 'sources'
 	from sourceSets.main.allSource
 }
 task javadocJar(type: Jar, dependsOn: javadoc) {
-	classifier = 'javadoc'
+	archiveClassifier = 'javadoc'
 	from javadoc.destinationDir
 }
 task testsJar(type: Jar) {
-	classifier = 'tests'
+	archiveClassifier = 'tests'
 	from sourceSets.test.output
 }
 artifacts {
@@ -257,21 +229,12 @@ tasks.withType(JavaCompile) {
 	}
 }
 
-dependencies {
-	errorprone 'com.google.errorprone:error_prone_core:2.9.0'
-	errorproneJavac('com.google.errorprone:javac:9+181-r4173-1')
-}
-
 // TODO: Note sure what this does (did). Was there prior the build-logic conversion.
 // dependencies {
 // 	androidProjects.each { project ->
 // 		api project
 // 	}
 // }
-
-coveralls {
-	jacocoReportPath 'build/reports/jacoco/testCodeCoverageReport/testCodeCoverageReport.xml'
-}
 
 def getGitCommit() {
 	def projectDirFile = new File("$projectDir")
@@ -283,17 +246,6 @@ def getGitCommit() {
 	def gitCommit = proc.text.trim()
 	assert !gitCommit.isEmpty()
 	gitCommit
-}
-
-def getAndroidRuntimeJar() {
-	def androidHome = new File("$System.env.ANDROID_HOME")
-	if (!androidHome.isDirectory()) throw new Exception("ANDROID_HOME not found or set")
-	def androidJar = new File("$androidHome/platforms/android-$jxmppMinAndroidSdk/android.jar")
-	if (androidJar.isFile()) {
-		return androidJar
-	} else {
-		throw new Exception("Can't find android.jar for $jxmppMinAndroidSdk API. Please install corresponding SDK platform package")
-	}
 }
 
 def readVersionFile() {

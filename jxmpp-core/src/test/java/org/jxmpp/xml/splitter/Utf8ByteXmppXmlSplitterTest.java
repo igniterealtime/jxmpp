@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2015-2018 Florian Schmaus
+ * Copyright © 2015-2024 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +23,7 @@ import static org.jxmpp.xml.splitter.XmlSplitterTestUtil.transform;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
@@ -62,7 +63,7 @@ public class Utf8ByteXmppXmlSplitterTest {
 		List<Byte> bytesArray = new ArrayList<>();
 		for (String element : elements) {
 			queue.add(element);
-			byte[] utf8bytes = element.getBytes("UTF-8");
+			byte[] utf8bytes = element.getBytes(StandardCharsets.UTF_8);
 			for (byte b : utf8bytes) {
 				bytesArray.add(b);
 			}
@@ -100,7 +101,7 @@ public class Utf8ByteXmppXmlSplitterTest {
 		List<ByteBuffer> byteBufferArray = new ArrayList<>();
 		for (String element : elements) {
 			queue.add(element);
-			byte[] utf8bytes = element.getBytes("UTF-8");
+			byte[] utf8bytes = element.getBytes(StandardCharsets.UTF_8);
 			ByteBuffer byteBuffer = ByteBuffer.wrap(utf8bytes);
 			byteBufferArray.add(byteBuffer);
 		}

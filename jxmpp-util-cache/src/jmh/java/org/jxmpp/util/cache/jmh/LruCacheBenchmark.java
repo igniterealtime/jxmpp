@@ -14,10 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jxmpp.util.cache;
+package org.jxmpp.util.cache.jmh;
 
 import java.util.Random;
 
+import org.jxmpp.util.cache.LruCache;
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.Level;
 import org.openjdk.jmh.annotations.Scope;

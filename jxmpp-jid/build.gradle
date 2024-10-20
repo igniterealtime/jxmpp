@@ -1,5 +1,5 @@
 plugins {
-	id 'org.jxmpp.java-common-conventions'
+	id 'org.jxmpp.java-conventions'
 	id 'org.jxmpp.android-conventions'
 	id 'org.jxmpp.junit4-conventions'
 }

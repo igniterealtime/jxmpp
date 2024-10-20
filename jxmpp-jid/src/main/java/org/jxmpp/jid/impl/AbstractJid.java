@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2014-2017 Florian Schmaus
+ * Copyright © 2014-2024 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -255,7 +255,7 @@ public abstract class AbstractJid implements Jid {
 		throw new IllegalStateException(exceptionMessage);
 	}
 
-	static <O extends Object> O requireNonNull(O object, String message) {
+	static <O> O requireNonNull(O object, String message) {
 		if (object != null) {
 			return object;
 		}
