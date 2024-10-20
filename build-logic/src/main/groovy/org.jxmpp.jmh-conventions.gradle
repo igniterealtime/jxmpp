@@ -10,8 +10,6 @@ plugins {
 // project.eclipse.classpath.plusConfigurations += [ configurations.jmh ]
 
 jmh {
-	jmhVersion = '1.29'
+	jmhVersion = '1.37'
 	iterations = 3
-	operationsPerInvocation = 3
-	fork = 3
 }

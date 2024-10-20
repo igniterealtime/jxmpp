@@ -1,3 +1,56 @@
 plugins {
-	id 'org.jxmpp.root-conventions'
+	// The scalastyle plugin of jxmpp-repl wants the root project to
+	// have a ideaProject task, so let's add one.
+	id 'idea'
+
+	id 'org.jxmpp.javadoc-conventions'
+}
+
+ext {
+	javadocAllDir = new File(buildDir, 'javadoc')
+	javadocAllProjects = subprojects
+}
+
+evaluationDependsOnChildren()
+task javadocAll(type: Javadoc) {
+	source javadocAllProjects.collect {project ->
+		project.sourceSets.main.allJava.findAll {
+			// Filter out symbolic links to avoid
+			// "warning: a package-info.java file has already been seen for package"
+			// javadoc warnings.
+			!java.nio.file.Files.isSymbolicLink(it.toPath())
+		}
+	}
+	destinationDir = javadocAllDir
+	// Might need a classpath
+	classpath = files(subprojects.collect {project ->
+		project.sourceSets.main.compileClasspath})
+	classpath += files(androidBootClasspath)
+	options {
+		linkSource = true
+		use = true
+		links = [
+		"https://docs.oracle.com/en/java/javase/${javaMajor}/docs/api/",
+		] as String[]
+		overview = "$projectDir/resources/javadoc-overview.html"
+	}
+
+	// Finally copy the javadoc doc-files from the subprojects, which
+	// are potentially generated, to the javadocAll directory. Note
+	// that we use a copy *method* and not a *task* because the inputs
+	// of copy tasks is determined within the configuration phase. And
+	// since some of the inputs are generated, they will not get
+	// picked up if we used a copy method. See also
+	// https://stackoverflow.com/a/40518516/194894
+	doLast {
+		copy {
+			javadocAllProjects.each {
+				from ("${it.projectDir}/src/javadoc") {
+					include '**/doc-files/*.*'
+				}
+			}
+
+			into javadocAllDir
+		}
+	}
 }

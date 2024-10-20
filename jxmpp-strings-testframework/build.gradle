@@ -1,5 +1,5 @@
 plugins {
-	id 'org.jxmpp.java-common-conventions'
+	id 'org.jxmpp.java-conventions'
 	id 'org.jxmpp.junit4-conventions'
 }
 
@@ -21,7 +21,7 @@ dependencies {
 	api project(':jxmpp-stringprep-libidn')
 	api project(':jxmpp-stringprep-rocksxmppprecis')
 
-	implementation 'org.parboiled:parboiled-java:1.3.1'
+	implementation 'org.parboiled:parboiled-java:1.4.1'
 	implementation "info.picocli:picocli:${picocliVersion}"
 	// Needed for org.apache.tools.ant.types.Commandline.translateCommandline(String)
 	// See StringsTestframeworkMain.main()

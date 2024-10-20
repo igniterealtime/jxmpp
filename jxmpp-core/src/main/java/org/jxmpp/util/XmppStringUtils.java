@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2014-2019 Florian Schmaus
+ * Copyright © 2014-2024 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -281,6 +281,7 @@ public class XmppStringUtils {
 	 * @return the un-escaped version of the localpart.
 	 * @see <a href="http://xmpp.org/extensions/xep-0106.html">XEP-106: JID Escaping</a>
 	 */
+	@SuppressWarnings("LabelledBreakTarget")
 	public static String unescapeLocalpart(String localpart) {
 		if (localpart == null) {
 			return null;

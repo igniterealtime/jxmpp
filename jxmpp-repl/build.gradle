@@ -1,10 +1,10 @@
 plugins {
-	id 'org.jxmpp.java-common-conventions'
+	id 'org.jxmpp.java-conventions'
 	id 'org.jxmpp.junit4-conventions'
 }
 
 ext {
-    scalaVersion = '2.11.7'
+    scalaVersion = '2.13.13'
 }
 
 description = """\
@@ -16,7 +16,7 @@ dependencies {
 	api project(':jxmpp-stringprep-icu4j')
 	api project(':jxmpp-stringprep-libidn')
     api project(':jxmpp-util-cache')
-    api "com.lihaoyi:ammonite_$scalaVersion:0.8.0"
+    api "com.lihaoyi:ammonite_$scalaVersion:3.0.0-M1"
     testImplementation project(":jxmpp-core")
 }
 
