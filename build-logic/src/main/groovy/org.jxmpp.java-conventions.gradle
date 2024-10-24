@@ -9,6 +9,7 @@ plugins {
 	id 'maven-publish'
 	id 'net.ltgt.errorprone'
 	id 'signing'
+	id 'com.github.ben-manes.versions'
 
 	id 'jacoco-report-aggregation'
 	id 'test-report-aggregation'

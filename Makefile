@@ -1,7 +1,7 @@
 GRADLE ?= ./gradlew
 
 .PHONY: all
-all: check codecov eclipse javadocAll jmh
+all: check codecov eclipse javadocAll jmh show-dependency-updates
 
 .PHONY: codecov
 codecov:
@@ -24,3 +24,7 @@ javadocAll:
 .PHONY: jmh
 jmh:
 	$(GRADLE) jxmpp-util-cache:jmh
+
+.PHONY: show-dependency-updates
+show-dependency-updates:
+	$(GRADLE) dependencyUpdates
