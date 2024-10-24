@@ -94,6 +94,9 @@ dependencies {
 	testImplementation "org.junit.jupiter:junit-jupiter-api:$junitVersion"
 	testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
 
+	// https://stackoverflow.com/a/77274251/194894
+	testRuntimeOnly "org.junit.platform:junit-platform-launcher:1.11.0"
+
 	errorprone 'com.google.errorprone:error_prone_core:2.32.0'
 }
 
