@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2014-2020 Florian Schmaus
+ * Copyright © 2014-2024 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -381,6 +381,71 @@ public interface Jid extends Comparable<Jid>, CharSequence, Serializable {
 	 * @return true if this JID is a parent of the given JID.
 	 */
 	boolean isParentOf(DomainFullJid domainFullJid);
+
+	/**
+	 * Check if this JID is the strict parent of another JID. In other words, all parts of this JID must
+	 * exist on the other JID, and match this JID's values. Furthermore, and this is what makes this
+	 * method different from {@link #isParentOf(Jid)}, the other JID must have one additional part,
+	 * that this JID does not have. The <b>parent of</b> relation is defined, under the
+	 * precondition that the JID parts (localpart, domainpart and resourcepart) are equal, as follows:
+	 * <pre>
+	 * | this JID            | other JID           | result |
+	 * |---------------------+---------------------+--------|
+	 * | dom.example         | dom.example         | false  | (different from isParentOf)
+	 * | dom.example         | dom.example/res     | true   |
+	 * | dom.example         | loc@dom.example     | true   |
+	 * | dom.example         | loc@dom.example/res | true   |
+	 * | dom.example/res     | dom.exmple          | false  |
+	 * | dom.example/res     | dom.example/res     | false  | (different from isParentOf)
+	 * | dom.example/res     | loc@dom.example     | false  |
+	 * | dom.example/res     | loc@dom.example/res | false  |
+	 * | loc@dom.example     | dom.example         | false  |
+	 * | loc@dom.example     | dom.example/res     | false  |
+	 * | loc@dom.example     | loc@dom.example     | false  | (different from isParentOf)
+	 * | loc@dom.example     | loc@dom.example/res | true   |
+	 * | loc@dom.example/res | dom.example         | false  |
+	 * | loc@dom.example/res | dom.example/res     | false  |
+	 * | loc@dom.example/res | loc@dom.example     | false  |
+	 * | loc@dom.example/res | loc@dom.example/res | false  | (different from isParentOf)
+	 * </pre>
+	 *
+	 * @param jid
+	 *            the other JID to compare with
+	 * @return true if this JID is a parent of the given JID.
+	 */
+	boolean isStrictParentOf(Jid jid);
+
+	/**
+	 * See {@link #isParentOf(Jid)}.
+	 *
+	 * @param bareJid the bare JID.
+	 * @return true if this JID is a parent of the given JID.
+	 */
+	boolean isStrictParentOf(EntityBareJid bareJid);
+
+	/**
+	 * See {@link #isStrictParentOf(Jid)}.
+	 *
+	 * @param fullJid the full JID.
+	 * @return true if this JID is a parent of the given JID.
+	 */
+	boolean isStrictParentOf(EntityFullJid fullJid);
+
+	/**
+	 * See {@link #isStrictParentOf(Jid)}.
+	 *
+	 * @param domainBareJid the domain bare JID.
+	 * @return true if this JID is a parent of the given JID.
+	 */
+	boolean isStrictParentOf(DomainBareJid domainBareJid);
+
+	/**
+	 * See {@link #isStrictParentOf(Jid)}.
+	 *
+	 * @param domainFullJid the domain full JID.
+	 * @return true if this JID is a parent of the given JID.
+	 */
+	boolean isStrictParentOf(DomainFullJid domainFullJid);
 
 	/**
 	 * Return the downcasted instance of this Jid. This method is unsafe, make sure to check that this is actually of the type of are casting to.

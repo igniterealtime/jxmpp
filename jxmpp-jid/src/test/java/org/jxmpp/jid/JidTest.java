@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2014 Florian Schmaus
+ * Copyright © 2014-2024 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -52,6 +52,34 @@ public class JidTest {
 		assertFalse(fullJid.isParentOf(domainFullJid));
 		assertFalse(fullJid.isParentOf(bareJid));
 		assertTrue(fullJid.isParentOf(fullJid));
+	}
+
+	@Test
+	public void testJidIsStrictParentOf() throws XmppStringprepException {
+		final Jid domainBareJid = JidCreate.from("dom.example");
+		final Jid domainFullJid = JidCreate.from("dom.example/res");
+		final Jid bareJid = JidCreate.from("loc@dom.example");
+		final Jid fullJid = JidCreate.from("loc@dom.example/res");
+
+		assertFalse(domainBareJid.isStrictParentOf(domainBareJid)); // different from isParentOf
+		assertTrue(domainBareJid.isStrictParentOf(domainFullJid));
+		assertTrue(domainBareJid.isStrictParentOf(bareJid));
+		assertTrue(domainBareJid.isStrictParentOf(fullJid));
+
+		assertFalse(domainFullJid.isStrictParentOf(domainBareJid));
+		assertFalse(domainFullJid.isStrictParentOf(domainFullJid)); // different from isParentOf
+		assertFalse(domainFullJid.isStrictParentOf(bareJid));
+		assertFalse(domainFullJid.isStrictParentOf(fullJid));
+
+		assertFalse(bareJid.isStrictParentOf(domainBareJid));
+		assertFalse(bareJid.isStrictParentOf(domainFullJid));
+		assertFalse(bareJid.isStrictParentOf(bareJid)); // different from isParentOf
+		assertTrue(bareJid.isStrictParentOf(fullJid));
+
+		assertFalse(fullJid.isStrictParentOf(domainBareJid));
+		assertFalse(fullJid.isStrictParentOf(domainFullJid));
+		assertFalse(fullJid.isStrictParentOf(bareJid));
+		assertFalse(fullJid.isStrictParentOf(fullJid)); // different from isParentOf
 	}
 
 	@Test

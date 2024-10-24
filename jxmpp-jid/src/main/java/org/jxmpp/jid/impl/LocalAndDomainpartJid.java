@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2014-2019 Florian Schmaus
+ * Copyright © 2014-2024 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -107,6 +107,26 @@ public final class LocalAndDomainpartJid extends AbstractJid implements EntityBa
 
 	@Override
 	public boolean isParentOf(DomainFullJid domainFullJid) {
+		return false;
+	}
+
+	@Override
+	public boolean isStrictParentOf(EntityBareJid bareJid) {
+		return false;
+	}
+
+	@Override
+	public boolean isStrictParentOf(EntityFullJid fullJid) {
+		return isParentOf(fullJid);
+	}
+
+	@Override
+	public boolean isStrictParentOf(DomainBareJid domainBareJid) {
+		return false;
+	}
+
+	@Override
+	public boolean isStrictParentOf(DomainFullJid domainFullJid) {
 		return false;
 	}
 

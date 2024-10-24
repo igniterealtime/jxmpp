@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2014-2021 Florian Schmaus
+ * Copyright © 2014-2024 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -112,6 +112,26 @@ public final class DomainpartJid extends AbstractJid implements DomainBareJid {
 	@Override
 	public boolean isParentOf(DomainFullJid domainFullJid) {
 		return domain.equals(domainFullJid.getDomain());
+	}
+
+	@Override
+	public boolean isStrictParentOf(EntityBareJid bareJid) {
+		return isParentOf(bareJid);
+	}
+
+	@Override
+	public boolean isStrictParentOf(EntityFullJid fullJid) {
+		return isParentOf(fullJid);
+	}
+
+	@Override
+	public boolean isStrictParentOf(DomainBareJid domainBareJid) {
+		return false;
+	}
+
+	@Override
+	public boolean isStrictParentOf(DomainFullJid domainFullJid) {
+		return isParentOf(domainFullJid);
 	}
 
 	@Override

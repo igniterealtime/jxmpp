@@ -181,6 +181,24 @@ public abstract class AbstractJid implements Jid {
 	}
 
 	@Override
+	public final boolean isStrictParentOf(Jid jid) {
+		EntityFullJid fullJid = jid.asEntityFullJidIfPossible();
+		if (fullJid != null) {
+			return isStrictParentOf(fullJid);
+		}
+		EntityBareJid bareJid = jid.asEntityBareJidIfPossible();
+		if (bareJid != null) {
+			return isStrictParentOf(bareJid);
+		}
+		DomainFullJid domainFullJid = jid.asDomainFullJidIfPossible();
+		if (domainFullJid != null) {
+			return isStrictParentOf(domainFullJid);
+		}
+
+		return isStrictParentOf(jid.asDomainBareJid());
+	}
+
+	@Override
 	public final int hashCode() {
 		return toString().hashCode();
 	}
