@@ -1,6 +1,6 @@
 /**
  *
- * Copyright © 2014-2022 Florian Schmaus
+ * Copyright © 2014-2025 Florian Schmaus
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -63,6 +63,7 @@ public class JidCreate {
 	private static class JidStringAndStringprep {
 		private final String jidString;
 		private final XmppStringprep stringprep;
+		private final int hashCode;
 
 		private JidStringAndStringprep(String jidString, JxmppContext context) {
 			this(jidString, context.xmppStringprep);
@@ -71,6 +72,11 @@ public class JidCreate {
 		private JidStringAndStringprep(String jidString, XmppStringprep stringprep) {
 			this.jidString = jidString;
 			this.stringprep = stringprep;
+
+			int result = 17;
+			result = 31 * result + jidString.hashCode();
+			result = 31 * result + stringprep.hashCode();
+			hashCode = result;
 		}
 
 		@Override
@@ -82,16 +88,8 @@ public class JidCreate {
 			return jidString.equals(otherJidStringAndStringprep.jidString) && stringprep.equals(otherJidStringAndStringprep.stringprep);
 		}
 
-		private transient Integer hashCode;
-
 		@Override
 		public int hashCode() {
-			if (hashCode == null) {
-				int result = 17;
-				result = 31 * result + jidString.hashCode();
-				result = 31 * result + stringprep.hashCode();
-				hashCode = result;
-			}
 			return hashCode;
 		}
 	}
