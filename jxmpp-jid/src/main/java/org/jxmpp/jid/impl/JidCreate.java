@@ -180,8 +180,6 @@ public class JidCreate {
 		JidStringAndStringprep jidStringAndStringprep = null;
 		if (context.isCachingEnabled()) {
 			jidStringAndStringprep = new JidStringAndStringprep(jidString, context);
-		}
-		if (jidStringAndStringprep != null) {
 			jid = JID_CACHE.lookup(jidStringAndStringprep);
 			if (jid != null) {
 				return jid;
@@ -412,9 +410,6 @@ public class JidCreate {
 		JidStringAndStringprep jidStringAndStringprep = null;
 		if (context.isCachingEnabled()) {
 			jidStringAndStringprep = new JidStringAndStringprep(jid, context);
-		}
-
-		if (jidStringAndStringprep != null) {
 			bareJid = BAREJID_CACHE.lookup(jidStringAndStringprep);
 			if (bareJid != null) {
 				return bareJid;
@@ -541,13 +536,10 @@ public class JidCreate {
 	 * @throws XmppStringprepException if an error occurs.
 	 */
 	public static FullJid fullFrom(String jid, JxmppContext context) throws XmppStringprepException {
+		FullJid fullJid;
 		JidStringAndStringprep jidStringAndStringprep = null;
 		if (context.isCachingEnabled()) {
 			jidStringAndStringprep = new JidStringAndStringprep(jid, context);
-		}
-
-		FullJid fullJid;
-		if (jidStringAndStringprep != null) {
 			fullJid = FULLJID_CACHE.lookup(jidStringAndStringprep);
 			if (fullJid != null) {
 				return fullJid;
@@ -842,13 +834,10 @@ public class JidCreate {
 	 * @throws XmppStringprepException if an error occurs.
 	 */
 	private static EntityJid entityFrom(String jidString, boolean unescaped, JxmppContext context) throws XmppStringprepException {
+		EntityJid entityJid;
 		JidStringAndStringprep jidStringAndStringprep = null;
 		if (context.isCachingEnabled()) {
 			jidStringAndStringprep = new JidStringAndStringprep(jidString, context);
-		}
-
-		EntityJid entityJid;
-		if (jidStringAndStringprep != null) {
 			entityJid = ENTITYJID_CACHE.lookup(jidStringAndStringprep);
 			if (entityJid != null) {
 				return entityJid;
@@ -972,13 +961,10 @@ public class JidCreate {
 	 * @throws XmppStringprepException if an error occurs.
 	 */
 	public static EntityBareJid entityBareFrom(String jid, JxmppContext context) throws XmppStringprepException {
+		EntityBareJid bareJid;
 		JidStringAndStringprep jidStringAndStringprep = null;
 		if (context.isCachingEnabled()) {
 			jidStringAndStringprep = new JidStringAndStringprep(jid, context);
-		}
-
-		EntityBareJid bareJid;
-		if (jidStringAndStringprep != null) {
 			bareJid = ENTITY_BAREJID_CACHE.lookup(jidStringAndStringprep);
 			if (bareJid != null) {
 				return bareJid;
@@ -1048,13 +1034,10 @@ public class JidCreate {
 	 * @throws XmppStringprepException if an error occurs.
 	 */
 	public static EntityBareJid entityBareFromUnescaped(String unescapedJidString, JxmppContext context) throws XmppStringprepException {
+		EntityBareJid bareJid;
 		JidStringAndStringprep jidStringAndStringprep = null;
 		if (context.isCachingEnabled()) {
 			jidStringAndStringprep = new JidStringAndStringprep(unescapedJidString, context);
-		}
-
-		EntityBareJid bareJid;
-		if (jidStringAndStringprep != null) {
 			bareJid = ENTITY_BAREJID_CACHE.lookup(jidStringAndStringprep);
 			if (bareJid != null) {
 				return bareJid;
@@ -1192,13 +1175,10 @@ public class JidCreate {
 	 * @throws XmppStringprepException if an error occurs.
 	 */
 	public static EntityFullJid entityFullFrom(String jid, JxmppContext context) throws XmppStringprepException {
+		EntityFullJid fullJid;
 		JidStringAndStringprep jidStringAndStringprep = null;
 		if (context.isCachingEnabled()) {
 			jidStringAndStringprep = new JidStringAndStringprep(jid, context);
-		}
-
-		EntityFullJid fullJid;
-		if (jidStringAndStringprep != null) {
 			fullJid = ENTITY_FULLJID_CACHE.lookup(jidStringAndStringprep);
 			if (fullJid != null) {
 				return fullJid;
@@ -1284,13 +1264,10 @@ public class JidCreate {
 	 * @throws XmppStringprepException if an error occurs.
 	 */
 	public static EntityFullJid entityFullFromUnescaped(String unescapedJidString, JxmppContext context) throws XmppStringprepException {
+		EntityFullJid fullJid;
 		JidStringAndStringprep jidStringAndStringprep = null;
 		if (context.isCachingEnabled()) {
 			jidStringAndStringprep = new JidStringAndStringprep(unescapedJidString, context);
-		}
-
-		EntityFullJid fullJid;
-		if (jidStringAndStringprep != null) {
 			fullJid = ENTITY_FULLJID_CACHE.lookup(jidStringAndStringprep);
 			if (fullJid != null) {
 				return fullJid;
@@ -1472,13 +1449,10 @@ public class JidCreate {
 	 * @throws XmppStringprepException if an error occurs.
 	 */
 	public static DomainBareJid domainBareFrom(String jid, JxmppContext context) throws XmppStringprepException {
+		DomainBareJid domainJid;
 		JidStringAndStringprep jidStringAndStringprep = null;
 		if (context.isCachingEnabled()) {
 			jidStringAndStringprep = new JidStringAndStringprep(jid, context);
-		}
-
-		DomainBareJid domainJid;
-		if (jidStringAndStringprep != null) {
 			domainJid = DOMAINJID_CACHE.lookup(jidStringAndStringprep);
 			if (domainJid != null) {
 				return domainJid;
@@ -1584,13 +1558,10 @@ public class JidCreate {
 	 * @throws XmppStringprepException if an error happens.
 	 */
 	public static DomainFullJid domainFullFrom(String jid, JxmppContext context) throws XmppStringprepException {
+		DomainFullJid domainResourceJid;
 		JidStringAndStringprep jidStringAndStringprep = null;
 		if (context.isCachingEnabled()) {
 			jidStringAndStringprep = new JidStringAndStringprep(jid, context);
-		}
-
-		DomainFullJid domainResourceJid;
-		if (jidStringAndStringprep != null) {
 			domainResourceJid = DOMAINRESOURCEJID_CACHE.lookup(jidStringAndStringprep);
 			if (domainResourceJid != null) {
 				return domainResourceJid;
