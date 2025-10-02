@@ -23,7 +23,7 @@ task javadocAll(type: Javadoc) {
 	}
 	destinationDir = javadocAllDir
 	// Might need a classpath
-	classpath = files(subprojects.collect {project ->
+	classpath = files(javadocAllProjects.collect {project ->
 		project.sourceSets.main.compileClasspath})
 	classpath += files(androidBootClasspath)
 	options {
