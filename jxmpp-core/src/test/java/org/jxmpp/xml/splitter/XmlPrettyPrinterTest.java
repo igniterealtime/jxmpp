@@ -77,6 +77,18 @@ public class XmlPrettyPrinterTest {
 		xmlPrettyPrintTest(expectedPrettyPrintedXml, inputXml, xmlPrettyPrinterBuilder);
 	}
 
+	@Test
+	public void simplePrettyPrintTestDeclaration() throws IOException {
+		String inputXml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<p/>";
+		String expectedPrettyPrintedXml =
+				"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n\n<p/>";
+		XmlPrettyPrinter.Builder xmlPrettyPrinterBuilder = XmlPrettyPrinter
+				.builder()
+				.setTabWidth(2);
+
+		xmlPrettyPrintTest(expectedPrettyPrintedXml, inputXml, xmlPrettyPrinterBuilder);
+	}
+
 	private static void xmlPrettyPrintTest(String expectedPrettyPrintedXml, String inputXml,
 			XmlPrettyPrinter.Builder xmlPrettyPrinterBuilder) throws IOException {
 		final StringHolder stringHolder = new StringHolder();

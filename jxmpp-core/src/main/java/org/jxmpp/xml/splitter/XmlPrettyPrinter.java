@@ -117,6 +117,11 @@ public class XmlPrettyPrinter extends XmlPrinter {
 			case START:
 				indent = getElementIndent(depth);
 				break;
+			case IN_PROCESSING_INSTRUCTION_OR_DECLARATION:
+				if (initialState == State.TAG_LEFT_ANGLE_BRACKET) {
+					deferredLeftAngle = true;
+				}
+				break;
 			}
 
 			if (indent > 0 || deferredLeftAngle) {
