@@ -9,5 +9,5 @@ JXMPP Stringprep with libidn."""
 
 dependencies {
 	api project(':jxmpp-core')
-	api 'org.gnu.inet:libidn:1.15'
+	api 'org.gnu.inet:libidn:2026.10.0'
 }
