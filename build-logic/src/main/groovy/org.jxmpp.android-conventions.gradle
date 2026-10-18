@@ -1,6 +1,6 @@
 plugins {
 	id 'ru.vyarus.animalsniffer'
-	id 'org.jxmpp.common-conventions'
+	id 'org.jxmpp.global-conventions'
 }
 dependencies {
 	signature "net.sf.androidscents.signature:android-api-level-${minAndroidSdk}:4.4.2_r4@signature"

@@ -1,4 +1,4 @@
-/**
+/*
  *
  * Copyright 2018 Florian Schmaus
  *
@@ -26,7 +26,7 @@ import org.jxmpp.xml.splitter.XmlPrettyPrinter.PrettyPrintedXmlPartCallback;
 public class XmlPrettyPrinterTest {
 
 	private static class StringHolder {
-		public String string;
+		String string;
 	}
 
 	@Test

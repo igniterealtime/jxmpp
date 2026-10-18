@@ -1,4 +1,4 @@
-/**
+/*
  *
  * Copyright 2019-2020 Florian Schmaus
  *
@@ -245,8 +245,8 @@ public class KnownFailures {
 	}
 
 	private static class XmppStringprepStringCoupling {
-		public final Class<? extends XmppStringprep> xmppStringprepClass;
-		public final String string;
+		final Class<? extends XmppStringprep> xmppStringprepClass;
+		final String string;
 
 		private XmppStringprepStringCoupling(Class<? extends XmppStringprep> xmppStringprepClass, String string) {
 			this.xmppStringprepClass = xmppStringprepClass;

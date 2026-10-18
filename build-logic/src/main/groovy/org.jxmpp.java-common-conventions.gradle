@@ -6,35 +6,37 @@ plugins {
 	id 'jacoco'
 	id 'java'
 	id 'java-library'
-	id 'maven-publish'
+	id 'java-test-fixtures'
 	id 'net.ltgt.errorprone'
 	id 'signing'
-	id 'com.github.ben-manes.versions'
+	id 'io.github.ben-manes.versions'
+	id 'com.vanniktech.maven.publish'
 
 	id 'jacoco-report-aggregation'
 	id 'test-report-aggregation'
 
-	id 'org.jxmpp.common-conventions'
+	id 'org.jxmpp.global-conventions'
 	id 'org.jxmpp.javadoc-conventions'
 }
-
-version readVersionFile()
 
 ext {
 	isSnapshot = version.endsWith('-SNAPSHOT')
 	gitCommit = getGitCommit()
-	documentationDir = new File(projectDir, 'documentation')
-	releasedocsDir = new File(buildDir, 'releasedocs')
 	rootConfigDir = new File(rootDir, 'config')
-	sonatypeCredentialsAvailable = project.hasProperty('sonatypeUsername') && project.hasProperty('sonatypePassword')
 	isReleaseVersion = !isSnapshot
 	isContinuousIntegrationEnvironment = Boolean.parseBoolean(System.getenv('CI'))
 	signingRequired = !(isSnapshot || isContinuousIntegrationEnvironment)
-	sonatypeSnapshotUrl = 'https://oss.sonatype.org/content/repositories/snapshots'
-	sonatypeStagingUrl = 'https://oss.sonatype.org/service/local/staging/deploy/maven2'
 	builtDate = (new java.text.SimpleDateFormat("yyyy-MM-dd")).format(new Date())
 	oneLineDesc = 'An Open Source XMPP (Jabber) library'
-	junitVersion = '5.11.3'
+
+	junitVersion = '5.12.2'
+
+	if (project.hasProperty("useSonatype")) {
+		useSonatype = project.getProperty("useSonatype").toBoolean()
+	} else {
+		// Default to true
+		useSonatype = true
+	}
 }
 
 group = 'org.jxmpp'
@@ -42,15 +44,6 @@ group = 'org.jxmpp'
 java {
 	sourceCompatibility = javaVersion
 	targetCompatibility = sourceCompatibility
-}
-
-ext.sharedManifest = manifest {
-	attributes('Implementation-Version': version,
-			   'Implementation-GitRevision': ext.gitCommit,
-			   'Built-JDK': System.getProperty('java.version'),
-			   'Built-Gradle': gradle.gradleVersion,
-			   'Built-By': System.getProperty('user.name')
-			  )
 }
 
 eclipse {
@@ -80,7 +73,7 @@ tasks.withType(JavaCompile) {
 }
 
 jacoco {
-	toolVersion = "0.8.12"
+	toolVersion = "0.8.15"
 }
 
 jacocoTestReport {
@@ -94,10 +87,13 @@ dependencies {
 	testImplementation "org.junit.jupiter:junit-jupiter-api:$junitVersion"
 	testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
 
+	testFixturesApi "org.junit.jupiter:junit-jupiter-api:$junitVersion"
+	testImplementation "org.junit.jupiter:junit-jupiter-params:$junitVersion"
+	testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
 	// https://stackoverflow.com/a/77274251/194894
-	testImplementation "org.junit.platform:junit-platform-launcher:1.11.0"
+	testImplementation "org.junit.platform:junit-platform-launcher:1.12.2"
 
-	errorprone 'com.google.errorprone:error_prone_core:2.32.0'
+	errorprone 'com.google.errorprone:error_prone_core:2.41.0'
 }
 
 test {
@@ -106,14 +102,25 @@ test {
 	maxParallelForks = Runtime.runtime.availableProcessors().intdiv(2) ?: 1
 
 	// Enable full stacktraces of failed tests. Especially handy
-	// for environments like Travis.
+	// for CI environments.
 	testLogging {
 		events "failed"
-		exceptionFormat "full"
+		exceptionFormat = "full"
+		showStandardStreams = System.getenv("GRADLE_TEST_SHOW_STANDARD_STREAMS")
 	}
 }
 
 jar {
+	manifest {
+		attributes(
+			'Implementation-Version': version,
+			'Implementation-GitRevision': gitCommit,
+			'Built-JDK': System.getProperty('java.version'),
+			'Built-Gradle': gradle.gradleVersion,
+			'Built-By': System.getProperty('user.name')
+		)
+	}
+
 	bundle {
 		bnd(
 				'-removeheaders': 'Tool, Bnd-*',
@@ -121,6 +128,7 @@ jar {
 		)
 	}
 }
+
 checkstyle {
 	toolVersion = '10.18.2'
 }
@@ -136,66 +144,65 @@ task testsJar(type: Jar) {
 	archiveClassifier = 'tests'
 	from sourceSets.test.output
 }
+configurations {
+	testRuntime
+}
 artifacts {
-	// See http://stackoverflow.com/a/21946676/194894
-	//testRuntime testsJar
+	// Add a 'testRuntime' configuration including the tests so that
+	// it can be consumed by other projects. See
+	// http://stackoverflow.com/a/21946676/194894
+	testRuntime testsJar
 }
 
-publishing {
-	publications {
-		mavenJava(MavenPublication) {
-			from components.java
-			artifact sourcesJar
-			artifact javadocJar
-			artifact testsJar
-			pom {
-				name = 'JXMPP'
-				packaging = 'jar'
-				inceptionYear = '2014'
-				url = 'https://github.com/igniterealtime/jxmpp'
-				afterEvaluate {
-					description = project.description
-				}
+mavenPublishing {
+	publishToMavenCentral()
 
-				issueManagement {
-					system = 'github'
-					url = 'https://github.com/igniterealtime/jxmpp/issues'
-				}
+	signAllPublications()
 
-				scm {
-					url = 'https://github.com/igniterealtime/jxmpp'
-					connection = 'scm:git:https://github.com/igniterealtime/jxmpp.git'
-					developerConnection = 'scm:git:https://github.com/igniterealtime/jxmpp.git'
-				}
+	pom {
+		name = 'JXMPP'
+		packaging = 'jar'
+		inceptionYear = '2014'
+		url = 'https://github.com/igniterealtime/jxmpp'
+		afterEvaluate {
+			description = project.description
+		}
 
-				licenses {
-					license {
-						name = 'The Apache Software License, Version 2.0'
-						url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-						distribution = 'repo'
-					}
-				}
+		issueManagement {
+			system = 'github'
+			url = 'https://github.com/igniterealtime/jxmpp/issues'
+		}
 
-				developers {
-					developer {
-						id = 'flow'
-						name = 'Florian Schmaus'
-						email = 'flow@igniterealtime.org'
-					}
-				}
+		scm {
+			url = 'https://github.com/igniterealtime/jxmpp'
+			connection = 'scm:git:https://github.com/igniterealtime/jxmpp.git'
+			developerConnection = 'scm:git:https://github.com/igniterealtime/jxmpp.git'
+		}
+
+		licenses {
+			license {
+				name = 'The Apache Software License, Version 2.0'
+				url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+				distribution = 'repo'
+			}
+		}
+
+		developers {
+			developer {
+				id = 'flow'
+				name = 'Florian Schmaus'
+				email = 'flow@igniterealtime.org'
 			}
 		}
 	}
-	repositories {
-		maven {
-			url isSnapshot ? sonatypeSnapshotUrl : sonatypeStagingUrl
-			if (sonatypeCredentialsAvailable) {
-				credentials {
-					username = sonatypeUsername
-					password = sonatypePassword
-				}
-			}
-		}
+}
+
+// Keep publishing the tests jar, as we did before switching to
+// gradle-maven-publish-plugin. Smack consumes e.g. jxmpp-jid's tests
+// jar.
+publishing {
+	publications.withType(MavenPublication).configureEach {
+		artifact testsJar
 	}
 }
 
@@ -208,9 +215,8 @@ tasks.withType(Sign) {
 	}
 }
 signing {
-	required { signingRequired }
+	required = signingRequired
 	useGpgCmd()
-	sign publishing.publications.mavenJava
 }
 
 tasks.withType(JavaCompile) {
@@ -233,32 +239,24 @@ tasks.withType(JavaCompile) {
 	}
 }
 
-// TODO: Note sure what this does (did). Was there prior the build-logic conversion.
-// dependencies {
-// 	androidProjects.each { project ->
-// 		api project
-// 	}
-// }
+// Work around https://github.com/gradle/gradle/issues/4046
+task copyJavadocDocFiles(type: Copy) {
+	from('src/javadoc')
+	into 'build/docs/javadoc'
+	include '**/doc-files/*.*'
+}
+javadoc.dependsOn copyJavadocDocFiles
 
 def getGitCommit() {
 	def projectDirFile = new File("$projectDir")
-	def dotGit = new File(projectDirFile, ".git")
-	if (!dotGit.isDirectory()) return 'non-git build'
 
 	def cmd = 'git describe --always --tags --dirty=+'
 	def proc = cmd.execute(null, projectDirFile)
+
+	def exitStatus = proc.waitFor()
+	if (exitStatus != 0) return "non-git build"
+
 	def gitCommit = proc.text.trim()
 	assert !gitCommit.isEmpty()
 	gitCommit
-}
-
-def readVersionFile() {
-	def versionFile = new File(rootDir, 'version')
-	if (!versionFile.isFile()) {
-		throw new Exception("Could not find version file")
-	}
-	if (versionFile.text.isEmpty()) {
-		throw new Exception("Version file does not contain a version")
-	}
-	versionFile.text.trim()
 }
