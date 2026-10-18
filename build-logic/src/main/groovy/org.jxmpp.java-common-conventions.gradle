@@ -7,10 +7,10 @@ plugins {
 	id 'java'
 	id 'java-library'
 	id 'java-test-fixtures'
-	id 'maven-publish'
 	id 'net.ltgt.errorprone'
 	id 'signing'
 	id 'io.github.ben-manes.versions'
+	id 'com.vanniktech.maven.publish'
 
 	id 'jacoco-report-aggregation'
 	id 'test-report-aggregation'
@@ -23,12 +23,9 @@ ext {
 	isSnapshot = version.endsWith('-SNAPSHOT')
 	gitCommit = getGitCommit()
 	rootConfigDir = new File(rootDir, 'config')
-	sonatypeCredentialsAvailable = project.hasProperty('sonatypeUsername') && project.hasProperty('sonatypePassword')
 	isReleaseVersion = !isSnapshot
 	isContinuousIntegrationEnvironment = Boolean.parseBoolean(System.getenv('CI'))
 	signingRequired = !(isSnapshot || isContinuousIntegrationEnvironment)
-	sonatypeSnapshotUrl = 'https://oss.sonatype.org/content/repositories/snapshots'
-	sonatypeStagingUrl = 'https://oss.sonatype.org/service/local/staging/deploy/maven2'
 	builtDate = (new java.text.SimpleDateFormat("yyyy-MM-dd")).format(new Date())
 	oneLineDesc = 'An Open Source XMPP (Jabber) library'
 
@@ -157,61 +154,55 @@ artifacts {
 	testRuntime testsJar
 }
 
-publishing {
-	publications {
-		mavenJava(MavenPublication) {
-			from components.java
-			artifact sourcesJar
-			artifact javadocJar
-			artifact testsJar
-			pom {
-				name = 'JXMPP'
-				packaging = 'jar'
-				inceptionYear = '2014'
-				url = 'https://github.com/igniterealtime/jxmpp'
-				afterEvaluate {
-					description = project.description
-				}
+mavenPublishing {
+	publishToMavenCentral()
 
-				issueManagement {
-					system = 'github'
-					url = 'https://github.com/igniterealtime/jxmpp/issues'
-				}
+	signAllPublications()
 
-				scm {
-					url = 'https://github.com/igniterealtime/jxmpp'
-					connection = 'scm:git:https://github.com/igniterealtime/jxmpp.git'
-					developerConnection = 'scm:git:https://github.com/igniterealtime/jxmpp.git'
-				}
+	pom {
+		name = 'JXMPP'
+		packaging = 'jar'
+		inceptionYear = '2014'
+		url = 'https://github.com/igniterealtime/jxmpp'
+		afterEvaluate {
+			description = project.description
+		}
 
-				licenses {
-					license {
-						name = 'The Apache Software License, Version 2.0'
-						url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-						distribution = 'repo'
-					}
-				}
+		issueManagement {
+			system = 'github'
+			url = 'https://github.com/igniterealtime/jxmpp/issues'
+		}
 
-				developers {
-					developer {
-						id = 'flow'
-						name = 'Florian Schmaus'
-						email = 'flow@igniterealtime.org'
-					}
-				}
+		scm {
+			url = 'https://github.com/igniterealtime/jxmpp'
+			connection = 'scm:git:https://github.com/igniterealtime/jxmpp.git'
+			developerConnection = 'scm:git:https://github.com/igniterealtime/jxmpp.git'
+		}
+
+		licenses {
+			license {
+				name = 'The Apache Software License, Version 2.0'
+				url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+				distribution = 'repo'
+			}
+		}
+
+		developers {
+			developer {
+				id = 'flow'
+				name = 'Florian Schmaus'
+				email = 'flow@igniterealtime.org'
 			}
 		}
 	}
-	repositories {
-		maven {
-			url isSnapshot ? sonatypeSnapshotUrl : sonatypeStagingUrl
-			if (sonatypeCredentialsAvailable) {
-				credentials {
-					username = sonatypeUsername
-					password = sonatypePassword
-				}
-			}
-		}
+}
+
+// Keep publishing the tests jar, as we did before switching to
+// gradle-maven-publish-plugin. Smack consumes e.g. jxmpp-jid's tests
+// jar.
+publishing {
+	publications.withType(MavenPublication).configureEach {
+		artifact testsJar
 	}
 }
 
@@ -224,9 +215,8 @@ tasks.withType(Sign) {
 	}
 }
 signing {
-	required { signingRequired }
+	required = signingRequired
 	useGpgCmd()
-	sign publishing.publications.mavenJava
 }
 
 tasks.withType(JavaCompile) {
