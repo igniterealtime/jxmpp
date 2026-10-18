@@ -1,15 +1,15 @@
 plugins {
 	id 'org.jxmpp.java-conventions'
 	id 'org.jxmpp.junit4-conventions'
+	id 'org.jxmpp.application-conventions'
 }
-
-apply plugin: 'application'
 
 description = """\
 A testframework for XMPP addresses (JIDs) and other XMPP strings."""
 
-mainClassName = 'org.jxmpp.strings.testframework.StringsTestframeworkMain'
-applicationDefaultJvmArgs = ["-enableassertions"]
+application {
+	mainClass = 'org.jxmpp.strings.testframework.StringsTestframeworkMain'
+}
 
 ext {
 	picocliVersion = "4.0.2"
