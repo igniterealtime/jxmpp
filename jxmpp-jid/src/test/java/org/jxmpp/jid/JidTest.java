@@ -88,4 +88,20 @@ public class JidTest {
 		Jid jid = JidCreate.domainBareFrom(domain);
 		assertEquals("foo.bar", jid.toString());
 	}
+
+	@Test
+	public void equalsBareJid() throws XmppStringprepException {
+		Jid romeoBareJid = JidCreate.from("romeo@montague.net");
+		Jid romeoFullJid1 = JidCreate.from("romeo@montague.net/balcony");
+		Jid romeoFullJid2 = JidCreate.from("romeo@montague.net/home");
+		Jid romeoDomainJid = JidCreate.domainBareFrom("montague.net");
+		Jid julietBareJid = JidCreate.from("juliet@capulet.org");
+		Jid julietFullJid = JidCreate.from("juliet@capulet.org/balcony");
+		assertTrue(romeoBareJid.equalsBareJid(romeoBareJid));
+		assertTrue(romeoBareJid.equalsBareJid(romeoFullJid1));
+		assertTrue(romeoFullJid1.equalsBareJid(romeoFullJid2));
+		assertFalse(romeoBareJid.equalsBareJid(romeoDomainJid));
+		assertFalse(romeoBareJid.equalsBareJid(julietBareJid));
+		assertFalse(romeoBareJid.equalsBareJid(julietFullJid));
+	}
 }

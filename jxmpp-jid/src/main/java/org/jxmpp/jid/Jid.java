@@ -481,6 +481,15 @@ public interface Jid extends Comparable<Jid>, CharSequence, Serializable {
 	boolean equals(String string);
 
 	/**
+	 * Check if the bare JID of this JID is equal to the bare JID of the given JID. That is, the resourceparts of both
+	 * JIDs are ignored.
+	 *
+	 * @param other the JID to compare with.
+	 * @return true if {@code asBareJid().equals(other.asBareJid())}.
+	 */
+	boolean equalsBareJid(Jid other);
+
+	/**
 	 * Returns the canonical String representation of this JID. See {@link String#intern} for details.
 	 * 
 	 * @return the canonical String representation.
