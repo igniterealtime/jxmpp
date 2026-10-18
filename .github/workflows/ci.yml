@@ -20,8 +20,9 @@ jobs:
         java:
           - 17
           - 21
+          - 25
     env:
-      PRIMARY_JAVA_VERSION: 21
+      PRIMARY_JAVA_VERSION: 25
 
     steps:
       - name: Checkout
