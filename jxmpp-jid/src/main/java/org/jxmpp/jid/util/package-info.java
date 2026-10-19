@@ -17,5 +17,9 @@
 
 /**
  * Utility classes for JIDs.
+ * <p>
+ * {@link org.jxmpp.jid.util.JidUtil} provides, amongst others, null-safe static variants of the comparison methods of
+ * {@link org.jxmpp.jid.Jid}.
+ * </p>
  */
 package org.jxmpp.jid.util;
