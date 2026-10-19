@@ -34,4 +34,18 @@ public class JidUtilTest {
 		assertTrue(JidUtil.equals(JidTestUtil.BARE_JID_1, JidTestUtil.BARE_JID_1));
 		assertFalse(JidUtil.equals(JidTestUtil.BARE_JID_1, JidTestUtil.BARE_JID_2));
 	}
+
+	@Test
+	public void testEqualsBareJid() {
+		assertTrue(JidUtil.equalsBareJid(null, null));
+
+		assertFalse(JidUtil.equalsBareJid(null, JidTestUtil.BARE_JID_1));
+		assertFalse(JidUtil.equalsBareJid(JidTestUtil.BARE_JID_1, null));
+
+		assertTrue(JidUtil.equalsBareJid(JidTestUtil.BARE_JID_1, JidTestUtil.BARE_JID_1));
+		assertTrue(JidUtil.equalsBareJid(JidTestUtil.BARE_JID_1, JidTestUtil.FULL_JID_1_RESOURCE_1));
+		assertTrue(JidUtil.equalsBareJid(JidTestUtil.FULL_JID_1_RESOURCE_1, JidTestUtil.FULL_JID_1_RESOURCE_2));
+		assertFalse(JidUtil.equalsBareJid(JidTestUtil.BARE_JID_1, JidTestUtil.BARE_JID_2));
+		assertFalse(JidUtil.equalsBareJid(JidTestUtil.FULL_JID_1_RESOURCE_1, JidTestUtil.FULL_JID_2_RESOURCE_1));
+	}
 }
