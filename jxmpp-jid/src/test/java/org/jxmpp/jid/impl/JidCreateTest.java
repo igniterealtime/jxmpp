@@ -92,44 +92,35 @@ public class JidCreateTest {
 	}
 
 	@Test
-	public void entityBareFromUnescapedTest() throws XmppStringprepException {
-		EntityBareJid entityBareJid = JidCreate.entityBareFromUnescaped("foo@boo@example.org/baz");
-
-		// Tricky question. Currently yields 'boo@example.org'. Domainparts are U-Labels, so this may be correct, even
-		// if it is not a valid DNS label/name.
-		Domainpart domainpart = entityBareJid.getDomain();
-		assertEquals(Domainpart.from("boo@example.org"), domainpart);
-
-		Localpart localpart = entityBareJid.getLocalpart();
-		assertEquals(Localpart.from("foo"), localpart);
+	public void entityBareFromUnescapedTest() {
+		// The domainpart would be 'boo@example.org', which is invalid since domainparts can not contain '@'.
+		assertThrows(XmppStringprepException.class, () -> JidCreate.entityBareFromUnescaped("foo@boo@example.org/baz"));
 	}
 
 	@Test
-	public void entityFullFromComplexTest() throws XmppStringprepException {
-		EntityFullJid entityFullJid = JidCreate.entityFullFrom("foo@boo@example.org/bar@baz");
-
-		Domainpart domainpart = entityFullJid.getDomain();
-		assertEquals(Domainpart.from("boo@example.org"), domainpart);
-
-		Localpart localpart = entityFullJid.getLocalpart();
-		assertEquals(Localpart.from("foo"), localpart);
-
-		Resourcepart resourcepart = entityFullJid.getResourcepart();
-		assertEquals(Resourcepart.from("bar@baz"), resourcepart);
+	public void entityBareFromMultipleAtSignsTest() {
+		// See https://github.com/igniterealtime/jxmpp/issues/14
+		assertThrows(XmppStringprepException.class, () -> JidCreate.entityBareFrom("user@example.com@muc.example.org"));
 	}
 
 	@Test
-	public void entityFullFromUnescapedComplexTest() throws XmppStringprepException {
-		EntityFullJid entityFullJid = JidCreate.entityFullFromUnescaped("foo@boo@example.org/bar@baz");
+	public void entityFullFromComplexTest() {
+		assertThrows(XmppStringprepException.class, () -> JidCreate.entityFullFrom("foo@boo@example.org/bar@baz"));
+	}
 
-		Domainpart domainpart = entityFullJid.getDomain();
-		assertEquals(Domainpart.from("boo@example.org"), domainpart);
+	@Test
+	public void entityFullFromUnescapedComplexTest() {
+		assertThrows(XmppStringprepException.class,
+				() -> JidCreate.entityFullFromUnescaped("foo@boo@example.org/bar@baz"));
+	}
 
-		Localpart localpart = entityFullJid.getLocalpart();
-		assertEquals(Localpart.from("foo"), localpart);
+	@Test
+	public void entityFullFromAtSignInResourcepartTest() throws XmppStringprepException {
+		EntityFullJid entityFullJid = JidCreate.entityFullFrom("foo@example.org/bar@baz");
 
-		Resourcepart resourcepart = entityFullJid.getResourcepart();
-		assertEquals(Resourcepart.from("bar@baz"), resourcepart);
+		assertEquals(Domainpart.from("example.org"), entityFullJid.getDomain());
+		assertEquals(Localpart.from("foo"), entityFullJid.getLocalpart());
+		assertEquals(Resourcepart.from("bar@baz"), entityFullJid.getResourcepart());
 	}
 
 	@Test

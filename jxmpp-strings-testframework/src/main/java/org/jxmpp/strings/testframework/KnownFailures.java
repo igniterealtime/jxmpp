@@ -37,10 +37,6 @@ public class KnownFailures {
 
 		whitelistInvalidJid(XmppStringPrepper.ICU4J, "♚@example.com");
 		whitelistInvalidJid(XmppStringPrepper.ICU4J, "henry\u2163@example.com");
-		whitelistInvalidJid(XmppStringPrepper.ICU4J, "user@@host/resource");
-		whitelistInvalidJid(XmppStringPrepper.ICU4J, "user@@host");
-		whitelistInvalidJid(XmppStringPrepper.ICU4J, "user@@");
-		whitelistInvalidJid(XmppStringPrepper.ICU4J, "username@example.org@example.org");
 
 		// LIBIDN
 		whitelistValidJid(XmppStringPrepper.LIBIDN, "fußball@example.com");
@@ -48,11 +44,7 @@ public class KnownFailures {
 
 		whitelistInvalidJid(XmppStringPrepper.LIBIDN, "♚@example.com");
 		whitelistInvalidJid(XmppStringPrepper.LIBIDN, "henry\u2163@example.com");
-		whitelistInvalidJid(XmppStringPrepper.LIBIDN, "user@@host/resource");
-		whitelistInvalidJid(XmppStringPrepper.LIBIDN, "user@@host");
-		whitelistInvalidJid(XmppStringPrepper.LIBIDN, "user@@");
 		whitelistInvalidJid(XmppStringPrepper.LIBIDN, "xsf@muc.xmpp.org/؜x");
-		whitelistInvalidJid(XmppStringPrepper.LIBIDN, "username@example.org@example.org");
 
 
 		// ROCKS_XMPP_PRECIS
@@ -67,11 +59,7 @@ public class KnownFailures {
 
 		whitelistInvalidJid(XmppStringPrepper.SIMPLE, "♚@example.com");
 		whitelistInvalidJid(XmppStringPrepper.SIMPLE, "henry\u2163@example.com");
-		whitelistInvalidJid(XmppStringPrepper.SIMPLE, "user@@host/resource");
-		whitelistInvalidJid(XmppStringPrepper.SIMPLE, "user@@host");
-		whitelistInvalidJid(XmppStringPrepper.SIMPLE, "user@@");
 		whitelistInvalidJid(XmppStringPrepper.SIMPLE, "xsf@muc.xmpp.org/؜x");
-		whitelistInvalidJid(XmppStringPrepper.SIMPLE, "username@example.org@example.org");
 
 	}
 
