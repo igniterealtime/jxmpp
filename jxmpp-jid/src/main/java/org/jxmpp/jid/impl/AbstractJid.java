@@ -199,6 +199,11 @@ public abstract class AbstractJid implements Jid {
 	}
 
 	@Override
+	public final boolean equalsBareJid(Jid other) {
+		return asBareJid().equals(other.asBareJid());
+	}
+
+	@Override
 	public final int hashCode() {
 		return toString().hashCode();
 	}

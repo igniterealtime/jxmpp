@@ -21,6 +21,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.jxmpp.jid.JidTestUtil;
+import org.jxmpp.stringprep.XmppStringprepException;
 
 public class JidUtilTest {
 
@@ -33,5 +34,52 @@ public class JidUtilTest {
 
 		assertTrue(JidUtil.equals(JidTestUtil.BARE_JID_1, JidTestUtil.BARE_JID_1));
 		assertFalse(JidUtil.equals(JidTestUtil.BARE_JID_1, JidTestUtil.BARE_JID_2));
+	}
+
+	@Test
+	public void testEqualsBareJid() {
+		assertTrue(JidUtil.equalsBareJid(null, null));
+
+		assertFalse(JidUtil.equalsBareJid(null, JidTestUtil.BARE_JID_1));
+		assertFalse(JidUtil.equalsBareJid(JidTestUtil.BARE_JID_1, null));
+
+		assertTrue(JidUtil.equalsBareJid(JidTestUtil.BARE_JID_1, JidTestUtil.BARE_JID_1));
+		assertTrue(JidUtil.equalsBareJid(JidTestUtil.BARE_JID_1, JidTestUtil.FULL_JID_1_RESOURCE_1));
+		assertTrue(JidUtil.equalsBareJid(JidTestUtil.FULL_JID_1_RESOURCE_1, JidTestUtil.FULL_JID_1_RESOURCE_2));
+		assertFalse(JidUtil.equalsBareJid(JidTestUtil.BARE_JID_1, JidTestUtil.BARE_JID_2));
+		assertFalse(JidUtil.equalsBareJid(JidTestUtil.FULL_JID_1_RESOURCE_1, JidTestUtil.FULL_JID_2_RESOURCE_1));
+	}
+
+	@Test
+	public void testEqualsCharSequence() throws XmppStringprepException {
+		assertTrue(JidUtil.equals((CharSequence) null, (CharSequence) null));
+
+		assertFalse(JidUtil.equals(null, "one@exampleOne.org"));
+		assertFalse(JidUtil.equals("one@exampleOne.org", null));
+
+		assertTrue(JidUtil.equals(JidTestUtil.BARE_JID_1, "one@exampleOne.org"));
+		assertTrue(JidUtil.equals("one@exampleOne.org", JidTestUtil.BARE_JID_1));
+		assertTrue(JidUtil.equals("one@exampleOne.org", "one@exampleone.org"));
+		assertFalse(JidUtil.equals(JidTestUtil.BARE_JID_1, "one@exampleOne.org/resourceOne"));
+		assertFalse(JidUtil.equals("one@exampleOne.org", JidTestUtil.BARE_JID_2));
+	}
+
+	@Test
+	public void testEqualsBareJidCharSequence() throws XmppStringprepException {
+		assertTrue(JidUtil.equalsBareJid((CharSequence) null, (CharSequence) null));
+
+		assertFalse(JidUtil.equalsBareJid(null, "one@exampleOne.org"));
+		assertFalse(JidUtil.equalsBareJid("one@exampleOne.org", null));
+
+		assertTrue(JidUtil.equalsBareJid(JidTestUtil.BARE_JID_1, "one@exampleOne.org/resourceOne"));
+		assertTrue(JidUtil.equalsBareJid("one@exampleOne.org/resourceOne", JidTestUtil.FULL_JID_1_RESOURCE_2));
+		assertTrue(JidUtil.equalsBareJid("one@exampleOne.org/resourceOne", "one@exampleone.org/resourceTwo"));
+		assertFalse(JidUtil.equalsBareJid(JidTestUtil.BARE_JID_1, "one@exampleTwo.org/resourceOne"));
+		assertFalse(JidUtil.equalsBareJid("one@exampleOne.org", JidTestUtil.FULL_JID_2_RESOURCE_1));
+	}
+
+	@Test(expected = XmppStringprepException.class)
+	public void testEqualsCharSequenceInvalidJid() throws XmppStringprepException {
+		JidUtil.equals(JidTestUtil.BARE_JID_1, "@exampleOne.org");
 	}
 }

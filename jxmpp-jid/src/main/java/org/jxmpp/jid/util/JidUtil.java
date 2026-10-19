@@ -421,4 +421,65 @@ public class JidUtil {
 
 		return jidTwo == null;
 	}
+
+	/**
+	 * Check if the bare JIDs of two JIDs are equal. Takes <code>null</code> values into consideration. Which means that this method will return <code>true</code> if both JIDs are <code>null</code>.
+	 *
+	 * @param jidOne The first JID to compare.
+	 * @param jidTwo The second JID to compare.
+	 * @return <code>true</code> if the bare JIDs of both JIDs are equal, or if both JIDs are <code>null</code>.
+	 * @see Jid#equalsBareJid(Jid)
+	 * @since 1.1.1
+	 */
+	public static boolean equalsBareJid(Jid jidOne, Jid jidTwo) {
+		if (jidOne == null || jidTwo == null) {
+			return jidOne == jidTwo;
+		}
+
+		return jidOne.equalsBareJid(jidTwo);
+	}
+
+	/**
+	 * Check if two JIDs, given as {@link CharSequence}, are equal. The JIDs may be {@link Jid} instances or their
+	 * String representations, which are converted to {@link Jid} instances, and therefore normalized, before being
+	 * compared. Takes <code>null</code> values into consideration. Which means that this method will return
+	 * <code>true</code> if both JIDs are <code>null</code>.
+	 *
+	 * @param jidOne The first JID to compare.
+	 * @param jidTwo The second JID to compare.
+	 * @return <code>true</code> if both JIDs are equals, or if both JIDs are <code>null</code>.
+	 * @throws XmppStringprepException if one of the given CharSequences is not a valid JID.
+	 * @see #equals(Jid, Jid)
+	 * @since 1.1.1
+	 */
+	public static boolean equals(CharSequence jidOne, CharSequence jidTwo) throws XmppStringprepException {
+		return equals(toJid(jidOne), toJid(jidTwo));
+	}
+
+	/**
+	 * Check if the bare JIDs of two JIDs, given as {@link CharSequence}, are equal. The JIDs may be {@link Jid}
+	 * instances or their String representations, which are converted to {@link Jid} instances, and therefore
+	 * normalized, before being compared. Takes <code>null</code> values into consideration. Which means that this
+	 * method will return <code>true</code> if both JIDs are <code>null</code>.
+	 *
+	 * @param jidOne The first JID to compare.
+	 * @param jidTwo The second JID to compare.
+	 * @return <code>true</code> if the bare JIDs of both JIDs are equal, or if both JIDs are <code>null</code>.
+	 * @throws XmppStringprepException if one of the given CharSequences is not a valid JID.
+	 * @see #equalsBareJid(Jid, Jid)
+	 * @since 1.1.1
+	 */
+	public static boolean equalsBareJid(CharSequence jidOne, CharSequence jidTwo) throws XmppStringprepException {
+		return equalsBareJid(toJid(jidOne), toJid(jidTwo));
+	}
+
+	private static Jid toJid(CharSequence jid) throws XmppStringprepException {
+		if (jid == null) {
+			return null;
+		}
+		if (jid instanceof Jid) {
+			return (Jid) jid;
+		}
+		return JidCreate.from(jid);
+	}
 }

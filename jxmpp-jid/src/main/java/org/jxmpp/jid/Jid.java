@@ -75,6 +75,14 @@ import org.jxmpp.jid.parts.Resourcepart;
  * You can retrieve this information using {@link #asUrlEncodedString()}. The JidCreate API provides methods to create
  * JIDs from URL encoded Strings like {@link org.jxmpp.jid.impl.JidCreate#fromUrlEncoded(CharSequence)}.
  * </p>
+ * <h2>Comparing JIDs</h2>
+ * <p>
+ * Two JIDs are equal if their String representations are equal. Use {@link #equalsBareJid(Jid)} to compare JIDs while
+ * ignoring their resourceparts. The comparison methods of this interface need a non-null JID to be invoked on. If the
+ * JIDs to compare may be <code>null</code>, use the static variants in {@link org.jxmpp.jid.util.JidUtil}, like
+ * {@link org.jxmpp.jid.util.JidUtil#equals(Jid, Jid)} and {@link org.jxmpp.jid.util.JidUtil#equalsBareJid(Jid, Jid)},
+ * which consider two <code>null</code> JIDs to be equal, similar to {@link java.util.Objects#equals(Object, Object)}.
+ * </p>
  *
  *
  * @see <a href="http://xmpp.org/rfcs/rfc6120.html#arch-addresses">RFC 6120 (XMPP: Core) § 2.1 Global Addresses</a>
@@ -479,6 +487,16 @@ public interface Jid extends Comparable<Jid>, CharSequence, Serializable {
 	 */
 	@SuppressWarnings("NonOverridingEquals")
 	boolean equals(String string);
+
+	/**
+	 * Check if the bare JID of this JID is equal to the bare JID of the given JID. That is, the resourceparts of both
+	 * JIDs are ignored.
+	 *
+	 * @param other the JID to compare with, must not be <code>null</code>.
+	 * @return true if {@code asBareJid().equals(other.asBareJid())}.
+	 * @see org.jxmpp.jid.util.JidUtil#equalsBareJid(Jid, Jid)
+	 */
+	boolean equalsBareJid(Jid other);
 
 	/**
 	 * Returns the canonical String representation of this JID. See {@link String#intern} for details.
