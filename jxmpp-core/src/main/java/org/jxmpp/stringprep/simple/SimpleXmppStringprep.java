@@ -129,7 +129,7 @@ public final class SimpleXmppStringprep implements XmppStringprep {
 	@Override
 	public String domainprep(String string) throws XmppStringprepException {
 		string = simpleStringprep(string);
-		ensureValid(XmppAddressParttype.localpart, string);
+		ensureValid(XmppAddressParttype.domainpart, string);
 		return string;
 	}
 
