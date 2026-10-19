@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+         xmlns="http://usefulinc.com/ns/doap#"
+         xmlns:foaf="http://xmlns.com/foaf/0.1/"
+         xmlns:xmpp="https://linkmauve.fr/ns/xmpp-doap#"
+         xml:lang="en">
+  <Project>
+    <name>JXMPP</name>
+    <shortdesc>Open Source Java base library for XMPP</shortdesc>
+    <description>
+      JXMPP is an Open Source Java base library for XMPP. It provides
+      often used functionality needed to build an XMPP stack, like JID
+      handling with string preparation and validation, XMPP date/time
+      parsing and formatting, and JID escaping.
+    </description>
+
+    <homepage rdf:resource="https://github.com/igniterealtime/jxmpp"/>
+    <bug-database
+        rdf:resource="https://github.com/igniterealtime/jxmpp/issues"/>
+    <license rdf:resource="https://www.apache.org/licenses/LICENSE-2.0"/>
+
+    <programming-language>Java</programming-language>
+
+    <category
+        rdf:resource="https://linkmauve.fr/ns/xmpp-doap#category-library"/>
+
+    <repository>
+      <GitRepository>
+        <browse rdf:resource="https://github.com/igniterealtime/jxmpp"/>
+        <location rdf:resource="https://github.com/igniterealtime/jxmpp.git"/>
+      </GitRepository>
+    </repository>
+
+    <maintainer>
+      <foaf:Person>
+        <foaf:name>Florian Schmaus</foaf:name>
+        <foaf:mbox rdf:resource="mailto:flo@geekplace.eu"/>
+      </foaf:Person>
+    </maintainer>
+
+    <release>
+      <Version>
+        <revision>1.1.0</revision>
+        <created>2024-10-24</created>
+      </Version>
+    </release>
+
+    <implements rdf:resource="https://www.rfc-editor.org/info/rfc6122"/>
+    <implements rdf:resource="https://www.rfc-editor.org/info/rfc7622"/>
+
+    <implements>
+      <xmpp:SupportedXep>
+        <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0082.html"/>
+        <xmpp:status>complete</xmpp:status>
+        <xmpp:note>XmppDateTime</xmpp:note>
+      </xmpp:SupportedXep>
+    </implements>
+    <implements>
+      <xmpp:SupportedXep>
+        <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0091.html"/>
+        <xmpp:status>complete</xmpp:status>
+        <xmpp:note>Parsing of legacy timestamps in XmppDateTime</xmpp:note>
+      </xmpp:SupportedXep>
+    </implements>
+    <implements>
+      <xmpp:SupportedXep>
+        <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0106.html"/>
+        <xmpp:status>complete</xmpp:status>
+        <xmpp:note>
+          XmppStringUtils.escapeLocalpart() and unescapeLocalpart()
+        </xmpp:note>
+      </xmpp:SupportedXep>
+    </implements>
+  </Project>
+</rdf:RDF>
