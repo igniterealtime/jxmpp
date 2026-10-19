@@ -103,6 +103,13 @@ public class Domainpart extends Part {
 		domain = XmppStringPrepUtil.domainprep(domain, context);
 		// First prep the String, then assure the limits of the *result*
 		assertNotLongerThan1023BytesOrEmpty(domain);
+		// RFC 7622 § 3.2 and § 3.2.1: A domainpart is a FQDN made of NR-LDH labels or U-labels, an IP address, or an
+		// unqualified hostname. None of those can contain '@' (IDNA2008 has U+0040 as DISALLOWED). This must be
+		// checked after domainprep, as some stringprep implementations map e.g. U+FF20 (FULLWIDTH COMMERCIAL AT) to
+		// '@'.
+		if (domain.indexOf('@') >= 0) {
+			throw new XmppStringprepException(domain, "Domainpart must not contain '@'");
+		}
 		return new Domainpart(domain);
 	}
 }
